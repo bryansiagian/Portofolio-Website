@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bryan Siagian — Software Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --bg-subtle: #f8fafc;
+      --bg-dark: #0d1117;
+      --bg-card: #ffffff;
+      --text-primary: #0a0f1e;
+      --text-secondary: #4a5568;
+      --text-muted: #94a3b8;
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
+      --accent-light: #eef2ff;
+      --accent-border: #c7d2fe;
+      --border: #e8ecf0;
+      --border-strong: #d1d9e0;
+      --green: #10b981;
+      --orange: #f59e0b;
+      --sans: 'Space Grotesk', sans-serif;
+      --body: 'Inter', sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--body);
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* CUSTOM CURSOR */
+    .cursor-dot {
+      width: 8px; height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1.5px solid var(--accent);
+      border-radius: 50%;
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.12s ease, width 0.25s, height 0.25s, border-color 0.2s;
+      opacity: 0.6;
+    }
+    .cursor-dot.hover { width: 12px; height: 12px; }
+    .cursor-ring.hover { width: 52px; height: 52px; opacity: 0.3; }
+
+    /* SCROLL PROGRESS */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      width: 0%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), #8b5cf6, #06b6d4);
+      z-index: 200;
+      transition: width 0.05s linear;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 0 2.5rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    nav.scrolled {
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-logo .logo-bracket { color: var(--accent); }
+    .nav-logo .logo-status {
+      width: 7px; height: 7px;
+      background: var(--green);
+      border-radius: 50%;
+      display: inline-block;
+      animation: pulse 2.5s ease infinite;
+    }
+    @keyframes pulse { 0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(16,185,129,0.4); } 50% { opacity: 0.8; box-shadow: 0 0 0 5px rgba(16,185,129,0); } }
+
+    .nav-links {
+      display: flex;
+      gap: 0;
+      list-style: none;
+      align-items: center;
+    }
+    .nav-links a {
+      font-family: var(--body);
+      font-size: 13.5px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 0.4rem 1rem;
+      border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--text-primary); background: var(--bg-subtle); }
+
+    .nav-cta {
+      font-family: var(--body);
+      font-size: 13px;
+      font-weight: 500;
+      color: #fff;
+      background: var(--accent);
+      padding: 0.45rem 1.1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      margin-left: 0.5rem;
+    }
+    .nav-cta:hover { background: var(--accent-hover); transform: translateY(-1px); }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      padding-top: 64px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(99,102,241,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99,102,241,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black, transparent);
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%);
+      top: 50%; left: 60%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 2.5rem;
+      width: 100%;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent-light);
+      border: 1px solid var(--accent-border);
+      border-radius: 100px;
+      padding: 5px 14px 5px 8px;
+      margin-bottom: 2rem;
+    }
+    .hero-badge-dot {
+      width: 7px; height: 7px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    .hero-badge span {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .hero-title {
+      font-family: var(--sans);
+      font-size: clamp(2.6rem, 5vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+    }
+    .hero-title .word-accent {
+      color: var(--accent);
+      position: relative;
+    }
+    .hero-title .word-accent::after {
+      content: '';
+      position: absolute;
+      bottom: 2px; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), #8b5cf6);
+      border-radius: 2px;
+      opacity: 0.4;
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+      max-width: 460px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 0.875rem;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--text-primary);
+      color: #fff;
+      padding: 0.75rem 1.4rem;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      font-family: var(--body);
+    }
+    .btn-primary:hover { background: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(99,102,241,0.25); }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--text-primary);
+      padding: 0.75rem 1.4rem;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1.5px solid var(--border-strong);
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+      font-family: var(--body);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+    .hero-stats {
+      display: flex;
+      gap: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .hero-stat-num {
+      font-family: var(--sans);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* CODE EDITOR */
+    .hero-editor {
+      background: #0d1117;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255,255,255,0.06);
+      position: relative;
+    }
+    .editor-titlebar {
+      background: #161b22;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .editor-dots { display: flex; gap: 6px; }
+    .editor-dot { width: 11px; height: 11px; border-radius: 50%; }
+    .ed-red { background: #ff5f57; }
+    .ed-yellow { background: #ffbd2e; }
+    .ed-green { background: #28ca41; }
+    .editor-tabs { display: flex; gap: 0; margin-left: 12px; overflow: hidden; }
+    .editor-tab {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 4px 12px;
+      color: #6e7681;
+      border-right: 1px solid rgba(255,255,255,0.05);
+      cursor: default;
+    }
+    .editor-tab.active-tab { color: #e6edf3; background: #0d1117; border-top: 1px solid var(--accent); }
+    .editor-filename {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: #6e7681;
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .editor-filename .ficon { color: #ff7b72; }
+    .editor-body {
+      padding: 1.25rem 0;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.9;
+      overflow: hidden;
+    }
+    .code-line {
+      display: flex;
+      align-items: flex-start;
+      padding: 0 1.25rem;
+      min-height: 24px;
+    }
+    .code-line:hover { background: rgba(255,255,255,0.03); }
+    .ln { min-width: 28px; text-align: right; color: #3d444d; margin-right: 1.5rem; user-select: none; font-size: 12px; }
+    .c-keyword { color: #ff7b72; }
+    .c-fn { color: #d2a8ff; }
+    .c-str { color: #a5d6ff; }
+    .c-comment { color: #3d444d; }
+    .c-var { color: #e6edf3; }
+    .c-type { color: #ffa657; }
+    .c-green { color: #7ee787; }
+    .c-blue { color: #79c0ff; }
+    .c-num { color: #79c0ff; }
+    .c-punct { color: #e6edf3; }
+    .cursor-blink {
+      display: inline-block;
+      width: 2px; height: 14px;
+      background: var(--accent);
+      vertical-align: middle;
+      animation: blink 1s step-end infinite;
+      margin-left: 1px;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* SECTION COMMON */
+    section { padding: 6rem 2.5rem; }
+    .section-inner { max-width: 1120px; margin: 0 auto; }
+    .section-eyebrow {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-eyebrow::after { content: ''; flex: 1; max-width: 48px; height: 1px; background: var(--accent-border); }
+    .section-title {
+      font-family: var(--sans);
+      font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+    .section-sub {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      margin-bottom: 3.5rem;
+      max-width: 500px;
+    }
+
+    /* ABOUT */
+    #about { background: var(--bg-subtle); }
+    .about-layout {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .about-body p {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.85;
+      margin-bottom: 1.25rem;
+    }
+    .about-highlights {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .highlight-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+    .highlight-item::before { content: '▸'; color: var(--accent); font-size: 10px; }
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .stat-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .stat-block:hover { border-color: var(--accent-border); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .stat-block-num {
+      font-family: var(--sans);
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-block-num span { color: var(--accent); }
+    .stat-block-label { font-size: 13px; color: var(--text-muted); line-height: 1.4; }
+
+    /* SKILLS */
+    .skills-layout {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+    .skill-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), #8b5cf6);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .skill-card:hover::before { transform: scaleX(1); }
+    .skill-card:hover { border-color: var(--accent-border); box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .skill-card-icon { width: 40px; height: 40px; background: var(--accent-light); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 18px; }
+    .skill-card-title { font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 1rem; }
+    .skill-card-title .badge-secondary {
+      font-size: 10px; font-weight: 500;
+      background: var(--bg-subtle); color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 2px 7px; border-radius: 100px;
+      margin-left: 6px; font-family: var(--body); vertical-align: middle;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .skill-tag {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      background: var(--accent-light);
+      color: var(--accent);
+      border: 1px solid var(--accent-border);
+      padding: 4px 10px;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .skill-tag:hover { background: var(--accent); color: #fff; }
+    .skill-tag.sec {
+      background: var(--bg-subtle); color: var(--text-secondary); border-color: var(--border);
+    }
+    .skill-tag.sec:hover { background: var(--text-secondary); color: #fff; }
+
+    /* PROJECTS */
+    #projects { background: var(--bg-subtle); }
+    .projects-layout {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.25s;
+    }
+    .project-card:hover { border-color: var(--accent-border); box-shadow: var(--shadow-lg); transform: translateY(-5px); }
+    .project-card-header { padding: 1.5rem 1.5rem 0; }
+    .project-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .project-type-badge {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      font-weight: 500;
+      color: var(--accent);
+      background: var(--accent-light);
+      border: 1px solid var(--accent-border);
+      padding: 3px 10px;
+      border-radius: 100px;
+      letter-spacing: 0.04em;
+    }
+    .project-links-top { display: flex; gap: 8px; }
+    .icon-btn {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .icon-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .icon-btn svg { width: 14px; height: 14px; }
+    .project-name { font-family: var(--sans); font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; }
+    .project-desc { font-size: 13.5px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.25rem; }
+    .project-card-body { padding: 0 1.5rem 1.5rem; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; }
+    .project-stack {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      padding-top: 1rem; border-top: 1px solid var(--border);
+    }
+    .stack-tag { font-family: var(--mono); font-size: 11px; color: var(--text-muted); background: var(--bg-subtle); padding: 3px 8px; border-radius: 4px; }
+
+    /* FEATURED PROJECT */
+    .project-card.featured {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      align-items: stretch;
+    }
+    .project-card.featured .project-card-header { flex: 1; padding: 2rem; }
+    .project-card.featured .project-card-body {
+      flex: 0.8; padding: 2rem;
+      border-left: 1px solid var(--border);
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .project-card.featured .project-name { font-size: 1.25rem; margin-bottom: 0.75rem; }
+    .project-card.featured .project-desc { font-size: 14px; margin-bottom: 0; }
+    .featured-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--orange);
+      background: rgba(245,158,11,0.1);
+      border: 1px solid rgba(245,158,11,0.2);
+      padding: 3px 10px;
+      border-radius: 100px;
+      letter-spacing: 0.06em;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .project-meta { display: flex; gap: 1.5rem; margin-top: 1.5rem; }
+    .project-meta-item { display: flex; flex-direction: column; gap: 3px; }
+    .project-meta-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; font-family: var(--mono); }
+    .project-meta-value { font-size: 13.5px; font-weight: 500; color: var(--text-primary); }
+
+    /* AWARD BADGE */
+    .award-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(16,185,129,0.08);
+      border: 1px solid rgba(16,185,129,0.2);
+      color: #059669;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 100px;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.04em;
+    }
+
+    /* PROJECT DETAIL LINK */
+      .project-detail-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--mono);
+        font-size: 11.5px;
+        color: var(--accent);
+        text-decoration: none;
+        padding: 0.75rem 1.5rem 1rem;
+        transition: gap 0.2s, color 0.2s;
+      }
+      .project-detail-link svg {
+        width: 12px;
+        height: 12px;
+      }
+      .project-detail-link:hover {
+        gap: 10px;
+        color: var(--accent-hover);
+      }
+
+    /* MISC PROJECTS STRIP */
+    .misc-projects-section {
+      margin-top: 3rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .misc-projects-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .misc-projects-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.625rem;
+      align-items: center;
+    }
+    .misc-tag {
+      font-size: 13px;
+      color: var(--text-secondary);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 5px 14px;
+      border-radius: 100px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .misc-tag:hover { border-color: var(--accent-border); color: var(--accent); }
+    .misc-more {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-family: var(--mono);
+    }
+
+    /* CONTACT */
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .contact-tagline { font-family: var(--sans); font-size: 1.05rem; color: var(--text-secondary); line-height: 1.8; margin-bottom: 2.5rem; }
+    .contact-detail-list { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-detail {
+      display: flex; align-items: center; gap: 12px;
+      text-decoration: none; padding: 0.875rem 1rem;
+      border-radius: 10px; border: 1px solid var(--border);
+      color: var(--text-secondary);
+      transition: border-color 0.2s, color 0.2s, background 0.2s, transform 0.2s;
+      background: var(--bg-card);
+    }
+    .contact-detail:hover { border-color: var(--accent-border); color: var(--accent); background: var(--accent-light); transform: translateX(4px); }
+    .contact-detail-icon {
+      width: 38px; height: 38px;
+      background: var(--bg-subtle); border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: background 0.2s;
+    }
+    .contact-detail:hover .contact-detail-icon { background: rgba(99,102,241,0.12); }
+    .contact-detail-icon svg { width: 17px; height: 17px; }
+    .contact-detail-label { font-size: 11px; color: var(--text-muted); margin-bottom: 1px; text-transform: uppercase; letter-spacing: 0.05em; font-family: var(--mono); }
+    .contact-detail-value { font-size: 14px; font-weight: 500; }
+
+    .contact-form {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      display: flex; flex-direction: column; gap: 1.125rem;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    label { font-size: 12.5px; font-weight: 500; color: var(--text-secondary); font-family: var(--body); }
+    input, textarea {
+      font-family: var(--body); font-size: 14px;
+      color: var(--text-primary); background: var(--bg-subtle);
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 0.625rem 0.875rem; outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      width: 100%;
+    }
+    input::placeholder, textarea::placeholder { color: var(--text-muted); }
+    input:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(99,102,241,0.1); background: var(--bg); }
+    textarea { resize: vertical; min-height: 110px; line-height: 1.6; }
+    .btn-send {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background: var(--accent); color: #fff;
+      padding: 0.8rem 1.75rem; border-radius: 10px;
+      font-size: 14px; font-weight: 500; border: none; cursor: none;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      font-family: var(--body); align-self: flex-start;
+    }
+    .btn-send:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(99,102,241,0.3); }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: flex; align-items: center; justify-content: space-between; }
+    .footer-left { font-family: var(--mono); font-size: 12px; color: var(--text-muted); }
+    .footer-left span { color: var(--accent); }
+    .footer-right { display: flex; gap: 1.5rem; }
+    .footer-right a { font-size: 12px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .footer-right a:hover { color: var(--text-primary); }
+
+    /* FADE IN */
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+
+    /* MOBILE */
+    .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: none; padding: 4px; }
+    .nav-toggle span { display: block; width: 22px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: transform 0.3s, opacity 0.3s; }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu { display: none; position: fixed; top: 64px; left: 0; right: 0; background: rgba(255,255,255,0.97); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); padding: 1rem 2rem 1.5rem; z-index: 99; flex-direction: column; gap: 0.5rem; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 15px; color: var(--text-secondary); text-decoration: none; padding: 0.6rem 0; border-bottom: 1px solid var(--border); transition: color 0.2s; }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { color: var(--accent); }
+
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-editor { display: none; }
+      .about-layout { grid-template-columns: 1fr; gap: 3rem; }
+      .skills-layout { grid-template-columns: repeat(2, 1fr); }
+      .projects-layout { grid-template-columns: 1fr; }
+      .project-card.featured { flex-direction: column; }
+      .project-card.featured .project-card-body { border-left: none; border-top: 1px solid var(--border); }
+      .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+    }
+    @media (max-width: 600px) {
+      section { padding: 4.5rem 1.25rem; }
+      nav { padding: 0 1.25rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; padding: 1.5rem; }
+      .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .nav-toggle { display: flex; }
+      .skills-layout { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .hero-stats { gap: 1.5rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cursor-dot, .cursor-ring { display: none; }
+      .cursor-blink { animation: none; opacity: 1; }
+      * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- NAV -->
+  <nav id="mainNav">
+    <a href="#hero" class="nav-logo">
+      <span class="logo-bracket">{</span>&nbsp;bryan&nbsp;<span class="logo-bracket">}</span>
+      <span class="logo-status"></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Hire Me</a>
+    <div class="nav-toggle" id="navToggle">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about" onclick="closeMobile()">About</a>
+    <a href="#skills" onclick="closeMobile()">Skills</a>
+    <a href="#projects" onclick="closeMobile()">Projects</a>
+    <a href="#contact" onclick="closeMobile()">Contact</a>
+  </div>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-badge fade-in">
+          <div class="hero-badge-dot"></div>
+          <span>Open to opportunities</span>
+        </div>
+        <h1 class="hero-title fade-in fade-in-delay-1">
+          Hi, I'm Bryan.<br/>
+          I build things that<br/>
+          actually <span class="word-accent">work</span>.
+        </h1>
+        <p class="hero-sub fade-in fade-in-delay-2">
+          Information Technology student at Institut Teknologi Del. I turn ideas into practical software — from full-stack web apps and REST APIs to mobile apps, and I'm actively expanding into Data Science and Machine Learning.
+        </p>
+        <div class="hero-actions fade-in fade-in-delay-3">
+          <a href="#projects" class="btn-primary">
+            See My Work
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#contact" class="btn-outline">Get in Touch</a>
+        </div>
+        <div class="hero-stats fade-in">
+          <div class="hero-stat">
+            <div class="hero-stat-num">2+</div>
+            <div class="hero-stat-label">Years coding</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">6</div>
+            <div class="hero-stat-label">Major projects</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">2×</div>
+            <div class="hero-stat-label">Competition wins</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CODE EDITOR -->
+      <div class="hero-editor fade-in fade-in-delay-2">
+        <div class="editor-titlebar">
+          <div class="editor-dots">
+            <div class="editor-dot ed-red"></div>
+            <div class="editor-dot ed-yellow"></div>
+            <div class="editor-dot ed-green"></div>
+          </div>
+          <div class="editor-tabs">
+            <div class="editor-tab active-tab">bryan.php</div>
+            <div class="editor-tab">routes.php</div>
+          </div>
+          <div class="editor-filename">
+            <span class="ficon">●</span> PHP
+          </div>
+        </div>
+        <div class="editor-body">
+          <div class="code-line"><span class="ln">1</span><span class="c-comment">// Bryan Torisi Siagian</span></div>
+          <div class="code-line"><span class="ln">2</span><span class="c-comment">// IT Del — Semester 5</span></div>
+          <div class="code-line"><span class="ln">3</span></div>
+          <div class="code-line"><span class="ln">4</span><span class="c-var">$bryan </span><span class="c-keyword">= </span><span class="c-punct">[</span></div>
+          <div class="code-line"><span class="ln">5</span>&nbsp;&nbsp;<span class="c-str">'focus'</span><span class="c-keyword"> =&gt; </span><span class="c-str">'practical solutions'</span><span class="c-punct">,</span></div>
+          <div class="code-line"><span class="ln">6</span>&nbsp;&nbsp;<span class="c-str">'stack'</span><span class="c-keyword"> =&gt; </span><span class="c-punct">[</span><span class="c-str">'Laravel'</span><span class="c-punct">, </span><span class="c-str">'Flutter'</span><span class="c-punct">, </span><span class="c-str">'MySQL'</span><span class="c-punct">],</span></div>
+          <div class="code-line"><span class="ln">7</span>&nbsp;&nbsp;<span class="c-str">'learning'</span><span class="c-keyword"> =&gt; </span><span class="c-punct">[</span><span class="c-str">'ML'</span><span class="c-punct">, </span><span class="c-str">'Data Science'</span><span class="c-punct">],</span></div>
+          <div class="code-line"><span class="ln">8</span>&nbsp;&nbsp;<span class="c-str">'goal'</span><span class="c-keyword"> =&gt; </span><span class="c-str">'well-rounded engineer'</span><span class="c-punct">,</span></div>
+          <div class="code-line"><span class="ln">9</span><span class="c-punct">];</span></div>
+          <div class="code-line"><span class="ln">10</span></div>
+          <div class="code-line"><span class="ln">11</span><span class="c-keyword">function </span><span class="c-fn">ship</span><span class="c-punct">(</span><span class="c-type">Project</span> <span class="c-var">$p</span><span class="c-punct">) {</span></div>
+          <div class="code-line"><span class="ln">12</span>&nbsp;&nbsp;<span class="c-keyword">return </span><span class="c-var">$p</span><span class="c-punct">-&gt;</span><span class="c-fn">build</span><span class="c-punct">()</span></div>
+          <div class="code-line"><span class="ln">13</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-punct">-&gt;</span><span class="c-fn">test</span><span class="c-punct">()</span></div>
+          <div class="code-line"><span class="ln">14</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-punct">-&gt;</span><span class="c-fn">deploy</span><span class="c-punct">(</span><span class="c-str">'aws'</span><span class="c-punct">);</span></div>
+          <div class="code-line"><span class="ln">15</span><span class="c-punct">}</span></div>
+          <div class="code-line"><span class="ln">16</span></div>
+          <div class="code-line"><span class="ln">17</span><span class="c-fn">ship</span><span class="c-punct">(</span><span class="c-keyword">new </span><span class="c-type">Project</span><span class="c-punct">(</span><span class="c-str">'next-big-thing'</span><span class="c-punct">));</span><span class="cursor-blink"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-inner">
+      <p class="section-eyebrow">About me</p>
+      <h2 class="section-title">The person behind the code.</h2>
+      <div class="about-layout">
+        <div class="about-body fade-in">
+          <p>
+            I'm Bryan, a 5th-semester Information Technology student at Institut Teknologi Del, based in North Sumatra. My focus is on building software that solves real problems — not just projects that look good in a portfolio.
+          </p>
+          <p>
+            Over the past two years, I've built everything from pharmacy logistics systems and urban transit trackers to Batak cultural preservation websites. Two of those projects have won national and regional competitions, which tells me I'm asking the right questions when I start building.
+          </p>
+          <p>
+            Right now I'm expanding my horizon into Data Science and Machine Learning, while also strengthening what I know about cybersecurity. The goal is to become a well-rounded engineer — someone who can approach a problem from multiple angles, not just the comfortable ones.
+          </p>
+          <div class="about-highlights">
+            <div class="highlight-item">Full-stack web development with Laravel & React</div>
+            <div class="highlight-item">Mobile development with Flutter</div>
+            <div class="highlight-item">REST API design & microservices architecture</div>
+            <div class="highlight-item">Cloud deployment on AWS EC2</div>
+            <div class="highlight-item">Currently learning: Data Science & Machine Learning</div>
+          </div>
+        </div>
+        <div class="about-stats fade-in fade-in-delay-1">
+          <div class="stat-block">
+            <div class="stat-block-num">2<span>+</span></div>
+            <div class="stat-block-label">Years building software</div>
+          </div>
+          <div class="stat-block">
+            <div class="stat-block-num">6</div>
+            <div class="stat-block-label">Major projects shipped</div>
+          </div>
+          <div class="stat-block">
+            <div class="stat-block-num">2<span>×</span></div>
+            <div class="stat-block-label">Competition awards won</div>
+          </div>
+          <div class="stat-block">
+            <div class="stat-block-num">∞</div>
+            <div class="stat-block-label">Ideas still in the backlog</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-inner">
+      <p class="section-eyebrow">Skills</p>
+      <h2 class="section-title">What I work with.</h2>
+      <p class="section-sub">My current toolkit — things I've actually used in real projects, not just tutorials.</p>
+      <div class="skills-layout">
+        <div class="skill-card fade-in">
+          <div class="skill-card-icon">⚙️</div>
+          <div class="skill-card-title">Backend</div>
+          <div class="skill-tags">
+            <span class="skill-tag">PHP / Laravel</span>
+            <span class="skill-tag">REST API</span>
+            <span class="skill-tag">Microservices</span>
+            <span class="skill-tag">Midtrans</span>
+            <span class="skill-tag">OSM / OSRM</span>
+          </div>
+        </div>
+        <div class="skill-card fade-in fade-in-delay-1">
+          <div class="skill-card-icon">📱</div>
+          <div class="skill-card-title">Mobile</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Flutter</span>
+            <span class="skill-tag">Dart</span>
+            <span class="skill-tag">Google Maps API</span>
+            <span class="skill-tag">OWM API</span>
+          </div>
+        </div>
+        <div class="skill-card fade-in fade-in-delay-2">
+          <div class="skill-card-icon">🗄️</div>
+          <div class="skill-card-title">Database</div>
+          <div class="skill-tags">
+            <span class="skill-tag">MySQL</span>
+            <span class="skill-tag">PostgreSQL</span>
+            <span class="skill-tag">Query Design</span>
+            <span class="skill-tag">Eloquent ORM</span>
+          </div>
+        </div>
+        <div class="skill-card fade-in">
+          <div class="skill-card-icon">🐳</div>
+          <div class="skill-card-title">DevOps & Cloud</div>
+          <div class="skill-tags">
+            <span class="skill-tag">AWS EC2</span>
+            <span class="skill-tag">Nginx</span>
+            <span class="skill-tag">Linux</span>
+            <span class="skill-tag">Git / GitHub</span>
+          </div>
+        </div>
+        <div class="skill-card fade-in fade-in-delay-1">
+          <div class="skill-card-icon">🖥️</div>
+          <div class="skill-card-title">Frontend <span class="badge-secondary">secondary</span></div>
+          <div class="skill-tags">
+            <span class="skill-tag sec">HTML / CSS / JS</span>
+            <span class="skill-tag sec">Blade</span>
+            <span class="skill-tag sec">Tailwind</span>
+            <span class="skill-tag sec">React</span>
+          </div>
+        </div>
+        <div class="skill-card fade-in fade-in-delay-2">
+          <div class="skill-card-icon">🔬</div>
+          <div class="skill-card-title">Exploring <span class="badge-secondary">learning</span></div>
+          <div class="skill-tags">
+            <span class="skill-tag sec">Data Science</span>
+            <span class="skill-tag sec">Machine Learning</span>
+            <span class="skill-tag sec">Cybersecurity</span>
+            <span class="skill-tag sec">Python</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-inner">
+      <p class="section-eyebrow">Projects</p>
+      <h2 class="section-title">Selected work.</h2>
+      <p class="section-sub">Six projects I'm proud of — built with real constraints, real users, and real stakes.</p>
+      <div class="projects-layout">
+
+        <!-- FEATURED: MedFlow -->
+        <div class="project-card featured fade-in">
+          <div class="project-card-header">
+            <div class="featured-label">★ Featured Project</div>
+            <div class="award-badge">🏆 Juara 2 — Medan Coding Competition 2026</div>
+            <div class="project-card-top">
+              <div class="project-type-badge">Mobile · Web · Smart City</div>
+              <div class="project-links-top">
+                <a href="https://github.com/bryansiagian/MedFlow" target="_blank" rel="noopener" class="icon-btn" title="GitHub">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+                </a>
+              </div>
+            </div>
+            <div class="project-name">MedFlow — Medan Smart Transit</div>
+            <div class="project-desc">
+              Real-time public transit tracking app (angkot) built to help Medan move toward Smart City status. Users can track vehicle locations live, check routes, and get weather-aware trip suggestions. Awarded 2nd place at Medan Coding Competition 2026.
+            </div>
+            <div class="project-meta">
+              <div class="project-meta-item">
+                <div class="project-meta-label">Domain</div>
+                <div class="project-meta-value">Transportation</div>
+              </div>
+              <div class="project-meta-item">
+                <div class="project-meta-label">Platform</div>
+                <div class="project-meta-value">Mobile + Web</div>
+              </div>
+              <div class="project-meta-item">
+                <div class="project-meta-label">Deployment</div>
+                <div class="project-meta-value">AWS EC2</div>
+              </div>
+            </div>
+          </div>
+          <div class="project-card-body">
+            <div>
+              <div style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;font-family:var(--mono);margin-bottom:0.75rem;">Stack</div>
+              <div class="project-stack" style="border:none;padding:0;">
+                <span class="stack-tag">Laravel</span>
+                <span class="stack-tag">Flutter</span>
+                <span class="stack-tag">MySQL</span>
+                <span class="stack-tag">Rest API</span>
+                <span class="stack-tag">OSM / OSRM</span>
+                <span class="stack-tag">Google Maps API</span>
+                <span class="stack-tag">OWM API</span>
+                <span class="stack-tag">AWS EC2</span>
+              </div>
+              <div>
+                <a href="medflow.html" class="project-detail-link" style="padding: 1rem 0 0; border-top: 1px solid var(--border); margin-top: 1.25rem;">
+                  Lihat selengkapnya
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- E-Pharma -->
+        <div class="project-card fade-in fade-in-delay-1">
+          <div class="project-card-header">
+            <div class="project-card-top">
+              <div class="project-type-badge">Microservices · E-Commerce</div>
+              <div class="project-links-top">
+                <a href="https://github.com/bryansiagian/PA-II-Kelompok-10" target="_blank" rel="noopener" class="icon-btn" title="GitHub">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+                </a>
+                <a href="https://epharma-pa2.duckdns.org/" target="_blank" rel="noopener" class="icon-btn" title="Foundation Site">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+              </div>
+            </div>
+            <div class="project-name">E-Pharma — Drug Distribution Platform</div>
+            <div class="project-desc">
+              End-to-end pharmacy e-commerce and logistics system for Yayasan Satriabudi Dharma. Handles drug inventory, order processing, courier logistics, and Midtrans Snap payment — deployed on AWS EC2.
+            </div>
+          </div>
+          <div class="project-card-body">
+            <div class="project-stack">
+              <span class="stack-tag">Laravel</span>
+              <span class="stack-tag">MySQL</span>
+              <span class="stack-tag">Midtrans</span>
+              <span class="stack-tag">REST API</span>
+              <span class="stack-tag">AWS EC2</span>
+            </div>
+          </div>
+          <div>
+            <a href="epharma.html" class="project-detail-link">
+              Lihat selengkapnya
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- BoanAksara -->
+        <div class="project-card fade-in fade-in-delay-2">
+          <div class="project-card-header">
+            <div class="project-card-top">
+              <div class="project-type-badge">Cultural · Web</div>
+              <div class="project-links-top">
+                <a href="https://github.com/bryansiagian/BoanAksara" target="_blank" rel="noopener" class="icon-btn" title="GitHub">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+                </a>
+                <a href="https://boanaksara.id/" target="_blank" rel="noopener" class="icon-btn" title="Live Site">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+              </div>
+            </div>
+            <div class="award-badge" style="margin-bottom:0.5rem;">🏅 Top 30 — Kompetisi Website Budaya Batak Nasional</div>
+            <div class="project-name">BoanAksara — Learn Batak Script</div>
+            <div class="project-desc">
+              An interactive website for the public to learn Aksara Batak — preserving North Sumatran cultural heritage through the web. Awarded Top 30 in a national Batak cultural website competition.
+            </div>
+          </div>
+          <div class="project-card-body">
+            <div class="project-stack">
+              <span class="stack-tag">HTML</span>
+              <span class="stack-tag">CSS</span>
+              <span class="stack-tag">JavaScript</span>
+            </div>
+          </div>
+          <div>
+            <a href="boanaksara.html" class="project-detail-link">
+              Lihat selengkapnya
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- ALIN -->
+        <div class="project-card fade-in">
+          <div class="project-card-header">
+            <div class="project-card-top">
+              <div class="project-type-badge">Education · Mobile + Web</div>
+              <div class="project-links-top">
+                <a href="https://github.com/bryansiagian/ALIN" target="_blank" rel="noopener" class="icon-btn" title="GitHub">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+                </a>
+              </div>
+            </div>
+            <div class="project-name">ALIN — Linear Algebra Companion</div>
+            <div class="project-desc">
+              A learning app built specifically for IT Del students studying Linear Algebra. Covers key concepts interactively, with room to grow into a broader math companion tool.
+            </div>
+          </div>
+          <div class="project-card-body">
+            <div class="project-stack">
+              <span class="stack-tag">Laravel</span>
+              <span class="stack-tag">Flutter</span>
+              <span class="stack-tag">MySQL</span>
+              <span class="stack-tag">AWS EC2</span>
+            </div>
+          </div>
+          <div>
+            <a href="alin.html" class="project-detail-link">
+              Lihat selengkapnya
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- CampusTalk -->
+        <div class="project-card fade-in fade-in-delay-1">
+          <div class="project-card-header">
+            <div class="project-card-top">
+              <div class="project-type-badge">Social Platform · Mobile + Web</div>
+              <div class="project-links-top">
+                <a href="https://github.com/bryansiagian/CampusTalk" target="_blank" rel="noopener" class="icon-btn" title="GitHub">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+                </a>
+              </div>
+            </div>
+            <div class="project-name">CampusTalk — IT Del Social Platform</div>
+            <div class="project-desc">
+              A campus-only social platform for students, teaching assistants, lecturers, and staff at Institut Teknologi Del. Streamlines internal communication and helps student affairs manage campus life better.
+            </div>
+          </div>
+          <div class="project-card-body">
+            <div class="project-stack">
+              <span class="stack-tag">Laravel</span>
+              <span class="stack-tag">Flutter</span>
+              <span class="stack-tag">PostgreSQL</span>
+              <span class="stack-tag">REST API</span>
+            </div>
+          </div>
+          <div>
+            <a href="campustalk.html" class="project-detail-link">
+              Lihat selengkapnya
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Harmonis Plastik -->
+        <div class="project-card fade-in fade-in-delay-2">
+          <div class="project-card-header">
+            <div class="project-card-top">
+              <div class="project-type-badge">E-Commerce · Internal Tool</div>
+              <div class="project-links-top">
+                <a href="https://github.com/bryansiagian/FinalProject_009-FIX" target="_blank" rel="noopener" class="icon-btn" title="GitHub">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+                </a>
+              </div>
+            </div>
+            <div class="project-name">Harmonis Plastik — Store Management System</div>
+            <div class="project-desc">
+              A web-based audit and inventory system replacing a fully manual process at a local plastics store. Closes operational gaps that previously left room for employee error and fraud.
+            </div>
+          </div>
+          <div class="project-card-body">
+            <div class="project-stack">
+              <span class="stack-tag">Laravel</span>
+              <span class="stack-tag">MySQL</span>
+            </div>
+          </div>
+          <div>
+            <a href="harmonisplastik.html" class="project-detail-link">
+              Lihat selengkapnya
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- MISC PROJECTS -->
+      <div class="misc-projects-section fade-in">
+        <div class="misc-projects-label">+ Other projects I've shipped along the way</div>
+        <div class="misc-projects-row">
+          <span class="misc-tag">CLI Tools</span>
+          <span class="misc-tag">Auth Service Modules</span>
+          <span class="misc-tag">CRUD Dashboards</span>
+          <span class="misc-tag">API Integrations</span>
+          <span class="misc-tag">Landing Pages</span>
+          <span class="misc-tag">DB Design Exercises</span>
+          <span class="misc-tag">Course Projects</span>
+          <span class="misc-more">& more on GitHub →</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-inner">
+      <p class="section-eyebrow">Contact</p>
+      <h2 class="section-title">Let's build something.</h2>
+      <div class="contact-layout">
+        <div class="contact-left fade-in">
+          <p class="contact-tagline">
+            Whether you have a project idea, want to collaborate, or are looking for an intern or junior engineer — feel free to reach out. I respond to every message.
+          </p>
+          <div class="contact-detail-list">
+            <a href="mailto:bryantorisi@gmail.com" class="contact-detail">
+              <div class="contact-detail-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+              </div>
+              <div class="contact-detail-text">
+                <div class="contact-detail-label">Email</div>
+                <div class="contact-detail-value">bryantorisi@gmail.com</div>
+              </div>
+            </a>
+            <a href="https://github.com/bryansiagian" target="_blank" rel="noopener" class="contact-detail">
+              <div class="contact-detail-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+              </div>
+              <div class="contact-detail-text">
+                <div class="contact-detail-label">GitHub</div>
+                <div class="contact-detail-value">github.com/bryansiagian</div>
+              </div>
+            </a>
+            <a href="https://www.linkedin.com/in/bryan-torisi-siagian-40a488284" target="_blank" rel="noopener" class="contact-detail">
+              <div class="contact-detail-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              </div>
+              <div class="contact-detail-text">
+                <div class="contact-detail-label">LinkedIn</div>
+                <div class="contact-detail-value">bryan-torisi-siagian</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="contact-form fade-in fade-in-delay-1">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Full Name</label>
+              <input type="text" id="name" placeholder="Your name" />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" placeholder="you@example.com" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" placeholder="What's this about?" />
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" placeholder="Tell me about your project or what you're looking for..."></textarea>
+          </div>
+          <button class="btn-send" onclick="handleSend(this)">
+            Send Message
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p class="footer-left">Bryan Siagian <span>·</span> Institut Teknologi Del <span>·</span> <span id="year"></span></p>
+    <div class="footer-right">
+      <a href="#hero">Back to top ↑</a>
+      <a href="#projects">Projects</a>
+      <a href="mailto:bryantorisi@gmail.com">Email</a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Custom cursor
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px';
+      dot.style.top = my + 'px';
+    });
+    function animRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(animRing);
+    }
+    animRing();
+    document.querySelectorAll('a, button, .skill-tag, .project-card, .stat-block, .contact-detail').forEach(el => {
+      el.addEventListener('mouseenter', () => { dot.classList.add('hover'); ring.classList.add('hover'); });
+      el.addEventListener('mouseleave', () => { dot.classList.remove('hover'); ring.classList.remove('hover'); });
+    });
+
+    // Scroll progress
+    const progressBar = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.width = (scrollTop / docHeight * 100) + '%';
+    }, { passive: true });
+
+    // Nav scroll
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    // Active nav link
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(a => a.classList.remove('active'));
+          const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { threshold: 0.4 });
+    sections.forEach(s => observer.observe(s));
+
+    // Fade in
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const fadeObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          fadeObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    fadeEls.forEach(el => fadeObserver.observe(el));
+
+    // Mobile nav
+    const toggle = document.getElementById('navToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    toggle.addEventListener('click', () => {
+      toggle.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
+    function closeMobile() {
+      toggle.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    }
+
+    // Send button
+    function handleSend(btn) {
+      btn.innerHTML = '✓ Message Sent!';
+      btn.style.background = '#10b981';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.innerHTML = 'Send Message <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

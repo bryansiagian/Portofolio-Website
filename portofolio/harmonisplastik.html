@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Harmonis Plastik — Bryan Siagian</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --bg-subtle: #f8fafc;
+      --bg-card: #ffffff;
+      --text-primary: #0a0f1e;
+      --text-secondary: #4a5568;
+      --text-muted: #94a3b8;
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
+      --accent-light: #eef2ff;
+      --accent-border: #c7d2fe;
+      --border: #e8ecf0;
+      --border-strong: #d1d9e0;
+      --green: #10b981;
+      /* Harmonis Plastik: muted forest green — grounded, operational, no-nonsense */
+      --hp-primary: #16a34a;
+      --hp-secondary: #4ade80;
+      --hp-dark: #052e16;
+      --sans: 'Space Grotesk', sans-serif;
+      --body: 'Inter', sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--body);
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      cursor: none;
+    }
+    a, button { cursor: none; }
+
+    /* CURSOR */
+    .cursor-dot {
+      width: 8px; height: 8px; background: var(--hp-primary); border-radius: 50%;
+      position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s, width 0.2s, height 0.2s;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px; border: 1.5px solid var(--hp-primary); border-radius: 50%;
+      position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.12s ease, width 0.25s, height 0.25s;
+      opacity: 0.6;
+    }
+    .cursor-dot.hover { width: 12px; height: 12px; }
+    .cursor-ring.hover { width: 52px; height: 52px; opacity: 0.3; }
+
+    /* SCROLL PROGRESS */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; width: 0%; height: 2px;
+      background: linear-gradient(90deg, var(--hp-primary), var(--hp-secondary), #86efac);
+      z-index: 200; transition: width 0.05s linear;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 0 2.5rem; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    nav.scrolled {
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 var(--border);
+    }
+    .nav-logo {
+      font-family: var(--mono); font-size: 15px; font-weight: 600;
+      color: var(--text-primary); text-decoration: none;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .nav-logo .logo-bracket { color: var(--accent); }
+    .nav-back {
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--body); font-size: 13.5px;
+      color: var(--text-secondary); text-decoration: none;
+      padding: 0.4rem 1rem; border-radius: 6px;
+      border: 1px solid var(--border);
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .nav-back:hover { color: var(--accent); border-color: var(--accent-border); background: var(--accent-light); }
+    .nav-back svg { width: 14px; height: 14px; }
+
+    /* ============================================================
+       HERO — Dark slate, ledger-line grid, receipt-tape signature
+       ============================================================ */
+    .project-hero {
+      padding-top: 64px; min-height: 58vh;
+      display: flex; align-items: flex-end;
+      position: relative; overflow: hidden;
+      background: #060b08;
+    }
+
+    /* Fine ruled lines — like a physical ledger book */
+    .hero-ledger {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(22,163,74,0.06) 1px, transparent 1px);
+      background-size: 100% 32px;
+      mask-image: linear-gradient(to bottom, transparent 5%, black 30%, black 80%, transparent 100%);
+    }
+    /* Vertical column dividers */
+    .hero-ledger-cols {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(90deg, rgba(22,163,74,0.04) 1px, transparent 1px);
+      background-size: 120px 100%;
+      mask-image: radial-gradient(ellipse 80% 90% at 50% 40%, black, transparent);
+    }
+
+    /* Floating receipt / ledger rows — signature element */
+    .hero-ledger-rows {
+      position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+    }
+    .ledger-row {
+      position: absolute;
+      display: flex; gap: 0;
+      font-family: var(--mono); font-size: 10px;
+      color: rgba(22,163,74,0.18);
+      white-space: nowrap;
+      animation: ledgerDrift 24s linear infinite;
+    }
+    .ledger-row span {
+      display: inline-block;
+      padding: 0 16px;
+      border-right: 1px solid rgba(22,163,74,0.08);
+    }
+    .ledger-row:nth-child(2) { animation-delay: -8s; animation-duration: 30s; }
+    .ledger-row:nth-child(3) { animation-delay: -16s; animation-duration: 20s; }
+    .ledger-row:nth-child(4) { animation-delay: -4s; animation-duration: 26s; }
+    .ledger-row:nth-child(5) { animation-delay: -12s; animation-duration: 22s; }
+    @keyframes ledgerDrift {
+      0%   { transform: translateX(0); opacity: 0; }
+      5%   { opacity: 1; }
+      95%  { opacity: 1; }
+      100% { transform: translateX(-50%); opacity: 0; }
+    }
+
+    .hero-glow {
+      position: absolute; width: 700px; height: 400px;
+      background: radial-gradient(ellipse, rgba(22,163,74,0.08) 0%, rgba(74,222,128,0.04) 50%, transparent 70%);
+      top: -5%; left: 45%; transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .project-hero-inner {
+      max-width: 1120px; margin: 0 auto;
+      padding: 4rem 2.5rem 3.5rem;
+      width: 100%; position: relative; z-index: 1;
+    }
+
+    .hero-breadcrumb {
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--mono); font-size: 11.5px;
+      color: #3d444d; margin-bottom: 1.75rem;
+    }
+    .hero-breadcrumb a { color: #3d444d; text-decoration: none; transition: color 0.2s; }
+    .hero-breadcrumb a:hover { color: var(--hp-primary); }
+    .hero-breadcrumb .sep { color: #21262d; }
+    .hero-breadcrumb .current { color: #6e7681; }
+
+    .hero-type-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--mono); font-size: 10.5px; font-weight: 500;
+      color: #86efac; background: rgba(22,163,74,0.1);
+      border: 1px solid rgba(22,163,74,0.2);
+      padding: 4px 12px; border-radius: 100px;
+      letter-spacing: 0.05em; margin-bottom: 1.25rem;
+    }
+    .hero-platform-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--mono); font-size: 10.5px; font-weight: 500;
+      color: #a5b4fc; background: rgba(165,180,252,0.1);
+      border: 1px solid rgba(165,180,252,0.2);
+      padding: 4px 12px; border-radius: 100px;
+      letter-spacing: 0.05em; margin-bottom: 1.25rem; margin-left: 8px;
+    }
+
+    .project-hero h1 {
+      font-family: var(--sans);
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 700; letter-spacing: -0.03em;
+      color: #e6edf3; line-height: 1.1; margin-bottom: 1rem;
+    }
+    .project-hero h1 .accent { color: var(--hp-secondary); }
+
+    .project-hero .hero-tagline {
+      font-size: 1.05rem; color: #8b949e;
+      line-height: 1.75; max-width: 600px;
+    }
+
+    .hero-links-row { display: flex; gap: 0.875rem; margin-top: 1.75rem; }
+    .btn-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--body); font-size: 13.5px; font-weight: 500;
+      padding: 0.6rem 1.25rem; border-radius: 9px;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .btn-link svg { width: 14px; height: 14px; }
+    .btn-link.primary { background: var(--hp-primary); color: #fff; border: 1px solid var(--hp-primary); }
+    .btn-link.primary:hover { background: #15803d; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(22,163,74,0.3); }
+    .btn-link.outline { background: transparent; color: #8b949e; border: 1px solid rgba(255,255,255,0.1); }
+    .btn-link.outline:hover { border-color: rgba(22,163,74,0.4); color: #c9d1d9; }
+
+    .hero-meta-row {
+      display: flex; flex-wrap: wrap; gap: 2.25rem;
+      padding-top: 2rem; margin-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .hero-meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .hero-meta-label { font-family: var(--mono); font-size: 10.5px; color: #3d444d; text-transform: uppercase; letter-spacing: 0.1em; }
+    .hero-meta-value { font-size: 14px; font-weight: 500; color: #c9d1d9; }
+
+    /* ============================================================
+       BODY
+       ============================================================ */
+    .project-body { max-width: 1120px; margin: 0 auto; padding: 4rem 2.5rem 5rem; }
+    .content-section { margin-bottom: 4rem; }
+
+    .content-section-eyebrow {
+      font-family: var(--mono); font-size: 11px; color: var(--accent);
+      letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.75rem;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .content-section-eyebrow::after { content: ''; flex: 1; max-width: 40px; height: 1px; background: var(--accent-border); }
+    .content-section-title {
+      font-family: var(--sans);
+      font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+      font-weight: 700; letter-spacing: -0.02em;
+      color: var(--text-primary); margin-bottom: 1.25rem;
+    }
+    .content-prose p {
+      font-size: 15px; color: var(--text-secondary);
+      line-height: 1.85; margin-bottom: 1rem;
+    }
+    .content-prose p:last-child { margin-bottom: 0; }
+
+    /* OVERVIEW GRID */
+    .overview-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 3.5rem; align-items: start; }
+
+    /* QUICK INFO CARD */
+    .quick-info-card {
+      background: var(--bg-subtle); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.5rem;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .quick-info-card-title {
+      font-family: var(--mono); font-size: 11px; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.09em;
+      padding-bottom: 0.75rem; border-bottom: 1px solid var(--border);
+    }
+    .quick-info-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+    .quick-info-key { font-size: 12.5px; color: var(--text-muted); white-space: nowrap; padding-top: 2px; }
+    .quick-info-val { font-size: 13px; font-weight: 500; color: var(--text-primary); text-align: right; line-height: 1.5; }
+    .quick-info-divider { height: 1px; background: var(--border); }
+    .stack-tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+    .stag {
+      font-family: var(--mono); font-size: 11px;
+      background: var(--accent-light); color: var(--accent);
+      border: 1px solid var(--accent-border); padding: 3px 9px; border-radius: 5px;
+    }
+
+    /* BEFORE / AFTER — manual process vs system */
+    .ba-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .ba-card {
+      border-radius: 14px; padding: 1.75rem;
+      border: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .ba-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+    }
+    .ba-card.before::before { background: linear-gradient(90deg, #ef4444, #f97316); }
+    .ba-card.after::before  { background: linear-gradient(90deg, var(--hp-primary), var(--hp-secondary)); }
+    .ba-card-label {
+      font-family: var(--mono); font-size: 10.5px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .ba-card.before .ba-card-label { color: #ef4444; }
+    .ba-card.after  .ba-card-label { color: var(--hp-primary); }
+    .ba-card-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+    .ba-card.before .ba-card-icon { background: rgba(239,68,68,0.1); }
+    .ba-card.after  .ba-card-icon { background: rgba(22,163,74,0.1); }
+    .ba-list { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+    .ba-list li { font-size: 14px; color: var(--text-secondary); line-height: 1.65; padding-left: 1.1rem; position: relative; }
+    .ba-list li::before { content: '▸'; position: absolute; left: 0; font-size: 9px; top: 4px; }
+    .ba-card.before .ba-list li::before { color: #ef4444; }
+    .ba-card.after  .ba-list li::before { color: var(--hp-primary); }
+
+    /* USER ROLES */
+    .roles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .role-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.5rem 1.25rem;
+      text-align: center;
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+      position: relative; overflow: hidden;
+    }
+    .role-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--hp-primary), var(--hp-secondary));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .role-card:hover::before { transform: scaleX(1); }
+    .role-card:hover { border-color: rgba(22,163,74,0.3); box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .role-icon { font-size: 2rem; margin-bottom: 0.75rem; display: block; }
+    .role-name { font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 0.4rem; }
+    .role-desc { font-size: 12.5px; color: var(--text-secondary); line-height: 1.55; }
+    .role-perms { margin-top: 0.875rem; display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
+    .role-perm {
+      font-family: var(--mono); font-size: 10px;
+      color: var(--hp-primary); background: rgba(22,163,74,0.07);
+      border: 1px solid rgba(22,163,74,0.15);
+      padding: 2px 8px; border-radius: 4px;
+    }
+
+    /* FEATURES GRID */
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .feature-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.5rem;
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+      position: relative; overflow: hidden;
+    }
+    .feature-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--hp-primary), var(--hp-secondary));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .feature-card:hover::before { transform: scaleX(1); }
+    .feature-card:hover { border-color: rgba(22,163,74,0.3); box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .feature-icon {
+      width: 42px; height: 42px;
+      background: rgba(22,163,74,0.08); border: 1px solid rgba(22,163,74,0.15);
+      border-radius: 10px; display: flex; align-items: center;
+      justify-content: center; margin-bottom: 1rem; font-size: 20px;
+    }
+    .feature-title { font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; }
+    .feature-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
+
+    /* IMPACT METRICS */
+    .impact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .impact-card {
+      background: var(--bg-subtle); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.75rem 1.5rem;
+      text-align: center;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .impact-card:hover { border-color: rgba(22,163,74,0.3); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .impact-num {
+      font-family: var(--sans); font-size: 2.5rem; font-weight: 700;
+      color: var(--hp-primary); line-height: 1; margin-bottom: 6px;
+    }
+    .impact-label { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+    .impact-sub { font-family: var(--mono); font-size: 10.5px; color: var(--text-muted); margin-top: 4px; }
+
+    /* GALLERY */
+    .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .gallery-item {
+      border-radius: 12px; overflow: hidden;
+      border: 1px solid var(--border); aspect-ratio: 16/10;
+      position: relative;
+      transition: transform 0.25s, box-shadow 0.25s;
+      background: var(--bg-subtle);
+    }
+    .gallery-item.wide { grid-column: span 2; aspect-ratio: 16/9; }
+    .gallery-item.tall { aspect-ratio: 3/4; }
+    .gallery-item:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .gallery-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 10px;
+    }
+    .gallery-placeholder .gp-icon { font-size: 28px; }
+    .gallery-placeholder .gp-label { font-family: var(--mono); font-size: 10px; opacity: 0.4; text-transform: uppercase; letter-spacing: 0.08em; }
+    .gallery-placeholder .gp-title { font-family: var(--sans); font-size: 13px; font-weight: 600; opacity: 0.7; }
+    .gallery-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.65));
+      padding: 1.5rem 1rem 0.75rem;
+      font-size: 12px; color: rgba(255,255,255,0.8);
+      opacity: 0; transition: opacity 0.25s;
+    }
+    .gallery-item:hover .gallery-caption { opacity: 1; }
+
+    /* TECH STACK */
+    .tech-stack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    .tech-group { background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; }
+    .tech-group-label { font-family: var(--mono); font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 0.875rem; }
+    .tech-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tech-tag {
+      font-family: var(--mono); font-size: 11.5px;
+      background: rgba(22,163,74,0.07); color: var(--hp-primary);
+      border: 1px solid rgba(22,163,74,0.2);
+      padding: 4px 10px; border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .tech-tag:hover { background: var(--hp-primary); color: #fff; }
+
+    /* FADE IN */
+    .fade-in { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: flex; align-items: center; justify-content: space-between; }
+    .footer-left { font-family: var(--mono); font-size: 12px; color: var(--text-muted); }
+    .footer-left span { color: var(--accent); }
+    .footer-right { display: flex; gap: 1.5rem; }
+    .footer-right a { font-size: 12px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .footer-right a:hover { color: var(--text-primary); }
+
+    @media (max-width: 900px) {
+      .overview-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .ba-grid { grid-template-columns: 1fr; }
+      .roles-grid { grid-template-columns: 1fr 1fr; }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .impact-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-item.wide { grid-column: span 2; }
+      .tech-stack-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      nav { padding: 0 1.25rem; }
+      .project-hero-inner { padding: 3rem 1.25rem 2.5rem; }
+      .project-body { padding: 2.5rem 1.25rem 4rem; }
+      .roles-grid { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: 1fr; }
+      .impact-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .gallery-item.wide { grid-column: span 1; aspect-ratio: 16/9; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; padding: 1.5rem; }
+      .hero-meta-row { gap: 1.5rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cursor-dot, .cursor-ring { display: none; }
+      .ledger-row { animation: none; }
+      * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- NAV -->
+  <nav id="mainNav">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-bracket">{</span>&nbsp;bryan&nbsp;<span class="logo-bracket">}</span>
+    </a>
+    <a href="index.html#projects" class="nav-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      All Projects
+    </a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="project-hero">
+    <div class="hero-ledger"></div>
+    <div class="hero-ledger-cols"></div>
+
+    <!-- Drifting ledger rows — signature element -->
+    <div class="hero-ledger-rows">
+      <div class="ledger-row" style="top:18%;">
+        <span>Nama Barang</span><span>Satuan</span><span>Stok Awal</span><span>Masuk</span><span>Keluar</span><span>Stok Akhir</span><span>Harga</span><span>Total</span>
+        <span>Nama Barang</span><span>Satuan</span><span>Stok Awal</span><span>Masuk</span><span>Keluar</span><span>Stok Akhir</span><span>Harga</span><span>Total</span>
+      </div>
+      <div class="ledger-row" style="top:36%;">
+        <span>Ember 20L</span><span>pcs</span><span>240</span><span>80</span><span>55</span><span>265</span><span>Rp 28.000</span><span>Rp 7.420.000</span>
+        <span>Ember 20L</span><span>pcs</span><span>240</span><span>80</span><span>55</span><span>265</span><span>Rp 28.000</span><span>Rp 7.420.000</span>
+      </div>
+      <div class="ledger-row" style="top:52%;">
+        <span>Baskom Merah</span><span>pcs</span><span>180</span><span>120</span><span>95</span><span>205</span><span>Rp 15.500</span><span>Rp 3.177.500</span>
+        <span>Baskom Merah</span><span>pcs</span><span>180</span><span>120</span><span>95</span><span>205</span><span>Rp 15.500</span><span>Rp 3.177.500</span>
+      </div>
+      <div class="ledger-row" style="top:68%;">
+        <span>Gayung Plastik</span><span>pcs</span><span>320</span><span>200</span><span>175</span><span>345</span><span>Rp 8.000</span><span>Rp 2.760.000</span>
+        <span>Gayung Plastik</span><span>pcs</span><span>320</span><span>200</span><span>175</span><span>345</span><span>Rp 8.000</span><span>Rp 2.760.000</span>
+      </div>
+      <div class="ledger-row" style="top:82%;">
+        <span>Tutup Galon</span><span>pcs</span><span>500</span><span>300</span><span>280</span><span>520</span><span>Rp 3.500</span><span>Rp 1.820.000</span>
+        <span>Tutup Galon</span><span>pcs</span><span>500</span><span>300</span><span>280</span><span>520</span><span>Rp 3.500</span><span>Rp 1.820.000</span>
+      </div>
+    </div>
+
+    <div class="hero-glow"></div>
+
+    <div class="project-hero-inner">
+      <div class="hero-breadcrumb">
+        <a href="index.html">bryan</a>
+        <span class="sep">/</span>
+        <a href="index.html#projects">projects</a>
+        <span class="sep">/</span>
+        <span class="current">harmonis-plastik</span>
+      </div>
+
+      <div>
+        <span class="hero-type-badge">E-Commerce · Internal Tool</span>
+        <span class="hero-platform-badge">Web · Laravel</span>
+      </div>
+
+      <h1>Harmonis Plastik — <span class="accent">Store Management</span> System</h1>
+      <p class="hero-tagline">
+        A web-based audit and inventory system built to replace a fully manual process at a local plastics store. Closes the operational gaps that previously left room for stock discrepancies, untracked transactions, and employee error.
+      </p>
+
+      <div class="hero-links-row">
+        <a href="https://github.com/bryansiagian/FinalProject_009-FIX" target="_blank" rel="noopener" class="btn-link primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+          View on GitHub
+        </a>
+      </div>
+
+      <div class="hero-meta-row">
+        <div class="hero-meta-item">
+          <div class="hero-meta-label">Client</div>
+          <div class="hero-meta-value">Toko Harmonis Plastik</div>
+        </div>
+        <div class="hero-meta-item">
+          <div class="hero-meta-label">Context</div>
+          <div class="hero-meta-value">Final Project · Real Client</div>
+        </div>
+        <div class="hero-meta-item">
+          <div class="hero-meta-label">Platform</div>
+          <div class="hero-meta-value">Web Application</div>
+        </div>
+        <div class="hero-meta-item">
+          <div class="hero-meta-label">Process replaced</div>
+          <div class="hero-meta-value">100% manual → digital</div>
+        </div>
+        <div class="hero-meta-item">
+          <div class="hero-meta-label">Stack</div>
+          <div class="hero-meta-value">Laravel · MySQL</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BODY -->
+  <div class="project-body">
+
+    <!-- OVERVIEW -->
+    <div class="content-section fade-in">
+      <div class="overview-grid">
+        <div>
+          <p class="content-section-eyebrow">Overview</p>
+          <h2 class="content-section-title">What is this system?</h2>
+          <div class="content-prose">
+            <p>
+              Toko Harmonis Plastik is a local plastics retail store that, before this project, managed its entire inventory, sales, and audit process with pen and paper. Stock was tracked in physical notebooks. Sales were tallied manually at the end of each day. Discrepancies between stock and receipts were investigated — or not — by memory.
+            </p>
+            <p>
+              This project replaced that process entirely with a web-based management system built in Laravel. The system handles product inventory, incoming and outgoing stock, transaction recording, and audit reporting — all with a real database behind it, enforcing data integrity that a notebook never could.
+            </p>
+            <p>
+              The motivation behind building this wasn't just to digitize — it was to close a specific gap: the manual process had known vulnerabilities to employee error and, more critically, to internal fraud. With no system of record, there was no way to catch discrepancies between what was sold and what was reported. The system was designed with that accountability layer as a first-class concern, not an afterthought.
+            </p>
+          </div>
+        </div>
+
+        <div class="quick-info-card">
+          <div class="quick-info-card-title">Project at a glance</div>
+          <div class="quick-info-row">
+            <span class="quick-info-key">Client</span>
+            <span class="quick-info-val">Toko Harmonis Plastik</span>
+          </div>
+          <div class="quick-info-divider"></div>
+          <div class="quick-info-row">
+            <span class="quick-info-key">Type</span>
+            <span class="quick-info-val">Local retail store</span>
+          </div>
+          <div class="quick-info-divider"></div>
+          <div class="quick-info-row">
+            <span class="quick-info-key">Before</span>
+            <span class="quick-info-val">100% manual, pen & paper</span>
+          </div>
+          <div class="quick-info-divider"></div>
+          <div class="quick-info-row">
+            <span class="quick-info-key">Context</span>
+            <span class="quick-info-val">Final Project (real client)</span>
+          </div>
+          <div class="quick-info-divider"></div>
+          <div class="quick-info-row">
+            <span class="quick-info-key">Stack</span>
+            <div class="stack-tags">
+              <span class="stag">Laravel</span>
+              <span class="stag">MySQL</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BEFORE / AFTER -->
+    <div class="content-section fade-in fade-in-delay-1">
+      <p class="content-section-eyebrow">Before & After</p>
+      <h2 class="content-section-title">What actually changed.</h2>
+      <div class="ba-grid">
+        <div class="ba-card before">
+          <div class="ba-card-label">
+            <div class="ba-card-icon">📒</div>
+            Before — Manual Process
+          </div>
+          <ul class="ba-list">
+            <li>Stock tracked in physical notebooks — no validation, no backup, and no way to query historical data without flipping through pages.</li>
+            <li>Daily sales tallied by hand at closing. Any mistake in the count was either caught by the owner or silently carried forward.</li>
+            <li>No audit trail. When stock didn't match receipts, there was no data to investigate — only whoever was present that day.</li>
+            <li>Employee-reported figures were taken at face value. The system had no mechanism to verify what was sold against what was in stock.</li>
+            <li>Restocking decisions were based on eyeballing the shelves, not on any demand data or low-stock alerts.</li>
+          </ul>
+        </div>
+        <div class="ba-card after">
+          <div class="ba-card-label">
+            <div class="ba-card-icon">🖥️</div>
+            After — Digital System
+          </div>
+          <ul class="ba-list">
+            <li>Every stock movement — incoming, outgoing, adjustments — is recorded to the database with a timestamp and the acting user.</li>
+            <li>Transactions are logged at point of sale and cross-referenced against inventory automatically. Discrepancies surface immediately.</li>
+            <li>Full audit trail: the owner can view any transaction, filter by date or product, and compare recorded stock against expected stock at any point in time.</li>
+            <li>Role-based access separates what the owner sees from what employees can do — staff can record sales, but can't edit historical records.</li>
+            <li>Low-stock alerts and inventory reports give the owner real data for restocking decisions instead of guesswork.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- USER ROLES -->
+    <div class="content-section fade-in">
+      <p class="content-section-eyebrow">Who Uses It</p>
+      <h2 class="content-section-title">Three levels of access.</h2>
+      <div class="roles-grid">
+        <div class="role-card">
+          <span class="role-icon">👔</span>
+          <div class="role-name">Owner</div>
+          <div class="role-desc">Full visibility across the business. Views all transactions, runs audit reports, manages products and pricing, and has the only access to historical edit logs.</div>
+          <div class="role-perms">
+            <span class="role-perm">full audit</span>
+            <span class="role-perm">reports</span>
+            <span class="role-perm">manage products</span>
+            <span class="role-perm">user mgmt</span>
+          </div>
+        </div>
+        <div class="role-card">
+          <span class="role-icon">🧾</span>
+          <div class="role-name">Cashier</div>
+          <div class="role-desc">Records sales transactions at the point of purchase. Can view product stock to answer customer questions, but cannot edit inventory directly or access reports.</div>
+          <div class="role-perms">
+            <span class="role-perm">record sales</span>
+            <span class="role-perm">view stock</span>
+            <span class="role-perm">print receipt</span>
+          </div>
+        </div>
+        <div class="role-card">
+          <span class="role-icon">📦</span>
+          <div class="role-name">Warehouse Staff</div>
+          <div class="role-desc">Handles incoming stock from suppliers. Logs restocking entries and updates product quantities when new shipments arrive, with all entries attributed to their account.</div>
+          <div class="role-perms">
+            <span class="role-perm">log restock</span>
+            <span class="role-perm">update stock</span>
+            <span class="role-perm">view inventory</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEATURES -->
+    <div class="content-section fade-in fade-in-delay-1">
+      <p class="content-section-eyebrow">Features</p>
+      <h2 class="content-section-title">What the system covers.</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📦</div>
+          <div class="feature-title">Inventory Management</div>
+          <div class="feature-desc">Full product catalog with stock levels, unit pricing, and category organization. Every product has a real-time stock count that updates on every transaction.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🧾</div>
+          <div class="feature-title">Transaction Recording</div>
+          <div class="feature-desc">Sales and restocking transactions are logged with timestamps, quantities, and the acting user. Every number in the system traces back to a specific human action.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔍</div>
+          <div class="feature-title">Audit & Discrepancy Reports</div>
+          <div class="feature-desc">The owner can run stock audits comparing expected inventory against recorded sales. Discrepancies are flagged automatically — the core feature that closes the fraud gap.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔔</div>
+          <div class="feature-title">Low-Stock Alerts</div>
+          <div class="feature-desc">Products that fall below a set threshold are flagged for restocking. No more discovering an item is out of stock when a customer asks for it.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <div class="feature-title">Sales Reports</div>
+          <div class="feature-desc">Daily, weekly, and monthly sales summaries give the owner a data-based view of the business — revenue by product, transaction volume, and peak periods.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔐</div>
+          <div class="feature-title">Role-Based Access</div>
+          <div class="feature-desc">Each account type has clearly scoped permissions. Cashiers can't edit stock. Warehouse staff can't delete transactions. The owner sees everything.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- IMPACT -->
+    <div class="content-section fade-in">
+      <p class="content-section-eyebrow">Impact</p>
+      <h2 class="content-section-title">What the system closes.</h2>
+      <div class="impact-grid">
+        <div class="impact-card">
+          <div class="impact-num">0</div>
+          <div class="impact-label">Manual notebooks still in use for stock tracking</div>
+          <div class="impact-sub">fully replaced</div>
+        </div>
+        <div class="impact-card">
+          <div class="impact-num">3×</div>
+          <div class="impact-label">User roles with scoped permissions, replacing single shared access</div>
+          <div class="impact-sub">owner · cashier · warehouse</div>
+        </div>
+        <div class="impact-card">
+          <div class="impact-num">100%</div>
+          <div class="impact-label">Transactions with audit trail — every entry attributed to a user</div>
+          <div class="impact-sub">no anonymous changes</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GALLERY -->
+    <div class="content-section fade-in fade-in-delay-1">
+      <p class="content-section-eyebrow">Gallery</p>
+      <h2 class="content-section-title">Screenshots.</h2>
+      <div class="gallery-grid">
+
+        <div class="gallery-item wide">
+          <img src="image/harmonisplastik-homepage.png" alt="Homepage" />
+          <div class="gallery-placeholder" style="background: linear-gradient(135deg, #060b08 0%, #0a1a0d 50%, #070d09 100%);">
+            <span class="gp-icon">📊</span>
+            <span class="gp-title" style="color:#86efac;">Owner Dashboard</span>
+            <span class="gp-label" style="color:#86efac;">replace with screenshot</span>
+          </div>
+          <div class="gallery-caption">Beranda Website Harmonis Plastik</div>
+        </div>
+
+        <div class="gallery-item">
+          <img src="image/harmonisplastik-product.png" alt="Product" />
+          <div class="gallery-placeholder" style="background: linear-gradient(160deg, #070c09 0%, #0e1a10 100%);">
+            <span class="gp-icon">📦</span>
+            <span class="gp-title" style="color:#4ade80;">Inventory List</span>
+            <span class="gp-label" style="color:#4ade80;">replace with screenshot</span>
+          </div>
+          <div class="gallery-caption">Halaman Produk</div>
+        </div>
+
+        <div class="gallery-item">
+          <img src="image/harmonisplastik-admin-dashboard.png" alt="Dashboard Admin" />
+          <div class="gallery-placeholder" style="background: linear-gradient(160deg, #060b07 0%, #0c1710 100%);">
+            <span class="gp-icon">🧾</span>
+            <span class="gp-title" style="color:#a7f3d0;">Transaction Log</span>
+            <span class="gp-label" style="color:#a7f3d0;">replace with screenshot</span>
+          </div>
+          <div class="gallery-caption">Dashboard Admin</div>
+        </div>
+
+        <div class="gallery-item">
+          <img src="image/harmonisplastik-admin-pesanan.png" alt="Dashboard Pesanan" />
+          <div class="gallery-placeholder" style="background: linear-gradient(160deg, #080d09 0%, #111e13 100%);">
+            <span class="gp-icon">🔍</span>
+            <span class="gp-title" style="color:#6ee7b7;">Audit Report</span>
+            <span class="gp-label" style="color:#6ee7b7;">replace with screenshot</span>
+          </div>
+          <div class="gallery-caption">Halaman Pesanan di Dashboard Admin</div>
+        </div>
+
+        <div class="gallery-item">
+          <img src="image/harmonisplastik-admin-product.png" alt="Dashboard Product" />
+          <div class="gallery-placeholder" style="background: linear-gradient(160deg, #070c08 0%, #0f1a11 100%);">
+            <span class="gp-icon">🛒</span>
+            <span class="gp-title" style="color:#d1fae5;">Cashier View</span>
+            <span class="gp-label" style="color:#d1fae5;">replace with screenshot</span>
+          </div>
+          <div class="gallery-caption">Halaman Produk di Dashboard Admin</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TECH STACK -->
+    <div class="content-section fade-in">
+      <p class="content-section-eyebrow">Tech Stack</p>
+      <h2 class="content-section-title">Built with.</h2>
+      <div class="tech-stack-grid">
+        <div class="tech-group">
+          <div class="tech-group-label">Backend</div>
+          <div class="tech-tags">
+            <span class="tech-tag">Laravel</span>
+            <span class="tech-tag">PHP</span>
+            <span class="tech-tag">Blade Templates</span>
+            <span class="tech-tag">Eloquent ORM</span>
+          </div>
+        </div>
+        <div class="tech-group">
+          <div class="tech-group-label">Database</div>
+          <div class="tech-tags">
+            <span class="tech-tag">MySQL</span>
+            <span class="tech-tag">Relational schema</span>
+            <span class="tech-tag">Soft deletes</span>
+          </div>
+        </div>
+        <div class="tech-group">
+          <div class="tech-group-label">Frontend</div>
+          <div class="tech-tags">
+            <span class="tech-tag">Blade</span>
+            <span class="tech-tag">HTML / CSS</span>
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">Tailwind</span>
+          </div>
+        </div>
+        <div class="tech-group">
+          <div class="tech-group-label">Architecture</div>
+          <div class="tech-tags">
+            <span class="tech-tag">Role-based auth</span>
+            <span class="tech-tag">Audit logging</span>
+            <span class="tech-tag">Git / GitHub</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p class="footer-left">Bryan Siagian <span>·</span> Institut Teknologi Del <span>·</span> <span id="year"></span></p>
+    <div class="footer-right">
+      <a href="index.html">← Back to Portfolio</a>
+      <a href="index.html#projects">All Projects</a>
+      <a href="mailto:bryantorisi@gmail.com">Email</a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+    });
+    function animRing() {
+      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animRing);
+    }
+    animRing();
+    document.querySelectorAll('a, button, .gallery-item, .feature-card, .role-card, .ba-card, .impact-card').forEach(el => {
+      el.addEventListener('mouseenter', () => { dot.classList.add('hover'); ring.classList.add('hover'); });
+      el.addEventListener('mouseleave', () => { dot.classList.remove('hover'); ring.classList.remove('hover'); });
+    });
+
+    const progressBar = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+      const st = window.scrollY;
+      const dh = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.width = (st / dh * 100) + '%';
+    }, { passive: true });
+
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const fadeObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          fadeObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    fadeEls.forEach(el => fadeObserver.observe(el));
+  </script>
+</body>
+</html>

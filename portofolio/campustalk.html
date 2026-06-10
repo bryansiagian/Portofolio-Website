@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CampusTalk — Bryan Siagian</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --bg-subtle: #f8fafc;
+      --bg-card: #ffffff;
+      --text-primary: #0a0f1e;
+      --text-secondary: #4a5568;
+      --text-muted: #94a3b8;
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
+      --accent-light: #eef2ff;
+      --accent-border: #c7d2fe;
+      --border: #e8ecf0;
+      --border-strong: #d1d9e0;
+      --green: #10b981;
+      /* CampusTalk: warm amber-orange — community, conversation, campus energy */
+      --ct-primary: #f97316;
+      --ct-secondary: #fbbf24;
+      --ct-dark: #431407;
+      --sans: 'Space Grotesk', sans-serif;
+      --body: 'Inter', sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--body);
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      cursor: none;
+    }
+    a, button { cursor: none; }
+
+    /* CURSOR */
+    .cursor-dot {
+      width: 8px; height: 8px; background: var(--ct-primary); border-radius: 50%;
+      position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s, width 0.2s, height 0.2s;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px; border: 1.5px solid var(--ct-primary); border-radius: 50%;
+      position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.12s ease, width 0.25s, height 0.25s;
+      opacity: 0.6;
+    }
+    .cursor-dot.hover { width: 12px; height: 12px; }
+    .cursor-ring.hover { width: 52px; height: 52px; opacity: 0.3; }
+
+    /* SCROLL PROGRESS */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; width: 0%; height: 2px;
+      background: linear-gradient(90deg, var(--ct-primary), var(--ct-secondary), #fb923c);
+      z-index: 200; transition: width 0.05s linear;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 0 2.5rem; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    nav.scrolled {
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 var(--border);
+    }
+    .nav-logo {
+      font-family: var(--mono); font-size: 15px; font-weight: 600;
+      color: var(--text-primary); text-decoration: none;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .nav-logo .logo-bracket { color: var(--accent); }
+    .nav-back {
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--body); font-size: 13.5px;
+      color: var(--text-secondary); text-decoration: none;
+      padding: 0.4rem 1rem; border-radius: 6px;
+      border: 1px solid var(--border);
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .nav-back:hover { color: var(--accent); border-color: var(--accent-border); background: var(--accent-light); }
+    .nav-back svg { width: 14px; height: 14px; }
+
+    /* ============================================================
+       HERO — Deep charcoal, warm orange glow, chat bubble motif
+       ============================================================ */
+    .project-hero {
+      padding-top: 64px; min-height: 58vh;
+      display: flex; align-items: flex-end;
+      position: relative; overflow: hidden;
+      background: #0c0a07;
+    }
+
+    /* Warm dot grid — like a noticeboard */
+    .hero-dots {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image: radial-gradient(circle, rgba(249,115,22,0.1) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: radial-gradient(ellipse 90% 75% at 50% 30%, black, transparent);
+    }
+
+    /* Floating chat bubbles — signature element */
+    .hero-bubbles {
+      position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+    }
+    .bubble {
+      position: absolute;
+      background: rgba(249,115,22,0.07);
+      border: 1px solid rgba(249,115,22,0.12);
+      border-radius: 18px;
+      font-family: var(--mono); font-size: 11px;
+      color: rgba(249,115,22,0.35);
+      padding: 8px 14px;
+      white-space: nowrap;
+      animation: bubbleFloat 20s ease-in-out infinite;
+    }
+    .bubble::after {
+      content: '';
+      position: absolute; bottom: -6px; left: 14px;
+      width: 10px; height: 10px;
+      background: rgba(249,115,22,0.07);
+      border-right: 1px solid rgba(249,115,22,0.12);
+      border-bottom: 1px solid rgba(249,115,22,0.12);
+      transform: rotate(45deg);
+    }
+    .bubble.right::after { left: auto; right: 14px; }
+    .bubble:nth-child(2) { animation-delay: -5s; animation-duration: 25s; }
+    .bubble:nth-child(3) { animation-delay: -10s; animation-duration: 18s; }
+    .bubble:nth-child(4) { animation-delay: -15s; animation-duration: 22s; }
+    .bubble:nth-child(5) { animation-delay: -3s; animation-duration: 28s; }
+    .bubble:nth-child(6) { animation-delay: -8s; animation-duration: 16s; }
+    @keyframes bubbleFloat {
+      0%, 100% { transform: translateY(0); opacity: 0.8; }
+      40% { transform: translateY(-12px); opacity: 1; }
+      70% { transform: translateY(6px); opacity: 0.6; }
+    }
+
+    .hero-glow {
+      position: absolute; width: 800px; height: 500px;
+      background: radial-gradient(ellipse, rgba(249,115,22,0.09) 0%, rgba(251,191,36,0.05) 50%, transparent 70%);
+      top: -5%; left: 45%; transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .project-hero-inner {
+      max-width: 1120px; margin: 0 auto;
+      padding: 4rem 2.5rem 3.5rem;
+      width: 100%; position: relative; z-index: 1;
+    }
+
+    .hero-breadcrumb {
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--mono); font-size: 11.5px;
+      color: #3d444d; margin-bottom: 1.75rem;
+    }
+    .hero-breadcrumb a { color: #3d444d; text-decoration: none; transition: color 0.2s; }
+    .hero-breadcrumb a:hover { color: var(--ct-primary); }
+    .hero-breadcrumb .sep { color: #21262d; }
+    .hero-breadcrumb .current { color: #6e7681; }
+
+    .hero-type-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--mono); font-size: 10.5px; font-weight: 500;
+      color: #fdba74; background: rgba(249,115,22,0.1);
+      border: 1px solid rgba(249,115,22,0.2);
+      padding: 4px 12px; border-radius: 100px;
+      letter-spacing: 0.05em; margin-bottom: 1.25rem;
+    }
+    .hero-platform-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--mono); font-size: 10.5px; font-weight: 500;
+      color: #a5b4fc; background: rgba(165,180,252,0.1);
+      border: 1px solid rgba(165,180,252,0.2);
+      padding: 4px 12px; border-radius: 100px;
+      letter-spacing: 0.05em; margin-bottom: 1.25rem; margin-left: 8px;
+    }
+
+    .project-hero h1 {
+      font-family: var(--sans);
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 700; letter-spacing: -0.03em;
+      color: #e6edf3; line-height: 1.1; margin-bottom: 1rem;
+    }
+    .project-hero h1 .accent { color: var(--ct-primary); }
+
+    .project-hero .hero-tagline {
+      font-size: 1.05rem; color: #8b949e;
+      line-height: 1.75; max-width: 600px; margin-bottom: 0;
+    }
+
+    .hero-links-row { display: flex; gap: 0.875rem; margin-top: 1.75rem; }
+    .btn-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--body); font-size: 13.5px; font-weight: 500;
+      padding: 0.6rem 1.25rem; border-radius: 9px;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .btn-link svg { width: 14px; height: 14px; }
+    .btn-link.primary { background: var(--ct-primary); color: #fff; border: 1px solid var(--ct-primary); }
+    .btn-link.primary:hover { background: #ea6a0c; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(249,115,22,0.3); }
+    .btn-link.outline { background: transparent; color: #8b949e; border: 1px solid rgba(255,255,255,0.1); }
+    .btn-link.outline:hover { border-color: rgba(249,115,22,0.4); color: #c9d1d9; }
+
+    .hero-meta-row {
+      display: flex; flex-wrap: wrap; gap: 2.25rem;
+      padding-top: 2rem; margin-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .hero-meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .hero-meta-label { font-family: var(--mono); font-size: 10.5px; color: #3d444d; text-transform: uppercase; letter-spacing: 0.1em; }
+    .hero-meta-value { font-size: 14px; font-weight: 500; color: #c9d1d9; }
+
+    /* ============================================================
+       BODY
+       ============================================================ */
+    .project-body { max-width: 1120px; margin: 0 auto; padding: 4rem 2.5rem 5rem; }
+    .content-section { margin-bottom: 4rem; }
+
+    .content-section-eyebrow {
+      font-family: var(--mono); font-size: 11px; color: var(--accent);
+      letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.75rem;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .content-section-eyebrow::after { content: ''; flex: 1; max-width: 40px; height: 1px; background: var(--accent-border); }
+    .content-section-title {
+      font-family: var(--sans);
+      font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+      font-weight: 700; letter-spacing: -0.02em;
+      color: var(--text-primary); margin-bottom: 1.25rem;
+    }
+    .content-prose p {
+      font-size: 15px; color: var(--text-secondary);
+      line-height: 1.85; margin-bottom: 1rem;
+    }
+    .content-prose p:last-child { margin-bottom: 0; }
+
+    /* OVERVIEW GRID */
+    .overview-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 3.5rem; align-items: start; }
+
+    /* QUICK INFO CARD */
+    .quick-info-card {
+      background: var(--bg-subtle); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.5rem;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .quick-info-card-title {
+      font-family: var(--mono); font-size: 11px; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.09em;
+      padding-bottom: 0.75rem; border-bottom: 1px solid var(--border);
+    }
+    .quick-info-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+    .quick-info-key { font-size: 12.5px; color: var(--text-muted); white-space: nowrap; padding-top: 2px; }
+    .quick-info-val { font-size: 13px; font-weight: 500; color: var(--text-primary); text-align: right; line-height: 1.5; }
+    .quick-info-divider { height: 1px; background: var(--border); }
+    .stack-tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+    .stag {
+      font-family: var(--mono); font-size: 11px;
+      background: var(--accent-light); color: var(--accent);
+      border: 1px solid var(--accent-border); padding: 3px 9px; border-radius: 5px;
+    }
+
+    /* USER ROLES GRID */
+    .roles-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+    .role-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.5rem 1.25rem;
+      text-align: center;
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+      position: relative; overflow: hidden;
+    }
+    .role-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--ct-primary), var(--ct-secondary));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .role-card:hover::before { transform: scaleX(1); }
+    .role-card:hover { border-color: rgba(249,115,22,0.3); box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .role-icon { font-size: 2rem; margin-bottom: 0.75rem; display: block; }
+    .role-name {
+      font-family: var(--sans); font-size: 14px; font-weight: 600;
+      color: var(--text-primary); margin-bottom: 0.4rem;
+    }
+    .role-desc { font-size: 12.5px; color: var(--text-secondary); line-height: 1.55; }
+    .role-perms {
+      margin-top: 0.875rem; display: flex; flex-wrap: wrap; gap: 5px; justify-content: center;
+    }
+    .role-perm {
+      font-family: var(--mono); font-size: 10px;
+      color: var(--ct-primary); background: rgba(249,115,22,0.07);
+      border: 1px solid rgba(249,115,22,0.15);
+      padding: 2px 8px; border-radius: 4px;
+    }
+
+    /* PROBLEM / SOLUTION */
+    .ps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .ps-card {
+      border-radius: 14px; padding: 1.75rem;
+      border: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .ps-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+    }
+    .ps-card.problem::before { background: linear-gradient(90deg, #ef4444, #f97316); }
+    .ps-card.solution::before { background: linear-gradient(90deg, var(--green), var(--ct-primary)); }
+    .ps-card-label {
+      font-family: var(--mono); font-size: 10.5px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .ps-card.problem .ps-card-label { color: #ef4444; }
+    .ps-card.solution .ps-card-label { color: var(--green); }
+    .ps-card-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+    .ps-card.problem .ps-card-icon { background: rgba(239,68,68,0.1); }
+    .ps-card.solution .ps-card-icon { background: rgba(16,185,129,0.1); }
+    .ps-list { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+    .ps-list li { font-size: 14px; color: var(--text-secondary); line-height: 1.65; padding-left: 1.1rem; position: relative; }
+    .ps-list li::before { content: '▸'; position: absolute; left: 0; font-size: 9px; top: 4px; }
+    .ps-card.problem .ps-list li::before { color: #ef4444; }
+    .ps-card.solution .ps-list li::before { color: var(--green); }
+
+    /* FEATURES GRID */
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .feature-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.5rem;
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+      position: relative; overflow: hidden;
+    }
+    .feature-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--ct-primary), var(--ct-secondary));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .feature-card:hover::before { transform: scaleX(1); }
+    .feature-card:hover { border-color: rgba(249,115,22,0.3); box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .feature-icon {
+      width: 42px; height: 42px;
+      background: rgba(249,115,22,0.08); border: 1px solid rgba(249,115,22,0.15);
+      border-radius: 10px; display: flex; align-items: center;
+      justify-content: center; margin-bottom: 1rem; font-size: 20px;
+    }
+    .feature-title { font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; }
+    .feature-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
+
+    /* GALLERY (HANYA UNTUK MOBILE SCREENSHOT 9:16) */
+    .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+    .gallery-item {
+      border-radius: 12px; overflow: hidden;
+      border: 1px solid var(--border); 
+      aspect-ratio: 9/16;
+      position: relative;
+      transition: transform 0.25s, box-shadow 0.25s;
+      background: var(--bg-subtle);
+    }
+    .gallery-item:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .gallery-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 10px;
+      text-align: center; padding: 1rem;
+    }
+    .gallery-placeholder .gp-icon { font-size: 28px; }
+    .gallery-placeholder .gp-label { font-family: var(--mono); font-size: 10px; opacity: 0.4; text-transform: uppercase; letter-spacing: 0.08em; }
+    .gallery-placeholder .gp-title { font-family: var(--sans); font-size: 13px; font-weight: 600; opacity: 0.7; }
+    .gallery-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.65));
+      padding: 1.5rem 1rem 0.75rem;
+      font-size: 11px; color: rgba(255,255,255,0.8);
+      opacity: 0; transition: opacity 0.25s;
+    }
+    .gallery-item:hover .gallery-caption { opacity: 1; }
+
+    /* TECH STACK BLOCK */
+    .tech-stack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    .tech-group { background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; }
+    .tech-group-label { font-family: var(--mono); font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 0.875rem; }
+    .tech-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tech-tag {
+      font-family: var(--mono); font-size: 11.5px;
+      background: rgba(249,115,22,0.07); color: var(--ct-primary);
+      border: 1px solid rgba(249,115,22,0.2);
+      padding: 4px 10px; border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .tech-tag:hover { background: var(--ct-primary); color: #fff; }
+
+    /* FADE IN */
+    .fade-in { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: flex; align-items: center; justify-content: space-between; }
+    .footer-left { font-family: var(--mono); font-size: 12px; color: var(--text-muted); }
+    .footer-left span { color: var(--accent); }
+    .footer-right { display: flex; gap: 1.5rem; }
+    .footer-right a { font-size: 12px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .footer-right a:hover { color: var(--text-primary); }
+
+    @media (max-width: 900px) {
+      .overview-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .ps-grid { grid-template-columns: 1fr; }
+      .roles-grid { grid-template-columns: repeat(2, 1fr); }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .tech-stack-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      nav { padding: 0 1.25rem; }
+      .project-hero-inner { padding: 3rem 1.25rem 2.5rem; }
+      .project-body { padding: 2.5rem 1.25rem 4rem; }
+      .roles-grid { grid-template-columns: 1fr 1fr; }
+      .features-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; padding: 1.5rem; }
+      .hero-meta-row { gap: 1.5rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cursor-dot, .cursor-ring { display: none; }
+      .bubble { animation: none; }
+      * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- NAV -->
+  <nav id="mainNav">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-bracket">{</span>&nbsp;bryan&nbsp;<span class="logo-bracket">}</span>
+    </a>
+    <a href="index.html#projects" class="nav-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      All Projects
+    </a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="project-hero">
+    <div class="hero-dots"></div>
+
+    <!-- Floating chat bubbles — signature element -->
+    <div class="hero-bubbles">
+      <div class="bubble" style="left:5%;top:22%;">Hei, ada rapat BEM jam 3 sore!</div>
+      <div class="bubble right" style="left:62%;top:16%;">Siap, nanti ketemu di aula.</div>
+      <div class="bubble" style="left:8%;top:58%;">Nilai UTS sudah keluar di SIAT</div>
+      <div class="bubble right" style="left:55%;top:65%;">Tugas PA dikumpul besok ya</div>
+      <div class="bubble" style="left:28%;top:80%;">Ada lowongan asisten lab tidak?</div>
+      <div class="bubble right" style="left:70%;top:44%;">Pengumuman wisuda sudah ada</div>
+    </div>
+
+    <div class="hero-glow"></div>
+
+    <div class="project-hero-inner">
+      <div class="hero-breadcrumb">
+        <a href="index.html">bryan</a>
+        <span class="sep">/</span>
+        <a href="index.html#projects">projects</a>
+        <span class="sep">/</span>
+        <span class="current">campustalk</span>
+      </div>
+
+      <div>
+        <span class="hero-type-badge">Social Platform · Campus</span>
+        <span class="hero-platform-badge">Mobile App</span>
+      </div>
+
+      <h1>CampusTalk — <span class="accent">IT Del</span> Social Platform</h1>
+      <p class="hero-tagline">
+        A campus-only social platform built for the entire IT Del community — students, teaching assistants, lecturers, and staff. One place for announcements, discussions, and internal communication that actually reaches everyone.
+      </p>
+
+      <div class="hero-links-row">
+        <a href="https://github.com/bryansiagian/CampusTalk" target="_blank" rel="noopener" class="btn-link primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+          View on GitHub
+        </a>
+        <a href="#" class="btn-link outline">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          See Demo
+        </a>
+      </div>
+
+      <div class="hero-meta-row">
+        <div class="hero-meta-item">
+          <div class="hero-meta-label">Context</div>
+          <div class="hero-meta-value">Academic Project</div>
+        </div>
+        <div class="hero-meta-item">
+          <div class="hero-meta-label">Users</div>
+          <div class="hero-meta-value">IT Del Community</div>
+        </div>
+        <div class="hero-meta-item">
+          <div class="hero-meta-label">Platform</div>
+          <div class="hero-meta-value">Mobile App</div>
+        </div>
+        <div class="hero-meta-item">
+          <div class="hero-meta-label">Roles</div>
+          <div class="hero-meta-value">4 user types</div>
+        </div>
+        <div class="hero-meta-item">
+          <div class="hero-meta-label">Stack</div>
+          <div class="hero-meta-value">Flutter · Laravel · PostgreSQL</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BODY -->
+  <div class="project-body">
+
+    <!-- OVERVIEW -->
+    <div class="content-section fade-in">
+      <div class="overview-grid">
+        <div>
+          <p class="content-section-eyebrow">Overview</p>
+          <h2 class="content-section-title">What is CampusTalk?</h2>
+          <div class="content-prose">
+            <p>
+              CampusTalk is a closed social platform built exclusively for the Institut Teknologi Del community. The idea came from a recurring problem: important campus communications — announcements from student affairs, class updates from lecturers, peer discussions among students — were scattered across WhatsApp groups, email threads, and notice boards, with no single place that everyone actually checked.
+            </p>
+            <p>
+              The platform brings together students, teaching assistants, lecturers, and administrative staff under one roof, each with access controls appropriate to their role. Students can post, reply, and follow threads. Lecturers and TAs can push announcements to their classes. Student affairs can broadcast campus-wide notices that don't get buried in a 500-person WhatsApp group.
+            </p>
+            <p>
+              Under the hood, a Flutter mobile app connects to a Laravel REST API with a PostgreSQL backend — chosen for its relational integrity on a data model with multiple user types, permissions, and thread relationships. All features, from student discussions to admin broadcasts, are handled entirely within the mobile experience.
+            </p>
+          </div>
+        </div>
+
+        <div class="quick-info-card">
+          <div class="quick-info-card-title">Project at a glance</div>
+          <div class="quick-info-row">
+            <span class="quick-info-key">Institution</span>
+            <span class="quick-info-val">Institut Teknologi Del</span>
+          </div>
+          <div class="quick-info-divider"></div>
+          <div class="quick-info-row">
+            <span class="quick-info-key">Access</span>
+            <span class="quick-info-val">IT Del community only</span>
+          </div>
+          <div class="quick-info-divider"></div>
+          <div class="quick-info-row">
+            <span class="quick-info-key">User roles</span>
+            <span class="quick-info-val">Student · TA · Lecturer · Staff</span>
+          </div>
+          <div class="quick-info-divider"></div>
+          <div class="quick-info-row">
+            <span class="quick-info-key">Type</span>
+            <span class="quick-info-val">Academic Project</span>
+          </div>
+          <div class="quick-info-divider"></div>
+          <div class="quick-info-row">
+            <span class="quick-info-key">Stack</span>
+            <div class="stack-tags">
+              <span class="stag">Flutter</span>
+              <span class="stag">Laravel</span>
+              <span class="stag">PostgreSQL</span>
+              <span class="stag">REST API</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- USER ROLES -->
+    <div class="content-section fade-in fade-in-delay-1">
+      <p class="content-section-eyebrow">Who Uses It</p>
+      <h2 class="content-section-title">Built for the whole campus.</h2>
+      <div class="roles-grid">
+        <div class="role-card">
+          <span class="role-icon">🎓</span>
+          <div class="role-name">Students</div>
+          <div class="role-desc">The core audience. Post threads, reply to discussions, follow topics, and receive announcements from lecturers and staff.</div>
+          <div class="role-perms">
+            <span class="role-perm">post</span>
+            <span class="role-perm">reply</span>
+            <span class="role-perm">follow</span>
+            <span class="role-perm">receive notif</span>
+          </div>
+        </div>
+        <div class="role-card">
+          <span class="role-icon">🧑‍🏫</span>
+          <div class="role-name">Teaching Assistants</div>
+          <div class="role-desc">Manage lab and tutorial communications, push class-specific updates, and moderate student threads within their courses.</div>
+          <div class="role-perms">
+            <span class="role-perm">announce</span>
+            <span class="role-perm">moderate</span>
+            <span class="role-perm">manage class</span>
+          </div>
+        </div>
+        <div class="role-card">
+          <span class="role-icon">👨‍💼</span>
+          <div class="role-name">Lecturers</div>
+          <div class="role-desc">Push course announcements directly to enrolled students, pin important posts, and keep class communication within the platform.</div>
+          <div class="role-perms">
+            <span class="role-perm">announce</span>
+            <span class="role-perm">pin post</span>
+            <span class="role-perm">course admin</span>
+          </div>
+        </div>
+        <div class="role-card">
+          <span class="role-icon">🏛️</span>
+          <div class="role-name">Staff / Admin</div>
+          <div class="role-desc">Student affairs and administrative staff can broadcast campus-wide notices, manage user access, and oversee platform health.</div>
+          <div class="role-perms">
+            <span class="role-perm">broadcast</span>
+            <span class="role-perm">user mgmt</span>
+            <span class="role-perm">full admin</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROBLEM & SOLUTION -->
+    <div class="content-section fade-in">
+      <p class="content-section-eyebrow">Problem & Solution</p>
+      <h2 class="content-section-title">The communication gap CampusTalk closes.</h2>
+      <div class="ps-grid">
+        <div class="ps-card problem">
+          <div class="ps-card-label">
+            <div class="ps-card-icon">⚠️</div>
+            The Problem
+          </div>
+          <ul class="ps-list">
+            <li>Campus communication is fragmented across WhatsApp groups, email, and physical notice boards. Critical announcements get buried or missed entirely.</li>
+            <li>WhatsApp groups have no structure — a 500-person class group mixes urgent notices with memes and off-topic chatter, making it unreliable for official communication.</li>
+            <li>There's no persistent record. Once a message scrolls out of a WhatsApp group, it's effectively gone. Students can't reference old announcements or decisions.</li>
+            <li>No role-based access anywhere. A student can't send a broadcast to their class, but a lecturer can't limit who replies to their announcements either.</li>
+          </ul>
+        </div>
+        <div class="ps-card solution">
+          <div class="ps-card-label">
+            <div class="ps-card-icon">✦</div>
+            Our Approach
+          </div>
+          <ul class="ps-list">
+            <li>Built a role-aware platform where every user has permissions matching their position — students engage, TAs moderate, lecturers announce, staff broadcast.</li>
+            <li>Threaded discussions keep conversations organized by topic. Replies nest under the original post, and pins surface the most important content.</li>
+            <li>All posts are persistent and searchable. An announcement from three months ago is one search away — no more asking "did anyone screenshot that?"</li>
+            <li>REST API backend cleanly separates data from presentation, serving the Flutter mobile app seamlessly from a single, reliable source of truth.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEATURES -->
+    <div class="content-section fade-in fade-in-delay-1">
+      <p class="content-section-eyebrow">Features</p>
+      <h2 class="content-section-title">What the platform does.</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📣</div>
+          <div class="feature-title">Role-Based Announcements</div>
+          <div class="feature-desc">Lecturers and staff can push announcements scoped to a specific class, department, or the entire campus. Students see only what's relevant to them.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💬</div>
+          <div class="feature-title">Threaded Discussions</div>
+          <div class="feature-desc">Posts spawn organized reply threads. Students can ask follow-up questions, TAs can answer, and the whole conversation stays in context — not scattered across replies.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📌</div>
+          <div class="feature-title">Pinned Posts</div>
+          <div class="feature-desc">Lecturers and staff can pin important announcements so they stay visible at the top of the feed, regardless of how much new content comes in.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔔</div>
+          <div class="feature-title">Push Notifications</div>
+          <div class="feature-desc">Users get notified when there's a new announcement in their scope, a reply to their thread, or a campus-wide broadcast from student affairs.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔐</div>
+          <div class="feature-title">Campus-Only Access</div>
+          <div class="feature-desc">Authentication is scoped to IT Del. Only verified campus community members can join, keeping the platform closed, trusted, and free of external noise.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔎</div>
+          <div class="feature-title">Persistent Search</div>
+          <div class="feature-desc">Every post, announcement, and discussion is stored and searchable. No more asking a friend to resend something that was posted months ago.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GALLERY (HANYA UNTUK MOBILE SCREENSHOT) -->
+    <div class="content-section fade-in">
+      <p class="content-section-eyebrow">Gallery</p>
+      <h2 class="content-section-title">Screenshots.</h2>
+      <div class="gallery-grid">
+
+        <div class="gallery-item">
+          <!-- Replace with: <img src="screenshots/campustalk-home.png" alt="Mobile Home" /> -->
+          <div class="gallery-placeholder" style="background: linear-gradient(160deg, #110e08 0%, #1c1208 100%);">
+            <span class="gp-icon">📱</span>
+            <span class="gp-title" style="color:#fb923c;">Home Feed</span>
+            <span class="gp-label" style="color:#fb923c;">replace with screenshot</span>
+          </div>
+          <div class="gallery-caption">Announcements and discussions scoped to user's role</div>
+        </div>
+
+        <div class="gallery-item">
+          <!-- Replace with: <img src="screenshots/campustalk-thread.png" alt="Thread View" /> -->
+          <div class="gallery-placeholder" style="background: linear-gradient(160deg, #0e0b06 0%, #181108 100%);">
+            <span class="gp-icon">💬</span>
+            <span class="gp-title" style="color:#fcd34d;">Thread View</span>
+            <span class="gp-label" style="color:#fcd34d;">replace with screenshot</span>
+          </div>
+          <div class="gallery-caption">Threaded discussion with nested replies</div>
+        </div>
+
+        <div class="gallery-item">
+          <!-- Replace with: <img src="screenshots/campustalk-announce.png" alt="Announce" /> -->
+          <div class="gallery-placeholder" style="background: linear-gradient(160deg, #0c0a05 0%, #160f06 100%);">
+            <span class="gp-icon">📣</span>
+            <span class="gp-title" style="color:#fda4af;">Compose Flow</span>
+            <span class="gp-label" style="color:#fda4af;">replace with screenshot</span>
+          </div>
+          <div class="gallery-caption">Creating a role-scoped announcement</div>
+        </div>
+
+        <div class="gallery-item">
+          <!-- Replace with: <img src="screenshots/campustalk-admin.png" alt="Staff Tools" /> -->
+          <div class="gallery-placeholder" style="background: linear-gradient(160deg, #0d0b06 0%, #191208 100%);">
+            <span class="gp-icon">🔔</span>
+            <span class="gp-title" style="color:#a5b4fc;">Notifications & Alerts</span>
+            <span class="gp-label" style="color:#a5b4fc;">replace with screenshot</span>
+          </div>
+          <div class="gallery-caption">Push alerts and targeted campus broadcasts</div>
+        </div>
+
+      </div>
+      <p style="font-family:var(--mono);font-size:11px;color:var(--text-muted);margin-top:1rem;">
+        // Replace placeholder divs with &lt;img&gt; tags pointing to your actual screenshots
+      </p>
+    </div>
+
+    <!-- TECH STACK -->
+    <div class="content-section fade-in fade-in-delay-1">
+      <p class="content-section-eyebrow">Tech Stack</p>
+      <h2 class="content-section-title">Built with.</h2>
+      <div class="tech-stack-grid">
+        <div class="tech-group">
+          <div class="tech-group-label">Mobile Frontend</div>
+          <div class="tech-tags">
+            <span class="tech-tag">Flutter</span>
+            <span class="tech-tag">Dart</span>
+            <span class="tech-tag">Provider / Riverpod</span>
+          </div>
+        </div>
+        <div class="tech-group">
+          <div class="tech-group-label">Backend API</div>
+          <div class="tech-tags">
+            <span class="tech-tag">Laravel</span>
+            <span class="tech-tag">PHP</span>
+            <span class="tech-tag">REST API</span>
+          </div>
+        </div>
+        <div class="tech-group">
+          <div class="tech-group-label">Database</div>
+          <div class="tech-tags">
+            <span class="tech-tag">PostgreSQL</span>
+            <span class="tech-tag">Relational Design</span>
+            <span class="tech-tag">Eloquent ORM</span>
+          </div>
+        </div>
+        <div class="tech-group">
+          <div class="tech-group-label">Architecture & Scope</div>
+          <div class="tech-tags">
+            <span class="tech-tag">Role-based Access Control</span>
+            <span class="tech-tag">Push Notifications</span>
+            <span class="tech-tag">Git / GitHub</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p class="footer-left">Bryan Siagian <span>·</span> Institut Teknologi Del <span>·</span> <span id="year"></span></p>
+    <div class="footer-right">
+      <a href="index.html">← Back to Portfolio</a>
+      <a href="index.html#projects">All Projects</a>
+      <a href="mailto:bryantorisi@gmail.com">Email</a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+    });
+    function animRing() {
+      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animRing);
+    }
+    animRing();
+    document.querySelectorAll('a, button, .gallery-item, .feature-card, .role-card, .ps-card').forEach(el => {
+      el.addEventListener('mouseenter', () => { dot.classList.add('hover'); ring.classList.add('hover'); });
+      el.addEventListener('mouseleave', () => { dot.classList.remove('hover'); ring.classList.remove('hover'); });
+    });
+
+    const progressBar = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+      const st = window.scrollY;
+      const dh = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.width = (st / dh * 100) + '%';
+    }, { passive: true });
+
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const fadeObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          fadeObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    fadeEls.forEach(el => fadeObserver.observe(el));
+  </script>
+</body>
+</html>
