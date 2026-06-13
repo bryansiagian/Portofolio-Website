@@ -26,41 +26,37 @@
       --border-strong: #d1d9e0;
       --green: #10b981;
       --orange: #f59e0b;
-      
-      /* ALIN-specific: deep teal-navy for math feel */
       --alin-primary: #0ea5e9;
       --alin-secondary: #6366f1;
       --alin-glow: rgba(14,165,233,0.15);
-      
       --sans: 'Space Grotesk', sans-serif;
       --body: 'Inter', sans-serif;
       --mono: 'JetBrains Mono', monospace;
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
       --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
       --shadow-lg: 0 12px 40px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.06);
-
-      /* Transparan untuk nav */
       --nav-bg: rgba(255, 255, 255, 0.92);
     }
 
-    /* Palet Dark Mode */
     [data-theme="dark"] {
-      --bg: #0f172a; 
-      --bg-subtle: #1e293b; 
-      --bg-dark: #020617; 
-      --bg-card: #1e293b; 
-      --text-primary: #f8fafc; 
+      --bg: #0f172a;
+      --bg-subtle: #1e293b;
+      --bg-dark: #020617;
+      --bg-card: #1e293b;
+      --text-primary: #f8fafc;
       --text-secondary: #cbd5e1;
       --text-muted: #94a3b8;
       --border: #334155;
       --border-strong: #475569;
-      
       --nav-bg: rgba(15, 23, 42, 0.92);
-      
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
       --shadow-md: 0 4px 16px rgba(0,0,0,0.5), 0 2px 6px rgba(0,0,0,0.3);
       --shadow-lg: 0 12px 40px rgba(0,0,0,0.6), 0 4px 12px rgba(0,0,0,0.4);
     }
+
+    /* MULTI-LANGUAGE TOGGLE LOGIC (CSS BASED) */
+    :root:lang(en) [lang="id"] { display: none !important; }
+    :root:lang(id) [lang="en"] { display: none !important; }
 
     html { scroll-behavior: smooth; }
     body {
@@ -75,7 +71,6 @@
     }
     a, button { cursor: none; }
 
-    /* CURSOR */
     .cursor-dot {
       width: 8px; height: 8px; background: var(--alin-primary); border-radius: 50%;
       position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
@@ -92,14 +87,12 @@
     .cursor-dot.hover { width: 12px; height: 12px; }
     .cursor-ring.hover { width: 52px; height: 52px; opacity: 0.3; }
 
-    /* SCROLL PROGRESS */
     .scroll-progress {
       position: fixed; top: 0; left: 0; width: 0%; height: 2px;
       background: linear-gradient(90deg, var(--alin-primary), var(--alin-secondary), #06b6d4);
       z-index: 200; transition: width 0.05s linear;
     }
 
-    /* NAV */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       padding: 0 2.5rem; height: 64px;
@@ -117,22 +110,23 @@
       display: flex; align-items: center; gap: 6px;
     }
     .nav-logo .logo-bracket { color: var(--accent); }
-    
-    .nav-right-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .theme-toggle {
+
+    .nav-right-actions { display: flex; align-items: center; gap: 0.75rem; }
+
+    .theme-toggle, .lang-toggle {
       background: transparent; border: none; color: var(--text-primary);
       cursor: none; display: flex; align-items: center; justify-content: center;
       padding: 0.5rem; border-radius: 50%;
       transition: color 0.2s, transform 0.2s, background 0.2s;
     }
-    .theme-toggle:hover {
+    .theme-toggle:hover, .lang-toggle:hover {
       color: var(--alin-primary); background: var(--bg-subtle); transform: scale(1.05);
     }
     .theme-toggle svg { width: 18px; height: 18px; }
+    .lang-toggle {
+      font-family: var(--mono); font-size: 13px; font-weight: 600;
+      letter-spacing: 0.05em; border-radius: 8px; padding: 0.4rem 0.6rem;
+    }
 
     .nav-back {
       display: flex; align-items: center; gap: 8px;
@@ -145,16 +139,12 @@
     .nav-back:hover { color: var(--alin-primary); border-color: rgba(14,165,233,0.3); background: rgba(14,165,233,0.05); }
     .nav-back svg { width: 14px; height: 14px; }
 
-    /* ============================================================
-       HERO — Math blackboard aesthetic
-       ============================================================ */
     .project-hero {
       padding-top: 64px; min-height: 58vh;
       display: flex; align-items: flex-end;
       position: relative; overflow: hidden;
       background: #050d18;
     }
-
     .hero-grid-paper {
       position: absolute; inset: 0; pointer-events: none;
       background-image:
@@ -163,16 +153,12 @@
       background-size: 40px 40px;
       mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, black, transparent);
     }
-
     .hero-math-symbols {
-      position: absolute; inset: 0; pointer-events: none; overflow: hidden;
-      user-select: none;
+      position: absolute; inset: 0; pointer-events: none; overflow: hidden; user-select: none;
     }
     .math-sym {
-      position: absolute;
-      font-family: 'Georgia', serif;
-      color: rgba(14,165,233,0.12);
-      line-height: 1;
+      position: absolute; font-family: 'Georgia', serif;
+      color: rgba(14,165,233,0.12); line-height: 1;
       animation: floatSym 18s ease-in-out infinite;
     }
     .math-sym:nth-child(2) { animation-delay: -4s; animation-duration: 22s; }
@@ -187,27 +173,23 @@
       33% { transform: translateY(-14px) rotate(1deg); opacity: 1; }
       66% { transform: translateY(8px) rotate(-1deg); opacity: 0.5; }
     }
-
     .hero-matrix-deco {
       position: absolute; right: 8%; top: 50%; transform: translateY(-50%);
       pointer-events: none; opacity: 0.06;
       font-family: var(--mono); font-size: 13px; line-height: 1.85;
       color: #0ea5e9; white-space: pre;
     }
-
     .hero-glow {
       position: absolute; width: 700px; height: 400px;
       background: radial-gradient(ellipse, rgba(14,165,233,0.1) 0%, rgba(99,102,241,0.06) 50%, transparent 70%);
       top: 0%; left: 40%; transform: translateX(-50%);
       pointer-events: none;
     }
-
     .project-hero-inner {
       max-width: 1120px; margin: 0 auto;
       padding: 4rem 2.5rem 3.5rem;
       width: 100%; position: relative; z-index: 1;
     }
-
     .hero-breadcrumb {
       display: flex; align-items: center; gap: 8px;
       font-family: var(--mono); font-size: 11.5px;
@@ -217,7 +199,6 @@
     .hero-breadcrumb a:hover { color: var(--alin-primary); }
     .hero-breadcrumb .sep { color: #21262d; }
     .hero-breadcrumb .current { color: #6e7681; }
-
     .hero-type-badge {
       display: inline-flex; align-items: center; gap: 6px;
       font-family: var(--mono); font-size: 10.5px; font-weight: 500;
@@ -234,7 +215,6 @@
       padding: 4px 12px; border-radius: 100px;
       letter-spacing: 0.05em; margin-bottom: 1.25rem; margin-left: 8px;
     }
-
     .project-hero h1 {
       font-family: var(--sans);
       font-size: clamp(2rem, 5vw, 3.4rem);
@@ -242,12 +222,9 @@
       color: #e6edf3; line-height: 1.1; margin-bottom: 1rem;
     }
     .project-hero h1 .accent { color: var(--alin-primary); }
-
     .project-hero .hero-tagline {
-      font-size: 1.05rem; color: #8b949e;
-      line-height: 1.75; max-width: 600px; margin-bottom: 0;
+      font-size: 1.05rem; color: #8b949e; line-height: 1.75; max-width: 600px; margin-bottom: 0;
     }
-
     .hero-links-row { display: flex; gap: 0.875rem; margin-top: 1.75rem; }
     .btn-link {
       display: inline-flex; align-items: center; gap: 8px;
@@ -260,7 +237,6 @@
     .btn-link.primary:hover { background: #0284c7; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(14,165,233,0.3); }
     .btn-link.outline { background: transparent; color: #8b949e; border: 1px solid rgba(255,255,255,0.1); }
     .btn-link.outline:hover { border-color: rgba(14,165,233,0.4); color: #c9d1d9; }
-
     .hero-meta-row {
       display: flex; flex-wrap: wrap; gap: 2.25rem;
       padding-top: 2rem; margin-top: 2rem;
@@ -270,12 +246,8 @@
     .hero-meta-label { font-family: var(--mono); font-size: 10.5px; color: #3d444d; text-transform: uppercase; letter-spacing: 0.1em; }
     .hero-meta-value { font-size: 14px; font-weight: 500; color: #c9d1d9; }
 
-    /* ============================================================
-       BODY
-       ============================================================ */
     .project-body { max-width: 1120px; margin: 0 auto; padding: 4rem 2.5rem 5rem; }
     .content-section { margin-bottom: 4rem; }
-
     .content-section-eyebrow {
       font-family: var(--mono); font-size: 11px; color: var(--accent);
       letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.75rem;
@@ -289,15 +261,12 @@
       color: var(--text-primary); margin-bottom: 1.25rem;
     }
     .content-prose p {
-      font-size: 15px; color: var(--text-secondary);
-      line-height: 1.85; margin-bottom: 1rem;
+      font-size: 15px; color: var(--text-secondary); line-height: 1.85; margin-bottom: 1rem;
     }
     .content-prose p:last-child { margin-bottom: 0; }
 
-    /* OVERVIEW GRID */
     .overview-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 3.5rem; align-items: start; }
 
-    /* QUICK INFO CARD */
     .quick-info-card {
       background: var(--bg-subtle); border: 1px solid var(--border);
       border-radius: 14px; padding: 1.5rem;
@@ -320,7 +289,6 @@
       border: 1px solid var(--accent-border); padding: 3px 9px; border-radius: 5px;
     }
 
-    /* TOPICS GRID */
     .topics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
     .topic-card {
       background: var(--bg-card); border: 1px solid var(--border);
@@ -329,41 +297,30 @@
       position: relative; overflow: hidden;
     }
     .topic-card::before {
-      content: ''; position: absolute;
-      top: 0; left: 0; right: 0; height: 3px;
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
       background: linear-gradient(90deg, var(--alin-primary), var(--alin-secondary));
-      transform: scaleX(0); transform-origin: left;
-      transition: transform 0.3s ease;
+      transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease;
     }
     .topic-card:hover::before { transform: scaleX(1); }
     .topic-card:hover { border-color: rgba(14,165,233,0.3); box-shadow: var(--shadow-md); transform: translateY(-3px); }
-    .topic-card-header {
-      display: flex; align-items: center; gap: 12px; margin-bottom: 0.875rem;
-    }
+    .topic-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 0.875rem; }
     .topic-num {
       font-family: var(--mono); font-size: 11px; font-weight: 600;
       color: var(--alin-primary); background: rgba(14,165,233,0.08);
       border: 1px solid rgba(14,165,233,0.2);
       width: 34px; height: 34px; border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
     .topic-name { font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--text-primary); }
     .topic-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
 
-    /* PROBLEM / SOLUTION */
     .ps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
     .ps-card {
-      background: var(--bg-card);
-      border-radius: 14px; padding: 1.75rem;
-      border: 1px solid var(--border);
-      position: relative; overflow: hidden;
+      background: var(--bg-card); border-radius: 14px; padding: 1.75rem;
+      border: 1px solid var(--border); position: relative; overflow: hidden;
       transition: background-color 0.4s ease, border-color 0.4s ease;
     }
-    .ps-card::before {
-      content: ''; position: absolute;
-      top: 0; left: 0; right: 0; height: 3px;
-    }
+    .ps-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
     .ps-card.problem::before { background: linear-gradient(90deg, #ef4444, #f97316); }
     .ps-card.solution::before { background: linear-gradient(90deg, var(--green), #0ea5e9); }
     .ps-card-label {
@@ -373,10 +330,7 @@
     }
     .ps-card.problem .ps-card-label { color: #ef4444; }
     .ps-card.solution .ps-card-label { color: var(--green); }
-    .ps-card-icon {
-      width: 32px; height: 32px; border-radius: 8px;
-      display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0;
-    }
+    .ps-card-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
     .ps-card.problem .ps-card-icon { background: rgba(239,68,68,0.1); }
     .ps-card.solution .ps-card-icon { background: rgba(16,185,129,0.1); }
     .ps-list { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
@@ -385,7 +339,6 @@
     .ps-card.problem .ps-list li::before { color: #ef4444; }
     .ps-card.solution .ps-list li::before { color: var(--green); }
 
-    /* FEATURES GRID */
     .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
     .feature-card {
       background: var(--bg-card); border: 1px solid var(--border);
@@ -394,11 +347,9 @@
       position: relative; overflow: hidden;
     }
     .feature-card::before {
-      content: ''; position: absolute;
-      top: 0; left: 0; right: 0; height: 3px;
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
       background: linear-gradient(90deg, var(--alin-primary), var(--alin-secondary));
-      transform: scaleX(0); transform-origin: left;
-      transition: transform 0.3s ease;
+      transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease;
     }
     .feature-card:hover::before { transform: scaleX(1); }
     .feature-card:hover { border-color: rgba(14,165,233,0.3); box-shadow: var(--shadow-md); transform: translateY(-3px); }
@@ -411,12 +362,10 @@
     .feature-title { font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; }
     .feature-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
 
-    /* GALLERY (MOBILE PORTRAIT ONLY) */
     .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
     .gallery-item {
       border-radius: 12px; overflow: hidden;
-      border: 1px solid var(--border); 
-      aspect-ratio: 9/16;
+      border: 1px solid var(--border); aspect-ratio: 9/16;
       position: relative;
       transition: transform 0.25s, box-shadow 0.25s, border-color 0.4s ease;
       background: var(--bg-subtle);
@@ -430,14 +379,8 @@
       text-align: center; padding: 1rem;
     }
     .gallery-placeholder .gp-icon { font-size: 28px; }
-    .gallery-placeholder .gp-label {
-      font-family: var(--mono); font-size: 10px;
-      opacity: 0.4; text-transform: uppercase; letter-spacing: 0.08em;
-    }
-    .gallery-placeholder .gp-title {
-      font-family: var(--sans); font-size: 13px;
-      font-weight: 600; opacity: 0.7;
-    }
+    .gallery-placeholder .gp-label { font-family: var(--mono); font-size: 10px; opacity: 0.4; text-transform: uppercase; letter-spacing: 0.08em; }
+    .gallery-placeholder .gp-title { font-family: var(--sans); font-size: 13px; font-weight: 600; opacity: 0.7; }
     .gallery-caption {
       position: absolute; bottom: 0; left: 0; right: 0;
       background: linear-gradient(transparent, rgba(0,0,0,0.65));
@@ -447,17 +390,13 @@
     }
     .gallery-item:hover .gallery-caption { opacity: 1; }
 
-    /* TECH STACK BLOCK */
     .tech-stack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
     .tech-group {
       background: var(--bg-subtle); border: 1px solid var(--border);
       border-radius: 12px; padding: 1.25rem;
       transition: background-color 0.4s ease, border-color 0.4s ease;
     }
-    .tech-group-label {
-      font-family: var(--mono); font-size: 10.5px; color: var(--text-muted);
-      text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 0.875rem;
-    }
+    .tech-group-label { font-family: var(--mono); font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 0.875rem; }
     .tech-tags { display: flex; flex-wrap: wrap; gap: 6px; }
     .tech-tag {
       font-family: var(--mono); font-size: 11.5px;
@@ -468,7 +407,6 @@
     }
     .tech-tag:hover { background: var(--alin-primary); color: #fff; }
 
-    /* VISION BLOCK */
     .vision-block {
       background: linear-gradient(135deg, rgba(14,165,233,0.04) 0%, rgba(99,102,241,0.04) 100%);
       border: 1px solid rgba(14,165,233,0.15);
@@ -479,16 +417,10 @@
     .vision-icon {
       width: 48px; height: 48px; flex-shrink: 0;
       background: rgba(14,165,233,0.1); border: 1px solid rgba(14,165,233,0.2);
-      border-radius: 12px; display: flex; align-items: center; justify-content: center;
-      font-size: 22px;
+      border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px;
     }
-    .vision-title {
-      font-family: var(--sans); font-size: 1rem; font-weight: 600;
-      color: var(--text-primary); margin-bottom: 0.5rem;
-    }
-    .vision-body {
-      font-size: 14px; color: var(--text-secondary); line-height: 1.75;
-    }
+    .vision-title { font-family: var(--sans); font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; }
+    .vision-body { font-size: 14px; color: var(--text-secondary); line-height: 1.75; }
     .vision-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.875rem; }
     .vision-tag {
       font-size: 12px; color: var(--alin-primary);
@@ -496,13 +428,11 @@
       padding: 3px 10px; border-radius: 100px; font-family: var(--mono);
     }
 
-    /* FADE IN */
     .fade-in { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
     .fade-in.visible { opacity: 1; transform: none; }
     .fade-in-delay-1 { transition-delay: 0.1s; }
     .fade-in-delay-2 { transition-delay: 0.2s; }
 
-    /* FOOTER */
     footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: flex; align-items: center; justify-content: space-between; }
     .footer-left { font-family: var(--mono); font-size: 12px; color: var(--text-muted); }
     .footer-left span { color: var(--accent); }
@@ -546,14 +476,20 @@
     <a href="index.html" class="nav-logo">
       <span class="logo-bracket">{</span>&nbsp;bryan&nbsp;<span class="logo-bracket">}</span>
     </a>
-    
+
     <div class="nav-right-actions">
+      <!-- TOMBOL BAHASA -->
+      <button id="langToggle" class="lang-toggle" aria-label="Toggle Language">
+        <span id="langText">EN</span>
+      </button>
+
       <!-- TOMBOL DARK MODE -->
       <button id="themeToggle" class="theme-toggle" aria-label="Toggle Dark Mode"></button>
 
       <a href="index.html#projects" class="nav-back">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-        All Projects
+        <span lang="en">All Projects</span>
+        <span lang="id">Semua Proyek</span>
       </a>
     </div>
   </nav>
@@ -578,52 +514,57 @@
       <div class="hero-breadcrumb">
         <a href="index.html">bryan</a>
         <span class="sep">/</span>
-        <a href="index.html#projects">projects</a>
+        <a href="index.html#projects"><span lang="en">projects</span><span lang="id">proyek</span></a>
         <span class="sep">/</span>
         <span class="current">alin</span>
       </div>
 
       <div>
-        <span class="hero-type-badge">Education · Mobile</span>
+        <span class="hero-type-badge"><span lang="en">Education · Mobile</span><span lang="id">Edukasi · Mobile</span></span>
         <span class="hero-platform-badge">Flutter · Laravel</span>
       </div>
 
       <h1>ALIN — <span class="accent">Aljabar Linear</span> Companion</h1>
-      <p class="hero-tagline">
+      <p class="hero-tagline" lang="en">
         A learning app built for Institut Teknologi Del students tackling Linear Algebra and higher-level math. Interactive concept walkthroughs, calculators, and structured study material — all in one place, designed to grow beyond a single course.
+      </p>
+      <p class="hero-tagline" lang="id">
+        Aplikasi belajar yang dibangun untuk mahasiswa Institut Teknologi Del yang bergulat dengan Aljabar Linear dan matematika tingkat lanjut. Panduan konsep interaktif, kalkulator, dan materi belajar terstruktur — semua dalam satu tempat, dirancang untuk berkembang melampaui satu mata kuliah.
       </p>
 
       <div class="hero-links-row">
         <a href="https://github.com/bryansiagian/ALIN" target="_blank" rel="noopener" class="btn-link primary">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-          View on GitHub
+          <span lang="en">View on GitHub</span>
+          <span lang="id">Lihat di GitHub</span>
         </a>
         <a href="#" class="btn-link outline">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
-          See Demo
+          <span lang="en">See Demo</span>
+          <span lang="id">Lihat Demo</span>
         </a>
       </div>
 
       <div class="hero-meta-row">
         <div class="hero-meta-item">
-          <div class="hero-meta-label">Context</div>
-          <div class="hero-meta-value">Academic Project</div>
+          <div class="hero-meta-label"><span lang="en">Context</span><span lang="id">Konteks</span></div>
+          <div class="hero-meta-value"><span lang="en">Academic Project</span><span lang="id">Proyek Akademik</span></div>
         </div>
         <div class="hero-meta-item">
-          <div class="hero-meta-label">Target Users</div>
-          <div class="hero-meta-value">IT Del Students</div>
+          <div class="hero-meta-label"><span lang="en">Target Users</span><span lang="id">Target Pengguna</span></div>
+          <div class="hero-meta-value"><span lang="en">IT Del Students</span><span lang="id">Mahasiswa IT Del</span></div>
         </div>
         <div class="hero-meta-item">
-          <div class="hero-meta-label">Platform</div>
-          <div class="hero-meta-value">Mobile App</div>
+          <div class="hero-meta-label"><span lang="en">Platform</span><span lang="id">Platform</span></div>
+          <div class="hero-meta-value"><span lang="en">Mobile App</span><span lang="id">Aplikasi Mobile</span></div>
         </div>
         <div class="hero-meta-item">
-          <div class="hero-meta-label">Deployment</div>
+          <div class="hero-meta-label"><span lang="en">Deployment</span><span lang="id">Deployment</span></div>
           <div class="hero-meta-value">AWS EC2</div>
         </div>
         <div class="hero-meta-item">
-          <div class="hero-meta-label">Subject</div>
-          <div class="hero-meta-value">Linear Algebra & Beyond</div>
+          <div class="hero-meta-label"><span lang="en">Subject</span><span lang="id">Mata Kuliah</span></div>
+          <div class="hero-meta-value"><span lang="en">Linear Algebra & Beyond</span><span lang="id">Aljabar Linear & Lebih</span></div>
         </div>
       </div>
     </div>
@@ -636,41 +577,56 @@
     <div class="content-section fade-in">
       <div class="overview-grid">
         <div>
-          <p class="content-section-eyebrow">Overview</p>
-          <h2 class="content-section-title">What is ALIN?</h2>
+          <p class="content-section-eyebrow"><span lang="en">Overview</span><span lang="id">Gambaran Umum</span></p>
+          <h2 class="content-section-title"><span lang="en">What is ALIN?</span><span lang="id">Apa itu ALIN?</span></h2>
           <div class="content-prose">
-            <p>
+            <p lang="en">
               ALIN (short for <em>Aljabar Linear</em>) is a mobile-first learning companion built specifically for students at Institut Teknologi Del who are enrolled in Linear Algebra and other advanced mathematics courses across faculties.
             </p>
-            <p>
+            <p lang="id">
+              ALIN (singkatan dari <em>Aljabar Linear</em>) adalah teman belajar berbasis mobile yang dibangun khusus untuk mahasiswa Institut Teknologi Del yang mengambil mata kuliah Aljabar Linear dan matematika lanjutan lainnya di berbagai fakultas.
+            </p>
+            <p lang="en">
               The app was born from a real gap: Linear Algebra is notoriously abstract, and most students struggle not because the material is too hard, but because they lack a focused, accessible reference they can reach for on the fly. Textbooks are dense, YouTube is noisy, and asking a lecturer at 11pm isn't an option. ALIN sits in that gap — structured, campus-specific, and always in your pocket.
             </p>
-            <p>
+            <p lang="id">
+              Aplikasi ini lahir dari celah nyata: Aljabar Linear terkenal abstrak, dan kebanyakan mahasiswa kesulitan bukan karena materinya terlalu sulit, tetapi karena mereka tidak memiliki referensi yang terfokus dan mudah dijangkau kapan saja. Buku teks terlalu padat, YouTube terlalu bising, dan menghubungi dosen jam 11 malam bukan pilihan. ALIN mengisi celah itu — terstruktur, spesifik kampus, dan selalu ada di saku.
+            </p>
+            <p lang="en">
               The current version covers the core topics of the IT Del Linear Algebra curriculum with interactive examples, step-by-step calculations, and concept summaries. The architecture is already designed to grow: new subjects and modules can be served dynamically via our Laravel API, making ALIN a platform rather than just a single-subject tool.
+            </p>
+            <p lang="id">
+              Versi saat ini mencakup topik-topik inti kurikulum Aljabar Linear IT Del dengan contoh interaktif, perhitungan langkah demi langkah, dan ringkasan konsep. Arsitekturnya sudah dirancang untuk berkembang: mata kuliah dan modul baru dapat disajikan secara dinamis melalui Laravel API kami, menjadikan ALIN sebuah platform, bukan sekadar alat untuk satu mata kuliah.
             </p>
           </div>
         </div>
 
         <div class="quick-info-card">
-          <div class="quick-info-card-title">Project at a glance</div>
+          <div class="quick-info-card-title"><span lang="en">Project at a glance</span><span lang="id">Ringkasan proyek</span></div>
           <div class="quick-info-row">
-            <span class="quick-info-key">Institution</span>
+            <span class="quick-info-key"><span lang="en">Institution</span><span lang="id">Institusi</span></span>
             <span class="quick-info-val">Institut Teknologi Del</span>
           </div>
           <div class="quick-info-divider"></div>
           <div class="quick-info-row">
-            <span class="quick-info-key">Access</span>
-            <span class="quick-info-val">IT Del students only<br/>(expandable)</span>
+            <span class="quick-info-key"><span lang="en">Access</span><span lang="id">Akses</span></span>
+            <span class="quick-info-val">
+              <span lang="en">IT Del students only<br/>(expandable)</span>
+              <span lang="id">Mahasiswa IT Del saja<br/>(dapat diperluas)</span>
+            </span>
           </div>
           <div class="quick-info-divider"></div>
           <div class="quick-info-row">
-            <span class="quick-info-key">Course focus</span>
-            <span class="quick-info-val">Linear Algebra + higher math</span>
+            <span class="quick-info-key"><span lang="en">Course focus</span><span lang="id">Fokus mata kuliah</span></span>
+            <span class="quick-info-val">
+              <span lang="en">Linear Algebra + higher math</span>
+              <span lang="id">Aljabar Linear + matematika lanjut</span>
+            </span>
           </div>
           <div class="quick-info-divider"></div>
           <div class="quick-info-row">
-            <span class="quick-info-key">Type</span>
-            <span class="quick-info-val">Academic Project</span>
+            <span class="quick-info-key"><span lang="en">Type</span><span lang="id">Tipe</span></span>
+            <span class="quick-info-val"><span lang="en">Academic Project</span><span lang="id">Proyek Akademik</span></span>
           </div>
           <div class="quick-info-divider"></div>
           <div class="quick-info-row">
@@ -688,31 +644,41 @@
 
     <!-- PROBLEM & SOLUTION -->
     <div class="content-section fade-in fade-in-delay-1">
-      <p class="content-section-eyebrow">Problem & Solution</p>
-      <h2 class="content-section-title">Why ALIN exists.</h2>
+      <p class="content-section-eyebrow"><span lang="en">Problem & Solution</span><span lang="id">Masalah & Solusi</span></p>
+      <h2 class="content-section-title"><span lang="en">Why ALIN exists.</span><span lang="id">Mengapa ALIN ada.</span></h2>
       <div class="ps-grid">
         <div class="ps-card problem">
           <div class="ps-card-label">
             <div class="ps-card-icon">⚠️</div>
-            The Problem
+            <span lang="en">The Problem</span>
+            <span lang="id">Masalahnya</span>
           </div>
           <ul class="ps-list">
-            <li>Linear Algebra is one of the most heavily failed courses at IT Del. Students across all faculties take it, but support material is scattered and not campus-specific.</li>
-            <li>Generic resources — YouTube, Khan Academy, textbooks — cover the theory, but don't map to IT Del's curriculum structure or exam patterns.</li>
-            <li>Students need to calculate things like determinants, eigenvalues, and matrix inverses during study sessions, but switching between notes, a calculator, and lecture slides is slow and error-prone.</li>
-            <li>No single app exists for Indonesian university math at the level students actually need — applied, fast, and in context.</li>
+            <li lang="en">Linear Algebra is one of the most heavily failed courses at IT Del. Students across all faculties take it, but support material is scattered and not campus-specific.</li>
+            <li lang="id">Aljabar Linear adalah salah satu mata kuliah dengan tingkat kegagalan tertinggi di IT Del. Mahasiswa dari semua fakultas mengambilnya, tetapi materi pendukungnya tersebar dan tidak spesifik kampus.</li>
+            <li lang="en">Generic resources — YouTube, Khan Academy, textbooks — cover the theory, but don't map to IT Del's curriculum structure or exam patterns.</li>
+            <li lang="id">Sumber daya umum — YouTube, Khan Academy, buku teks — mencakup teorinya, tetapi tidak sesuai dengan struktur kurikulum IT Del atau pola ujian.</li>
+            <li lang="en">Students need to calculate things like determinants, eigenvalues, and matrix inverses during study sessions, but switching between notes, a calculator, and lecture slides is slow and error-prone.</li>
+            <li lang="id">Mahasiswa perlu menghitung determinan, nilai eigen, dan invers matriks saat belajar, tetapi berpindah antara catatan, kalkulator, dan slide kuliah itu lambat dan rawan kesalahan.</li>
+            <li lang="en">No single app exists for Indonesian university math at the level students actually need — applied, fast, and in context.</li>
+            <li lang="id">Tidak ada satu aplikasi pun untuk matematika universitas Indonesia di level yang benar-benar dibutuhkan mahasiswa — terapan, cepat, dan kontekstual.</li>
           </ul>
         </div>
         <div class="ps-card solution">
           <div class="ps-card-label">
             <div class="ps-card-icon">✦</div>
-            Our Approach
+            <span lang="en">Our Approach</span>
+            <span lang="id">Pendekatan Kami</span>
           </div>
           <ul class="ps-list">
-            <li>Built a Flutter mobile app structured around IT Del's Linear Algebra syllabus, covering topics in the order students actually encounter them in class.</li>
-            <li>Each topic includes a concept summary, worked examples, and an interactive calculator that shows the step-by-step solution — not just the answer.</li>
-            <li>A Laravel REST API backend powers the content layer, meaning topics and examples can be pushed dynamically to the app without a new version release.</li>
-            <li>Designed the architecture for extensibility: adding a new subject (Calculus, Statistics, Discrete Math) is simply a backend content update.</li>
+            <li lang="en">Built a Flutter mobile app structured around IT Del's Linear Algebra syllabus, covering topics in the order students actually encounter them in class.</li>
+            <li lang="id">Membangun aplikasi mobile Flutter yang terstruktur sesuai silabus Aljabar Linear IT Del, mencakup topik dalam urutan yang benar-benar dijumpai mahasiswa di kelas.</li>
+            <li lang="en">Each topic includes a concept summary, worked examples, and an interactive calculator that shows the step-by-step solution — not just the answer.</li>
+            <li lang="id">Setiap topik menyertakan ringkasan konsep, contoh soal, dan kalkulator interaktif yang menampilkan solusi langkah demi langkah — bukan sekadar jawabannya.</li>
+            <li lang="en">A Laravel REST API backend powers the content layer, meaning topics and examples can be pushed dynamically to the app without a new version release.</li>
+            <li lang="id">Backend Laravel REST API menggerakkan lapisan konten, artinya topik dan contoh dapat dikirim secara dinamis ke aplikasi tanpa rilis versi baru.</li>
+            <li lang="en">Designed the architecture for extensibility: adding a new subject (Calculus, Statistics, Discrete Math) is simply a backend content update.</li>
+            <li lang="id">Merancang arsitektur untuk keterlibatan: menambahkan mata kuliah baru (Kalkulus, Statistika, Matematika Diskrit) hanyalah pembaruan konten di backend.</li>
           </ul>
         </div>
       </div>
@@ -720,144 +686,160 @@
 
     <!-- TOPICS COVERED -->
     <div class="content-section fade-in">
-      <p class="content-section-eyebrow">Curriculum Coverage</p>
-      <h2 class="content-section-title">Topics in the app.</h2>
+      <p class="content-section-eyebrow"><span lang="en">Curriculum Coverage</span><span lang="id">Cakupan Kurikulum</span></p>
+      <h2 class="content-section-title"><span lang="en">Topics in the app.</span><span lang="id">Topik dalam aplikasi.</span></h2>
       <div class="topics-grid">
         <div class="topic-card">
           <div class="topic-card-header">
             <div class="topic-num">01</div>
-            <div class="topic-name">Vectors & Vector Spaces</div>
+            <div class="topic-name"><span lang="en">Vectors & Vector Spaces</span><span lang="id">Vektor & Ruang Vektor</span></div>
           </div>
-          <div class="topic-desc">Definitions, operations, span, linear independence, basis, and dimension. Includes visualizations for 2D and 3D vector relationships.</div>
+          <div class="topic-desc" lang="en">Definitions, operations, span, linear independence, basis, and dimension. Includes visualizations for 2D and 3D vector relationships.</div>
+          <div class="topic-desc" lang="id">Definisi, operasi, span, kebebasan linier, basis, dan dimensi. Mencakup visualisasi untuk relasi vektor 2D dan 3D.</div>
         </div>
         <div class="topic-card">
           <div class="topic-card-header">
             <div class="topic-num">02</div>
-            <div class="topic-name">Matrix Operations</div>
+            <div class="topic-name"><span lang="en">Matrix Operations</span><span lang="id">Operasi Matriks</span></div>
           </div>
-          <div class="topic-desc">Addition, multiplication, transpose, inverse, and special matrix types. Step-by-step calculator for matrix arithmetic with arbitrary dimensions.</div>
+          <div class="topic-desc" lang="en">Addition, multiplication, transpose, inverse, and special matrix types. Step-by-step calculator for matrix arithmetic with arbitrary dimensions.</div>
+          <div class="topic-desc" lang="id">Penjumlahan, perkalian, transpos, invers, dan jenis-jenis matriks khusus. Kalkulator langkah demi langkah untuk aritmetika matriks dengan dimensi bebas.</div>
         </div>
         <div class="topic-card">
           <div class="topic-card-header">
             <div class="topic-num">03</div>
-            <div class="topic-name">Systems of Linear Equations</div>
+            <div class="topic-name"><span lang="en">Systems of Linear Equations</span><span lang="id">Sistem Persamaan Linear</span></div>
           </div>
-          <div class="topic-desc">Gaussian elimination, back substitution, and solution classification. Walks through REF and RREF with the student's own input matrices.</div>
+          <div class="topic-desc" lang="en">Gaussian elimination, back substitution, and solution classification. Walks through REF and RREF with the student's own input matrices.</div>
+          <div class="topic-desc" lang="id">Eliminasi Gauss, substitusi balik, dan klasifikasi solusi. Memandu melalui REF dan RREF dengan matriks input mahasiswa sendiri.</div>
         </div>
         <div class="topic-card">
           <div class="topic-card-header">
             <div class="topic-num">04</div>
-            <div class="topic-name">Determinants</div>
+            <div class="topic-name"><span lang="en">Determinants</span><span lang="id">Determinan</span></div>
           </div>
-          <div class="topic-desc">Cofactor expansion, row reduction method, and properties. Interactive calculator shows expansion tree and intermediate steps for any n×n matrix.</div>
+          <div class="topic-desc" lang="en">Cofactor expansion, row reduction method, and properties. Interactive calculator shows expansion tree and intermediate steps for any n×n matrix.</div>
+          <div class="topic-desc" lang="id">Ekspansi kofaktor, metode reduksi baris, dan sifat-sifatnya. Kalkulator interaktif menampilkan pohon ekspansi dan langkah antara untuk matriks n×n mana pun.</div>
         </div>
         <div class="topic-card">
           <div class="topic-card-header">
             <div class="topic-num">05</div>
-            <div class="topic-name">Eigenvalues & Eigenvectors</div>
+            <div class="topic-name"><span lang="en">Eigenvalues & Eigenvectors</span><span lang="id">Nilai & Vektor Eigen</span></div>
           </div>
-          <div class="topic-desc">Characteristic polynomial derivation, eigenvalue calculation, and eigenvector finding. Includes diagonalization walkthrough for eligible matrices.</div>
+          <div class="topic-desc" lang="en">Characteristic polynomial derivation, eigenvalue calculation, and eigenvector finding. Includes diagonalization walkthrough for eligible matrices.</div>
+          <div class="topic-desc" lang="id">Penurunan polinomial karakteristik, perhitungan nilai eigen, dan pencarian vektor eigen. Termasuk panduan diagonalisasi untuk matriks yang memenuhi syarat.</div>
         </div>
         <div class="topic-card">
           <div class="topic-card-header">
             <div class="topic-num">06</div>
-            <div class="topic-name">Linear Transformations</div>
+            <div class="topic-name"><span lang="en">Linear Transformations</span><span lang="id">Transformasi Linear</span></div>
           </div>
-          <div class="topic-desc">Kernel, range, matrix representation of transformations, and composition. Connects the algebraic definition back to geometric intuition.</div>
+          <div class="topic-desc" lang="en">Kernel, range, matrix representation of transformations, and composition. Connects the algebraic definition back to geometric intuition.</div>
+          <div class="topic-desc" lang="id">Kernel, range, representasi matriks transformasi, dan komposisi. Menghubungkan definisi aljabar kembali ke intuisi geometri.</div>
         </div>
       </div>
     </div>
 
     <!-- KEY FEATURES -->
     <div class="content-section fade-in fade-in-delay-1">
-      <p class="content-section-eyebrow">Features</p>
-      <h2 class="content-section-title">What the app does.</h2>
+      <p class="content-section-eyebrow"><span lang="en">Features</span><span lang="id">Fitur</span></p>
+      <h2 class="content-section-title"><span lang="en">What the app does.</span><span lang="id">Apa yang dilakukan aplikasi ini.</span></h2>
       <div class="features-grid">
         <div class="feature-card">
           <div class="feature-icon">🧮</div>
-          <div class="feature-title">Step-by-Step Calculator</div>
-          <div class="feature-desc">Enter your own matrix or equation and watch the app solve it step by step — not just showing the answer, but building understanding through the process.</div>
+          <div class="feature-title"><span lang="en">Step-by-Step Calculator</span><span lang="id">Kalkulator Langkah demi Langkah</span></div>
+          <div class="feature-desc" lang="en">Enter your own matrix or equation and watch the app solve it step by step — not just showing the answer, but building understanding through the process.</div>
+          <div class="feature-desc" lang="id">Masukkan matriks atau persamaanmu sendiri dan lihat aplikasi menyelesaikannya langkah demi langkah — bukan hanya menampilkan jawaban, tetapi membangun pemahaman melalui prosesnya.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">📖</div>
-          <div class="feature-title">Concept Summaries</div>
-          <div class="feature-desc">Every topic has a concise, plain-language explanation designed for IT Del's curriculum. No fluff — just the definition, key properties, and when to use it.</div>
+          <div class="feature-title"><span lang="en">Concept Summaries</span><span lang="id">Ringkasan Konsep</span></div>
+          <div class="feature-desc" lang="en">Every topic has a concise, plain-language explanation designed for IT Del's curriculum. No fluff — just the definition, key properties, and when to use it.</div>
+          <div class="feature-desc" lang="id">Setiap topik memiliki penjelasan ringkas dalam bahasa sederhana yang dirancang sesuai kurikulum IT Del. Tanpa basa-basi — hanya definisi, sifat utama, dan kapan menggunakannya.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">📝</div>
-          <div class="feature-title">Worked Examples</div>
-          <div class="feature-desc">Multiple worked examples per topic, mirroring the style and difficulty level of IT Del's lecture exercises. Useful for exam prep.</div>
+          <div class="feature-title"><span lang="en">Worked Examples</span><span lang="id">Contoh Soal Terpandu</span></div>
+          <div class="feature-desc" lang="en">Multiple worked examples per topic, mirroring the style and difficulty level of IT Del's lecture exercises. Useful for exam prep.</div>
+          <div class="feature-desc" lang="id">Beberapa contoh soal per topik, mencerminkan gaya dan tingkat kesulitan latihan kuliah IT Del. Berguna untuk persiapan ujian.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">🔐</div>
-          <div class="feature-title">IT Del Student Login</div>
-          <div class="feature-desc">Access is scoped to IT Del students. Authentication keeps the app community-specific and allows for future personalization features like progress tracking.</div>
+          <div class="feature-title"><span lang="en">IT Del Student Login</span><span lang="id">Login Mahasiswa IT Del</span></div>
+          <div class="feature-desc" lang="en">Access is scoped to IT Del students. Authentication keeps the app community-specific and allows for future personalization features like progress tracking.</div>
+          <div class="feature-desc" lang="id">Akses dibatasi untuk mahasiswa IT Del. Autentikasi menjaga agar aplikasi spesifik komunitas dan memungkinkan fitur personalisasi masa depan seperti pelacakan progres.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">🛠️</div>
-          <div class="feature-title">Dynamic Content API</div>
-          <div class="feature-desc">A Laravel REST API backend serves all topics, examples, and formulas. Content can be updated and expanded dynamically without requiring a new app update.</div>
+          <div class="feature-title"><span lang="en">Dynamic Content API</span><span lang="id">API Konten Dinamis</span></div>
+          <div class="feature-desc" lang="en">A Laravel REST API backend serves all topics, examples, and formulas. Content can be updated and expanded dynamically without requiring a new app update.</div>
+          <div class="feature-desc" lang="id">Backend Laravel REST API menyajikan semua topik, contoh, dan rumus. Konten dapat diperbarui dan diperluas secara dinamis tanpa memerlukan pembaruan aplikasi baru.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">☁️</div>
-          <div class="feature-title">Cloud Backend</div>
-          <div class="feature-desc">The API is hosted on AWS EC2 with Nginx, accessible from campus or anywhere. All learning material is served dynamically — no stale static data.</div>
+          <div class="feature-title"><span lang="en">Cloud Backend</span><span lang="id">Backend Cloud</span></div>
+          <div class="feature-desc" lang="en">The API is hosted on AWS EC2 with Nginx, accessible from campus or anywhere. All learning material is served dynamically — no stale static data.</div>
+          <div class="feature-desc" lang="id">API dihosting di AWS EC2 dengan Nginx, dapat diakses dari kampus atau mana saja. Semua materi belajar disajikan secara dinamis — tidak ada data statis yang usang.</div>
         </div>
       </div>
     </div>
 
-    <!-- GALLERY (HANYA UNTUK MOBILE SCREENSHOT) -->
+    <!-- GALLERY -->
     <div class="content-section fade-in">
-      <p class="content-section-eyebrow">Gallery</p>
-      <h2 class="content-section-title">Screenshots.</h2>
+      <p class="content-section-eyebrow"><span lang="en">Gallery</span><span lang="id">Galeri</span></p>
+      <h2 class="content-section-title"><span lang="en">Screenshots.</span><span lang="id">Tangkapan Layar.</span></h2>
       <div class="gallery-grid">
-
         <div class="gallery-item">
-          <!-- Replace with: <img src="screenshots/alin-home.png" alt="App Home" /> -->
           <div class="gallery-placeholder" style="background: linear-gradient(160deg, #071220 0%, #0c1e35 100%);">
             <span class="gp-icon">📱</span>
             <span class="gp-title" style="color:#a5b4fc;">Home Screen</span>
             <span class="gp-label" style="color:#a5b4fc;">replace with screenshot</span>
           </div>
-          <div class="gallery-caption">Topic list — organized by curriculum order</div>
+          <div class="gallery-caption">
+            <span lang="en">Topic list — organized by curriculum order</span>
+            <span lang="id">Daftar topik — diurutkan sesuai kurikulum</span>
+          </div>
         </div>
-
         <div class="gallery-item">
-          <!-- Replace with: <img src="screenshots/alin-calc.png" alt="Calculator" /> -->
           <div class="gallery-placeholder" style="background: linear-gradient(160deg, #080f1c 0%, #0d1b2e 100%);">
             <span class="gp-icon">🧮</span>
-            <span class="gp-title" style="color:#67e8f9;">Step-by-Step Calculator</span>
+            <span class="gp-title" style="color:#67e8f9;"><span lang="en">Step-by-Step Calculator</span><span lang="id">Kalkulator Bertahap</span></span>
             <span class="gp-label" style="color:#67e8f9;">replace with screenshot</span>
           </div>
-          <div class="gallery-caption">Matrix determinant calculator with expansion steps</div>
+          <div class="gallery-caption">
+            <span lang="en">Matrix determinant calculator with expansion steps</span>
+            <span lang="id">Kalkulator determinan matriks dengan langkah ekspansi</span>
+          </div>
         </div>
-
         <div class="gallery-item">
-          <!-- Replace with: <img src="screenshots/alin-concept.png" alt="Concept View" /> -->
           <div class="gallery-placeholder" style="background: linear-gradient(160deg, #060c18 0%, #0a1626 100%);">
             <span class="gp-icon">📖</span>
-            <span class="gp-title" style="color:#93c5fd;">Concept View</span>
+            <span class="gp-title" style="color:#93c5fd;"><span lang="en">Concept View</span><span lang="id">Tampilan Konsep</span></span>
             <span class="gp-label" style="color:#93c5fd;">replace with screenshot</span>
           </div>
-          <div class="gallery-caption">Eigenvalues topic — definition & properties</div>
+          <div class="gallery-caption">
+            <span lang="en">Eigenvalues topic — definition & properties</span>
+            <span lang="id">Topik nilai eigen — definisi & sifat-sifat</span>
+          </div>
         </div>
-
         <div class="gallery-item">
-          <!-- Replace with: <img src="screenshots/alin-example.png" alt="Worked Example" /> -->
           <div class="gallery-placeholder" style="background: linear-gradient(160deg, #07101e 0%, #0c1a2c 100%);">
             <span class="gp-icon">📝</span>
-            <span class="gp-title" style="color:#c4b5fd;">Worked Examples</span>
+            <span class="gp-title" style="color:#c4b5fd;"><span lang="en">Worked Examples</span><span lang="id">Contoh Terpandu</span></span>
             <span class="gp-label" style="color:#c4b5fd;">replace with screenshot</span>
           </div>
-          <div class="gallery-caption">Solved exercises with annotated steps</div>
+          <div class="gallery-caption">
+            <span lang="en">Solved exercises with annotated steps</span>
+            <span lang="id">Latihan terselesaikan dengan langkah beranotasi</span>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- TECH STACK -->
     <div class="content-section fade-in fade-in-delay-1">
-      <p class="content-section-eyebrow">Tech Stack</p>
-      <h2 class="content-section-title">Built with.</h2>
+      <p class="content-section-eyebrow"><span lang="en">Tech Stack</span><span lang="id">Teknologi yang Digunakan</span></p>
+      <h2 class="content-section-title"><span lang="en">Built with.</span><span lang="id">Dibangun dengan.</span></h2>
       <div class="tech-stack-grid">
         <div class="tech-group">
           <div class="tech-group-label">Mobile</div>
@@ -877,7 +859,7 @@
           </div>
         </div>
         <div class="tech-group">
-          <div class="tech-group-label">Infrastructure</div>
+          <div class="tech-group-label"><span lang="en">Infrastructure</span><span lang="id">Infrastruktur</span></div>
           <div class="tech-tags">
             <span class="tech-tag">AWS EC2</span>
             <span class="tech-tag">Nginx</span>
@@ -886,11 +868,11 @@
           </div>
         </div>
         <div class="tech-group">
-          <div class="tech-group-label">Architecture</div>
+          <div class="tech-group-label"><span lang="en">Architecture</span><span lang="id">Arsitektur</span></div>
           <div class="tech-tags">
             <span class="tech-tag">RESTful API</span>
-            <span class="tech-tag">Content-driven</span>
-            <span class="tech-tag">Dynamic Rendering</span>
+            <span class="tech-tag"><span lang="en">Content-driven</span><span lang="id">Berbasis Konten</span></span>
+            <span class="tech-tag"><span lang="en">Dynamic Rendering</span><span lang="id">Render Dinamis</span></span>
           </div>
         </div>
       </div>
@@ -898,19 +880,25 @@
 
     <!-- VISION / ROADMAP -->
     <div class="content-section fade-in">
-      <p class="content-section-eyebrow">What's Next</p>
-      <h2 class="content-section-title">Room to grow.</h2>
+      <p class="content-section-eyebrow"><span lang="en">What's Next</span><span lang="id">Selanjutnya</span></p>
+      <h2 class="content-section-title"><span lang="en">Room to grow.</span><span lang="id">Ruang untuk berkembang.</span></h2>
       <div style="display: flex; flex-direction: column; gap: 1rem;">
         <div class="vision-block">
           <div class="vision-icon">🌐</div>
           <div>
-            <div class="vision-title">Open to all students — not just IT Del</div>
-            <div class="vision-body">
+            <div class="vision-title">
+              <span lang="en">Open to all students — not just IT Del</span>
+              <span lang="id">Terbuka untuk semua mahasiswa — bukan hanya IT Del</span>
+            </div>
+            <div class="vision-body" lang="en">
               ALIN's current access is scoped to IT Del's student body, but the architecture is ready to scale. The authentication layer can be extended to support any institution via email-domain verification or open registration, turning ALIN into a public math companion for all Indonesian university students.
             </div>
+            <div class="vision-body" lang="id">
+              Akses ALIN saat ini terbatas pada mahasiswa IT Del, tetapi arsitekturnya siap untuk diskalakan. Lapisan autentikasi dapat diperluas untuk mendukung institusi mana pun melalui verifikasi domain email atau registrasi terbuka, menjadikan ALIN teman matematika publik untuk semua mahasiswa universitas Indonesia.
+            </div>
             <div class="vision-tags">
-              <span class="vision-tag">Multi-institution auth</span>
-              <span class="vision-tag">Open registration mode</span>
+              <span class="vision-tag"><span lang="en">Multi-institution auth</span><span lang="id">Auth multi-institusi</span></span>
+              <span class="vision-tag"><span lang="en">Open registration mode</span><span lang="id">Mode registrasi terbuka</span></span>
               <span class="vision-tag">Public API</span>
             </div>
           </div>
@@ -919,16 +907,22 @@
         <div class="vision-block">
           <div class="vision-icon">📚</div>
           <div>
-            <div class="vision-title">Beyond Linear Algebra</div>
-            <div class="vision-body">
+            <div class="vision-title">
+              <span lang="en">Beyond Linear Algebra</span>
+              <span lang="id">Melampaui Aljabar Linear</span>
+            </div>
+            <div class="vision-body" lang="en">
               The content system is subject-agnostic. Calculus, Discrete Mathematics, Statistics, Probability — any advanced math course can be added seamlessly via the backend API. ALIN is built to become the go-to math companion for all STEM coursework, not just one subject.
             </div>
+            <div class="vision-body" lang="id">
+              Sistem konten ini tidak bergantung pada mata kuliah tertentu. Kalkulus, Matematika Diskrit, Statistika, Probabilitas — mata kuliah matematika lanjutan apa pun dapat ditambahkan dengan mulus melalui API backend. ALIN dibangun untuk menjadi teman matematika utama untuk semua mata kuliah STEM, bukan hanya satu mata kuliah.
+            </div>
             <div class="vision-tags">
-              <span class="vision-tag">Calculus</span>
-              <span class="vision-tag">Discrete Math</span>
-              <span class="vision-tag">Statistics</span>
-              <span class="vision-tag">Probability</span>
-              <span class="vision-tag">Numerical Methods</span>
+              <span class="vision-tag"><span lang="en">Calculus</span><span lang="id">Kalkulus</span></span>
+              <span class="vision-tag"><span lang="en">Discrete Math</span><span lang="id">Matematika Diskrit</span></span>
+              <span class="vision-tag"><span lang="en">Statistics</span><span lang="id">Statistika</span></span>
+              <span class="vision-tag"><span lang="en">Probability</span><span lang="id">Probabilitas</span></span>
+              <span class="vision-tag"><span lang="en">Numerical Methods</span><span lang="id">Metode Numerik</span></span>
             </div>
           </div>
         </div>
@@ -936,14 +930,20 @@
         <div class="vision-block">
           <div class="vision-icon">🤖</div>
           <div>
-            <div class="vision-title">AI-assisted explanations</div>
-            <div class="vision-body">
+            <div class="vision-title">
+              <span lang="en">AI-assisted explanations</span>
+              <span lang="id">Penjelasan berbantuan AI</span>
+            </div>
+            <div class="vision-body" lang="en">
               A natural next step is integrating an LLM layer that can answer student questions in context — "why does this step work?" or "explain this concept differently." The content-driven backend already provides the structured context needed to make such a system grounded and accurate.
+            </div>
+            <div class="vision-body" lang="id">
+              Langkah selanjutnya yang alami adalah mengintegrasikan lapisan LLM yang dapat menjawab pertanyaan mahasiswa dalam konteks — "mengapa langkah ini berhasil?" atau "jelaskan konsep ini dengan cara berbeda." Backend berbasis konten sudah menyediakan konteks terstruktur yang dibutuhkan untuk membuat sistem seperti itu akurat dan tepat sasaran.
             </div>
             <div class="vision-tags">
               <span class="vision-tag">LLM integration</span>
-              <span class="vision-tag">Contextual Q&A</span>
-              <span class="vision-tag">Adaptive explanations</span>
+              <span class="vision-tag"><span lang="en">Contextual Q&A</span><span lang="id">Tanya Jawab Kontekstual</span></span>
+              <span class="vision-tag"><span lang="en">Adaptive explanations</span><span lang="id">Penjelasan adaptif</span></span>
             </div>
           </div>
         </div>
@@ -956,8 +956,8 @@
   <footer>
     <p class="footer-left">Bryan Siagian <span>·</span> Institut Teknologi Del <span>·</span> <span id="year"></span></p>
     <div class="footer-right">
-      <a href="index.html">← Back to Portfolio</a>
-      <a href="index.html#projects">All Projects</a>
+      <a href="index.html"><span lang="en">← Back to Portfolio</span><span lang="id">← Kembali ke Portofolio</span></a>
+      <a href="index.html#projects"><span lang="en">All Projects</span><span lang="id">Semua Proyek</span></a>
       <a href="mailto:bryantorisi@gmail.com">Email</a>
     </div>
   </footer>
@@ -965,7 +965,6 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Cursor
     const dot = document.getElementById('cursorDot');
     const ring = document.getElementById('cursorRing');
     let mx = 0, my = 0, rx = 0, ry = 0;
@@ -984,7 +983,6 @@
       el.addEventListener('mouseleave', () => { dot.classList.remove('hover'); ring.classList.remove('hover'); });
     });
 
-    // Scroll progress
     const progressBar = document.getElementById('scrollProgress');
     window.addEventListener('scroll', () => {
       const st = window.scrollY;
@@ -992,13 +990,11 @@
       progressBar.style.width = (st / dh * 100) + '%';
     }, { passive: true });
 
-    // Nav scroll
     const nav = document.getElementById('mainNav');
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 20);
     }, { passive: true });
 
-    // Fade in
     const fadeEls = document.querySelectorAll('.fade-in');
     const fadeObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -1011,20 +1007,34 @@
     fadeEls.forEach(el => fadeObserver.observe(el));
 
     // ==========================================
+    // MULTI-LANGUAGE TOGGLE LOGIC
+    // ==========================================
+    const langToggleBtn = document.getElementById('langToggle');
+    const langText = document.getElementById('langText');
+
+    const savedLang = localStorage.getItem('lang') || 'en';
+    document.documentElement.lang = savedLang;
+    langText.textContent = savedLang.toUpperCase();
+
+    langToggleBtn.addEventListener('click', () => {
+      const newLang = document.documentElement.lang === 'en' ? 'id' : 'en';
+      document.documentElement.lang = newLang;
+      localStorage.setItem('lang', newLang);
+      langText.textContent = newLang.toUpperCase();
+    });
+
+    // ==========================================
     // DARK MODE TOGGLE LOGIC
     // ==========================================
     const themeToggleBtn = document.getElementById('themeToggle');
     const htmlElement = document.documentElement;
-    
-    // SVG Icons
+
     const iconSun = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
     const iconMoon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
 
-    // Deteksi LocalStorage / Sistem OS User
     const currentTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    // Inisialisasi awal
     if (currentTheme === 'dark' || (!currentTheme && prefersDark)) {
       htmlElement.setAttribute('data-theme', 'dark');
       themeToggleBtn.innerHTML = iconSun;
@@ -1033,10 +1043,8 @@
       themeToggleBtn.innerHTML = iconMoon;
     }
 
-    // Fungsi saat tombol diklik
     themeToggleBtn.addEventListener('click', () => {
       let theme = htmlElement.getAttribute('data-theme');
-      
       if (theme === 'dark') {
         htmlElement.setAttribute('data-theme', 'light');
         localStorage.setItem('theme', 'light');

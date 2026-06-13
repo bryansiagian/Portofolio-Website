@@ -24,41 +24,37 @@
       --border: #e8ecf0;
       --border-strong: #d1d9e0;
       --green: #10b981;
-      
-      /* CampusTalk: warm amber-orange */
       --ct-primary: #f97316;
       --ct-secondary: #fbbf24;
       --ct-dark: #431407;
-      
       --sans: 'Space Grotesk', sans-serif;
       --body: 'Inter', sans-serif;
       --mono: 'JetBrains Mono', monospace;
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
       --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
       --shadow-lg: 0 12px 40px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.06);
-
-      /* Transparan untuk nav */
       --nav-bg: rgba(255, 255, 255, 0.92);
     }
 
-    /* Palet Dark Mode */
     [data-theme="dark"] {
-      --bg: #0f172a; 
-      --bg-subtle: #1e293b; 
-      --bg-dark: #020617; 
-      --bg-card: #1e293b; 
-      --text-primary: #f8fafc; 
+      --bg: #0f172a;
+      --bg-subtle: #1e293b;
+      --bg-dark: #020617;
+      --bg-card: #1e293b;
+      --text-primary: #f8fafc;
       --text-secondary: #cbd5e1;
       --text-muted: #94a3b8;
       --border: #334155;
       --border-strong: #475569;
-      
       --nav-bg: rgba(15, 23, 42, 0.92);
-      
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
       --shadow-md: 0 4px 16px rgba(0,0,0,0.5), 0 2px 6px rgba(0,0,0,0.3);
       --shadow-lg: 0 12px 40px rgba(0,0,0,0.6), 0 4px 12px rgba(0,0,0,0.4);
     }
+
+    /* MULTI-LANGUAGE TOGGLE LOGIC (CSS BASED) */
+    :root:lang(en) [lang="id"] { display: none !important; }
+    :root:lang(id) [lang="en"] { display: none !important; }
 
     html { scroll-behavior: smooth; }
     body {
@@ -116,21 +112,22 @@
     }
     .nav-logo .logo-bracket { color: var(--accent); }
 
-    .nav-right-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .theme-toggle {
+    .nav-right-actions { display: flex; align-items: center; gap: 0.75rem; }
+
+    .theme-toggle, .lang-toggle {
       background: transparent; border: none; color: var(--text-primary);
       cursor: none; display: flex; align-items: center; justify-content: center;
       padding: 0.5rem; border-radius: 50%;
       transition: color 0.2s, transform 0.2s, background 0.2s;
     }
-    .theme-toggle:hover {
+    .theme-toggle:hover, .lang-toggle:hover {
       color: var(--ct-primary); background: var(--bg-subtle); transform: scale(1.05);
     }
     .theme-toggle svg { width: 18px; height: 18px; }
+    .lang-toggle {
+      font-family: var(--mono); font-size: 13px; font-weight: 600;
+      letter-spacing: 0.05em; border-radius: 8px; padding: 0.4rem 0.6rem;
+    }
 
     .nav-back {
       display: flex; align-items: center; gap: 8px;
@@ -143,28 +140,20 @@
     .nav-back:hover { color: var(--ct-primary); border-color: rgba(249,115,22,0.3); background: rgba(249,115,22,0.05); }
     .nav-back svg { width: 14px; height: 14px; }
 
-    /* ============================================================
-       HERO — Deep charcoal, warm orange glow, chat bubble motif
-       ============================================================ */
+    /* HERO */
     .project-hero {
       padding-top: 64px; min-height: 58vh;
       display: flex; align-items: flex-end;
       position: relative; overflow: hidden;
       background: #0c0a07;
     }
-
-    /* Warm dot grid — like a noticeboard */
     .hero-dots {
       position: absolute; inset: 0; pointer-events: none;
       background-image: radial-gradient(circle, rgba(249,115,22,0.1) 1px, transparent 1px);
       background-size: 28px 28px;
       mask-image: radial-gradient(ellipse 90% 75% at 50% 30%, black, transparent);
     }
-
-    /* Floating chat bubbles — signature element */
-    .hero-bubbles {
-      position: absolute; inset: 0; pointer-events: none; overflow: hidden;
-    }
+    .hero-bubbles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
     .bubble {
       position: absolute;
       background: rgba(249,115,22,0.07);
@@ -196,20 +185,17 @@
       40% { transform: translateY(-12px); opacity: 1; }
       70% { transform: translateY(6px); opacity: 0.6; }
     }
-
     .hero-glow {
       position: absolute; width: 800px; height: 500px;
       background: radial-gradient(ellipse, rgba(249,115,22,0.09) 0%, rgba(251,191,36,0.05) 50%, transparent 70%);
       top: -5%; left: 45%; transform: translateX(-50%);
       pointer-events: none;
     }
-
     .project-hero-inner {
       max-width: 1120px; margin: 0 auto;
       padding: 4rem 2.5rem 3.5rem;
       width: 100%; position: relative; z-index: 1;
     }
-
     .hero-breadcrumb {
       display: flex; align-items: center; gap: 8px;
       font-family: var(--mono); font-size: 11.5px;
@@ -219,7 +205,6 @@
     .hero-breadcrumb a:hover { color: var(--ct-primary); }
     .hero-breadcrumb .sep { color: #21262d; }
     .hero-breadcrumb .current { color: #6e7681; }
-
     .hero-type-badge {
       display: inline-flex; align-items: center; gap: 6px;
       font-family: var(--mono); font-size: 10.5px; font-weight: 500;
@@ -236,7 +221,6 @@
       padding: 4px 12px; border-radius: 100px;
       letter-spacing: 0.05em; margin-bottom: 1.25rem; margin-left: 8px;
     }
-
     .project-hero h1 {
       font-family: var(--sans);
       font-size: clamp(2rem, 5vw, 3.4rem);
@@ -244,12 +228,10 @@
       color: #e6edf3; line-height: 1.1; margin-bottom: 1rem;
     }
     .project-hero h1 .accent { color: var(--ct-primary); }
-
     .project-hero .hero-tagline {
       font-size: 1.05rem; color: #8b949e;
       line-height: 1.75; max-width: 600px; margin-bottom: 0;
     }
-
     .hero-links-row { display: flex; gap: 0.875rem; margin-top: 1.75rem; }
     .btn-link {
       display: inline-flex; align-items: center; gap: 8px;
@@ -262,7 +244,6 @@
     .btn-link.primary:hover { background: #ea6a0c; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(249,115,22,0.3); }
     .btn-link.outline { background: transparent; color: #8b949e; border: 1px solid rgba(255,255,255,0.1); }
     .btn-link.outline:hover { border-color: rgba(249,115,22,0.4); color: #c9d1d9; }
-
     .hero-meta-row {
       display: flex; flex-wrap: wrap; gap: 2.25rem;
       padding-top: 2rem; margin-top: 2rem;
@@ -272,12 +253,9 @@
     .hero-meta-label { font-family: var(--mono); font-size: 10.5px; color: #3d444d; text-transform: uppercase; letter-spacing: 0.1em; }
     .hero-meta-value { font-size: 14px; font-weight: 500; color: #c9d1d9; }
 
-    /* ============================================================
-       BODY
-       ============================================================ */
+    /* BODY */
     .project-body { max-width: 1120px; margin: 0 auto; padding: 4rem 2.5rem 5rem; }
     .content-section { margin-bottom: 4rem; }
-
     .content-section-eyebrow {
       font-family: var(--mono); font-size: 11px; color: var(--accent);
       letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.75rem;
@@ -296,10 +274,8 @@
     }
     .content-prose p:last-child { margin-bottom: 0; }
 
-    /* OVERVIEW GRID */
     .overview-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 3.5rem; align-items: start; }
 
-    /* QUICK INFO CARD */
     .quick-info-card {
       background: var(--bg-subtle); border: 1px solid var(--border);
       border-radius: 14px; padding: 1.5rem;
@@ -322,7 +298,6 @@
       border: 1px solid var(--accent-border); padding: 3px 9px; border-radius: 5px;
     }
 
-    /* USER ROLES GRID */
     .roles-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
     .role-card {
       background: var(--bg-card); border: 1px solid var(--border);
@@ -341,14 +316,9 @@
     .role-card:hover::before { transform: scaleX(1); }
     .role-card:hover { border-color: rgba(249,115,22,0.3); box-shadow: var(--shadow-md); transform: translateY(-3px); }
     .role-icon { font-size: 2rem; margin-bottom: 0.75rem; display: block; }
-    .role-name {
-      font-family: var(--sans); font-size: 14px; font-weight: 600;
-      color: var(--text-primary); margin-bottom: 0.4rem;
-    }
+    .role-name { font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 0.4rem; }
     .role-desc { font-size: 12.5px; color: var(--text-secondary); line-height: 1.55; }
-    .role-perms {
-      margin-top: 0.875rem; display: flex; flex-wrap: wrap; gap: 5px; justify-content: center;
-    }
+    .role-perms { margin-top: 0.875rem; display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
     .role-perm {
       font-family: var(--mono); font-size: 10px;
       color: var(--ct-primary); background: rgba(249,115,22,0.07);
@@ -356,7 +326,6 @@
       padding: 2px 8px; border-radius: 4px;
     }
 
-    /* PROBLEM / SOLUTION */
     .ps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
     .ps-card {
       background: var(--bg-card);
@@ -365,10 +334,7 @@
       position: relative; overflow: hidden;
       transition: background-color 0.4s ease, border-color 0.4s ease;
     }
-    .ps-card::before {
-      content: ''; position: absolute;
-      top: 0; left: 0; right: 0; height: 3px;
-    }
+    .ps-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
     .ps-card.problem::before { background: linear-gradient(90deg, #ef4444, #f97316); }
     .ps-card.solution::before { background: linear-gradient(90deg, var(--green), var(--ct-primary)); }
     .ps-card-label {
@@ -387,7 +353,6 @@
     .ps-card.problem .ps-list li::before { color: #ef4444; }
     .ps-card.solution .ps-list li::before { color: var(--green); }
 
-    /* FEATURES GRID */
     .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
     .feature-card {
       background: var(--bg-card); border: 1px solid var(--border);
@@ -413,11 +378,10 @@
     .feature-title { font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; }
     .feature-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
 
-    /* GALLERY (HANYA UNTUK MOBILE SCREENSHOT 9:16) */
     .gallery-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; }
     .gallery-item {
       border-radius: 12px; overflow: hidden;
-      border: 1px solid var(--border); 
+      border: 1px solid var(--border);
       aspect-ratio: 9/16;
       position: relative;
       transition: transform 0.25s, box-shadow 0.25s, border-color 0.4s ease;
@@ -443,11 +407,10 @@
     }
     .gallery-item:hover .gallery-caption { opacity: 1; }
 
-    /* TECH STACK BLOCK */
     .tech-stack-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-    .tech-group { 
-      background: var(--bg-subtle); border: 1px solid var(--border); 
-      border-radius: 12px; padding: 1.25rem; 
+    .tech-group {
+      background: var(--bg-subtle); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.25rem;
       transition: background-color 0.4s ease, border-color 0.4s ease;
     }
     .tech-group-label { font-family: var(--mono); font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 0.875rem; }
@@ -461,13 +424,11 @@
     }
     .tech-tag:hover { background: var(--ct-primary); color: #fff; }
 
-    /* FADE IN */
     .fade-in { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
     .fade-in.visible { opacity: 1; transform: none; }
     .fade-in-delay-1 { transition-delay: 0.1s; }
     .fade-in-delay-2 { transition-delay: 0.2s; }
 
-    /* FOOTER */
     footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: flex; align-items: center; justify-content: space-between; }
     .footer-left { font-family: var(--mono); font-size: 12px; color: var(--text-muted); }
     .footer-left span { color: var(--accent); }
@@ -511,14 +472,20 @@
     <a href="index.html" class="nav-logo">
       <span class="logo-bracket">{</span>&nbsp;bryan&nbsp;<span class="logo-bracket">}</span>
     </a>
-    
+
     <div class="nav-right-actions">
+      <!-- TOMBOL BAHASA -->
+      <button id="langToggle" class="lang-toggle" aria-label="Toggle Language">
+        <span id="langText">EN</span>
+      </button>
+
       <!-- TOMBOL DARK MODE -->
       <button id="themeToggle" class="theme-toggle" aria-label="Toggle Dark Mode"></button>
 
       <a href="index.html#projects" class="nav-back">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-        All Projects
+        <span lang="en">All Projects</span>
+        <span lang="id">Semua Proyek</span>
       </a>
     </div>
   </nav>
@@ -527,14 +494,32 @@
   <section class="project-hero">
     <div class="hero-dots"></div>
 
-    <!-- Floating chat bubbles — signature element -->
+    <!-- Floating chat bubbles -->
     <div class="hero-bubbles">
-      <div class="bubble" style="left:5%;top:22%;">Hei, ada rapat BEM jam 3 sore!</div>
-      <div class="bubble right" style="left:62%;top:16%;">Siap, nanti ketemu di aula.</div>
-      <div class="bubble" style="left:8%;top:58%;">Nilai UTS sudah keluar di SIAT</div>
-      <div class="bubble right" style="left:55%;top:65%;">Tugas PA dikumpul besok ya</div>
-      <div class="bubble" style="left:28%;top:80%;">Ada lowongan asisten lab tidak?</div>
-      <div class="bubble right" style="left:70%;top:44%;">Pengumuman wisuda sudah ada</div>
+      <div class="bubble" style="left:5%;top:22%;">
+        <span lang="en">Hey, BEM meeting at 3 PM!</span>
+        <span lang="id">Hei, ada rapat BEM jam 3 sore!</span>
+      </div>
+      <div class="bubble right" style="left:62%;top:16%;">
+        <span lang="en">Sure, see you at the hall.</span>
+        <span lang="id">Siap, nanti ketemu di aula.</span>
+      </div>
+      <div class="bubble" style="left:8%;top:58%;">
+        <span lang="en">Midterm scores are out on SIAT</span>
+        <span lang="id">Nilai UTS sudah keluar di SIAT</span>
+      </div>
+      <div class="bubble right" style="left:55%;top:65%;">
+        <span lang="en">PA assignment due tomorrow</span>
+        <span lang="id">Tugas PA dikumpul besok ya</span>
+      </div>
+      <div class="bubble" style="left:28%;top:80%;">
+        <span lang="en">Any lab assistant openings?</span>
+        <span lang="id">Ada lowongan asisten lab tidak?</span>
+      </div>
+      <div class="bubble right" style="left:70%;top:44%;">
+        <span lang="en">Graduation announcement is up</span>
+        <span lang="id">Pengumuman wisuda sudah ada</span>
+      </div>
     </div>
 
     <div class="hero-glow"></div>
@@ -543,48 +528,60 @@
       <div class="hero-breadcrumb">
         <a href="index.html">bryan</a>
         <span class="sep">/</span>
-        <a href="index.html#projects">projects</a>
+        <a href="index.html#projects"><span lang="en">projects</span><span lang="id">proyek</span></a>
         <span class="sep">/</span>
         <span class="current">campustalk</span>
       </div>
 
       <div>
-        <span class="hero-type-badge">Social Platform · Campus</span>
-        <span class="hero-platform-badge">Mobile App</span>
+        <span class="hero-type-badge">
+          <span lang="en">Social Platform · Campus</span>
+          <span lang="id">Platform Sosial · Kampus</span>
+        </span>
+        <span class="hero-platform-badge">
+          <span lang="en">Mobile App</span>
+          <span lang="id">Aplikasi Mobile</span>
+        </span>
       </div>
 
-      <h1>CampusTalk — <span class="accent">IT Del</span> Social Platform</h1>
-      <p class="hero-tagline">
+      <h1>CampusTalk — <span class="accent">IT Del</span> <span lang="en">Social Platform</span><span lang="id">Platform Sosial</span></h1>
+
+      <p class="hero-tagline" lang="en">
         A campus-only social platform built for the entire IT Del community — students, teaching assistants, lecturers, and staff. One place for announcements, discussions, and internal communication that actually reaches everyone.
+      </p>
+      <p class="hero-tagline" lang="id">
+        Platform sosial khusus kampus yang dibangun untuk seluruh komunitas IT Del — mahasiswa, asisten dosen, dosen, dan staf. Satu tempat untuk pengumuman, diskusi, dan komunikasi internal yang benar-benar menjangkau semua orang.
       </p>
 
       <div class="hero-links-row">
         <a href="https://github.com/bryansiagian/CampusTalk" target="_blank" rel="noopener" class="btn-link primary">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-          View on GitHub
+          <span lang="en">View on GitHub</span>
+          <span lang="id">Lihat di GitHub</span>
         </a>
         <a href="#" class="btn-link outline">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          See Demo
+          <span lang="en">See Demo</span>
+          <span lang="id">Lihat Demo</span>
         </a>
       </div>
 
       <div class="hero-meta-row">
         <div class="hero-meta-item">
-          <div class="hero-meta-label">Context</div>
-          <div class="hero-meta-value">Academic Project</div>
+          <div class="hero-meta-label"><span lang="en">Context</span><span lang="id">Konteks</span></div>
+          <div class="hero-meta-value"><span lang="en">Academic Project</span><span lang="id">Proyek Akademik</span></div>
         </div>
         <div class="hero-meta-item">
-          <div class="hero-meta-label">Users</div>
-          <div class="hero-meta-value">IT Del Community</div>
+          <div class="hero-meta-label"><span lang="en">Users</span><span lang="id">Pengguna</span></div>
+          <div class="hero-meta-value"><span lang="en">IT Del Community</span><span lang="id">Komunitas IT Del</span></div>
         </div>
         <div class="hero-meta-item">
-          <div class="hero-meta-label">Platform</div>
-          <div class="hero-meta-value">Mobile App</div>
+          <div class="hero-meta-label"><span lang="en">Platform</span><span lang="id">Platform</span></div>
+          <div class="hero-meta-value"><span lang="en">Mobile App</span><span lang="id">Aplikasi Mobile</span></div>
         </div>
         <div class="hero-meta-item">
-          <div class="hero-meta-label">Roles</div>
-          <div class="hero-meta-value">4 user types</div>
+          <div class="hero-meta-label"><span lang="en">Roles</span><span lang="id">Peran</span></div>
+          <div class="hero-meta-value"><span lang="en">4 user types</span><span lang="id">4 tipe pengguna</span></div>
         </div>
         <div class="hero-meta-item">
           <div class="hero-meta-label">Stack</div>
@@ -601,41 +598,50 @@
     <div class="content-section fade-in">
       <div class="overview-grid">
         <div>
-          <p class="content-section-eyebrow">Overview</p>
-          <h2 class="content-section-title">What is CampusTalk?</h2>
+          <p class="content-section-eyebrow"><span lang="en">Overview</span><span lang="id">Gambaran Umum</span></p>
+          <h2 class="content-section-title"><span lang="en">What is CampusTalk?</span><span lang="id">Apa itu CampusTalk?</span></h2>
           <div class="content-prose">
-            <p>
+            <p lang="en">
               CampusTalk is a closed social platform built exclusively for the Institut Teknologi Del community. The idea came from a recurring problem: important campus communications — announcements from student affairs, class updates from lecturers, peer discussions among students — were scattered across WhatsApp groups, email threads, and notice boards, with no single place that everyone actually checked.
             </p>
-            <p>
+            <p lang="id">
+              CampusTalk adalah platform sosial tertutup yang dibangun khusus untuk komunitas Institut Teknologi Del. Ide ini muncul dari masalah yang berulang: komunikasi kampus yang penting — pengumuman dari kemahasiswaan, update kelas dari dosen, diskusi antar mahasiswa — tersebar di berbagai grup WhatsApp, thread email, dan papan pengumuman, tanpa satu tempat yang benar-benar dicek semua orang.
+            </p>
+            <p lang="en">
               The platform brings together students, teaching assistants, lecturers, and administrative staff under one roof, each with access controls appropriate to their role. Students can post, reply, and follow threads. Lecturers and TAs can push announcements to their classes. Student affairs can broadcast campus-wide notices that don't get buried in a 500-person WhatsApp group.
             </p>
-            <p>
+            <p lang="id">
+              Platform ini menyatukan mahasiswa, asisten dosen, dosen, dan staf administrasi dalam satu atap, masing-masing dengan kontrol akses yang sesuai dengan perannya. Mahasiswa bisa posting, membalas, dan mengikuti thread. Dosen dan asisten dosen bisa mengirim pengumuman ke kelas mereka. Kemahasiswaan bisa menyiarkan pengumuman seluruh kampus yang tidak akan tenggelam di grup WhatsApp berisi 500 orang.
+            </p>
+            <p lang="en">
               Under the hood, a Flutter mobile app connects to a Laravel REST API with a PostgreSQL backend — chosen for its relational integrity on a data model with multiple user types, permissions, and thread relationships. All features, from student discussions to admin broadcasts, are handled entirely within the mobile experience.
+            </p>
+            <p lang="id">
+              Di balik layar, aplikasi mobile Flutter terhubung ke REST API Laravel dengan backend PostgreSQL — dipilih karena integritas relasionalnya pada model data dengan banyak tipe pengguna, izin, dan relasi thread. Semua fitur, dari diskusi mahasiswa hingga siaran admin, ditangani sepenuhnya dalam pengalaman mobile.
             </p>
           </div>
         </div>
 
         <div class="quick-info-card">
-          <div class="quick-info-card-title">Project at a glance</div>
+          <div class="quick-info-card-title"><span lang="en">Project at a glance</span><span lang="id">Ringkasan proyek</span></div>
           <div class="quick-info-row">
-            <span class="quick-info-key">Institution</span>
+            <span class="quick-info-key"><span lang="en">Institution</span><span lang="id">Institusi</span></span>
             <span class="quick-info-val">Institut Teknologi Del</span>
           </div>
           <div class="quick-info-divider"></div>
           <div class="quick-info-row">
-            <span class="quick-info-key">Access</span>
-            <span class="quick-info-val">IT Del community only</span>
+            <span class="quick-info-key"><span lang="en">Access</span><span lang="id">Akses</span></span>
+            <span class="quick-info-val"><span lang="en">IT Del community only</span><span lang="id">Khusus komunitas IT Del</span></span>
           </div>
           <div class="quick-info-divider"></div>
           <div class="quick-info-row">
-            <span class="quick-info-key">User roles</span>
-            <span class="quick-info-val">Student · TA · Lecturer · Staff</span>
+            <span class="quick-info-key"><span lang="en">User roles</span><span lang="id">Peran pengguna</span></span>
+            <span class="quick-info-val"><span lang="en">Student · TA · Lecturer · Staff</span><span lang="id">Mahasiswa · Asisten · Dosen · Staf</span></span>
           </div>
           <div class="quick-info-divider"></div>
           <div class="quick-info-row">
-            <span class="quick-info-key">Type</span>
-            <span class="quick-info-val">Academic Project</span>
+            <span class="quick-info-key"><span lang="en">Type</span><span lang="id">Tipe</span></span>
+            <span class="quick-info-val"><span lang="en">Academic Project</span><span lang="id">Proyek Akademik</span></span>
           </div>
           <div class="quick-info-divider"></div>
           <div class="quick-info-row">
@@ -653,48 +659,52 @@
 
     <!-- USER ROLES -->
     <div class="content-section fade-in fade-in-delay-1">
-      <p class="content-section-eyebrow">Who Uses It</p>
-      <h2 class="content-section-title">Built for the whole campus.</h2>
+      <p class="content-section-eyebrow"><span lang="en">Who Uses It</span><span lang="id">Siapa yang Menggunakannya</span></p>
+      <h2 class="content-section-title"><span lang="en">Built for the whole campus.</span><span lang="id">Dibangun untuk seluruh kampus.</span></h2>
       <div class="roles-grid">
         <div class="role-card">
           <span class="role-icon">🎓</span>
-          <div class="role-name">Students</div>
-          <div class="role-desc">The core audience. Post threads, reply to discussions, follow topics, and receive announcements from lecturers and staff.</div>
+          <div class="role-name"><span lang="en">Students</span><span lang="id">Mahasiswa</span></div>
+          <div class="role-desc" lang="en">The core audience. Post threads, reply to discussions, follow topics, and receive announcements from lecturers and staff.</div>
+          <div class="role-desc" lang="id">Pengguna utama. Membuat thread, membalas diskusi, mengikuti topik, dan menerima pengumuman dari dosen dan staf.</div>
           <div class="role-perms">
             <span class="role-perm">post</span>
             <span class="role-perm">reply</span>
             <span class="role-perm">follow</span>
-            <span class="role-perm">receive notif</span>
+            <span class="role-perm"><span lang="en">receive notif</span><span lang="id">terima notif</span></span>
           </div>
         </div>
         <div class="role-card">
           <span class="role-icon">🧑‍🏫</span>
-          <div class="role-name">Teaching Assistants</div>
-          <div class="role-desc">Manage lab and tutorial communications, push class-specific updates, and moderate student threads within their courses.</div>
+          <div class="role-name"><span lang="en">Teaching Assistants</span><span lang="id">Asisten Dosen</span></div>
+          <div class="role-desc" lang="en">Manage lab and tutorial communications, push class-specific updates, and moderate student threads within their courses.</div>
+          <div class="role-desc" lang="id">Mengelola komunikasi lab dan tutorial, mengirim update khusus kelas, dan memoderasi thread mahasiswa dalam mata kuliah mereka.</div>
           <div class="role-perms">
-            <span class="role-perm">announce</span>
-            <span class="role-perm">moderate</span>
-            <span class="role-perm">manage class</span>
+            <span class="role-perm"><span lang="en">announce</span><span lang="id">umumkan</span></span>
+            <span class="role-perm"><span lang="en">moderate</span><span lang="id">moderasi</span></span>
+            <span class="role-perm"><span lang="en">manage class</span><span lang="id">kelola kelas</span></span>
           </div>
         </div>
         <div class="role-card">
           <span class="role-icon">👨‍💼</span>
-          <div class="role-name">Lecturers</div>
-          <div class="role-desc">Push course announcements directly to enrolled students, pin important posts, and keep class communication within the platform.</div>
+          <div class="role-name"><span lang="en">Lecturers</span><span lang="id">Dosen</span></div>
+          <div class="role-desc" lang="en">Push course announcements directly to enrolled students, pin important posts, and keep class communication within the platform.</div>
+          <div class="role-desc" lang="id">Mengirim pengumuman mata kuliah langsung ke mahasiswa yang terdaftar, menyematkan postingan penting, dan menjaga komunikasi kelas dalam platform.</div>
           <div class="role-perms">
-            <span class="role-perm">announce</span>
-            <span class="role-perm">pin post</span>
-            <span class="role-perm">course admin</span>
+            <span class="role-perm"><span lang="en">announce</span><span lang="id">umumkan</span></span>
+            <span class="role-perm"><span lang="en">pin post</span><span lang="id">sematkan</span></span>
+            <span class="role-perm"><span lang="en">course admin</span><span lang="id">admin kuliah</span></span>
           </div>
         </div>
         <div class="role-card">
           <span class="role-icon">🏛️</span>
-          <div class="role-name">Staff / Admin</div>
-          <div class="role-desc">Student affairs and administrative staff can broadcast campus-wide notices, manage user access, and oversee platform health.</div>
+          <div class="role-name"><span lang="en">Staff / Admin</span><span lang="id">Staf / Admin</span></div>
+          <div class="role-desc" lang="en">Student affairs and administrative staff can broadcast campus-wide notices, manage user access, and oversee platform health.</div>
+          <div class="role-desc" lang="id">Staf kemahasiswaan dan administrasi bisa menyiarkan pengumuman seluruh kampus, mengelola akses pengguna, dan mengawasi kesehatan platform.</div>
           <div class="role-perms">
-            <span class="role-perm">broadcast</span>
-            <span class="role-perm">user mgmt</span>
-            <span class="role-perm">full admin</span>
+            <span class="role-perm"><span lang="en">broadcast</span><span lang="id">siaran</span></span>
+            <span class="role-perm"><span lang="en">user mgmt</span><span lang="id">kelola user</span></span>
+            <span class="role-perm"><span lang="en">full admin</span><span lang="id">admin penuh</span></span>
           </div>
         </div>
       </div>
@@ -702,31 +712,41 @@
 
     <!-- PROBLEM & SOLUTION -->
     <div class="content-section fade-in">
-      <p class="content-section-eyebrow">Problem & Solution</p>
-      <h2 class="content-section-title">The communication gap CampusTalk closes.</h2>
+      <p class="content-section-eyebrow"><span lang="en">Problem & Solution</span><span lang="id">Masalah & Solusi</span></p>
+      <h2 class="content-section-title"><span lang="en">The communication gap CampusTalk closes.</span><span lang="id">Celah komunikasi yang ditutup CampusTalk.</span></h2>
       <div class="ps-grid">
         <div class="ps-card problem">
           <div class="ps-card-label">
             <div class="ps-card-icon">⚠️</div>
-            The Problem
+            <span lang="en">The Problem</span>
+            <span lang="id">Masalahnya</span>
           </div>
           <ul class="ps-list">
-            <li>Campus communication is fragmented across WhatsApp groups, email, and physical notice boards. Critical announcements get buried or missed entirely.</li>
-            <li>WhatsApp groups have no structure — a 500-person class group mixes urgent notices with memes and off-topic chatter, making it unreliable for official communication.</li>
-            <li>There's no persistent record. Once a message scrolls out of a WhatsApp group, it's effectively gone. Students can't reference old announcements or decisions.</li>
-            <li>No role-based access anywhere. A student can't send a broadcast to their class, but a lecturer can't limit who replies to their announcements either.</li>
+            <li lang="en">Campus communication is fragmented across WhatsApp groups, email, and physical notice boards. Critical announcements get buried or missed entirely.</li>
+            <li lang="id">Komunikasi kampus terfragmentasi di berbagai grup WhatsApp, email, dan papan pengumuman fisik. Pengumuman penting sering terkubur atau terlewat sepenuhnya.</li>
+            <li lang="en">WhatsApp groups have no structure — a 500-person class group mixes urgent notices with memes and off-topic chatter, making it unreliable for official communication.</li>
+            <li lang="id">Grup WhatsApp tidak terstruktur — grup kelas berisi 500 orang mencampur pengumuman mendesak dengan meme dan obrolan tidak relevan, membuatnya tidak andal untuk komunikasi resmi.</li>
+            <li lang="en">There's no persistent record. Once a message scrolls out of a WhatsApp group, it's effectively gone. Students can't reference old announcements or decisions.</li>
+            <li lang="id">Tidak ada catatan permanen. Begitu pesan tenggelam di grup WhatsApp, pesan itu praktis hilang. Mahasiswa tidak bisa merujuk pengumuman atau keputusan lama.</li>
+            <li lang="en">No role-based access anywhere. A student can't send a broadcast to their class, but a lecturer can't limit who replies to their announcements either.</li>
+            <li lang="id">Tidak ada akses berbasis peran di mana pun. Mahasiswa tidak bisa mengirim siaran ke kelasnya, tetapi dosen pun tidak bisa membatasi siapa yang membalas pengumumannya.</li>
           </ul>
         </div>
         <div class="ps-card solution">
           <div class="ps-card-label">
             <div class="ps-card-icon">✦</div>
-            Our Approach
+            <span lang="en">Our Approach</span>
+            <span lang="id">Pendekatan Kami</span>
           </div>
           <ul class="ps-list">
-            <li>Built a role-aware platform where every user has permissions matching their position — students engage, TAs moderate, lecturers announce, staff broadcast.</li>
-            <li>Threaded discussions keep conversations organized by topic. Replies nest under the original post, and pins surface the most important content.</li>
-            <li>All posts are persistent and searchable. An announcement from three months ago is one search away — no more asking "did anyone screenshot that?"</li>
-            <li>REST API backend cleanly separates data from presentation, serving the Flutter mobile app seamlessly from a single, reliable source of truth.</li>
+            <li lang="en">Built a role-aware platform where every user has permissions matching their position — students engage, TAs moderate, lecturers announce, staff broadcast.</li>
+            <li lang="id">Membangun platform yang sadar peran di mana setiap pengguna memiliki izin sesuai posisinya — mahasiswa berinteraksi, asisten memoderasi, dosen mengumumkan, staf menyiarkan.</li>
+            <li lang="en">Threaded discussions keep conversations organized by topic. Replies nest under the original post, and pins surface the most important content.</li>
+            <li lang="id">Diskusi berthread menjaga percakapan terorganisir berdasarkan topik. Balasan tersarang di bawah postingan asli, dan sematan memunculkan konten terpenting.</li>
+            <li lang="en">All posts are persistent and searchable. An announcement from three months ago is one search away — no more asking "did anyone screenshot that?"</li>
+            <li lang="id">Semua postingan permanen dan bisa dicari. Pengumuman dari tiga bulan lalu hanya butuh satu pencarian — tidak perlu lagi bertanya "ada yang screenshot tidak?"</li>
+            <li lang="en">REST API backend cleanly separates data from presentation, serving the Flutter mobile app seamlessly from a single, reliable source of truth.</li>
+            <li lang="id">Backend REST API memisahkan data dari presentasi dengan bersih, melayani aplikasi mobile Flutter secara mulus dari satu sumber kebenaran yang andal.</li>
           </ul>
         </div>
       </div>
@@ -734,108 +754,108 @@
 
     <!-- FEATURES -->
     <div class="content-section fade-in fade-in-delay-1">
-      <p class="content-section-eyebrow">Features</p>
-      <h2 class="content-section-title">What the platform does.</h2>
+      <p class="content-section-eyebrow"><span lang="en">Features</span><span lang="id">Fitur</span></p>
+      <h2 class="content-section-title"><span lang="en">What the platform does.</span><span lang="id">Apa yang dilakukan platform ini.</span></h2>
       <div class="features-grid">
         <div class="feature-card">
           <div class="feature-icon">📣</div>
-          <div class="feature-title">Role-Based Announcements</div>
-          <div class="feature-desc">Lecturers and staff can push announcements scoped to a specific class, department, or the entire campus. Students see only what's relevant to them.</div>
+          <div class="feature-title"><span lang="en">Role-Based Announcements</span><span lang="id">Pengumuman Berbasis Peran</span></div>
+          <div class="feature-desc" lang="en">Lecturers and staff can push announcements scoped to a specific class, department, or the entire campus. Students see only what's relevant to them.</div>
+          <div class="feature-desc" lang="id">Dosen dan staf dapat mengirim pengumuman yang ditujukan ke kelas tertentu, departemen, atau seluruh kampus. Mahasiswa hanya melihat yang relevan bagi mereka.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">💬</div>
-          <div class="feature-title">Threaded Discussions</div>
-          <div class="feature-desc">Posts spawn organized reply threads. Students can ask follow-up questions, TAs can answer, and the whole conversation stays in context — not scattered across replies.</div>
+          <div class="feature-title"><span lang="en">Threaded Discussions</span><span lang="id">Diskusi Berthread</span></div>
+          <div class="feature-desc" lang="en">Posts spawn organized reply threads. Students can ask follow-up questions, TAs can answer, and the whole conversation stays in context — not scattered across replies.</div>
+          <div class="feature-desc" lang="id">Postingan menghasilkan thread balasan yang terorganisir. Mahasiswa bisa bertanya lanjutan, asisten bisa menjawab, dan seluruh percakapan tetap dalam konteks — tidak tersebar.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">📌</div>
-          <div class="feature-title">Pinned Posts</div>
-          <div class="feature-desc">Lecturers and staff can pin important announcements so they stay visible at the top of the feed, regardless of how much new content comes in.</div>
+          <div class="feature-title"><span lang="en">Pinned Posts</span><span lang="id">Postingan Disematkan</span></div>
+          <div class="feature-desc" lang="en">Lecturers and staff can pin important announcements so they stay visible at the top of the feed, regardless of how much new content comes in.</div>
+          <div class="feature-desc" lang="id">Dosen dan staf bisa menyematkan pengumuman penting agar tetap terlihat di bagian atas feed, terlepas dari berapa banyak konten baru yang masuk.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">🔔</div>
-          <div class="feature-title">Push Notifications</div>
-          <div class="feature-desc">Users get notified when there's a new announcement in their scope, a reply to their thread, or a campus-wide broadcast from student affairs.</div>
+          <div class="feature-title"><span lang="en">Push Notifications</span><span lang="id">Notifikasi Push</span></div>
+          <div class="feature-desc" lang="en">Users get notified when there's a new announcement in their scope, a reply to their thread, or a campus-wide broadcast from student affairs.</div>
+          <div class="feature-desc" lang="id">Pengguna mendapat notifikasi saat ada pengumuman baru dalam lingkupnya, balasan pada thread mereka, atau siaran seluruh kampus dari kemahasiswaan.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">🔐</div>
-          <div class="feature-title">Campus-Only Access</div>
-          <div class="feature-desc">Authentication is scoped to IT Del. Only verified campus community members can join, keeping the platform closed, trusted, and free of external noise.</div>
+          <div class="feature-title"><span lang="en">Campus-Only Access</span><span lang="id">Akses Khusus Kampus</span></div>
+          <div class="feature-desc" lang="en">Authentication is scoped to IT Del. Only verified campus community members can join, keeping the platform closed, trusted, and free of external noise.</div>
+          <div class="feature-desc" lang="id">Autentikasi dibatasi untuk IT Del. Hanya anggota komunitas kampus yang terverifikasi yang bisa bergabung, menjaga platform tetap tertutup, terpercaya, dan bebas gangguan eksternal.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">🔎</div>
-          <div class="feature-title">Persistent Search</div>
-          <div class="feature-desc">Every post, announcement, and discussion is stored and searchable. No more asking a friend to resend something that was posted months ago.</div>
+          <div class="feature-title"><span lang="en">Persistent Search</span><span lang="id">Pencarian Permanen</span></div>
+          <div class="feature-desc" lang="en">Every post, announcement, and discussion is stored and searchable. No more asking a friend to resend something that was posted months ago.</div>
+          <div class="feature-desc" lang="id">Setiap postingan, pengumuman, dan diskusi tersimpan dan dapat dicari. Tidak perlu lagi meminta teman mengirim ulang sesuatu yang diposting berbulan-bulan lalu.</div>
         </div>
       </div>
     </div>
 
-    <!-- GALLERY (HANYA UNTUK MOBILE SCREENSHOT) -->
+    <!-- GALLERY -->
     <div class="content-section fade-in">
-      <p class="content-section-eyebrow">Gallery</p>
-      <h2 class="content-section-title">Screenshots.</h2>
+      <p class="content-section-eyebrow"><span lang="en">Gallery</span><span lang="id">Galeri</span></p>
+      <h2 class="content-section-title"><span lang="en">Screenshots.</span><span lang="id">Tangkapan Layar.</span></h2>
       <div class="gallery-grid">
-
         <div class="gallery-item">
           <img src="image/campustalk-homepage-white.jpeg" alt="Dashboard White" />
           <div class="gallery-placeholder" style="background: linear-gradient(160deg, #110e08 0%, #1c1208 100%);">
             <span class="gp-icon">📱</span>
-            <span class="gp-title" style="color:#fb923c;">Home Feed</span>
-            <span class="gp-label" style="color:#fb923c;">replace with screenshot</span>
+            <span class="gp-title" style="color:#fb923c;"><span lang="en">Home Feed</span><span lang="id">Feed Utama</span></span>
+            <span class="gp-label" style="color:#fb923c;"><span lang="en">replace with screenshot</span><span lang="id">ganti dengan screenshot</span></span>
           </div>
-          <div class="gallery-caption">Light Theme Dashboard</div>
+          <div class="gallery-caption"><span lang="en">Light Theme Dashboard</span><span lang="id">Dashboard Tema Terang</span></div>
         </div>
-
         <div class="gallery-item">
           <img src="image/campustalk-homepage-dark.jpeg" alt="Dashboard Dark" />
           <div class="gallery-placeholder" style="background: linear-gradient(160deg, #0e0b06 0%, #181108 100%);">
             <span class="gp-icon">💬</span>
-            <span class="gp-title" style="color:#fcd34d;">Thread View</span>
-            <span class="gp-label" style="color:#fcd34d;">replace with screenshot</span>
+            <span class="gp-title" style="color:#fcd34d;"><span lang="en">Thread View</span><span lang="id">Tampilan Thread</span></span>
+            <span class="gp-label" style="color:#fcd34d;"><span lang="en">replace with screenshot</span><span lang="id">ganti dengan screenshot</span></span>
           </div>
-          <div class="gallery-caption">Dark Theme Dashboard</div>
+          <div class="gallery-caption"><span lang="en">Dark Theme Dashboard</span><span lang="id">Dashboard Tema Gelap</span></div>
         </div>
-
         <div class="gallery-item">
           <img src="image/campustalk-detail-post.jpeg" alt="Detail Post" />
           <div class="gallery-placeholder" style="background: linear-gradient(160deg, #0c0a05 0%, #160f06 100%);">
             <span class="gp-icon">📣</span>
-            <span class="gp-title" style="color:#fda4af;">Compose Flow</span>
-            <span class="gp-label" style="color:#fda4af;">replace with screenshot</span>
+            <span class="gp-title" style="color:#fda4af;"><span lang="en">Compose Flow</span><span lang="id">Alur Buat Post</span></span>
+            <span class="gp-label" style="color:#fda4af;"><span lang="en">replace with screenshot</span><span lang="id">ganti dengan screenshot</span></span>
           </div>
-          <div class="gallery-caption">Post Detail Screen</div>
+          <div class="gallery-caption"><span lang="en">Post Detail Screen</span><span lang="id">Layar Detail Postingan</span></div>
         </div>
-
         <div class="gallery-item">
           <img src="image/campustalk-notification.jpeg" alt="Notification Screen" />
           <div class="gallery-placeholder" style="background: linear-gradient(160deg, #0d0b06 0%, #191208 100%);">
             <span class="gp-icon">🔔</span>
-            <span class="gp-title" style="color:#a5b4fc;">Notifications & Alerts</span>
-            <span class="gp-label" style="color:#a5b4fc;">replace with screenshot</span>
+            <span class="gp-title" style="color:#a5b4fc;"><span lang="en">Notifications</span><span lang="id">Notifikasi</span></span>
+            <span class="gp-label" style="color:#a5b4fc;"><span lang="en">replace with screenshot</span><span lang="id">ganti dengan screenshot</span></span>
           </div>
-          <div class="gallery-caption">Notification Screen</div>
+          <div class="gallery-caption"><span lang="en">Notification Screen</span><span lang="id">Layar Notifikasi</span></div>
         </div>
-
         <div class="gallery-item">
           <img src="image/campustalk-profile.jpeg" alt="Profile Screen" />
           <div class="gallery-placeholder" style="background: linear-gradient(160deg, #0d0b06 0%, #191208 100%);">
-            <span class="gp-icon">🔔</span>
-            <span class="gp-title" style="color:#a5b4fc;">Notifications & Alerts</span>
-            <span class="gp-label" style="color:#a5b4fc;">replace with screenshot</span>
+            <span class="gp-icon">👤</span>
+            <span class="gp-title" style="color:#a5b4fc;"><span lang="en">Profile</span><span lang="id">Profil</span></span>
+            <span class="gp-label" style="color:#a5b4fc;"><span lang="en">replace with screenshot</span><span lang="id">ganti dengan screenshot</span></span>
           </div>
-          <div class="gallery-caption">Profile Screen</div>
+          <div class="gallery-caption"><span lang="en">Profile Screen</span><span lang="id">Layar Profil</span></div>
         </div>
-
       </div>
     </div>
 
     <!-- TECH STACK -->
     <div class="content-section fade-in fade-in-delay-1">
-      <p class="content-section-eyebrow">Tech Stack</p>
-      <h2 class="content-section-title">Built with.</h2>
+      <p class="content-section-eyebrow"><span lang="en">Tech Stack</span><span lang="id">Teknologi yang Digunakan</span></p>
+      <h2 class="content-section-title"><span lang="en">Built with.</span><span lang="id">Dibangun dengan.</span></h2>
       <div class="tech-stack-grid">
         <div class="tech-group">
-          <div class="tech-group-label">Mobile Frontend</div>
+          <div class="tech-group-label"><span lang="en">Mobile Frontend</span><span lang="id">Frontend Mobile</span></div>
           <div class="tech-tags">
             <span class="tech-tag">Flutter</span>
             <span class="tech-tag">Dart</span>
@@ -851,18 +871,18 @@
           </div>
         </div>
         <div class="tech-group">
-          <div class="tech-group-label">Database</div>
+          <div class="tech-group-label"><span lang="en">Database</span><span lang="id">Basis Data</span></div>
           <div class="tech-tags">
             <span class="tech-tag">PostgreSQL</span>
-            <span class="tech-tag">Relational Design</span>
+            <span class="tech-tag"><span lang="en">Relational Design</span><span lang="id">Desain Relasional</span></span>
             <span class="tech-tag">Eloquent ORM</span>
           </div>
         </div>
         <div class="tech-group">
-          <div class="tech-group-label">Architecture & Scope</div>
+          <div class="tech-group-label"><span lang="en">Architecture & Scope</span><span lang="id">Arsitektur & Lingkup</span></div>
           <div class="tech-tags">
-            <span class="tech-tag">Role-based Access Control</span>
-            <span class="tech-tag">Push Notifications</span>
+            <span class="tech-tag"><span lang="en">Role-based Access Control</span><span lang="id">Kontrol Akses Berbasis Peran</span></span>
+            <span class="tech-tag"><span lang="en">Push Notifications</span><span lang="id">Notifikasi Push</span></span>
             <span class="tech-tag">Git / GitHub</span>
           </div>
         </div>
@@ -875,8 +895,8 @@
   <footer>
     <p class="footer-left">Bryan Siagian <span>·</span> Institut Teknologi Del <span>·</span> <span id="year"></span></p>
     <div class="footer-right">
-      <a href="index.html">← Back to Portfolio</a>
-      <a href="index.html#projects">All Projects</a>
+      <a href="index.html"><span lang="en">← Back to Portfolio</span><span lang="id">← Kembali ke Portofolio</span></a>
+      <a href="index.html#projects"><span lang="en">All Projects</span><span lang="id">Semua Proyek</span></a>
       <a href="mailto:bryantorisi@gmail.com">Email</a>
     </div>
   </footer>
@@ -926,20 +946,34 @@
     fadeEls.forEach(el => fadeObserver.observe(el));
 
     // ==========================================
+    // MULTI-LANGUAGE TOGGLE LOGIC
+    // ==========================================
+    const langToggleBtn = document.getElementById('langToggle');
+    const langText = document.getElementById('langText');
+
+    const savedLang = localStorage.getItem('lang') || 'en';
+    document.documentElement.lang = savedLang;
+    langText.textContent = savedLang.toUpperCase();
+
+    langToggleBtn.addEventListener('click', () => {
+      const newLang = document.documentElement.lang === 'en' ? 'id' : 'en';
+      document.documentElement.lang = newLang;
+      localStorage.setItem('lang', newLang);
+      langText.textContent = newLang.toUpperCase();
+    });
+
+    // ==========================================
     // DARK MODE TOGGLE LOGIC
     // ==========================================
     const themeToggleBtn = document.getElementById('themeToggle');
     const htmlElement = document.documentElement;
-    
-    // SVG Icons
+
     const iconSun = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
     const iconMoon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
 
-    // Deteksi LocalStorage / Sistem OS User
     const currentTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    // Inisialisasi awal
     if (currentTheme === 'dark' || (!currentTheme && prefersDark)) {
       htmlElement.setAttribute('data-theme', 'dark');
       themeToggleBtn.innerHTML = iconSun;
@@ -948,10 +982,8 @@
       themeToggleBtn.innerHTML = iconMoon;
     }
 
-    // Fungsi saat tombol diklik
     themeToggleBtn.addEventListener('click', () => {
       let theme = htmlElement.getAttribute('data-theme');
-      
       if (theme === 'dark') {
         htmlElement.setAttribute('data-theme', 'light');
         localStorage.setItem('theme', 'light');

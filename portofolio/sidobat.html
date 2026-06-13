@@ -1,0 +1,1762 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SI-DOBAT — Bryan Siagian</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #ffffff;
+        --bg-subtle: #f8fafc;
+        --bg-dark: #0d1117;
+        --bg-card: #ffffff;
+        --text-primary: #0a0f1e;
+        --text-secondary: #4a5568;
+        --text-muted: #94a3b8;
+        --accent: #6366f1;
+        --accent-hover: #4f46e5;
+        --accent-light: #eef2ff;
+        --accent-border: #c7d2fe;
+        --border: #e8ecf0;
+        --border-strong: #d1d9e0;
+        --green: #10b981;
+        --orange: #f59e0b;
+        --sans: "Space Grotesk", sans-serif;
+        --body: "Inter", sans-serif;
+        --mono: "JetBrains Mono", monospace;
+        --shadow-sm:
+          0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+        --shadow-md:
+          0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+        --shadow-lg:
+          0 12px 40px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.06);
+        --nav-bg: rgba(255, 255, 255, 0.92);
+      }
+
+      [data-theme="dark"] {
+        --bg: #0f172a;
+        --bg-subtle: #1e293b;
+        --bg-dark: #020617;
+        --bg-card: #1e293b;
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-muted: #94a3b8;
+        --accent: #818cf8;
+        --accent-hover: #6366f1;
+        --accent-light: rgba(129, 140, 248, 0.15);
+        --accent-border: rgba(129, 140, 248, 0.3);
+        --border: #334155;
+        --border-strong: #475569;
+        --nav-bg: rgba(15, 23, 42, 0.92);
+        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+        --shadow-md:
+          0 4px 16px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.3);
+        --shadow-lg:
+          0 12px 40px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.4);
+      }
+
+      /* MULTI-LANGUAGE TOGGLE LOGIC (CSS BASED) */
+      :root:lang(en) [lang="id"] {
+        display: none !important;
+      }
+      :root:lang(id) [lang="en"] {
+        display: none !important;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: var(--body);
+        background: var(--bg);
+        color: var(--text-primary);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+        cursor: none;
+        transition:
+          background-color 0.4s ease,
+          color 0.4s ease;
+      }
+
+      a,
+      button {
+        cursor: none;
+      }
+
+      /* CURSOR */
+      .cursor-dot {
+        width: 8px;
+        height: 8px;
+        background: var(--accent);
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition:
+          transform 0.1s,
+          width 0.2s,
+          height 0.2s,
+          background 0.2s;
+      }
+      .cursor-ring {
+        width: 36px;
+        height: 36px;
+        border: 1.5px solid var(--accent);
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 9998;
+        transform: translate(-50%, -50%);
+        transition:
+          transform 0.12s ease,
+          width 0.25s,
+          height 0.25s,
+          border-color 0.2s;
+        opacity: 0.6;
+      }
+      .cursor-dot.hover {
+        width: 12px;
+        height: 12px;
+      }
+      .cursor-ring.hover {
+        width: 52px;
+        height: 52px;
+        opacity: 0.3;
+      }
+
+      /* SCROLL PROGRESS */
+      .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 2px;
+        background: linear-gradient(90deg, var(--accent), #8b5cf6, #06b6d4);
+        z-index: 200;
+        transition: width 0.05s linear;
+      }
+
+      /* NAV */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        padding: 0 2.5rem;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition:
+          background 0.3s,
+          box-shadow 0.3s;
+      }
+      nav.scrolled {
+        background: var(--nav-bg);
+        backdrop-filter: blur(16px);
+        box-shadow: 0 1px 0 var(--border);
+      }
+      .nav-logo {
+        font-family: var(--mono);
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--text-primary);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .nav-logo .logo-bracket {
+        color: var(--accent);
+      }
+
+      .nav-right-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .theme-toggle,
+      .lang-toggle {
+        background: transparent;
+        border: none;
+        color: var(--text-primary);
+        cursor: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem;
+        border-radius: 50%;
+        transition:
+          color 0.2s,
+          transform 0.2s,
+          background 0.2s;
+      }
+      .theme-toggle:hover,
+      .lang-toggle:hover {
+        color: var(--accent);
+        background: var(--bg-subtle);
+        transform: scale(1.05);
+      }
+      .theme-toggle svg {
+        width: 18px;
+        height: 18px;
+      }
+      .lang-toggle {
+        font-family: var(--mono);
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        border-radius: 8px;
+        padding: 0.4rem 0.6rem;
+      }
+
+      .nav-back {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--body);
+        font-size: 13.5px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        padding: 0.4rem 1rem;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        transition:
+          color 0.2s,
+          border-color 0.2s,
+          background 0.2s;
+      }
+      .nav-back:hover {
+        color: var(--accent);
+        border-color: var(--accent-border);
+        background: var(--accent-light);
+      }
+      .nav-back svg {
+        width: 14px;
+        height: 14px;
+      }
+
+      /* HERO */
+      .project-hero {
+        padding-top: 64px;
+        min-height: 52vh;
+        display: flex;
+        align-items: flex-end;
+        position: relative;
+        overflow: hidden;
+        background: #0d1117;
+      }
+      .hero-bg-grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(99, 102, 241, 0.07) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(99, 102, 241, 0.07) 1px, transparent 1px);
+        background-size: 48px 48px;
+        mask-image: radial-gradient(
+          ellipse 90% 70% at 50% 30%,
+          black,
+          transparent
+        );
+        pointer-events: none;
+      }
+      .hero-glow {
+        position: absolute;
+        width: 700px;
+        height: 500px;
+        background: radial-gradient(
+          circle,
+          rgba(99, 102, 241, 0.13) 0%,
+          transparent 65%
+        );
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        pointer-events: none;
+      }
+      .project-hero-inner {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 4rem 2.5rem 3.5rem;
+        width: 100%;
+        position: relative;
+        z-index: 1;
+      }
+      .hero-breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--mono);
+        font-size: 11.5px;
+        color: #3d444d;
+        margin-bottom: 1.75rem;
+      }
+      .hero-breadcrumb a {
+        color: #3d444d;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .hero-breadcrumb a:hover {
+        color: var(--accent);
+      }
+      .hero-breadcrumb .sep {
+        color: #2d3748;
+      }
+      .hero-breadcrumb .current {
+        color: #6e7681;
+      }
+
+      .hero-type-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--mono);
+        font-size: 10.5px;
+        font-weight: 500;
+        color: var(--accent);
+        background: rgba(99, 102, 241, 0.12);
+        border: 1px solid rgba(99, 102, 241, 0.25);
+        padding: 4px 12px;
+        border-radius: 100px;
+        letter-spacing: 0.05em;
+        margin-bottom: 1.25rem;
+      }
+      .project-hero h1 {
+        font-family: var(--sans);
+        font-size: clamp(2rem, 5vw, 3.2rem);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        color: #e6edf3;
+        line-height: 1.1;
+        margin-bottom: 1rem;
+      }
+      .project-hero h1 .accent {
+        color: var(--accent);
+      }
+      .project-hero .hero-tagline {
+        font-size: 1.05rem;
+        color: #8b949e;
+        line-height: 1.75;
+        max-width: 620px;
+        margin-bottom: 2rem;
+      }
+      .hero-meta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+      }
+      .hero-meta-item {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .hero-meta-label {
+        font-family: var(--mono);
+        font-size: 10.5px;
+        color: #3d444d;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+      .hero-meta-value {
+        font-size: 14px;
+        font-weight: 500;
+        color: #c9d1d9;
+      }
+
+      /* LINKS ROW */
+      .project-links-row {
+        display: flex;
+        gap: 0.875rem;
+        margin-top: 1.75rem;
+      }
+      .btn-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--body);
+        font-size: 13.5px;
+        font-weight: 500;
+        padding: 0.6rem 1.25rem;
+        border-radius: 9px;
+        text-decoration: none;
+        transition: all 0.2s;
+      }
+      .btn-link svg {
+        width: 14px;
+        height: 14px;
+      }
+      .btn-link.primary {
+        background: var(--accent);
+        color: #fff;
+        border: 1px solid var(--accent);
+      }
+      .btn-link.primary:hover {
+        background: var(--accent-hover);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3);
+      }
+      .btn-link.outline {
+        background: transparent;
+        color: #8b949e;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .btn-link.outline:hover {
+        border-color: rgba(99, 102, 241, 0.4);
+        color: #c9d1d9;
+      }
+
+      /* MAIN CONTENT */
+      .project-body {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 4rem 2.5rem 5rem;
+      }
+
+      /* SECTION */
+      .content-section {
+        margin-bottom: 4rem;
+      }
+      .content-section-eyebrow {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--accent);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .content-section-eyebrow::after {
+        content: "";
+        flex: 1;
+        max-width: 40px;
+        height: 1px;
+        background: var(--accent-border);
+      }
+      .content-section-title {
+        font-family: var(--sans);
+        font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--text-primary);
+        margin-bottom: 1.25rem;
+      }
+      .content-prose p {
+        font-size: 15px;
+        color: var(--text-secondary);
+        line-height: 1.85;
+        margin-bottom: 1rem;
+      }
+      .content-prose p:last-child {
+        margin-bottom: 0;
+      }
+
+      /* OVERVIEW GRID */
+      .overview-grid {
+        display: grid;
+        grid-template-columns: 1.6fr 1fr;
+        gap: 3.5rem;
+        align-items: start;
+      }
+
+      /* QUICK INFO CARD */
+      .quick-info-card {
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        transition:
+          background-color 0.4s ease,
+          border-color 0.4s ease;
+      }
+      .quick-info-card-title {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .quick-info-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+      .quick-info-key {
+        font-size: 12.5px;
+        color: var(--text-muted);
+        white-space: nowrap;
+        padding-top: 2px;
+      }
+      .quick-info-val {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text-primary);
+        text-align: right;
+        line-height: 1.5;
+      }
+      .quick-info-divider {
+        height: 1px;
+        background: var(--border);
+      }
+
+      .stack-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        justify-content: flex-end;
+      }
+      .stag {
+        font-family: var(--mono);
+        font-size: 11px;
+        background: var(--accent-light);
+        color: var(--accent);
+        border: 1px solid var(--accent-border);
+        padding: 3px 9px;
+        border-radius: 5px;
+      }
+
+      /* PROBLEM / SOLUTION */
+      .ps-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+      .ps-card {
+        background: var(--bg-card);
+        border-radius: 14px;
+        padding: 1.75rem;
+        border: 1px solid var(--border);
+        position: relative;
+        overflow: hidden;
+        transition:
+          background-color 0.4s ease,
+          border-color 0.4s ease;
+      }
+      .ps-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+      }
+      .ps-card.problem::before {
+        background: linear-gradient(90deg, #ef4444, #f97316);
+      }
+      .ps-card.solution::before {
+        background: linear-gradient(90deg, var(--green), #06b6d4);
+      }
+      .ps-card-label {
+        font-family: var(--mono);
+        font-size: 10.5px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .ps-card.problem .ps-card-label {
+        color: #ef4444;
+      }
+      .ps-card.solution .ps-card-label {
+        color: var(--green);
+      }
+      .ps-card-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        flex-shrink: 0;
+      }
+      .ps-card.problem .ps-card-icon {
+        background: rgba(239, 68, 68, 0.1);
+      }
+      .ps-card.solution .ps-card-icon {
+        background: rgba(16, 185, 129, 0.1);
+      }
+      .ps-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+      }
+      .ps-list li {
+        font-size: 14px;
+        color: var(--text-secondary);
+        line-height: 1.65;
+        padding-left: 1.1rem;
+        position: relative;
+      }
+      .ps-list li::before {
+        content: "▸";
+        position: absolute;
+        left: 0;
+        font-size: 9px;
+        top: 4px;
+      }
+      .ps-card.problem .ps-list li::before {
+        color: #ef4444;
+      }
+      .ps-card.solution .ps-list li::before {
+        color: var(--green);
+      }
+
+      /* GALLERY */
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+      }
+      .gallery-item {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        aspect-ratio: 16/10;
+        position: relative;
+        transition:
+          transform 0.25s,
+          box-shadow 0.25s,
+          border-color 0.4s ease;
+        background: var(--bg-subtle);
+      }
+      .gallery-item:first-child {
+        grid-column: span 2;
+        aspect-ratio: 16/9;
+      }
+      .gallery-item:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-lg);
+      }
+      .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .gallery-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background: linear-gradient(
+          135deg,
+          #0f2027 0%,
+          #1a3a2a 50%,
+          #0f2027 100%
+        );
+      }
+      .gallery-placeholder .gp-icon {
+        font-size: 28px;
+      }
+      .gallery-placeholder .gp-label {
+        font-family: var(--mono);
+        font-size: 10.5px;
+        color: #7ee787;
+        opacity: 0.55;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .gallery-placeholder .gp-title {
+        font-family: var(--sans);
+        font-size: 13px;
+        font-weight: 600;
+        color: #7ee787;
+        opacity: 0.8;
+      }
+      .gallery-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+        padding: 1.5rem 1rem 0.75rem;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.75);
+        font-family: var(--body);
+        opacity: 0;
+        transition: opacity 0.25s;
+      }
+      .gallery-item:hover .gallery-caption {
+        opacity: 1;
+      }
+
+      /* ARCHITECTURE */
+      .arch-block {
+        background: var(--bg-dark);
+        border: 1px solid rgba(128, 128, 128, 0.2);
+        border-radius: 14px;
+        padding: 2rem;
+        font-family: var(--mono);
+        font-size: 13px;
+        line-height: 2;
+        overflow-x: auto;
+        transition:
+          background-color 0.4s ease,
+          border-color 0.4s ease;
+      }
+      .arch-row {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        flex-wrap: nowrap;
+      }
+      .arch-node {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 6px 14px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+      .arch-node.client {
+        background: rgba(99, 102, 241, 0.15);
+        color: #a5b4fc;
+        border: 1px solid rgba(99, 102, 241, 0.25);
+      }
+      .arch-node.gateway {
+        background: rgba(245, 158, 11, 0.12);
+        color: #fcd34d;
+        border: 1px solid rgba(245, 158, 11, 0.2);
+      }
+      .arch-node.service {
+        background: rgba(16, 185, 129, 0.1);
+        color: #6ee7b7;
+        border: 1px solid rgba(16, 185, 129, 0.2);
+      }
+      .arch-node.external {
+        background: rgba(139, 92, 246, 0.12);
+        color: #c4b5fd;
+        border: 1px solid rgba(139, 92, 246, 0.25);
+      }
+      .arch-node.db {
+        background: rgba(6, 182, 212, 0.1);
+        color: #67e8f9;
+        border: 1px solid rgba(6, 182, 212, 0.2);
+      }
+      .arch-arrow {
+        color: #8b949e;
+        font-size: 14px;
+        padding: 0 6px;
+      }
+      .arch-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+      }
+      .arch-row-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .arch-section-label {
+        font-size: 10px;
+        color: #8b949e;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 6px;
+        margin-top: 16px;
+      }
+      .arch-section-label:first-child {
+        margin-top: 0;
+      }
+
+      /* FADE IN */
+      .fade-in {
+        opacity: 0;
+        transform: translateY(18px);
+        transition:
+          opacity 0.55s ease,
+          transform 0.55s ease;
+      }
+      .fade-in.visible {
+        opacity: 1;
+        transform: none;
+      }
+      .fade-in-delay-1 {
+        transition-delay: 0.1s;
+      }
+      .fade-in-delay-2 {
+        transition-delay: 0.2s;
+      }
+
+      /* FOOTER */
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 2rem 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .footer-left {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+      .footer-left span {
+        color: var(--accent);
+      }
+      .footer-right {
+        display: flex;
+        gap: 1.5rem;
+      }
+      .footer-right a {
+        font-size: 12px;
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .footer-right a:hover {
+        color: var(--text-primary);
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 900px) {
+        .overview-grid {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+        .ps-grid {
+          grid-template-columns: 1fr;
+        }
+        .gallery-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .gallery-item:first-child {
+          grid-column: span 2;
+        }
+      }
+      @media (max-width: 600px) {
+        nav {
+          padding: 0 1.25rem;
+        }
+        .project-hero-inner {
+          padding: 3rem 1.25rem 2.5rem;
+        }
+        .project-body {
+          padding: 2.5rem 1.25rem 4rem;
+        }
+        .gallery-grid {
+          grid-template-columns: 1fr;
+        }
+        .gallery-item:first-child {
+          grid-column: span 1;
+        }
+        footer {
+          flex-direction: column;
+          gap: 1rem;
+          text-align: center;
+          padding: 1.5rem;
+        }
+        .hero-meta-row {
+          gap: 1.25rem;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .cursor-dot,
+        .cursor-ring {
+          display: none;
+        }
+        * {
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- NAV -->
+    <nav id="mainNav">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-bracket">{</span>&nbsp;bryan&nbsp;<span
+          class="logo-bracket"
+          >}</span
+        >
+      </a>
+
+      <div class="nav-right-actions">
+        <!-- TOMBOL BAHASA -->
+        <button
+          id="langToggle"
+          class="lang-toggle"
+          aria-label="Toggle Language"
+        >
+          <span id="langText">EN</span>
+        </button>
+
+        <!-- TOMBOL DARK MODE -->
+        <button
+          id="themeToggle"
+          class="theme-toggle"
+          aria-label="Toggle Dark Mode"
+        ></button>
+
+        <a href="index.html#projects" class="nav-back">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M19 12H5M12 5l-7 7 7 7" />
+          </svg>
+          <span lang="en">All Projects</span>
+          <span lang="id">Semua Proyek</span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="project-hero">
+      <div class="hero-bg-grid"></div>
+      <div class="hero-glow"></div>
+      <div class="project-hero-inner">
+        <div class="hero-breadcrumb">
+          <a href="index.html">bryan</a>
+          <span class="sep">/</span>
+          <a href="index.html#projects"
+            ><span lang="en">projects</span><span lang="id">proyek</span></a
+          >
+          <span class="sep">/</span>
+          <span class="current">SI-DOBAT</span>
+        </div>
+
+        <div class="hero-type-badge">
+          <span lang="en">Microservices · E-Commerce · Logistics</span>
+          <span lang="id">Microservices · E-Commerce · Logistik</span>
+        </div>
+
+        <h1>
+          SI-DOBAT —
+          <span class="accent"
+            ><span lang="en">Drug Distribution</span
+            ><span lang="id">Distribusi Obat</span></span
+          >
+          Platform
+        </h1>
+
+        <p class="hero-tagline" lang="en">
+          A full-cycle pharmacy logistics and e-commerce system built for
+          Yayasan Satriabudi Dharma — handling everything from drug inventory to
+          courier dispatch, payment processing, and reporting, deployed on AWS
+          EC2.
+        </p>
+        <p class="hero-tagline" lang="id">
+          Sistem logistik farmasi dan e-commerce penuh yang dibangun untuk
+          Yayasan Satriabudi Dharma — menangani segalanya mulai dari inventaris
+          obat hingga pengiriman kurir, pemrosesan pembayaran, dan pelaporan,
+          di-deploy di AWS EC2.
+        </p>
+
+        <div class="project-links-row">
+          <a
+            href="https://github.com/bryansiagian/PA-II-Kelompok-10"
+            target="_blank"
+            rel="noopener"
+            class="btn-link primary"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+            >
+              <path
+                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"
+              />
+            </svg>
+            <span lang="en">View on GitHub</span>
+            <span lang="id">Lihat di GitHub</span>
+          </a>
+          <a
+            href="https://www.dharma.or.id/"
+            target="_blank"
+            rel="noopener"
+            class="btn-link outline"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+            >
+              <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+              <polyline points="15 3 21 3 21 9" />
+              <line x1="10" y1="14" x2="21" y2="3" />
+            </svg>
+            <span lang="en">Foundation Site</span>
+            <span lang="id">Situs Yayasan</span>
+          </a>
+        </div>
+
+        <div class="hero-meta-row">
+          <div class="hero-meta-item">
+            <div class="hero-meta-label">
+              <span lang="en">Role</span><span lang="id">Peran</span>
+            </div>
+            <div class="hero-meta-value">
+              <span lang="en">Full-stack Developer</span
+              ><span lang="id">Developer Full-stack</span>
+            </div>
+          </div>
+          <div class="hero-meta-item">
+            <div class="hero-meta-label">
+              <span lang="en">Team</span><span lang="id">Tim</span>
+            </div>
+            <div class="hero-meta-value">
+              <span lang="en">Kelompok 10 · 5 members</span
+              ><span lang="id">Kelompok 10 · 5 anggota</span>
+            </div>
+          </div>
+          <div class="hero-meta-item">
+            <div class="hero-meta-label">
+              <span lang="en">Platform</span><span lang="id">Platform</span>
+            </div>
+            <div class="hero-meta-value">
+              <span lang="en">Web (Laravel Microservices)</span
+              ><span lang="id">Web (Laravel Microservices)</span>
+            </div>
+          </div>
+          <div class="hero-meta-item">
+            <div class="hero-meta-label">
+              <span lang="en">Deployment</span><span lang="id">Deployment</span>
+            </div>
+            <div class="hero-meta-value">AWS EC2 · Docker Compose</div>
+          </div>
+          <div class="hero-meta-item">
+            <div class="hero-meta-label">Status</div>
+            <div class="hero-meta-value" style="color: var(--green)">
+              ✦ <span lang="en">Active</span><span lang="id">Aktif</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BODY -->
+    <div class="project-body">
+      <!-- OVERVIEW -->
+      <div class="content-section fade-in">
+        <div class="overview-grid">
+          <div>
+            <p class="content-section-eyebrow">
+              <span lang="en">Overview</span
+              ><span lang="id">Gambaran Umum</span>
+            </p>
+            <h2 class="content-section-title">
+              <span lang="en">What is SI-DOBAT?</span
+              ><span lang="id">Apa itu SI-DOBAT?</span>
+            </h2>
+            <div class="content-prose">
+              <p lang="en">
+                SI-DOBAT is a web-based drug distribution and logistics platform
+                developed as a commissioned project for Yayasan Satriabudi
+                Dharma, a foundation managing pharmaceutical distribution in the
+                region. The system replaces a previously manual workflow with a
+                structured, role-based platform.
+              </p>
+              <p lang="id">
+                SI-DOBAT adalah platform distribusi obat dan logistik berbasis
+                web yang dikembangkan sebagai proyek pesanan untuk Yayasan
+                Satriabudi Dharma, sebuah yayasan yang mengelola distribusi
+                farmasi di wilayah tersebut. Sistem ini menggantikan alur kerja
+                manual sebelumnya dengan platform terstruktur berbasis peran.
+              </p>
+              <p lang="en">
+                The platform supports four distinct user roles — Admin,
+                Operator, Courier, and Customer — each with a tailored
+                interface. Customers browse and order medicines, operators
+                approve orders and manage inventory, couriers handle last-mile
+                delivery, and admins oversee everything from user management to
+                financial reporting.
+              </p>
+              <p lang="id">
+                Platform ini mendukung empat peran pengguna yang berbeda —
+                Admin, Operator, Kurir, dan Pelanggan — masing-masing dengan
+                antarmuka yang disesuaikan. Pelanggan menelusuri dan memesan
+                obat, operator menyetujui pesanan dan mengelola inventaris,
+                kurir menangani pengiriman last-mile, dan admin mengawasi
+                segalanya mulai dari manajemen pengguna hingga pelaporan
+                keuangan.
+              </p>
+              <p lang="en">
+                Built as a Laravel 12 microservice architecture with three
+                independent services —
+                <code
+                  style="
+                    font-family: var(--mono);
+                    font-size: 13px;
+                    background: var(--accent-light);
+                    color: var(--accent);
+                    padding: 2px 7px;
+                    border-radius: 4px;
+                  "
+                  >auth_service</code
+                >,
+                <code
+                  style="
+                    font-family: var(--mono);
+                    font-size: 13px;
+                    background: var(--accent-light);
+                    color: var(--accent);
+                    padding: 2px 7px;
+                    border-radius: 4px;
+                  "
+                  >distribusi_obat</code
+                >, and
+                <code
+                  style="
+                    font-family: var(--mono);
+                    font-size: 13px;
+                    background: var(--accent-light);
+                    color: var(--accent);
+                    padding: 2px 7px;
+                    border-radius: 4px;
+                  "
+                  >report_service</code
+                >
+                — each running in its own Docker container and communicating via
+                REST APIs.
+              </p>
+              <p lang="id">
+                Dibangun sebagai arsitektur microservice Laravel 12 dengan tiga
+                layanan independen —
+                <code
+                  style="
+                    font-family: var(--mono);
+                    font-size: 13px;
+                    background: var(--accent-light);
+                    color: var(--accent);
+                    padding: 2px 7px;
+                    border-radius: 4px;
+                  "
+                  >auth_service</code
+                >,
+                <code
+                  style="
+                    font-family: var(--mono);
+                    font-size: 13px;
+                    background: var(--accent-light);
+                    color: var(--accent);
+                    padding: 2px 7px;
+                    border-radius: 4px;
+                  "
+                  >distribusi_obat</code
+                >, dan
+                <code
+                  style="
+                    font-family: var(--mono);
+                    font-size: 13px;
+                    background: var(--accent-light);
+                    color: var(--accent);
+                    padding: 2px 7px;
+                    border-radius: 4px;
+                  "
+                  >report_service</code
+                >
+                — masing-masing berjalan dalam container Docker sendiri dan
+                berkomunikasi melalui REST API.
+              </p>
+            </div>
+          </div>
+
+          <div class="quick-info-card">
+            <div class="quick-info-card-title">
+              <span lang="en">Project at a glance</span
+              ><span lang="id">Ringkasan proyek</span>
+            </div>
+            <div class="quick-info-row">
+              <span class="quick-info-key"
+                ><span lang="en">Client</span><span lang="id">Klien</span></span
+              >
+              <span class="quick-info-val">Yayasan Satriabudi Dharma</span>
+            </div>
+            <div class="quick-info-divider"></div>
+            <div class="quick-info-row">
+              <span class="quick-info-key"
+                ><span lang="en">Course</span
+                ><span lang="id">Mata Kuliah</span></span
+              >
+              <span class="quick-info-val">PA II · Institut Teknologi Del</span>
+            </div>
+            <div class="quick-info-divider"></div>
+            <div class="quick-info-row">
+              <span class="quick-info-key"
+                ><span lang="en">User roles</span
+                ><span lang="id">Peran pengguna</span></span
+              >
+              <span class="quick-info-val"
+                >Admin · Operator<br /><span lang="en">Courier · Customer</span
+                ><span lang="id">Kurir · Pelanggan</span></span
+              >
+            </div>
+            <div class="quick-info-divider"></div>
+            <div class="quick-info-row">
+              <span class="quick-info-key"
+                ><span lang="en">Payment</span
+                ><span lang="id">Pembayaran</span></span
+              >
+              <span class="quick-info-val">Midtrans Snap</span>
+            </div>
+            <div class="quick-info-divider"></div>
+            <div class="quick-info-row">
+              <span class="quick-info-key">Stack</span>
+              <div class="stack-tags">
+                <span class="stag">Laravel 12</span>
+                <span class="stag">MySQL</span>
+                <span class="stag">Docker</span>
+                <span class="stag">Midtrans</span>
+                <span class="stag">AWS EC2</span>
+                <span class="stag">Nginx</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROBLEM & SOLUTION -->
+      <div class="content-section fade-in fade-in-delay-1">
+        <p class="content-section-eyebrow">
+          <span lang="en">Problem & Solution</span
+          ><span lang="id">Masalah & Solusi</span>
+        </p>
+        <h2 class="content-section-title">
+          <span lang="en">What we were solving.</span
+          ><span lang="id">Apa yang kami selesaikan.</span>
+        </h2>
+        <div class="ps-grid">
+          <div class="ps-card problem">
+            <div class="ps-card-label">
+              <div class="ps-card-icon">⚠️</div>
+              <span lang="en">The Problem</span>
+              <span lang="id">Masalahnya</span>
+            </div>
+            <ul class="ps-list">
+              <li lang="en">
+                Drug distribution was tracked entirely by hand — orders, stock
+                levels, and courier assignments were done via spreadsheets and
+                phone calls.
+              </li>
+              <li lang="id">
+                Distribusi obat dilacak sepenuhnya secara manual — pesanan,
+                level stok, dan penugasan kurir dilakukan melalui spreadsheet
+                dan telepon.
+              </li>
+              <li lang="en">
+                No payment tracking: the foundation had no visibility into which
+                orders had been paid, which were pending, or which failed.
+              </li>
+              <li lang="id">
+                Tidak ada pelacakan pembayaran: yayasan tidak memiliki
+                visibilitas terhadap pesanan mana yang sudah dibayar, mana yang
+                tertunda, atau mana yang gagal.
+              </li>
+              <li lang="en">
+                No audit trail: operator actions (approvals, rejections,
+                inventory edits) weren't logged, creating room for errors and
+                fraud.
+              </li>
+              <li lang="id">
+                Tidak ada jejak audit: tindakan operator (persetujuan,
+                penolakan, edit inventaris) tidak dicatat, membuka celah untuk
+                kesalahan dan kecurangan.
+              </li>
+              <li lang="en">
+                Multiple teams working in silos — auth, order management, and
+                reporting had no shared system, causing data inconsistency.
+              </li>
+              <li lang="id">
+                Beberapa tim bekerja secara terpisah — autentikasi, manajemen
+                pesanan, dan pelaporan tidak memiliki sistem bersama,
+                menyebabkan inkonsistensi data.
+              </li>
+            </ul>
+          </div>
+          <div class="ps-card solution">
+            <div class="ps-card-label">
+              <div class="ps-card-icon">✦</div>
+              <span lang="en">Our Approach</span>
+              <span lang="id">Pendekatan Kami</span>
+            </div>
+            <ul class="ps-list">
+              <li lang="en">
+                Designed a microservice architecture — auth, order/distribution,
+                and reporting each as an isolated Laravel service — so each
+                domain could evolve independently.
+              </li>
+              <li lang="id">
+                Merancang arsitektur microservice — auth, pesanan/distribusi,
+                dan pelaporan masing-masing sebagai layanan Laravel yang
+                terisolasi — sehingga setiap domain bisa berkembang secara
+                independen.
+              </li>
+              <li lang="en">
+                Integrated Midtrans Snap for real-time payment status, with
+                webhook-based updates to keep order state accurate across
+                services.
+              </li>
+              <li lang="id">
+                Mengintegrasikan Midtrans Snap untuk status pembayaran
+                real-time, dengan pembaruan berbasis webhook untuk menjaga
+                status pesanan tetap akurat di semua layanan.
+              </li>
+              <li lang="en">
+                Built a role-gated operator panel with conditional UI logic
+                (e.g. approve button only visible when payment is confirmed),
+                reducing accidental or unauthorized actions.
+              </li>
+              <li lang="id">
+                Membangun panel operator yang dibatasi peran dengan logika UI
+                kondisional (mis. tombol setujui hanya muncul saat pembayaran
+                dikonfirmasi), mengurangi tindakan tidak sengaja atau tidak sah.
+              </li>
+              <li lang="en">
+                Implemented a
+                <code
+                  style="
+                    font-family: var(--mono);
+                    font-size: 12px;
+                    background: rgba(16, 185, 129, 0.1);
+                    color: #6ee7b7;
+                    padding: 2px 6px;
+                    border-radius: 4px;
+                  "
+                  >report_service</code
+                >
+                with snapshot tables and event-driven sync so reporting never
+                blocks order processing.
+              </li>
+              <li lang="id">
+                Mengimplementasikan
+                <code
+                  style="
+                    font-family: var(--mono);
+                    font-size: 12px;
+                    background: rgba(16, 185, 129, 0.1);
+                    color: #6ee7b7;
+                    padding: 2px 6px;
+                    border-radius: 4px;
+                  "
+                  >report_service</code
+                >
+                dengan tabel snapshot dan sinkronisasi berbasis event agar
+                pelaporan tidak pernah memblokir pemrosesan pesanan.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARCHITECTURE -->
+      <div class="content-section fade-in">
+        <p class="content-section-eyebrow">
+          <span lang="en">Architecture</span><span lang="id">Arsitektur</span>
+        </p>
+        <h2 class="content-section-title">
+          <span lang="en">How the services connect.</span
+          ><span lang="id">Bagaimana layanan saling terhubung.</span>
+        </h2>
+        <div class="arch-block">
+          <div class="arch-section-label">
+            <span lang="en">Client Layer</span
+            ><span lang="id">Lapisan Klien</span>
+          </div>
+          <div class="arch-row-group">
+            <div class="arch-node client">
+              🌐 <span lang="en">Browser (Customer)</span
+              ><span lang="id">Browser (Pelanggan)</span>
+            </div>
+            <div class="arch-node client">
+              🖥️ <span lang="en">Browser (Operator)</span
+              ><span lang="id">Browser (Operator)</span>
+            </div>
+            <div class="arch-node client">
+              📦 <span lang="en">Browser (Courier)</span
+              ><span lang="id">Browser (Kurir)</span>
+            </div>
+            <div class="arch-node client">🔧 Browser (Admin)</div>
+          </div>
+
+          <div class="arch-section-label">
+            <span lang="en">Reverse Proxy</span
+            ><span lang="id">Reverse Proxy</span>
+          </div>
+          <div class="arch-row-group">
+            <div class="arch-node gateway">
+              ⚙️ Nginx — <span lang="en">routes by subdomain/path</span
+              ><span lang="id">routing berdasarkan subdomain/path</span>
+            </div>
+          </div>
+
+          <div class="arch-section-label">
+            <span lang="en">Microservices (each in Docker container)</span
+            ><span lang="id"
+              >Microservices (masing-masing dalam container Docker)</span
+            >
+          </div>
+          <div class="arch-row-group">
+            <div class="arch-node service">🔐 auth_service :8000</div>
+            <div class="arch-arrow">↔</div>
+            <div class="arch-node service">
+              💊 distribusi_obat :8001 / :8003
+            </div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-node service">📊 report_service :8002</div>
+          </div>
+
+          <div class="arch-section-label">
+            <span lang="en">External Services</span
+            ><span lang="id">Layanan Eksternal</span>
+          </div>
+          <div class="arch-row-group">
+            <div class="arch-node external">
+              💳 Midtrans Snap (<span lang="en">payment</span
+              ><span lang="id">pembayaran</span>)
+            </div>
+            <div class="arch-arrow">·</div>
+            <div class="arch-node external">
+              ✉️ Laravel Mail (<span lang="en">notifications</span
+              ><span lang="id">notifikasi</span>)
+            </div>
+            <div class="arch-arrow">·</div>
+            <div class="arch-node external">
+              🔗 ngrok (<span lang="en">webhook dev</span
+              ><span lang="id">webhook dev</span>)
+            </div>
+          </div>
+
+          <div class="arch-section-label">
+            <span lang="en">Data Layer</span><span lang="id">Lapisan Data</span>
+          </div>
+          <div class="arch-row-group">
+            <div class="arch-node db">🗄️ auth_db (MySQL)</div>
+            <div class="arch-arrow">·</div>
+            <div class="arch-node db">🗄️ distribusi_db (MySQL)</div>
+            <div class="arch-arrow">·</div>
+            <div class="arch-node db">🗄️ report_db (MySQL)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GALLERY -->
+      <div class="content-section fade-in fade-in-delay-1">
+        <p class="content-section-eyebrow">
+          <span lang="en">Gallery</span><span lang="id">Galeri</span>
+        </p>
+        <h2 class="content-section-title">
+          <span lang="en">Screenshots.</span
+          ><span lang="id">Tangkapan Layar.</span>
+        </h2>
+        <div class="gallery-grid">
+          <div class="gallery-item">
+            <img src="image/SI-DOBAT.png" alt="Dashboard" />
+            <div class="gallery-placeholder">
+              <span class="gp-icon">💊</span>
+              <span class="gp-title"
+                ><span lang="en">Operator Dashboard</span
+                ><span lang="id">Dashboard Operator</span></span
+              >
+              <span class="gp-label"
+                ><span lang="en">replace with screenshot</span
+                ><span lang="id">ganti dengan screenshot</span></span
+              >
+            </div>
+            <div class="gallery-caption">
+              <span lang="en"
+                >Operator dashboard — order queue with payment status
+                indicators</span
+              >
+              <span lang="id"
+                >Dashboard operator — antrian pesanan dengan indikator status
+                pembayaran</span
+              >
+            </div>
+          </div>
+
+          <div class="gallery-item">
+            <img src="image/SI-DOBAT-login.png" alt="Drug Catalog" />
+            <div class="gallery-placeholder">
+              <span class="gp-icon">🛒</span>
+              <span class="gp-title"
+                ><span lang="en">Drug Catalog</span
+                ><span lang="id">Katalog Obat</span></span
+              >
+              <span class="gp-label"
+                ><span lang="en">replace with screenshot</span
+                ><span lang="id">ganti dengan screenshot</span></span
+              >
+            </div>
+            <div class="gallery-caption">
+              <span lang="en"
+                >Customer-facing drug catalog with stock availability</span
+              >
+              <span lang="id"
+                >Katalog obat untuk pelanggan dengan ketersediaan stok</span
+              >
+            </div>
+          </div>
+
+          <div class="gallery-item">
+            <div class="gallery-placeholder">
+              <span class="gp-icon">💳</span>
+              <span class="gp-title"
+                ><span lang="en">Midtrans Payment</span
+                ><span lang="id">Pembayaran Midtrans</span></span
+              >
+              <span class="gp-label"
+                ><span lang="en">replace with screenshot</span
+                ><span lang="id">ganti dengan screenshot</span></span
+              >
+            </div>
+            <div class="gallery-caption">
+              <span lang="en"
+                >Midtrans Snap checkout embedded in order flow</span
+              >
+              <span lang="id"
+                >Checkout Midtrans Snap yang tertanam dalam alur pesanan</span
+              >
+            </div>
+          </div>
+
+          <div class="gallery-item">
+            <div class="gallery-placeholder">
+              <span class="gp-icon">🚚</span>
+              <span class="gp-title"
+                ><span lang="en">Courier Panel</span
+                ><span lang="id">Panel Kurir</span></span
+              >
+              <span class="gp-label"
+                ><span lang="en">replace with screenshot</span
+                ><span lang="id">ganti dengan screenshot</span></span
+              >
+            </div>
+            <div class="gallery-caption">
+              <span lang="en"
+                >Courier assignment and delivery status update panel</span
+              >
+              <span lang="id"
+                >Panel penugasan kurir dan pembaruan status pengiriman</span
+              >
+            </div>
+          </div>
+
+          <div class="gallery-item">
+            <div class="gallery-placeholder">
+              <span class="gp-icon">📊</span>
+              <span class="gp-title"
+                ><span lang="en">Report Service</span
+                ><span lang="id">Layanan Laporan</span></span
+              >
+              <span class="gp-label"
+                ><span lang="en">replace with screenshot</span
+                ><span lang="id">ganti dengan screenshot</span></span
+              >
+            </div>
+            <div class="gallery-caption">
+              <span lang="en"
+                >Sales and distribution reports from snapshot data</span
+              >
+              <span lang="id"
+                >Laporan penjualan dan distribusi dari data snapshot</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end project-body -->
+
+    <!-- FOOTER -->
+    <footer>
+      <p class="footer-left">
+        Bryan Siagian <span>·</span> Institut Teknologi Del <span>·</span>
+        <span id="year"></span>
+      </p>
+      <div class="footer-right">
+        <a href="index.html"
+          ><span lang="en">← Back to Portfolio</span
+          ><span lang="id">← Kembali ke Portofolio</span></a
+        >
+        <a href="index.html#projects"
+          ><span lang="en">All Projects</span
+          ><span lang="id">Semua Proyek</span></a
+        >
+        <a href="mailto:bryantorisi@gmail.com">Email</a>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      // Cursor
+      const dot = document.getElementById("cursorDot");
+      const ring = document.getElementById("cursorRing");
+      let mx = 0,
+        my = 0,
+        rx = 0,
+        ry = 0;
+      document.addEventListener("mousemove", (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        dot.style.left = mx + "px";
+        dot.style.top = my + "px";
+      });
+      function animRing() {
+        rx += (mx - rx) * 0.12;
+        ry += (my - ry) * 0.12;
+        ring.style.left = rx + "px";
+        ring.style.top = ry + "px";
+        requestAnimationFrame(animRing);
+      }
+      animRing();
+      document
+        .querySelectorAll("a, button, .gallery-item, .ps-card, .stat-block")
+        .forEach((el) => {
+          el.addEventListener("mouseenter", () => {
+            dot.classList.add("hover");
+            ring.classList.add("hover");
+          });
+          el.addEventListener("mouseleave", () => {
+            dot.classList.remove("hover");
+            ring.classList.remove("hover");
+          });
+        });
+
+      // Scroll progress
+      const progressBar = document.getElementById("scrollProgress");
+      window.addEventListener(
+        "scroll",
+        () => {
+          const st = window.scrollY;
+          const dh = document.documentElement.scrollHeight - window.innerHeight;
+          progressBar.style.width = (st / dh) * 100 + "%";
+        },
+        { passive: true },
+      );
+
+      // Nav scroll
+      const nav = document.getElementById("mainNav");
+      window.addEventListener(
+        "scroll",
+        () => {
+          nav.classList.toggle("scrolled", window.scrollY > 20);
+        },
+        { passive: true },
+      );
+
+      // Fade in
+      const fadeEls = document.querySelectorAll(".fade-in");
+      const fadeObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              fadeObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.08 },
+      );
+      fadeEls.forEach((el) => fadeObserver.observe(el));
+
+      // ==========================================
+      // MULTI-LANGUAGE TOGGLE LOGIC
+      // ==========================================
+      const langToggleBtn = document.getElementById("langToggle");
+      const langText = document.getElementById("langText");
+
+      const savedLang = localStorage.getItem("lang") || "en";
+      document.documentElement.lang = savedLang;
+      langText.textContent = savedLang.toUpperCase();
+
+      langToggleBtn.addEventListener("click", () => {
+        const newLang = document.documentElement.lang === "en" ? "id" : "en";
+        document.documentElement.lang = newLang;
+        localStorage.setItem("lang", newLang);
+        langText.textContent = newLang.toUpperCase();
+      });
+
+      // ==========================================
+      // DARK MODE TOGGLE LOGIC
+      // ==========================================
+      const themeToggleBtn = document.getElementById("themeToggle");
+      const htmlElement = document.documentElement;
+
+      const iconSun = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
+      const iconMoon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
+
+      const currentTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
+
+      if (currentTheme === "dark" || (!currentTheme && prefersDark)) {
+        htmlElement.setAttribute("data-theme", "dark");
+        themeToggleBtn.innerHTML = iconSun;
+      } else {
+        htmlElement.setAttribute("data-theme", "light");
+        themeToggleBtn.innerHTML = iconMoon;
+      }
+
+      themeToggleBtn.addEventListener("click", () => {
+        let theme = htmlElement.getAttribute("data-theme");
+        if (theme === "dark") {
+          htmlElement.setAttribute("data-theme", "light");
+          localStorage.setItem("theme", "light");
+          themeToggleBtn.innerHTML = iconMoon;
+        } else {
+          htmlElement.setAttribute("data-theme", "dark");
+          localStorage.setItem("theme", "dark");
+          themeToggleBtn.innerHTML = iconSun;
+        }
+      });
+    </script>
+  </body>
+</html>

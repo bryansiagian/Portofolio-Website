@@ -32,33 +32,33 @@
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
       --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
       --shadow-lg: 0 12px 40px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.06);
-
-      /* Variabel tambahan untuk navigasi */
       --nav-bg: rgba(255, 255, 255, 0.92);
     }
 
     /* Palet Dark Mode */
     [data-theme="dark"] {
-      --bg: #0f172a; 
-      --bg-subtle: #1e293b; 
-      --bg-dark: #020617; 
-      --bg-card: #1e293b; 
-      --text-primary: #f8fafc; 
+      --bg: #0f172a;
+      --bg-subtle: #1e293b;
+      --bg-dark: #020617;
+      --bg-card: #1e293b;
+      --text-primary: #f8fafc;
       --text-secondary: #cbd5e1;
       --text-muted: #94a3b8;
-      --accent: #818cf8; 
+      --accent: #818cf8;
       --accent-hover: #6366f1;
-      --accent-light: rgba(129, 140, 248, 0.15); 
+      --accent-light: rgba(129, 140, 248, 0.15);
       --accent-border: rgba(129, 140, 248, 0.3);
       --border: #334155;
       --border-strong: #475569;
-      
       --nav-bg: rgba(15, 23, 42, 0.92);
-      
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
       --shadow-md: 0 4px 16px rgba(0,0,0,0.5), 0 2px 6px rgba(0,0,0,0.3);
       --shadow-lg: 0 12px 40px rgba(0,0,0,0.6), 0 4px 12px rgba(0,0,0,0.4);
     }
+
+    /* MULTI-LANGUAGE TOGGLE LOGIC (CSS BASED) */
+    :root:lang(en) [lang="id"] { display: none !important; }
+    :root:lang(id) [lang="en"] { display: none !important; }
 
     html { scroll-behavior: smooth; }
     body {
@@ -115,22 +115,31 @@
       display: flex; align-items: center; gap: 6px;
     }
     .nav-logo .logo-bracket { color: var(--accent); }
-    
+
     .nav-right-actions {
       display: flex;
       align-items: center;
       gap: 0.75rem;
     }
-    .theme-toggle {
+
+    .theme-toggle, .lang-toggle {
       background: transparent; border: none; color: var(--text-primary);
       cursor: none; display: flex; align-items: center; justify-content: center;
       padding: 0.5rem; border-radius: 50%;
       transition: color 0.2s, transform 0.2s, background 0.2s;
     }
-    .theme-toggle:hover {
+    .theme-toggle:hover, .lang-toggle:hover {
       color: var(--accent); background: var(--bg-subtle); transform: scale(1.05);
     }
     .theme-toggle svg { width: 18px; height: 18px; }
+    .lang-toggle {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      border-radius: 8px;
+      padding: 0.4rem 0.6rem;
+    }
 
     .nav-back {
       display: flex; align-items: center; gap: 8px;
@@ -150,22 +159,18 @@
       position: relative; overflow: hidden;
       background: #060a10;
     }
-    /* Map-dot grid pattern for transit feel */
     .hero-bg-grid {
       position: absolute; inset: 0;
-      background-image:
-        radial-gradient(circle, rgba(99,102,241,0.18) 1px, transparent 1px);
+      background-image: radial-gradient(circle, rgba(99,102,241,0.18) 1px, transparent 1px);
       background-size: 32px 32px;
       mask-image: radial-gradient(ellipse 85% 70% at 50% 30%, black, transparent);
       pointer-events: none;
     }
-    /* Route lines */
     .hero-route-lines {
       position: absolute; inset: 0; pointer-events: none; overflow: hidden;
     }
     .hero-route-lines svg {
-      position: absolute; width: 100%; height: 100%;
-      opacity: 0.12;
+      position: absolute; width: 100%; height: 100%; opacity: 0.12;
     }
     .hero-glow {
       position: absolute; width: 800px; height: 500px;
@@ -347,12 +352,12 @@
     .feature-title { font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; }
     .feature-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
 
-    /* GALLERY (UPDATED UNTUK MOBILE SCREENSHOT) */
+    /* GALLERY */
     .gallery-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; }
     .gallery-item {
       border-radius: 12px; overflow: hidden;
-      border: 1px solid var(--border); 
-      aspect-ratio: 9/16; /* Orientasi Portrait untuk HP */
+      border: 1px solid var(--border);
+      aspect-ratio: 9/16;
       position: relative;
       transition: transform 0.25s, box-shadow 0.25s, border-color 0.4s ease;
       background: var(--bg-subtle);
@@ -451,14 +456,20 @@
     <a href="index.html" class="nav-logo">
       <span class="logo-bracket">{</span>&nbsp;bryan&nbsp;<span class="logo-bracket">}</span>
     </a>
-    
+
     <div class="nav-right-actions">
+      <!-- TOMBOL BAHASA -->
+      <button id="langToggle" class="lang-toggle" aria-label="Toggle Language">
+        <span id="langText">EN</span>
+      </button>
+
       <!-- TOMBOL DARK MODE -->
       <button id="themeToggle" class="theme-toggle" aria-label="Toggle Dark Mode"></button>
 
       <a href="index.html#projects" class="nav-back">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-        All Projects
+        <span lang="en">All Projects</span>
+        <span lang="id">Semua Proyek</span>
       </a>
     </div>
   </nav>
@@ -488,7 +499,7 @@
       <div class="hero-breadcrumb">
         <a href="index.html">bryan</a>
         <span class="sep">/</span>
-        <a href="index.html#projects">projects</a>
+        <a href="index.html#projects"><span lang="en">projects</span><span lang="id">proyek</span></a>
         <span class="sep">/</span>
         <span class="current">medflow</span>
       </div>
@@ -499,41 +510,46 @@
       </div>
 
       <h1>MedFlow — <span class="accent">Medan Smart</span> Transit</h1>
-      <p class="hero-tagline">
+      <p class="hero-tagline" lang="en">
         Real-time public transit tracking for Medan's angkot network. Track vehicles live, explore routes, and get weather-aware trip recommendations — one step toward making Medan a true Smart City.
+      </p>
+      <p class="hero-tagline" lang="id">
+        Pelacakan angkutan umum real-time untuk jaringan angkot Medan. Lacak kendaraan secara langsung, jelajahi rute, dan dapatkan rekomendasi perjalanan berdasarkan cuaca — satu langkah menuju Medan Smart City.
       </p>
 
       <div class="hero-links-row">
         <a href="https://github.com/bryansiagian/MedFlow" target="_blank" rel="noopener" class="btn-link primary">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-          View on GitHub
+          <span lang="en">View on GitHub</span>
+          <span lang="id">Lihat di GitHub</span>
         </a>
         <a href="#" class="btn-link outline">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          Live Demo
+          <span lang="en">Live Demo</span>
+          <span lang="id">Demo Langsung</span>
         </a>
       </div>
 
       <div class="hero-meta-row">
         <div class="hero-meta-item">
-          <div class="hero-meta-label">Context</div>
-          <div class="hero-meta-value">Competition Project</div>
+          <div class="hero-meta-label"><span lang="en">Context</span><span lang="id">Konteks</span></div>
+          <div class="hero-meta-value"><span lang="en">Competition Project</span><span lang="id">Proyek Kompetisi</span></div>
         </div>
         <div class="hero-meta-item">
           <div class="hero-meta-label">Domain</div>
-          <div class="hero-meta-value">Transportation & Mobility</div>
+          <div class="hero-meta-value"><span lang="en">Transportation & Mobility</span><span lang="id">Transportasi & Mobilitas</span></div>
         </div>
         <div class="hero-meta-item">
-          <div class="hero-meta-label">Platform</div>
-          <div class="hero-meta-value">Mobile App + Web Backend</div>
+          <div class="hero-meta-label"><span lang="en">Platform</span><span lang="id">Platform</span></div>
+          <div class="hero-meta-value"><span lang="en">Mobile App + Web Backend</span><span lang="id">Aplikasi Mobile + Web Backend</span></div>
         </div>
         <div class="hero-meta-item">
-          <div class="hero-meta-label">Deployment</div>
+          <div class="hero-meta-label"><span lang="en">Deployment</span><span lang="id">Deployment</span></div>
           <div class="hero-meta-value">AWS EC2</div>
         </div>
         <div class="hero-meta-item">
-          <div class="hero-meta-label">Result</div>
-          <div class="hero-meta-value" style="color: #fbbf24;">🏆 2nd Place</div>
+          <div class="hero-meta-label"><span lang="en">Result</span><span lang="id">Hasil</span></div>
+          <div class="hero-meta-value" style="color: #fbbf24;"><span lang="en">🏆 2nd Place</span><span lang="id">🏆 Juara 2</span></div>
         </div>
       </div>
     </div>
@@ -546,40 +562,49 @@
     <div class="content-section fade-in">
       <div class="overview-grid">
         <div>
-          <p class="content-section-eyebrow">Overview</p>
-          <h2 class="content-section-title">What is MedFlow?</h2>
+          <p class="content-section-eyebrow"><span lang="en">Overview</span><span lang="id">Gambaran Umum</span></p>
+          <h2 class="content-section-title"><span lang="en">What is MedFlow?</span><span lang="id">Apa itu MedFlow?</span></h2>
           <div class="content-prose">
-            <p>
+            <p lang="en">
               MedFlow is a real-time public transportation tracking system built for Medan, Indonesia's third-largest city. The app targets the city's angkot (minibus) network — a network that operates with no digital infrastructure, no schedules, and no predictability for daily commuters.
             </p>
-            <p>
+            <p lang="id">
+              MedFlow adalah sistem pelacakan transportasi umum real-time yang dibangun untuk Medan, kota terbesar ketiga di Indonesia. Aplikasi ini menyasar jaringan angkot (angkutan kota) — jaringan yang beroperasi tanpa infrastruktur digital, tanpa jadwal, dan tanpa kepastian bagi penumpang sehari-hari.
+            </p>
+            <p lang="en">
               The system tracks vehicle locations live using GPS data fed through a Laravel REST API backend, visualized on a Flutter mobile app using Google Maps. Users can see which angkot is nearby, how far away it is, and which route it's running — information that simply didn't exist before in any accessible form.
             </p>
-            <p>
+            <p lang="id">
+              Sistem ini melacak lokasi kendaraan secara langsung menggunakan data GPS yang dikirim melalui backend Laravel REST API, lalu divisualisasikan di aplikasi Flutter menggunakan Google Maps. Pengguna dapat melihat angkot terdekat, jarak tempuhnya, dan rute yang sedang dilalui — informasi yang sebelumnya tidak pernah tersedia dalam bentuk yang mudah diakses.
+            </p>
+            <p lang="en">
               Beyond tracking, MedFlow integrates real-time weather data from the OpenWeatherMap API to give trip recommendations. If it's raining heavily, the app can suggest alternatives or flag potential delays. The project was built for the Medan Coding Competition 2026, where it was awarded 2nd place.
+            </p>
+            <p lang="id">
+              Lebih dari sekadar pelacakan, MedFlow mengintegrasikan data cuaca real-time dari OpenWeatherMap API untuk memberikan rekomendasi perjalanan. Jika hujan deras, aplikasi dapat menyarankan alternatif rute atau menandai potensi keterlambatan. Proyek ini dibangun untuk Medan Coding Competition 2026 dan meraih Juara 2.
             </p>
           </div>
         </div>
 
         <div class="quick-info-card">
-          <div class="quick-info-card-title">Project at a glance</div>
+          <div class="quick-info-card-title"><span lang="en">Project at a glance</span><span lang="id">Ringkasan proyek</span></div>
           <div class="quick-info-row">
-            <span class="quick-info-key">City</span>
-            <span class="quick-info-val">Medan, North Sumatra</span>
+            <span class="quick-info-key"><span lang="en">City</span><span lang="id">Kota</span></span>
+            <span class="quick-info-val">Medan, <span lang="en">North Sumatra</span><span lang="id">Sumatera Utara</span></span>
           </div>
           <div class="quick-info-divider"></div>
           <div class="quick-info-row">
-            <span class="quick-info-key">Target users</span>
-            <span class="quick-info-val">Angkot commuters</span>
+            <span class="quick-info-key"><span lang="en">Target users</span><span lang="id">Target pengguna</span></span>
+            <span class="quick-info-val"><span lang="en">Angkot commuters</span><span lang="id">Penumpang angkot</span></span>
           </div>
           <div class="quick-info-divider"></div>
           <div class="quick-info-row">
-            <span class="quick-info-key">Event</span>
+            <span class="quick-info-key"><span lang="en">Event</span><span lang="id">Acara</span></span>
             <span class="quick-info-val">Medan Coding Competition 2026</span>
           </div>
           <div class="quick-info-divider"></div>
           <div class="quick-info-row">
-            <span class="quick-info-key">Award</span>
+            <span class="quick-info-key"><span lang="en">Award</span><span lang="id">Penghargaan</span></span>
             <span class="quick-info-val" style="color: #f59e0b;">🏆 Juara 2</span>
           </div>
           <div class="quick-info-divider"></div>
@@ -600,31 +625,39 @@
 
     <!-- PROBLEM & SOLUTION -->
     <div class="content-section fade-in fade-in-delay-1">
-      <p class="content-section-eyebrow">Problem & Solution</p>
-      <h2 class="content-section-title">The gap MedFlow fills.</h2>
+      <p class="content-section-eyebrow"><span lang="en">Problem & Solution</span><span lang="id">Masalah & Solusi</span></p>
+      <h2 class="content-section-title"><span lang="en">The gap MedFlow fills.</span><span lang="id">Celah yang MedFlow isi.</span></h2>
       <div class="ps-grid">
         <div class="ps-card problem">
           <div class="ps-card-label">
             <div class="ps-card-icon">⚠️</div>
-            The Problem
+            <span lang="en">The Problem</span><span lang="id">Masalahnya</span>
           </div>
           <ul class="ps-list">
-            <li>Medan's angkot network has no digital presence — no app, no schedule, no real-time location data. Passengers wait with no idea when the next vehicle arrives.</li>
-            <li>Routes overlap and change informally, making it nearly impossible for newcomers or occasional riders to know which angkot to take.</li>
-            <li>No weather integration — commuters get caught off guard by Medan's sudden heavy rains, with no way to plan their route proactively.</li>
-            <li>Medan's Smart City aspirations lack a transportation layer. Without data, city planners can't optimize routes or understand demand patterns.</li>
+            <li lang="en">Medan's angkot network has no digital presence — no app, no schedule, no real-time location data. Passengers wait with no idea when the next vehicle arrives.</li>
+            <li lang="id">Jaringan angkot Medan tidak memiliki kehadiran digital — tidak ada aplikasi, tidak ada jadwal, tidak ada data lokasi real-time. Penumpang menunggu tanpa tahu kapan kendaraan berikutnya tiba.</li>
+            <li lang="en">Routes overlap and change informally, making it nearly impossible for newcomers or occasional riders to know which angkot to take.</li>
+            <li lang="id">Rute saling tumpang tindih dan berubah secara informal, sehingga hampir mustahil bagi pendatang baru atau penumpang sesekali untuk mengetahui angkot mana yang harus dinaiki.</li>
+            <li lang="en">No weather integration — commuters get caught off guard by Medan's sudden heavy rains, with no way to plan their route proactively.</li>
+            <li lang="id">Tidak ada integrasi cuaca — penumpang kerap kaget dengan hujan deras mendadak khas Medan, tanpa cara untuk merencanakan rute secara proaktif.</li>
+            <li lang="en">Medan's Smart City aspirations lack a transportation layer. Without data, city planners can't optimize routes or understand demand patterns.</li>
+            <li lang="id">Aspirasi Smart City Medan tidak memiliki lapisan transportasi. Tanpa data, perencana kota tidak bisa mengoptimalkan rute atau memahami pola permintaan.</li>
           </ul>
         </div>
         <div class="ps-card solution">
           <div class="ps-card-label">
             <div class="ps-card-icon">✦</div>
-            Our Approach
+            <span lang="en">Our Approach</span><span lang="id">Pendekatan Kami</span>
           </div>
           <ul class="ps-list">
-            <li>Built a GPS-based vehicle tracking backend in Laravel that receives location updates from angkot driver devices and exposes them via REST API to the mobile app.</li>
-            <li>Designed a Flutter app with Google Maps integration showing live vehicle positions, route paths, and estimated arrival information.</li>
-            <li>Integrated OpenWeatherMap API to overlay current and forecasted weather on trip planning, so users can make informed decisions before leaving.</li>
-            <li>Used OpenStreetMap (OSM) and OSRM for open routing data, keeping the system independent of expensive proprietary map APIs for routing calculations.</li>
+            <li lang="en">Built a GPS-based vehicle tracking backend in Laravel that receives location updates from angkot driver devices and exposes them via REST API to the mobile app.</li>
+            <li lang="id">Membangun backend pelacakan kendaraan berbasis GPS di Laravel yang menerima pembaruan lokasi dari perangkat pengemudi angkot dan mengeksposnya melalui REST API ke aplikasi mobile.</li>
+            <li lang="en">Designed a Flutter app with Google Maps integration showing live vehicle positions, route paths, and estimated arrival information.</li>
+            <li lang="id">Merancang aplikasi Flutter dengan integrasi Google Maps yang menampilkan posisi kendaraan secara langsung, jalur rute, dan estimasi waktu kedatangan.</li>
+            <li lang="en">Integrated OpenWeatherMap API to overlay current and forecasted weather on trip planning, so users can make informed decisions before leaving.</li>
+            <li lang="id">Mengintegrasikan OpenWeatherMap API untuk menampilkan cuaca saat ini dan prakiraan dalam perencanaan perjalanan, sehingga pengguna bisa mengambil keputusan sebelum berangkat.</li>
+            <li lang="en">Used OpenStreetMap (OSM) and OSRM for open routing data, keeping the system independent of expensive proprietary map APIs for routing calculations.</li>
+            <li lang="id">Menggunakan OpenStreetMap (OSM) dan OSRM untuk data routing terbuka, menjaga sistem tetap independen dari API peta proprietary yang mahal untuk kalkulasi routing.</li>
           </ul>
         </div>
       </div>
@@ -632,57 +665,62 @@
 
     <!-- KEY FEATURES -->
     <div class="content-section fade-in">
-      <p class="content-section-eyebrow">Features</p>
-      <h2 class="content-section-title">What the app does.</h2>
+      <p class="content-section-eyebrow"><span lang="en">Features</span><span lang="id">Fitur</span></p>
+      <h2 class="content-section-title"><span lang="en">What the app does.</span><span lang="id">Apa yang bisa dilakukan aplikasi ini.</span></h2>
       <div class="features-grid">
         <div class="feature-card">
           <div class="feature-icon">📍</div>
-          <div class="feature-title">Live Vehicle Tracking</div>
-          <div class="feature-desc">See angkot positions updated in real-time on an interactive map. Know exactly where the nearest vehicle is and which direction it's heading.</div>
+          <div class="feature-title"><span lang="en">Live Vehicle Tracking</span><span lang="id">Pelacakan Kendaraan Langsung</span></div>
+          <div class="feature-desc" lang="en">See angkot positions updated in real-time on an interactive map. Know exactly where the nearest vehicle is and which direction it's heading.</div>
+          <div class="feature-desc" lang="id">Lihat posisi angkot yang diperbarui secara real-time di peta interaktif. Ketahui persis di mana kendaraan terdekat berada dan ke arah mana ia melaju.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">🗺️</div>
-          <div class="feature-title">Route Explorer</div>
-          <div class="feature-desc">Browse all angkot routes overlaid on the map. Tap a route to see its full path, stops, and which vehicles are currently running it.</div>
+          <div class="feature-title"><span lang="en">Route Explorer</span><span lang="id">Penjelajah Rute</span></div>
+          <div class="feature-desc" lang="en">Browse all angkot routes overlaid on the map. Tap a route to see its full path, stops, and which vehicles are currently running it.</div>
+          <div class="feature-desc" lang="id">Jelajahi semua rute angkot yang ditampilkan di peta. Ketuk rute untuk melihat jalur lengkap, halte, dan kendaraan mana yang sedang beroperasi di rute tersebut.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">🌧️</div>
-          <div class="feature-title">Weather-Aware Trips</div>
-          <div class="feature-desc">Real-time weather data from OpenWeatherMap gives users trip suggestions based on current and upcoming conditions — especially useful during Medan's rainy season.</div>
+          <div class="feature-title"><span lang="en">Weather-Aware Trips</span><span lang="id">Perjalanan Berbasis Cuaca</span></div>
+          <div class="feature-desc" lang="en">Real-time weather data from OpenWeatherMap gives users trip suggestions based on current and upcoming conditions — especially useful during Medan's rainy season.</div>
+          <div class="feature-desc" lang="id">Data cuaca real-time dari OpenWeatherMap memberikan saran perjalanan berdasarkan kondisi saat ini dan mendatang — sangat berguna di musim hujan Medan.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">🔔</div>
-          <div class="feature-title">Arrival Estimates</div>
-          <div class="feature-desc">Distance and estimated arrival time calculated using OSRM routing, so passengers can plan their wait instead of guessing.</div>
+          <div class="feature-title"><span lang="en">Arrival Estimates</span><span lang="id">Estimasi Kedatangan</span></div>
+          <div class="feature-desc" lang="en">Distance and estimated arrival time calculated using OSRM routing, so passengers can plan their wait instead of guessing.</div>
+          <div class="feature-desc" lang="id">Jarak dan estimasi waktu kedatangan dihitung menggunakan routing OSRM, sehingga penumpang bisa merencanakan waktu tunggu tanpa perlu menebak-nebak.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">📱</div>
-          <div class="feature-title">Driver Mode</div>
-          <div class="feature-desc">A separate driver-side interface for angkot operators to broadcast their location, requiring minimal setup — just a phone with GPS.</div>
+          <div class="feature-title"><span lang="en">Driver Mode</span><span lang="id">Mode Pengemudi</span></div>
+          <div class="feature-desc" lang="en">A separate driver-side interface for angkot operators to broadcast their location, requiring minimal setup — just a phone with GPS.</div>
+          <div class="feature-desc" lang="id">Antarmuka khusus untuk pengemudi angkot agar bisa menyiarkan lokasi mereka, dengan pengaturan minimal — cukup sebuah ponsel ber-GPS.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">☁️</div>
-          <div class="feature-title">Cloud Deployed</div>
-          <div class="feature-desc">Backend hosted on AWS EC2 with Nginx, accessible from anywhere in real-time. Designed to scale as more drivers and routes are added.</div>
+          <div class="feature-title"><span lang="en">Cloud Deployed</span><span lang="id">Deploy di Cloud</span></div>
+          <div class="feature-desc" lang="en">Backend hosted on AWS EC2 with Nginx, accessible from anywhere in real-time. Designed to scale as more drivers and routes are added.</div>
+          <div class="feature-desc" lang="id">Backend di-hosting di AWS EC2 dengan Nginx, dapat diakses dari mana saja secara real-time. Dirancang untuk berkembang seiring bertambahnya pengemudi dan rute.</div>
         </div>
       </div>
     </div>
 
     <!-- GALLERY -->
     <div class="content-section fade-in fade-in-delay-1">
-      <p class="content-section-eyebrow">Gallery</p>
-      <h2 class="content-section-title">Screenshots.</h2>
+      <p class="content-section-eyebrow"><span lang="en">Gallery</span><span lang="id">Galeri</span></p>
+      <h2 class="content-section-title"><span lang="en">Screenshots.</span><span lang="id">Tangkapan Layar.</span></h2>
       <div class="gallery-grid">
         <div class="gallery-item">
-          <img src="image/medflow-homepage.jpeg" alt="Beranda Medflow" /> 
+          <img src="image/medflow-homepage.jpeg" alt="Beranda Medflow" />
           <div class="gallery-placeholder" style="background: linear-gradient(135deg, #060a10 0%, #0d1a2e 50%, #091522 100%);">
             <span class="gp-icon">🗺️</span>
             <span class="gp-title" style="color:#79c0ff;">Live Tracking Map</span>
             <span class="gp-label" style="color:#79c0ff;">replace with screenshot</span>
           </div>
-          <div class="gallery-caption">Beranda MedFlow</div>
+          <div class="gallery-caption"><span lang="en">MedFlow Home</span><span lang="id">Beranda MedFlow</span></div>
         </div>
-
         <div class="gallery-item">
           <img src="image/medflow-tracking-angkot.jpeg" alt="Tracking Angkot" />
           <div class="gallery-placeholder" style="background: linear-gradient(135deg, #0a1628 0%, #0d1f3c 100%);">
@@ -690,9 +728,8 @@
             <span class="gp-title" style="color:#a5b4fc;">Home Screen</span>
             <span class="gp-label" style="color:#a5b4fc;">replace with screenshot</span>
           </div>
-          <div class="gallery-caption">Tracking Angkot Real-time</div>
+          <div class="gallery-caption"><span lang="en">Real-time Angkot Tracking</span><span lang="id">Tracking Angkot Real-time</span></div>
         </div>
-
         <div class="gallery-item">
           <img src="image/medflow-login-screen.jpeg" alt="Login Screen" />
           <div class="gallery-placeholder" style="background: linear-gradient(135deg, #0c1a30 0%, #102240 100%);">
@@ -700,9 +737,8 @@
             <span class="gp-title" style="color:#93c5fd;">Weather Panel</span>
             <span class="gp-label" style="color:#93c5fd;">replace with screenshot</span>
           </div>
-          <div class="gallery-caption">Login Screen</div>
+          <div class="gallery-caption"><span lang="en">Login Screen</span><span lang="id">Layar Login</span></div>
         </div>
-
         <div class="gallery-item">
           <img src="image/medflow-driver-screen.jpeg" alt="Driver Screen" />
           <div class="gallery-placeholder" style="background: linear-gradient(135deg, #080e1c 0%, #0c1428 100%);">
@@ -710,9 +746,8 @@
             <span class="gp-title" style="color:#67e8f9;">Route Detail</span>
             <span class="gp-label" style="color:#67e8f9;">replace with screenshot</span>
           </div>
-          <div class="gallery-caption">Driver Control Screen</div>
+          <div class="gallery-caption"><span lang="en">Driver Control Screen</span><span lang="id">Layar Kontrol Pengemudi</span></div>
         </div>
-
         <div class="gallery-item">
           <img src="image/medflow-admin-screen.jpeg" alt="Admin Screen" />
           <div class="gallery-placeholder" style="background: linear-gradient(135deg, #0a1220 0%, #111c30 100%);">
@@ -720,15 +755,15 @@
             <span class="gp-title" style="color:#c4b5fd;">Driver Mode</span>
             <span class="gp-label" style="color:#c4b5fd;">replace with screenshot</span>
           </div>
-          <div class="gallery-caption">Admin Dashboard Screen</div>
+          <div class="gallery-caption"><span lang="en">Admin Dashboard Screen</span><span lang="id">Layar Dashboard Admin</span></div>
         </div>
       </div>
     </div>
 
     <!-- TECH STACK -->
     <div class="content-section fade-in">
-      <p class="content-section-eyebrow">Tech Stack</p>
-      <h2 class="content-section-title">Built with.</h2>
+      <p class="content-section-eyebrow"><span lang="en">Tech Stack</span><span lang="id">Teknologi yang Digunakan</span></p>
+      <h2 class="content-section-title"><span lang="en">Built with.</span><span lang="id">Dibangun dengan.</span></h2>
       <div class="tech-stack-grid">
         <div class="tech-group">
           <div class="tech-group-label">Backend</div>
@@ -749,7 +784,7 @@
           </div>
         </div>
         <div class="tech-group">
-          <div class="tech-group-label">External APIs</div>
+          <div class="tech-group-label"><span lang="en">External APIs</span><span lang="id">API Eksternal</span></div>
           <div class="tech-tags">
             <span class="tech-tag">OpenWeatherMap</span>
             <span class="tech-tag">OpenStreetMap</span>
@@ -757,7 +792,7 @@
           </div>
         </div>
         <div class="tech-group">
-          <div class="tech-group-label">Infrastructure</div>
+          <div class="tech-group-label"><span lang="en">Infrastructure</span><span lang="id">Infrastruktur</span></div>
           <div class="tech-tags">
             <span class="tech-tag">AWS EC2</span>
             <span class="tech-tag">Nginx</span>
@@ -774,8 +809,8 @@
   <footer>
     <p class="footer-left">Bryan Siagian <span>·</span> Institut Teknologi Del <span>·</span> <span id="year"></span></p>
     <div class="footer-right">
-      <a href="index.html">← Back to Portfolio</a>
-      <a href="index.html#projects">All Projects</a>
+      <a href="index.html"><span lang="en">← Back to Portfolio</span><span lang="id">← Kembali ke Portofolio</span></a>
+      <a href="index.html#projects"><span lang="en">All Projects</span><span lang="id">Semua Proyek</span></a>
       <a href="mailto:bryantorisi@gmail.com">Email</a>
     </div>
   </footer>
@@ -783,6 +818,7 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
+    // Custom cursor
     const dot = document.getElementById('cursorDot');
     const ring = document.getElementById('cursorRing');
     let mx = 0, my = 0, rx = 0, ry = 0;
@@ -801,6 +837,7 @@
       el.addEventListener('mouseleave', () => { dot.classList.remove('hover'); ring.classList.remove('hover'); });
     });
 
+    // Scroll progress
     const progressBar = document.getElementById('scrollProgress');
     window.addEventListener('scroll', () => {
       const st = window.scrollY;
@@ -808,11 +845,13 @@
       progressBar.style.width = (st / dh * 100) + '%';
     }, { passive: true });
 
+    // Nav scroll
     const nav = document.getElementById('mainNav');
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 20);
     }, { passive: true });
 
+    // Fade in
     const fadeEls = document.querySelectorAll('.fade-in');
     const fadeObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -825,20 +864,36 @@
     fadeEls.forEach(el => fadeObserver.observe(el));
 
     // ==========================================
+    // MULTI-LANGUAGE TOGGLE LOGIC
+    // ==========================================
+    const langToggleBtn = document.getElementById('langToggle');
+    const langText = document.getElementById('langText');
+
+    // Inisialisasi awal — sinkron dengan index.html via localStorage
+    const savedLang = localStorage.getItem('lang') || 'en';
+    document.documentElement.lang = savedLang;
+    langText.textContent = savedLang.toUpperCase();
+
+    // Event klik toggle bahasa
+    langToggleBtn.addEventListener('click', () => {
+      const newLang = document.documentElement.lang === 'en' ? 'id' : 'en';
+      document.documentElement.lang = newLang;
+      localStorage.setItem('lang', newLang);
+      langText.textContent = newLang.toUpperCase();
+    });
+
+    // ==========================================
     // DARK MODE TOGGLE LOGIC
     // ==========================================
     const themeToggleBtn = document.getElementById('themeToggle');
     const htmlElement = document.documentElement;
-    
-    // SVG Icons
+
     const iconSun = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
     const iconMoon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
 
-    // Deteksi LocalStorage / Sistem OS User
     const currentTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    // Inisialisasi awal
     if (currentTheme === 'dark' || (!currentTheme && prefersDark)) {
       htmlElement.setAttribute('data-theme', 'dark');
       themeToggleBtn.innerHTML = iconSun;
@@ -847,10 +902,8 @@
       themeToggleBtn.innerHTML = iconMoon;
     }
 
-    // Fungsi saat tombol diklik
     themeToggleBtn.addEventListener('click', () => {
       let theme = htmlElement.getAttribute('data-theme');
-      
       if (theme === 'dark') {
         htmlElement.setAttribute('data-theme', 'light');
         localStorage.setItem('theme', 'light');

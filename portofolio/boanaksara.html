@@ -32,35 +32,32 @@
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
       --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
       --shadow-lg: 0 12px 40px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.06);
-
-      /* BoanAksara accent — warm purple/ulos-inspired */
       --ba-gold: #c9a84c;
       --ba-gold-light: rgba(201,168,76,0.12);
       --ba-gold-border: rgba(201,168,76,0.25);
       --ba-deep: #1a0a2e;
-
-      /* Transparan untuk nav */
       --nav-bg: rgba(255, 255, 255, 0.92);
     }
 
-    /* Palet Dark Mode */
     [data-theme="dark"] {
-      --bg: #0f172a; 
-      --bg-subtle: #1e293b; 
-      --bg-dark: #020617; 
-      --bg-card: #1e293b; 
-      --text-primary: #f8fafc; 
+      --bg: #0f172a;
+      --bg-subtle: #1e293b;
+      --bg-dark: #020617;
+      --bg-card: #1e293b;
+      --text-primary: #f8fafc;
       --text-secondary: #cbd5e1;
       --text-muted: #94a3b8;
       --border: #334155;
       --border-strong: #475569;
-      
       --nav-bg: rgba(15, 23, 42, 0.92);
-      
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
       --shadow-md: 0 4px 16px rgba(0,0,0,0.5), 0 2px 6px rgba(0,0,0,0.3);
       --shadow-lg: 0 12px 40px rgba(0,0,0,0.6), 0 4px 12px rgba(0,0,0,0.4);
     }
+
+    /* MULTI-LANGUAGE TOGGLE LOGIC (CSS BASED) */
+    :root:lang(en) [lang="id"] { display: none !important; }
+    :root:lang(id) [lang="en"] { display: none !important; }
 
     html { scroll-behavior: smooth; }
     body {
@@ -75,7 +72,6 @@
     }
     a, button { cursor: none; }
 
-    /* CURSOR */
     .cursor-dot {
       width: 8px; height: 8px; background: var(--accent); border-radius: 50%;
       position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
@@ -92,14 +88,12 @@
     .cursor-dot.hover { width: 12px; height: 12px; }
     .cursor-ring.hover { width: 52px; height: 52px; opacity: 0.3; }
 
-    /* SCROLL PROGRESS */
     .scroll-progress {
       position: fixed; top: 0; left: 0; width: 0%; height: 2px;
       background: linear-gradient(90deg, var(--accent), #8b5cf6, var(--ba-gold));
       z-index: 200; transition: width 0.05s linear;
     }
 
-    /* NAV */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       padding: 0 2.5rem; height: 64px;
@@ -117,22 +111,23 @@
       display: flex; align-items: center; gap: 6px;
     }
     .nav-logo .logo-bracket { color: var(--accent); }
-    
-    .nav-right-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .theme-toggle {
+
+    .nav-right-actions { display: flex; align-items: center; gap: 0.75rem; }
+
+    .theme-toggle, .lang-toggle {
       background: transparent; border: none; color: var(--text-primary);
       cursor: none; display: flex; align-items: center; justify-content: center;
       padding: 0.5rem; border-radius: 50%;
       transition: color 0.2s, transform 0.2s, background 0.2s;
     }
-    .theme-toggle:hover {
+    .theme-toggle:hover, .lang-toggle:hover {
       color: var(--ba-gold); background: var(--bg-subtle); transform: scale(1.05);
     }
     .theme-toggle svg { width: 18px; height: 18px; }
+    .lang-toggle {
+      font-family: var(--mono); font-size: 13px; font-weight: 600;
+      letter-spacing: 0.05em; border-radius: 8px; padding: 0.4rem 0.6rem;
+    }
 
     .nav-back {
       display: flex; align-items: center; gap: 8px;
@@ -145,42 +140,24 @@
     .nav-back:hover { color: var(--ba-gold); border-color: rgba(201,168,76,0.3); background: rgba(201,168,76,0.05); }
     .nav-back svg { width: 14px; height: 14px; }
 
-    /* HERO — deep Batak night sky */
     .project-hero {
       padding-top: 64px; min-height: 55vh;
       display: flex; align-items: flex-end;
       position: relative; overflow: hidden;
       background: #0e0718;
     }
-    /* Gorga-inspired geometric pattern */
     .hero-bg-pattern {
       position: absolute; inset: 0; pointer-events: none;
       opacity: 0.07;
       background-image:
-        repeating-linear-gradient(
-          45deg,
-          #c9a84c 0px, #c9a84c 1px,
-          transparent 1px, transparent 18px
-        ),
-        repeating-linear-gradient(
-          -45deg,
-          #c9a84c 0px, #c9a84c 1px,
-          transparent 1px, transparent 18px
-        );
+        repeating-linear-gradient(45deg, #c9a84c 0px, #c9a84c 1px, transparent 1px, transparent 18px),
+        repeating-linear-gradient(-45deg, #c9a84c 0px, #c9a84c 1px, transparent 1px, transparent 18px);
       mask-image: radial-gradient(ellipse 90% 80% at 50% 20%, black, transparent);
     }
-    /* Decorative aksara-like floating glyphs */
-    .hero-glyphs {
-      position: absolute; inset: 0; pointer-events: none;
-      overflow: hidden;
-    }
+    .hero-glyphs { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
     .glyph {
-      position: absolute;
-      font-size: 48px;
-      opacity: 0.04;
-      color: #c9a84c;
-      font-family: serif;
-      user-select: none;
+      position: absolute; font-size: 48px; opacity: 0.04; color: #c9a84c;
+      font-family: serif; user-select: none;
       animation: floatGlyph 8s ease-in-out infinite;
     }
     .glyph:nth-child(1)  { top: 8%;  left: 5%;  font-size: 64px; animation-delay: 0s; }
@@ -214,11 +191,9 @@
     .hero-breadcrumb a:hover { color: var(--ba-gold); }
     .hero-breadcrumb .sep { color: #21262d; }
     .hero-breadcrumb .current { color: #6e7681; }
-
     .hero-award {
       display: inline-flex; align-items: center; gap: 7px;
-      background: var(--ba-gold-light);
-      border: 1px solid var(--ba-gold-border);
+      background: var(--ba-gold-light); border: 1px solid var(--ba-gold-border);
       color: var(--ba-gold);
       font-family: var(--mono); font-size: 10.5px; font-weight: 500;
       padding: 4px 12px; border-radius: 100px;
@@ -257,7 +232,6 @@
     .btn-link.gold:hover { background: rgba(201,168,76,0.2); transform: translateY(-1px); }
     .btn-link.outline { background: transparent; color: #8b949e; border: 1px solid rgba(255,255,255,0.1); }
     .btn-link.outline:hover { border-color: rgba(201,168,76,0.3); color: #c9d1d9; }
-
     .hero-meta-row {
       display: flex; flex-wrap: wrap; gap: 2.25rem;
       padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.06);
@@ -266,7 +240,6 @@
     .hero-meta-label { font-family: var(--mono); font-size: 10.5px; color: #3d444d; text-transform: uppercase; letter-spacing: 0.1em; }
     .hero-meta-value { font-size: 14px; font-weight: 500; color: #c9d1d9; }
 
-    /* BODY */
     .project-body { max-width: 1120px; margin: 0 auto; padding: 4rem 2.5rem 5rem; }
     .content-section { margin-bottom: 4rem; }
     .content-section-eyebrow {
@@ -287,10 +260,8 @@
     }
     .content-prose p:last-child { margin-bottom: 0; }
 
-    /* OVERVIEW GRID */
     .overview-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 3.5rem; align-items: start; }
 
-    /* QUICK INFO */
     .quick-info-card {
       background: var(--bg-subtle); border: 1px solid var(--border);
       border-radius: 14px; padding: 1.5rem;
@@ -313,7 +284,6 @@
       border: 1px solid var(--accent-border); padding: 3px 9px; border-radius: 5px;
     }
 
-    /* AKSARA SHOWCASE */
     .aksara-showcase {
       background: linear-gradient(135deg, #0e0718 0%, #1a0a2e 50%, #120820 100%);
       border: 1px solid rgba(201,168,76,0.15);
@@ -322,55 +292,29 @@
     }
     .aksara-showcase-label {
       font-family: var(--mono); font-size: 11px;
-      color: rgba(201,168,76,0.5); text-transform: uppercase;
-      letter-spacing: 0.1em;
+      color: rgba(201,168,76,0.5); text-transform: uppercase; letter-spacing: 0.1em;
     }
-    .aksara-row {
-      display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;
-    }
+    .aksara-row { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
     .aksara-char {
       display: flex; flex-direction: column; align-items: center; gap: 6px;
-      background: rgba(201,168,76,0.06);
-      border: 1px solid rgba(201,168,76,0.15);
+      background: rgba(201,168,76,0.06); border: 1px solid rgba(201,168,76,0.15);
       border-radius: 10px; padding: 12px 16px;
       transition: border-color 0.2s, background 0.2s, transform 0.2s;
       min-width: 60px;
     }
-    .aksara-char:hover {
-      border-color: rgba(201,168,76,0.4);
-      background: rgba(201,168,76,0.12);
-      transform: translateY(-3px);
-    }
-    .aksara-char .glyph-display {
-      font-size: 28px; color: var(--ba-gold); line-height: 1;
-      font-family: serif;
-    }
-    .aksara-char .glyph-latin {
-      font-family: var(--mono); font-size: 10px;
-      color: rgba(201,168,76,0.6); text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-    .aksara-divider {
-      height: 1px; background: rgba(201,168,76,0.1);
-    }
-    .aksara-caption {
-      font-size: 12.5px; color: rgba(201,168,76,0.45);
-      font-family: var(--mono); line-height: 1.6;
-    }
+    .aksara-char:hover { border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.12); transform: translateY(-3px); }
+    .aksara-char .glyph-display { font-size: 28px; color: var(--ba-gold); line-height: 1; font-family: serif; }
+    .aksara-char .glyph-latin { font-family: var(--mono); font-size: 10px; color: rgba(201,168,76,0.6); text-transform: uppercase; letter-spacing: 0.06em; }
+    .aksara-divider { height: 1px; background: rgba(201,168,76,0.1); }
+    .aksara-caption { font-size: 12.5px; color: rgba(201,168,76,0.45); font-family: var(--mono); line-height: 1.6; }
 
-    /* PROBLEM / SOLUTION */
     .ps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
     .ps-card {
-      background: var(--bg-card);
-      border-radius: 14px; padding: 1.75rem;
-      border: 1px solid var(--border);
-      position: relative; overflow: hidden;
+      background: var(--bg-card); border-radius: 14px; padding: 1.75rem;
+      border: 1px solid var(--border); position: relative; overflow: hidden;
       transition: background-color 0.4s ease, border-color 0.4s ease;
     }
-    .ps-card::before {
-      content: ''; position: absolute;
-      top: 0; left: 0; right: 0; height: 3px;
-    }
+    .ps-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
     .ps-card.problem::before { background: linear-gradient(90deg, #ef4444, #f97316); }
     .ps-card.solution::before { background: linear-gradient(90deg, var(--green), #06b6d4); }
     .ps-card-label {
@@ -380,23 +324,15 @@
     }
     .ps-card.problem .ps-card-label { color: #ef4444; }
     .ps-card.solution .ps-card-label { color: var(--green); }
-    .ps-card-icon {
-      width: 32px; height: 32px; border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 15px; flex-shrink: 0;
-    }
+    .ps-card-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
     .ps-card.problem .ps-card-icon { background: rgba(239,68,68,0.1); }
     .ps-card.solution .ps-card-icon { background: rgba(16,185,129,0.1); }
     .ps-list { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
-    .ps-list li {
-      font-size: 14px; color: var(--text-secondary);
-      line-height: 1.65; padding-left: 1.1rem; position: relative;
-    }
+    .ps-list li { font-size: 14px; color: var(--text-secondary); line-height: 1.65; padding-left: 1.1rem; position: relative; }
     .ps-list li::before { content: '▸'; position: absolute; left: 0; font-size: 9px; top: 4px; }
     .ps-card.problem .ps-list li::before { color: #ef4444; }
     .ps-card.solution .ps-list li::before { color: var(--green); }
 
-    /* FEATURES */
     .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
     .feature-card {
       background: var(--bg-card); border: 1px solid var(--border);
@@ -405,23 +341,16 @@
       position: relative; overflow: hidden;
     }
     .feature-card::before {
-      content: ''; position: absolute;
-      top: 0; left: 0; right: 0; height: 3px;
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
       background: linear-gradient(90deg, #8b5cf6, var(--ba-gold));
-      transform: scaleX(0); transform-origin: left;
-      transition: transform 0.3s ease;
+      transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease;
     }
     .feature-card:hover::before { transform: scaleX(1); }
     .feature-card:hover { border-color: var(--accent-border); box-shadow: var(--shadow-md); transform: translateY(-3px); }
-    .feature-icon {
-      width: 42px; height: 42px; background: var(--accent-light);
-      border-radius: 10px; display: flex; align-items: center;
-      justify-content: center; margin-bottom: 1rem; font-size: 20px;
-    }
+    .feature-icon { width: 42px; height: 42px; background: var(--accent-light); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 20px; }
     .feature-title { font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; }
     .feature-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
 
-    /* GALLERY */
     .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
     .gallery-item {
       border-radius: 12px; overflow: hidden;
@@ -439,14 +368,8 @@
       align-items: center; justify-content: center; gap: 10px;
     }
     .gallery-placeholder .gp-icon { font-size: 28px; }
-    .gallery-placeholder .gp-label {
-      font-family: var(--mono); font-size: 10.5px;
-      opacity: 0.5; text-transform: uppercase; letter-spacing: 0.08em;
-    }
-    .gallery-placeholder .gp-title {
-      font-family: var(--sans); font-size: 13px;
-      font-weight: 600; opacity: 0.75;
-    }
+    .gallery-placeholder .gp-label { font-family: var(--mono); font-size: 10.5px; opacity: 0.5; text-transform: uppercase; letter-spacing: 0.08em; }
+    .gallery-placeholder .gp-title { font-family: var(--sans); font-size: 13px; font-weight: 600; opacity: 0.75; }
     .gallery-caption {
       position: absolute; bottom: 0; left: 0; right: 0;
       background: linear-gradient(transparent, rgba(0,0,0,0.65));
@@ -456,13 +379,11 @@
     }
     .gallery-item:hover .gallery-caption { opacity: 1; }
 
-    /* FADE IN */
     .fade-in { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
     .fade-in.visible { opacity: 1; transform: none; }
     .fade-in-delay-1 { transition-delay: 0.1s; }
     .fade-in-delay-2 { transition-delay: 0.2s; }
 
-    /* FOOTER */
     footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: flex; align-items: center; justify-content: space-between; }
     .footer-left { font-family: var(--mono); font-size: 12px; color: var(--text-muted); }
     .footer-left span { color: var(--accent); }
@@ -509,12 +430,18 @@
     </a>
 
     <div class="nav-right-actions">
+      <!-- TOMBOL BAHASA -->
+      <button id="langToggle" class="lang-toggle" aria-label="Toggle Language">
+        <span id="langText">EN</span>
+      </button>
+
       <!-- TOMBOL DARK MODE -->
       <button id="themeToggle" class="theme-toggle" aria-label="Toggle Dark Mode"></button>
 
       <a href="index.html#projects" class="nav-back">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-        All Projects
+        <span lang="en">All Projects</span>
+        <span lang="id">Semua Proyek</span>
       </a>
     </div>
   </nav>
@@ -523,7 +450,6 @@
   <section class="project-hero">
     <div class="hero-bg-pattern"></div>
     <div class="hero-glyphs">
-      <!-- Placeholder Batak-inspired Unicode/emoji characters as decorative glyphs -->
       <span class="glyph">ᯀ</span>
       <span class="glyph">ᯂ</span>
       <span class="glyph">ᯅ</span>
@@ -538,52 +464,57 @@
       <div class="hero-breadcrumb">
         <a href="index.html">bryan</a>
         <span class="sep">/</span>
-        <a href="index.html#projects">projects</a>
+        <a href="index.html#projects"><span lang="en">projects</span><span lang="id">proyek</span></a>
         <span class="sep">/</span>
         <span class="current">boanaksara</span>
       </div>
 
       <div>
-        <span class="hero-award">🏅 Top 30 — Kompetisi Website Budaya Batak Nasional</span>
+        <span class="hero-award">🏅 Top 30 — <span lang="en">National Batak Cultural Website Competition</span><span lang="id">Kompetisi Website Budaya Batak Nasional</span></span>
         <span class="hero-type-badge">Cultural · Web · Heritage</span>
       </div>
 
-      <h1>BoanAksara — <span class="accent">Learn Batak</span> Script</h1>
-      <p class="hero-tagline">
+      <h1>BoanAksara — <span class="accent"><span lang="en">Learn Batak</span><span lang="id">Belajar Aksara</span></span> Script</h1>
+      <p class="hero-tagline" lang="en">
         An interactive website for preserving and teaching Aksara Batak — the traditional script of the Batak people of North Sumatra. Making cultural heritage accessible, one character at a time.
+      </p>
+      <p class="hero-tagline" lang="id">
+        Website interaktif untuk melestarikan dan mengajarkan Aksara Batak — tulisan tradisional masyarakat Batak di Sumatera Utara. Menjadikan warisan budaya mudah diakses, satu karakter dalam satu waktu.
       </p>
 
       <div class="hero-links-row">
         <a href="https://github.com/bryansiagian/BoanAksara" target="_blank" rel="noopener" class="btn-link primary">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-          View on GitHub
+          <span lang="en">View on GitHub</span>
+          <span lang="id">Lihat di GitHub</span>
         </a>
         <a href="https://boanaksara.id/" target="_blank" rel="noopener" class="btn-link gold">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          Visit Live Site
+          <span lang="en">Visit Live Site</span>
+          <span lang="id">Kunjungi Situs</span>
         </a>
       </div>
 
       <div class="hero-meta-row">
         <div class="hero-meta-item">
-          <div class="hero-meta-label">Context</div>
-          <div class="hero-meta-value">Competition Project</div>
+          <div class="hero-meta-label"><span lang="en">Context</span><span lang="id">Konteks</span></div>
+          <div class="hero-meta-value"><span lang="en">Competition Project</span><span lang="id">Proyek Kompetisi</span></div>
         </div>
         <div class="hero-meta-item">
-          <div class="hero-meta-label">Domain</div>
-          <div class="hero-meta-value">Cultural Preservation</div>
+          <div class="hero-meta-label"><span lang="en">Domain</span><span lang="id">Domain</span></div>
+          <div class="hero-meta-value"><span lang="en">Cultural Preservation</span><span lang="id">Pelestarian Budaya</span></div>
         </div>
         <div class="hero-meta-item">
-          <div class="hero-meta-label">Platform</div>
-          <div class="hero-meta-value">Web (Static)</div>
+          <div class="hero-meta-label"><span lang="en">Platform</span><span lang="id">Platform</span></div>
+          <div class="hero-meta-value"><span lang="en">Web (Static)</span><span lang="id">Web (Statis)</span></div>
         </div>
         <div class="hero-meta-item">
           <div class="hero-meta-label">Stack</div>
           <div class="hero-meta-value">HTML · CSS · JavaScript</div>
         </div>
         <div class="hero-meta-item">
-          <div class="hero-meta-label">Result</div>
-          <div class="hero-meta-value" style="color: var(--ba-gold);">🏅 Top 30 Nasional</div>
+          <div class="hero-meta-label"><span lang="en">Result</span><span lang="id">Hasil</span></div>
+          <div class="hero-meta-value" style="color: var(--ba-gold);">🏅 Top 30 <span lang="en">National</span><span lang="id">Nasional</span></div>
         </div>
       </div>
     </div>
@@ -596,41 +527,53 @@
     <div class="content-section fade-in">
       <div class="overview-grid">
         <div>
-          <p class="content-section-eyebrow">Overview</p>
-          <h2 class="content-section-title">What is BoanAksara?</h2>
+          <p class="content-section-eyebrow"><span lang="en">Overview</span><span lang="id">Gambaran Umum</span></p>
+          <h2 class="content-section-title"><span lang="en">What is BoanAksara?</span><span lang="id">Apa itu BoanAksara?</span></h2>
           <div class="content-prose">
-            <p>
+            <p lang="en">
               BoanAksara (from the Batak word <em>boan</em> — "to carry") is an interactive educational website dedicated to teaching Aksara Batak, the traditional writing system used by the Batak ethnic groups of North Sumatra. The script is one of Indonesia's indigenous scripts with roots going back centuries, yet it's largely unknown even to younger Batak generations.
             </p>
-            <p>
+            <p lang="id">
+              BoanAksara (dari kata Batak <em>boan</em> — "membawa") adalah website edukasi interaktif yang didedikasikan untuk mengajarkan Aksara Batak, sistem tulisan tradisional yang digunakan oleh suku-suku Batak di Sumatera Utara. Aksara ini adalah salah satu aksara asli Indonesia dengan akar yang membentang berabad-abad, namun sebagian besar tidak dikenal bahkan oleh generasi Batak yang lebih muda.
+            </p>
+            <p lang="en">
               The site covers the fundamentals of Aksara Batak — the base characters (ina ni surat), diacritics (anak ni surat), and punctuation — through an interactive, self-paced learning experience. Users can explore characters, see their phonetic equivalents, and practice recognizing them.
             </p>
-            <p>
+            <p lang="id">
+              Situs ini mencakup dasar-dasar Aksara Batak — karakter dasar (ina ni surat), diakritik (anak ni surat), dan tanda baca — melalui pengalaman belajar interaktif yang bisa dilakukan mandiri. Pengguna dapat menjelajahi karakter, melihat padanan fonetiknya, dan berlatih mengenalinya.
+            </p>
+            <p lang="en">
               Built entirely with vanilla HTML, CSS, and JavaScript with no frameworks, BoanAksara was submitted to a national competition focused on digital preservation of Batak culture — where it reached the Top 30 out of hundreds of entries from across Indonesia.
+            </p>
+            <p lang="id">
+              Dibangun sepenuhnya dengan HTML, CSS, dan JavaScript vanilla tanpa framework, BoanAksara diikutsertakan dalam kompetisi nasional yang berfokus pada pelestarian digital budaya Batak — di mana ia berhasil meraih Top 30 dari ratusan peserta dari seluruh Indonesia.
             </p>
           </div>
         </div>
 
         <div class="quick-info-card">
-          <div class="quick-info-card-title">Project at a glance</div>
+          <div class="quick-info-card-title"><span lang="en">Project at a glance</span><span lang="id">Ringkasan proyek</span></div>
           <div class="quick-info-row">
-            <span class="quick-info-key">Subject</span>
+            <span class="quick-info-key"><span lang="en">Subject</span><span lang="id">Subjek</span></span>
             <span class="quick-info-val">Aksara Batak Toba</span>
           </div>
           <div class="quick-info-divider"></div>
           <div class="quick-info-row">
-            <span class="quick-info-key">Target users</span>
-            <span class="quick-info-val">General public,<br>Batak youth, students</span>
+            <span class="quick-info-key"><span lang="en">Target users</span><span lang="id">Target pengguna</span></span>
+            <span class="quick-info-val">
+              <span lang="en">General public,<br>Batak youth, students</span>
+              <span lang="id">Masyarakat umum,<br>pemuda Batak, pelajar</span>
+            </span>
           </div>
           <div class="quick-info-divider"></div>
           <div class="quick-info-row">
-            <span class="quick-info-key">Competition</span>
+            <span class="quick-info-key"><span lang="en">Competition</span><span lang="id">Kompetisi</span></span>
             <span class="quick-info-val">Kompetisi Website Budaya Batak</span>
           </div>
           <div class="quick-info-divider"></div>
           <div class="quick-info-row">
-            <span class="quick-info-key">Result</span>
-            <span class="quick-info-val" style="color: var(--ba-gold);">🏅 Top 30 Nasional</span>
+            <span class="quick-info-key"><span lang="en">Result</span><span lang="id">Hasil</span></span>
+            <span class="quick-info-val" style="color: var(--ba-gold);">🏅 Top 30 <span lang="en">National</span><span lang="id">Nasional</span></span>
           </div>
           <div class="quick-info-divider"></div>
           <div class="quick-info-row">
@@ -647,10 +590,10 @@
 
     <!-- AKSARA SHOWCASE -->
     <div class="content-section fade-in fade-in-delay-1">
-      <p class="content-section-eyebrow">The Script</p>
-      <h2 class="content-section-title">A glimpse of Aksara Batak.</h2>
+      <p class="content-section-eyebrow"><span lang="en">The Script</span><span lang="id">Aksaranya</span></p>
+      <h2 class="content-section-title"><span lang="en">A glimpse of Aksara Batak.</span><span lang="id">Sekilas tentang Aksara Batak.</span></h2>
       <div class="aksara-showcase">
-        <div class="aksara-showcase-label">// ina ni surat — base characters</div>
+        <div class="aksara-showcase-label">// ina ni surat — <span lang="en">base characters</span><span lang="id">karakter dasar</span></div>
         <div class="aksara-row">
           <div class="aksara-char"><span class="glyph-display">ᯀ</span><span class="glyph-latin">ha</span></div>
           <div class="aksara-char"><span class="glyph-display">ᯂ</span><span class="glyph-latin">ba</span></div>
@@ -666,40 +609,54 @@
           <div class="aksara-char"><span class="glyph-display">ᯘ</span><span class="glyph-latin">sa</span></div>
         </div>
         <div class="aksara-divider"></div>
-        <div class="aksara-caption">
+        <div class="aksara-caption" lang="en">
           Aksara Batak Toba — one of the surviving indigenous scripts of Indonesia.<br>
           BoanAksara teaches all base characters, diacritics, and punctuation interactively.
+        </div>
+        <div class="aksara-caption" lang="id">
+          Aksara Batak Toba — salah satu aksara asli Indonesia yang masih bertahan.<br>
+          BoanAksara mengajarkan semua karakter dasar, diakritik, dan tanda baca secara interaktif.
         </div>
       </div>
     </div>
 
     <!-- PROBLEM & SOLUTION -->
     <div class="content-section fade-in">
-      <p class="content-section-eyebrow">Problem & Solution</p>
-      <h2 class="content-section-title">Why this project matters.</h2>
+      <p class="content-section-eyebrow"><span lang="en">Problem & Solution</span><span lang="id">Masalah & Solusi</span></p>
+      <h2 class="content-section-title"><span lang="en">Why this project matters.</span><span lang="id">Mengapa proyek ini penting.</span></h2>
       <div class="ps-grid">
         <div class="ps-card problem">
           <div class="ps-card-label">
             <div class="ps-card-icon">⚠️</div>
-            The Problem
+            <span lang="en">The Problem</span>
+            <span lang="id">Masalahnya</span>
           </div>
           <ul class="ps-list">
-            <li>Aksara Batak is a living but endangered script — used in traditional ceremonies but largely unknown to the younger Batak generation growing up in digital environments.</li>
-            <li>Existing learning resources are scattered, mostly in printed books or academic papers that are difficult to access and not interactive.</li>
-            <li>No free, open, beginner-friendly web resource existed for learning Aksara Batak from scratch — especially one designed for young people.</li>
-            <li>Without digital preservation efforts, scripts like Aksara Batak risk fading from living cultural practice into museum artifacts.</li>
+            <li lang="en">Aksara Batak is a living but endangered script — used in traditional ceremonies but largely unknown to the younger Batak generation growing up in digital environments.</li>
+            <li lang="id">Aksara Batak adalah aksara yang hidup namun terancam punah — digunakan dalam upacara tradisional namun sebagian besar tidak dikenal oleh generasi Batak muda yang tumbuh di lingkungan digital.</li>
+            <li lang="en">Existing learning resources are scattered, mostly in printed books or academic papers that are difficult to access and not interactive.</li>
+            <li lang="id">Sumber belajar yang ada tersebar, kebanyakan di buku cetak atau makalah akademis yang sulit diakses dan tidak interaktif.</li>
+            <li lang="en">No free, open, beginner-friendly web resource existed for learning Aksara Batak from scratch — especially one designed for young people.</li>
+            <li lang="id">Tidak ada sumber web gratis, terbuka, dan ramah pemula untuk belajar Aksara Batak dari nol — terutama yang dirancang untuk anak muda.</li>
+            <li lang="en">Without digital preservation efforts, scripts like Aksara Batak risk fading from living cultural practice into museum artifacts.</li>
+            <li lang="id">Tanpa upaya pelestarian digital, aksara seperti Aksara Batak berisiko memudar dari praktik budaya yang hidup menjadi artefak museum.</li>
           </ul>
         </div>
         <div class="ps-card solution">
           <div class="ps-card-label">
             <div class="ps-card-icon">✦</div>
-            Our Approach
+            <span lang="en">Our Approach</span>
+            <span lang="id">Pendekatan Kami</span>
           </div>
           <ul class="ps-list">
-            <li>Built a fully interactive, no-login-required web experience where anyone can start learning Aksara Batak immediately, from any device.</li>
-            <li>Designed a character-by-character learning flow covering ina ni surat (base characters), anak ni surat (diacritics), and punctuation with visual and phonetic guides.</li>
-            <li>Used only vanilla HTML, CSS, and JavaScript — no frameworks — so the site is lightweight, fast, and works even on slow connections common in rural North Sumatra.</li>
-            <li>Embedded cultural context alongside the script lessons, so learners understand not just the characters but why the script matters to Batak identity.</li>
+            <li lang="en">Built a fully interactive, no-login-required web experience where anyone can start learning Aksara Batak immediately, from any device.</li>
+            <li lang="id">Membangun pengalaman web yang sepenuhnya interaktif dan tanpa perlu login, di mana siapa pun bisa mulai belajar Aksara Batak segera dari perangkat apa pun.</li>
+            <li lang="en">Designed a character-by-character learning flow covering ina ni surat (base characters), anak ni surat (diacritics), and punctuation with visual and phonetic guides.</li>
+            <li lang="id">Merancang alur belajar karakter per karakter yang mencakup ina ni surat (karakter dasar), anak ni surat (diakritik), dan tanda baca dengan panduan visual dan fonetik.</li>
+            <li lang="en">Used only vanilla HTML, CSS, and JavaScript — no frameworks — so the site is lightweight, fast, and works even on slow connections common in rural North Sumatra.</li>
+            <li lang="id">Menggunakan hanya HTML, CSS, dan JavaScript vanilla — tanpa framework — sehingga situs ini ringan, cepat, dan berfungsi bahkan pada koneksi lambat yang umum di pedesaan Sumatera Utara.</li>
+            <li lang="en">Embedded cultural context alongside the script lessons, so learners understand not just the characters but why the script matters to Batak identity.</li>
+            <li lang="id">Menyematkan konteks budaya bersama pelajaran aksara, sehingga pelajar memahami bukan hanya karakternya tetapi mengapa aksara ini penting bagi identitas Batak.</li>
           </ul>
         </div>
       </div>
@@ -707,46 +664,52 @@
 
     <!-- FEATURES -->
     <div class="content-section fade-in fade-in-delay-1">
-      <p class="content-section-eyebrow">Features</p>
-      <h2 class="content-section-title">What the site offers.</h2>
+      <p class="content-section-eyebrow"><span lang="en">Features</span><span lang="id">Fitur</span></p>
+      <h2 class="content-section-title"><span lang="en">What the site offers.</span><span lang="id">Apa yang ditawarkan situs ini.</span></h2>
       <div class="features-grid">
         <div class="feature-card">
           <div class="feature-icon">🔤</div>
-          <div class="feature-title">Character Library</div>
-          <div class="feature-desc">A complete, browsable reference of all Aksara Batak Toba characters — base letters, diacritics, and punctuation marks — with their phonetic values.</div>
+          <div class="feature-title"><span lang="en">Character Library</span><span lang="id">Perpustakaan Karakter</span></div>
+          <div class="feature-desc" lang="en">A complete, browsable reference of all Aksara Batak Toba characters — base letters, diacritics, and punctuation marks — with their phonetic values.</div>
+          <div class="feature-desc" lang="id">Referensi lengkap dan mudah dijelajahi untuk semua karakter Aksara Batak Toba — huruf dasar, diakritik, dan tanda baca — beserta nilai fonetiknya.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">📖</div>
-          <div class="feature-title">Step-by-Step Learning</div>
-          <div class="feature-desc">Structured lessons that take beginners from the first character to reading simple words, with visual guides and pronunciation hints at every step.</div>
+          <div class="feature-title"><span lang="en">Step-by-Step Learning</span><span lang="id">Belajar Bertahap</span></div>
+          <div class="feature-desc" lang="en">Structured lessons that take beginners from the first character to reading simple words, with visual guides and pronunciation hints at every step.</div>
+          <div class="feature-desc" lang="id">Pelajaran terstruktur yang membawa pemula dari karakter pertama hingga membaca kata sederhana, dengan panduan visual dan petunjuk pengucapan di setiap langkah.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">✍️</div>
-          <div class="feature-title">Interactive Practice</div>
-          <div class="feature-desc">Recognition exercises and character matching activities to reinforce learning through active recall, not just passive reading.</div>
+          <div class="feature-title"><span lang="en">Interactive Practice</span><span lang="id">Latihan Interaktif</span></div>
+          <div class="feature-desc" lang="en">Recognition exercises and character matching activities to reinforce learning through active recall, not just passive reading.</div>
+          <div class="feature-desc" lang="id">Latihan pengenalan dan aktivitas pencocokan karakter untuk memperkuat pembelajaran melalui pemanggilan aktif, bukan sekadar membaca pasif.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">🏛️</div>
-          <div class="feature-title">Cultural Context</div>
-          <div class="feature-desc">Each lesson includes brief cultural notes about how and where the script is used — in ulos textiles, traditional manuscripts (pustaha), and ceremonies.</div>
+          <div class="feature-title"><span lang="en">Cultural Context</span><span lang="id">Konteks Budaya</span></div>
+          <div class="feature-desc" lang="en">Each lesson includes brief cultural notes about how and where the script is used — in ulos textiles, traditional manuscripts (pustaha), and ceremonies.</div>
+          <div class="feature-desc" lang="id">Setiap pelajaran menyertakan catatan budaya singkat tentang bagaimana dan di mana aksara digunakan — dalam kain ulos, naskah tradisional (pustaha), dan upacara adat.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">📱</div>
-          <div class="feature-title">Mobile Responsive</div>
-          <div class="feature-desc">Fully responsive layout — works cleanly on phones, tablets, and desktops so learners can study from any device, anywhere.</div>
+          <div class="feature-title"><span lang="en">Mobile Responsive</span><span lang="id">Responsif Mobile</span></div>
+          <div class="feature-desc" lang="en">Fully responsive layout — works cleanly on phones, tablets, and desktops so learners can study from any device, anywhere.</div>
+          <div class="feature-desc" lang="id">Tata letak yang sepenuhnya responsif — tampil rapi di ponsel, tablet, dan desktop sehingga pelajar bisa belajar dari perangkat apa pun, di mana saja.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">⚡</div>
-          <div class="feature-title">Zero Dependencies</div>
-          <div class="feature-desc">Built with pure HTML, CSS, and JavaScript — no frameworks, no build step. Fast to load and easy to maintain or extend.</div>
+          <div class="feature-title"><span lang="en">Zero Dependencies</span><span lang="id">Tanpa Dependensi</span></div>
+          <div class="feature-desc" lang="en">Built with pure HTML, CSS, and JavaScript — no frameworks, no build step. Fast to load and easy to maintain or extend.</div>
+          <div class="feature-desc" lang="id">Dibangun dengan HTML, CSS, dan JavaScript murni — tanpa framework, tanpa proses build. Cepat dimuat dan mudah dirawat atau dikembangkan.</div>
         </div>
       </div>
     </div>
 
     <!-- GALLERY -->
     <div class="content-section fade-in">
-      <p class="content-section-eyebrow">Gallery</p>
-      <h2 class="content-section-title">Screenshots.</h2>
+      <p class="content-section-eyebrow"><span lang="en">Gallery</span><span lang="id">Galeri</span></p>
+      <h2 class="content-section-title"><span lang="en">Screenshots.</span><span lang="id">Tangkapan Layar.</span></h2>
       <div class="gallery-grid">
         <div class="gallery-item">
           <img src="image/boanaksara-homepage.png" alt="Homepage" />
@@ -755,9 +718,8 @@
             <span class="gp-title" style="color: var(--ba-gold);">Landing Page</span>
             <span class="gp-label" style="color: var(--ba-gold);">replace with screenshot</span>
           </div>
-          <div class="gallery-caption">Beranda BoanAksara</div>
+          <div class="gallery-caption"><span lang="en">BoanAksara Homepage</span><span lang="id">Beranda BoanAksara</span></div>
         </div>
-
         <div class="gallery-item">
           <img src="image/boanaksara-kamus.png" alt="Kamus" />
           <div class="gallery-placeholder" style="background: linear-gradient(135deg, #120820 0%, #1e0f38 100%);">
@@ -765,9 +727,8 @@
             <span class="gp-title" style="color: #d2a8ff;">Character Library</span>
             <span class="gp-label" style="color: #d2a8ff;">replace with screenshot</span>
           </div>
-          <div class="gallery-caption">Kamus Aksara Batak</div>
+          <div class="gallery-caption"><span lang="en">Aksara Batak Dictionary</span><span lang="id">Kamus Aksara Batak</span></div>
         </div>
-
         <div class="gallery-item">
           <img src="image/boanaksara-tentang.png" alt="Tentang" />
           <div class="gallery-placeholder" style="background: linear-gradient(135deg, #100620 0%, #180c30 100%);">
@@ -775,9 +736,8 @@
             <span class="gp-title" style="color: #c4b5fd;">Lesson View</span>
             <span class="gp-label" style="color: #c4b5fd;">replace with screenshot</span>
           </div>
-          <div class="gallery-caption">Tentang BoanAksara</div>
+          <div class="gallery-caption"><span lang="en">About BoanAksara</span><span lang="id">Tentang BoanAksara</span></div>
         </div>
-
         <div class="gallery-item">
           <img src="image/boanaksara-transliterasi.png" alt="Transliterasi" />
           <div class="gallery-placeholder" style="background: linear-gradient(135deg, #0c0818 0%, #160a28 100%);">
@@ -785,9 +745,8 @@
             <span class="gp-title" style="color: #a78bfa;">Practice Exercise</span>
             <span class="gp-label" style="color: #a78bfa;">replace with screenshot</span>
           </div>
-          <div class="gallery-caption">Transliterasi Aksara Batak by BoanAksara</div>
+          <div class="gallery-caption"><span lang="en">Aksara Batak Transliteration</span><span lang="id">Transliterasi Aksara Batak</span></div>
         </div>
-
         <div class="gallery-item">
           <img src="image/boanaksara-kuis.png" alt="Kuis" />
           <div class="gallery-placeholder" style="background: linear-gradient(135deg, #0e0718 0%, #1a0f2e 100%);">
@@ -795,7 +754,7 @@
             <span class="gp-title" style="color: #e9d5ff;">Mobile View</span>
             <span class="gp-label" style="color: #e9d5ff;">replace with screenshot</span>
           </div>
-          <div class="gallery-caption">Kuis Interaktif Aksara Batak</div>
+          <div class="gallery-caption"><span lang="en">Interactive Aksara Batak Quiz</span><span lang="id">Kuis Interaktif Aksara Batak</span></div>
         </div>
       </div>
     </div>
@@ -806,8 +765,8 @@
   <footer>
     <p class="footer-left">Bryan Siagian <span>·</span> Institut Teknologi Del <span>·</span> <span id="year"></span></p>
     <div class="footer-right">
-      <a href="index.html">← Back to Portfolio</a>
-      <a href="index.html#projects">All Projects</a>
+      <a href="index.html"><span lang="en">← Back to Portfolio</span><span lang="id">← Kembali ke Portofolio</span></a>
+      <a href="index.html#projects"><span lang="en">All Projects</span><span lang="id">Semua Proyek</span></a>
       <a href="mailto:bryantorisi@gmail.com">Email</a>
     </div>
   </footer>
@@ -857,20 +816,34 @@
     fadeEls.forEach(el => fadeObserver.observe(el));
 
     // ==========================================
+    // MULTI-LANGUAGE TOGGLE LOGIC
+    // ==========================================
+    const langToggleBtn = document.getElementById('langToggle');
+    const langText = document.getElementById('langText');
+
+    const savedLang = localStorage.getItem('lang') || 'en';
+    document.documentElement.lang = savedLang;
+    langText.textContent = savedLang.toUpperCase();
+
+    langToggleBtn.addEventListener('click', () => {
+      const newLang = document.documentElement.lang === 'en' ? 'id' : 'en';
+      document.documentElement.lang = newLang;
+      localStorage.setItem('lang', newLang);
+      langText.textContent = newLang.toUpperCase();
+    });
+
+    // ==========================================
     // DARK MODE TOGGLE LOGIC
     // ==========================================
     const themeToggleBtn = document.getElementById('themeToggle');
     const htmlElement = document.documentElement;
-    
-    // SVG Icons
+
     const iconSun = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
     const iconMoon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
 
-    // Deteksi LocalStorage / Sistem OS User
     const currentTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    // Inisialisasi awal
     if (currentTheme === 'dark' || (!currentTheme && prefersDark)) {
       htmlElement.setAttribute('data-theme', 'dark');
       themeToggleBtn.innerHTML = iconSun;
@@ -879,10 +852,8 @@
       themeToggleBtn.innerHTML = iconMoon;
     }
 
-    // Fungsi saat tombol diklik
     themeToggleBtn.addEventListener('click', () => {
       let theme = htmlElement.getAttribute('data-theme');
-      
       if (theme === 'dark') {
         htmlElement.setAttribute('data-theme', 'light');
         localStorage.setItem('theme', 'light');

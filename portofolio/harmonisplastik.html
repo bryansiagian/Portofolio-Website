@@ -24,41 +24,37 @@
       --border: #e8ecf0;
       --border-strong: #d1d9e0;
       --green: #10b981;
-      
-      /* Harmonis Plastik: muted forest green */
       --hp-primary: #16a34a;
       --hp-secondary: #4ade80;
       --hp-dark: #052e16;
-      
       --sans: 'Space Grotesk', sans-serif;
       --body: 'Inter', sans-serif;
       --mono: 'JetBrains Mono', monospace;
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
       --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
       --shadow-lg: 0 12px 40px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.06);
-
-      /* Transparan untuk nav */
       --nav-bg: rgba(255, 255, 255, 0.92);
     }
 
-    /* Palet Dark Mode */
     [data-theme="dark"] {
-      --bg: #0f172a; 
-      --bg-subtle: #1e293b; 
-      --bg-dark: #020617; 
-      --bg-card: #1e293b; 
-      --text-primary: #f8fafc; 
+      --bg: #0f172a;
+      --bg-subtle: #1e293b;
+      --bg-dark: #020617;
+      --bg-card: #1e293b;
+      --text-primary: #f8fafc;
       --text-secondary: #cbd5e1;
       --text-muted: #94a3b8;
       --border: #334155;
       --border-strong: #475569;
-      
       --nav-bg: rgba(15, 23, 42, 0.92);
-      
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
       --shadow-md: 0 4px 16px rgba(0,0,0,0.5), 0 2px 6px rgba(0,0,0,0.3);
       --shadow-lg: 0 12px 40px rgba(0,0,0,0.6), 0 4px 12px rgba(0,0,0,0.4);
     }
+
+    /* MULTI-LANGUAGE TOGGLE LOGIC (CSS BASED) */
+    :root:lang(en) [lang="id"] { display: none !important; }
+    :root:lang(id) [lang="en"] { display: none !important; }
 
     html { scroll-behavior: smooth; }
     body {
@@ -73,7 +69,6 @@
     }
     a, button { cursor: none; }
 
-    /* CURSOR */
     .cursor-dot {
       width: 8px; height: 8px; background: var(--hp-primary); border-radius: 50%;
       position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
@@ -90,14 +85,12 @@
     .cursor-dot.hover { width: 12px; height: 12px; }
     .cursor-ring.hover { width: 52px; height: 52px; opacity: 0.3; }
 
-    /* SCROLL PROGRESS */
     .scroll-progress {
       position: fixed; top: 0; left: 0; width: 0%; height: 2px;
       background: linear-gradient(90deg, var(--hp-primary), var(--hp-secondary), #86efac);
       z-index: 200; transition: width 0.05s linear;
     }
 
-    /* NAV */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       padding: 0 2.5rem; height: 64px;
@@ -115,22 +108,23 @@
       display: flex; align-items: center; gap: 6px;
     }
     .nav-logo .logo-bracket { color: var(--accent); }
-    
-    .nav-right-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .theme-toggle {
+
+    .nav-right-actions { display: flex; align-items: center; gap: 0.75rem; }
+
+    .theme-toggle, .lang-toggle {
       background: transparent; border: none; color: var(--text-primary);
       cursor: none; display: flex; align-items: center; justify-content: center;
       padding: 0.5rem; border-radius: 50%;
       transition: color 0.2s, transform 0.2s, background 0.2s;
     }
-    .theme-toggle:hover {
+    .theme-toggle:hover, .lang-toggle:hover {
       color: var(--hp-primary); background: var(--bg-subtle); transform: scale(1.05);
     }
     .theme-toggle svg { width: 18px; height: 18px; }
+    .lang-toggle {
+      font-family: var(--mono); font-size: 13px; font-weight: 600;
+      letter-spacing: 0.05em; border-radius: 8px; padding: 0.4rem 0.6rem;
+    }
 
     .nav-back {
       display: flex; align-items: center; gap: 8px;
@@ -143,50 +137,33 @@
     .nav-back:hover { color: var(--hp-primary); border-color: rgba(22,163,74,0.3); background: rgba(22,163,74,0.05); }
     .nav-back svg { width: 14px; height: 14px; }
 
-    /* ============================================================
-       HERO — Dark slate, ledger-line grid, receipt-tape signature
-       ============================================================ */
+    /* HERO */
     .project-hero {
       padding-top: 64px; min-height: 58vh;
       display: flex; align-items: flex-end;
       position: relative; overflow: hidden;
       background: #060b08;
     }
-
-    /* Fine ruled lines — like a physical ledger book */
     .hero-ledger {
       position: absolute; inset: 0; pointer-events: none;
-      background-image:
-        linear-gradient(rgba(22,163,74,0.06) 1px, transparent 1px);
+      background-image: linear-gradient(rgba(22,163,74,0.06) 1px, transparent 1px);
       background-size: 100% 32px;
       mask-image: linear-gradient(to bottom, transparent 5%, black 30%, black 80%, transparent 100%);
     }
-    /* Vertical column dividers */
     .hero-ledger-cols {
       position: absolute; inset: 0; pointer-events: none;
-      background-image:
-        linear-gradient(90deg, rgba(22,163,74,0.04) 1px, transparent 1px);
+      background-image: linear-gradient(90deg, rgba(22,163,74,0.04) 1px, transparent 1px);
       background-size: 120px 100%;
       mask-image: radial-gradient(ellipse 80% 90% at 50% 40%, black, transparent);
     }
-
-    /* Floating receipt / ledger rows — signature element */
-    .hero-ledger-rows {
-      position: absolute; inset: 0; pointer-events: none; overflow: hidden;
-    }
+    .hero-ledger-rows { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
     .ledger-row {
-      position: absolute;
-      display: flex; gap: 0;
+      position: absolute; display: flex; gap: 0;
       font-family: var(--mono); font-size: 10px;
-      color: rgba(22,163,74,0.18);
-      white-space: nowrap;
+      color: rgba(22,163,74,0.18); white-space: nowrap;
       animation: ledgerDrift 24s linear infinite;
     }
-    .ledger-row span {
-      display: inline-block;
-      padding: 0 16px;
-      border-right: 1px solid rgba(22,163,74,0.08);
-    }
+    .ledger-row span { display: inline-block; padding: 0 16px; border-right: 1px solid rgba(22,163,74,0.08); }
     .ledger-row:nth-child(2) { animation-delay: -8s; animation-duration: 30s; }
     .ledger-row:nth-child(3) { animation-delay: -16s; animation-duration: 20s; }
     .ledger-row:nth-child(4) { animation-delay: -4s; animation-duration: 26s; }
@@ -197,20 +174,17 @@
       95%  { opacity: 1; }
       100% { transform: translateX(-50%); opacity: 0; }
     }
-
     .hero-glow {
       position: absolute; width: 700px; height: 400px;
       background: radial-gradient(ellipse, rgba(22,163,74,0.08) 0%, rgba(74,222,128,0.04) 50%, transparent 70%);
       top: -5%; left: 45%; transform: translateX(-50%);
       pointer-events: none;
     }
-
     .project-hero-inner {
       max-width: 1120px; margin: 0 auto;
       padding: 4rem 2.5rem 3.5rem;
       width: 100%; position: relative; z-index: 1;
     }
-
     .hero-breadcrumb {
       display: flex; align-items: center; gap: 8px;
       font-family: var(--mono); font-size: 11.5px;
@@ -220,7 +194,6 @@
     .hero-breadcrumb a:hover { color: var(--hp-primary); }
     .hero-breadcrumb .sep { color: #21262d; }
     .hero-breadcrumb .current { color: #6e7681; }
-
     .hero-type-badge {
       display: inline-flex; align-items: center; gap: 6px;
       font-family: var(--mono); font-size: 10.5px; font-weight: 500;
@@ -237,7 +210,6 @@
       padding: 4px 12px; border-radius: 100px;
       letter-spacing: 0.05em; margin-bottom: 1.25rem; margin-left: 8px;
     }
-
     .project-hero h1 {
       font-family: var(--sans);
       font-size: clamp(2rem, 5vw, 3.4rem);
@@ -245,12 +217,10 @@
       color: #e6edf3; line-height: 1.1; margin-bottom: 1rem;
     }
     .project-hero h1 .accent { color: var(--hp-secondary); }
-
     .project-hero .hero-tagline {
       font-size: 1.05rem; color: #8b949e;
       line-height: 1.75; max-width: 600px;
     }
-
     .hero-links-row { display: flex; gap: 0.875rem; margin-top: 1.75rem; }
     .btn-link {
       display: inline-flex; align-items: center; gap: 8px;
@@ -263,7 +233,6 @@
     .btn-link.primary:hover { background: #15803d; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(22,163,74,0.3); }
     .btn-link.outline { background: transparent; color: #8b949e; border: 1px solid rgba(255,255,255,0.1); }
     .btn-link.outline:hover { border-color: rgba(22,163,74,0.4); color: #c9d1d9; }
-
     .hero-meta-row {
       display: flex; flex-wrap: wrap; gap: 2.25rem;
       padding-top: 2rem; margin-top: 2rem;
@@ -273,12 +242,9 @@
     .hero-meta-label { font-family: var(--mono); font-size: 10.5px; color: #3d444d; text-transform: uppercase; letter-spacing: 0.1em; }
     .hero-meta-value { font-size: 14px; font-weight: 500; color: #c9d1d9; }
 
-    /* ============================================================
-       BODY
-       ============================================================ */
+    /* BODY */
     .project-body { max-width: 1120px; margin: 0 auto; padding: 4rem 2.5rem 5rem; }
     .content-section { margin-bottom: 4rem; }
-
     .content-section-eyebrow {
       font-family: var(--mono); font-size: 11px; color: var(--accent);
       letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.75rem;
@@ -297,10 +263,8 @@
     }
     .content-prose p:last-child { margin-bottom: 0; }
 
-    /* OVERVIEW GRID */
     .overview-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 3.5rem; align-items: start; }
 
-    /* QUICK INFO CARD */
     .quick-info-card {
       background: var(--bg-subtle); border: 1px solid var(--border);
       border-radius: 14px; padding: 1.5rem;
@@ -323,19 +287,13 @@
       border: 1px solid rgba(22,163,74,0.2); padding: 3px 9px; border-radius: 5px;
     }
 
-    /* BEFORE / AFTER — manual process vs system */
     .ba-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
     .ba-card {
-      background: var(--bg-card);
-      border-radius: 14px; padding: 1.75rem;
-      border: 1px solid var(--border);
-      position: relative; overflow: hidden;
+      background: var(--bg-card); border-radius: 14px; padding: 1.75rem;
+      border: 1px solid var(--border); position: relative; overflow: hidden;
       transition: background-color 0.4s ease, border-color 0.4s ease;
     }
-    .ba-card::before {
-      content: ''; position: absolute;
-      top: 0; left: 0; right: 0; height: 3px;
-    }
+    .ba-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
     .ba-card.before::before { background: linear-gradient(90deg, #ef4444, #f97316); }
     .ba-card.after::before  { background: linear-gradient(90deg, var(--hp-primary), var(--hp-secondary)); }
     .ba-card-label {
@@ -354,21 +312,17 @@
     .ba-card.before .ba-list li::before { color: #ef4444; }
     .ba-card.after  .ba-list li::before { color: var(--hp-primary); }
 
-    /* USER ROLES */
     .roles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
     .role-card {
       background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 14px; padding: 1.5rem 1.25rem;
-      text-align: center;
+      border-radius: 14px; padding: 1.5rem 1.25rem; text-align: center;
       transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s, background-color 0.4s ease;
       position: relative; overflow: hidden;
     }
     .role-card::before {
-      content: ''; position: absolute;
-      top: 0; left: 0; right: 0; height: 3px;
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
       background: linear-gradient(90deg, var(--hp-primary), var(--hp-secondary));
-      transform: scaleX(0); transform-origin: left;
-      transition: transform 0.3s ease;
+      transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease;
     }
     .role-card:hover::before { transform: scaleX(1); }
     .role-card:hover { border-color: rgba(22,163,74,0.3); box-shadow: var(--shadow-md); transform: translateY(-3px); }
@@ -379,11 +333,9 @@
     .role-perm {
       font-family: var(--mono); font-size: 10px;
       color: var(--hp-primary); background: rgba(22,163,74,0.07);
-      border: 1px solid rgba(22,163,74,0.15);
-      padding: 2px 8px; border-radius: 4px;
+      border: 1px solid rgba(22,163,74,0.15); padding: 2px 8px; border-radius: 4px;
     }
 
-    /* FEATURES GRID */
     .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
     .feature-card {
       background: var(--bg-card); border: 1px solid var(--border);
@@ -392,11 +344,9 @@
       position: relative; overflow: hidden;
     }
     .feature-card::before {
-      content: ''; position: absolute;
-      top: 0; left: 0; right: 0; height: 3px;
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
       background: linear-gradient(90deg, var(--hp-primary), var(--hp-secondary));
-      transform: scaleX(0); transform-origin: left;
-      transition: transform 0.3s ease;
+      transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease;
     }
     .feature-card:hover::before { transform: scaleX(1); }
     .feature-card:hover { border-color: rgba(22,163,74,0.3); box-shadow: var(--shadow-md); transform: translateY(-3px); }
@@ -409,23 +359,17 @@
     .feature-title { font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; }
     .feature-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
 
-    /* IMPACT METRICS */
     .impact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
     .impact-card {
       background: var(--bg-subtle); border: 1px solid var(--border);
-      border-radius: 14px; padding: 1.75rem 1.5rem;
-      text-align: center;
+      border-radius: 14px; padding: 1.75rem 1.5rem; text-align: center;
       transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s, background-color 0.4s ease;
     }
     .impact-card:hover { border-color: rgba(22,163,74,0.3); transform: translateY(-2px); box-shadow: var(--shadow-md); }
-    .impact-num {
-      font-family: var(--sans); font-size: 2.5rem; font-weight: 700;
-      color: var(--hp-primary); line-height: 1; margin-bottom: 6px;
-    }
+    .impact-num { font-family: var(--sans); font-size: 2.5rem; font-weight: 700; color: var(--hp-primary); line-height: 1; margin-bottom: 6px; }
     .impact-label { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
     .impact-sub { font-family: var(--mono); font-size: 10.5px; color: var(--text-muted); margin-top: 4px; }
 
-    /* GALLERY */
     .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
     .gallery-item {
       border-radius: 12px; overflow: hidden;
@@ -455,11 +399,10 @@
     }
     .gallery-item:hover .gallery-caption { opacity: 1; }
 
-    /* TECH STACK */
     .tech-stack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-    .tech-group { 
-      background: var(--bg-subtle); border: 1px solid var(--border); 
-      border-radius: 12px; padding: 1.25rem; 
+    .tech-group {
+      background: var(--bg-subtle); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.25rem;
       transition: background-color 0.4s ease, border-color 0.4s ease;
     }
     .tech-group-label { font-family: var(--mono); font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 0.875rem; }
@@ -473,13 +416,11 @@
     }
     .tech-tag:hover { background: var(--hp-primary); color: #fff; }
 
-    /* FADE IN */
     .fade-in { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
     .fade-in.visible { opacity: 1; transform: none; }
     .fade-in-delay-1 { transition-delay: 0.1s; }
     .fade-in-delay-2 { transition-delay: 0.2s; }
 
-    /* FOOTER */
     footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: flex; align-items: center; justify-content: space-between; }
     .footer-left { font-family: var(--mono); font-size: 12px; color: var(--text-muted); }
     .footer-left span { color: var(--accent); }
@@ -527,14 +468,20 @@
     <a href="index.html" class="nav-logo">
       <span class="logo-bracket">{</span>&nbsp;bryan&nbsp;<span class="logo-bracket">}</span>
     </a>
-    
+
     <div class="nav-right-actions">
+      <!-- TOMBOL BAHASA -->
+      <button id="langToggle" class="lang-toggle" aria-label="Toggle Language">
+        <span id="langText">EN</span>
+      </button>
+
       <!-- TOMBOL DARK MODE -->
       <button id="themeToggle" class="theme-toggle" aria-label="Toggle Dark Mode"></button>
 
       <a href="index.html#projects" class="nav-back">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-        All Projects
+        <span lang="en">All Projects</span>
+        <span lang="id">Semua Proyek</span>
       </a>
     </div>
   </nav>
@@ -543,8 +490,6 @@
   <section class="project-hero">
     <div class="hero-ledger"></div>
     <div class="hero-ledger-cols"></div>
-
-    <!-- Drifting ledger rows — signature element -->
     <div class="hero-ledger-rows">
       <div class="ledger-row" style="top:18%;">
         <span>Nama Barang</span><span>Satuan</span><span>Stok Awal</span><span>Masuk</span><span>Keluar</span><span>Stok Akhir</span><span>Harga</span><span>Total</span>
@@ -567,14 +512,13 @@
         <span>Tutup Galon</span><span>pcs</span><span>500</span><span>300</span><span>280</span><span>520</span><span>Rp 3.500</span><span>Rp 1.820.000</span>
       </div>
     </div>
-
     <div class="hero-glow"></div>
 
     <div class="project-hero-inner">
       <div class="hero-breadcrumb">
         <a href="index.html">bryan</a>
         <span class="sep">/</span>
-        <a href="index.html#projects">projects</a>
+        <a href="index.html#projects"><span lang="en">projects</span><span lang="id">proyek</span></a>
         <span class="sep">/</span>
         <span class="current">harmonis-plastik</span>
       </div>
@@ -584,33 +528,37 @@
         <span class="hero-platform-badge">Web · Laravel</span>
       </div>
 
-      <h1>Harmonis Plastik — <span class="accent">Store Management</span> System</h1>
-      <p class="hero-tagline">
+      <h1>Harmonis Plastik — <span class="accent"><span lang="en">Store Management</span><span lang="id">Manajemen Toko</span></span> System</h1>
+      <p class="hero-tagline" lang="en">
         A web-based audit and inventory system built to replace a fully manual process at a local plastics store. Closes the operational gaps that previously left room for stock discrepancies, untracked transactions, and employee error.
+      </p>
+      <p class="hero-tagline" lang="id">
+        Sistem audit dan inventaris berbasis web yang dibangun untuk menggantikan proses manual sepenuhnya di toko plastik lokal. Menutup celah operasional yang sebelumnya rentan terhadap selisih stok, transaksi tak tercatat, dan kesalahan karyawan.
       </p>
 
       <div class="hero-links-row">
         <a href="https://github.com/bryansiagian/FinalProject_009-FIX" target="_blank" rel="noopener" class="btn-link primary">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-          View on GitHub
+          <span lang="en">View on GitHub</span>
+          <span lang="id">Lihat di GitHub</span>
         </a>
       </div>
 
       <div class="hero-meta-row">
         <div class="hero-meta-item">
-          <div class="hero-meta-label">Client</div>
+          <div class="hero-meta-label"><span lang="en">Client</span><span lang="id">Klien</span></div>
           <div class="hero-meta-value">Toko Harmonis Plastik</div>
         </div>
         <div class="hero-meta-item">
-          <div class="hero-meta-label">Context</div>
-          <div class="hero-meta-value">Final Project · Real Client</div>
+          <div class="hero-meta-label"><span lang="en">Context</span><span lang="id">Konteks</span></div>
+          <div class="hero-meta-value"><span lang="en">Final Project · Real Client</span><span lang="id">Proyek Akhir · Klien Nyata</span></div>
         </div>
         <div class="hero-meta-item">
-          <div class="hero-meta-label">Platform</div>
-          <div class="hero-meta-value">Web Application</div>
+          <div class="hero-meta-label"><span lang="en">Platform</span><span lang="id">Platform</span></div>
+          <div class="hero-meta-value"><span lang="en">Web Application</span><span lang="id">Aplikasi Web</span></div>
         </div>
         <div class="hero-meta-item">
-          <div class="hero-meta-label">Process replaced</div>
+          <div class="hero-meta-label"><span lang="en">Process replaced</span><span lang="id">Proses digantikan</span></div>
           <div class="hero-meta-value">100% manual → digital</div>
         </div>
         <div class="hero-meta-item">
@@ -628,41 +576,50 @@
     <div class="content-section fade-in">
       <div class="overview-grid">
         <div>
-          <p class="content-section-eyebrow">Overview</p>
-          <h2 class="content-section-title">What is this system?</h2>
+          <p class="content-section-eyebrow"><span lang="en">Overview</span><span lang="id">Gambaran Umum</span></p>
+          <h2 class="content-section-title"><span lang="en">What is this system?</span><span lang="id">Apa sistem ini?</span></h2>
           <div class="content-prose">
-            <p>
+            <p lang="en">
               Toko Harmonis Plastik is a local plastics retail store that, before this project, managed its entire inventory, sales, and audit process with pen and paper. Stock was tracked in physical notebooks. Sales were tallied manually at the end of each day. Discrepancies between stock and receipts were investigated — or not — by memory.
             </p>
-            <p>
+            <p lang="id">
+              Toko Harmonis Plastik adalah toko ritel plastik lokal yang, sebelum proyek ini, mengelola seluruh inventaris, penjualan, dan proses auditnya dengan pena dan kertas. Stok dicatat di buku fisik. Penjualan dihitung secara manual di akhir setiap hari. Selisih antara stok dan struk diselidiki — atau tidak — hanya berdasarkan ingatan.
+            </p>
+            <p lang="en">
               This project replaced that process entirely with a web-based management system built in Laravel. The system handles product inventory, incoming and outgoing stock, transaction recording, and audit reporting — all with a real database behind it, enforcing data integrity that a notebook never could.
             </p>
-            <p>
+            <p lang="id">
+              Proyek ini menggantikan proses tersebut sepenuhnya dengan sistem manajemen berbasis web yang dibangun di Laravel. Sistem ini menangani inventaris produk, stok masuk dan keluar, pencatatan transaksi, dan pelaporan audit — semuanya dengan database nyata di belakangnya, menegakkan integritas data yang mustahil dilakukan oleh buku catatan.
+            </p>
+            <p lang="en">
               The motivation behind building this wasn't just to digitize — it was to close a specific gap: the manual process had known vulnerabilities to employee error and, more critically, to internal fraud. With no system of record, there was no way to catch discrepancies between what was sold and what was reported. The system was designed with that accountability layer as a first-class concern, not an afterthought.
+            </p>
+            <p lang="id">
+              Motivasi di balik pembangunan ini bukan sekadar digitalisasi — melainkan menutup celah spesifik: proses manual memiliki kerentanan yang diketahui terhadap kesalahan karyawan dan, yang lebih kritis, terhadap kecurangan internal. Tanpa sistem pencatatan, tidak ada cara untuk mendeteksi selisih antara yang terjual dan yang dilaporkan. Sistem ini dirancang dengan lapisan akuntabilitas tersebut sebagai prioritas utama, bukan sekadar tambahan.
             </p>
           </div>
         </div>
 
         <div class="quick-info-card">
-          <div class="quick-info-card-title">Project at a glance</div>
+          <div class="quick-info-card-title"><span lang="en">Project at a glance</span><span lang="id">Ringkasan proyek</span></div>
           <div class="quick-info-row">
-            <span class="quick-info-key">Client</span>
+            <span class="quick-info-key"><span lang="en">Client</span><span lang="id">Klien</span></span>
             <span class="quick-info-val">Toko Harmonis Plastik</span>
           </div>
           <div class="quick-info-divider"></div>
           <div class="quick-info-row">
-            <span class="quick-info-key">Type</span>
-            <span class="quick-info-val">Local retail store</span>
+            <span class="quick-info-key"><span lang="en">Type</span><span lang="id">Tipe</span></span>
+            <span class="quick-info-val"><span lang="en">Local retail store</span><span lang="id">Toko ritel lokal</span></span>
           </div>
           <div class="quick-info-divider"></div>
           <div class="quick-info-row">
-            <span class="quick-info-key">Before</span>
-            <span class="quick-info-val">100% manual, pen & paper</span>
+            <span class="quick-info-key"><span lang="en">Before</span><span lang="id">Sebelumnya</span></span>
+            <span class="quick-info-val"><span lang="en">100% manual, pen & paper</span><span lang="id">100% manual, pena & kertas</span></span>
           </div>
           <div class="quick-info-divider"></div>
           <div class="quick-info-row">
-            <span class="quick-info-key">Context</span>
-            <span class="quick-info-val">Final Project (real client)</span>
+            <span class="quick-info-key"><span lang="en">Context</span><span lang="id">Konteks</span></span>
+            <span class="quick-info-val"><span lang="en">Final Project (real client)</span><span lang="id">Proyek Akhir (klien nyata)</span></span>
           </div>
           <div class="quick-info-divider"></div>
           <div class="quick-info-row">
@@ -678,33 +635,45 @@
 
     <!-- BEFORE / AFTER -->
     <div class="content-section fade-in fade-in-delay-1">
-      <p class="content-section-eyebrow">Before & After</p>
-      <h2 class="content-section-title">What actually changed.</h2>
+      <p class="content-section-eyebrow"><span lang="en">Before & After</span><span lang="id">Sebelum & Sesudah</span></p>
+      <h2 class="content-section-title"><span lang="en">What actually changed.</span><span lang="id">Apa yang benar-benar berubah.</span></h2>
       <div class="ba-grid">
         <div class="ba-card before">
           <div class="ba-card-label">
             <div class="ba-card-icon">📒</div>
-            Before — Manual Process
+            <span lang="en">Before — Manual Process</span>
+            <span lang="id">Sebelum — Proses Manual</span>
           </div>
           <ul class="ba-list">
-            <li>Stock tracked in physical notebooks — no validation, no backup, and no way to query historical data without flipping through pages.</li>
-            <li>Daily sales tallied by hand at closing. Any mistake in the count was either caught by the owner or silently carried forward.</li>
-            <li>No audit trail. When stock didn't match receipts, there was no data to investigate — only whoever was present that day.</li>
-            <li>Employee-reported figures were taken at face value. The system had no mechanism to verify what was sold against what was in stock.</li>
-            <li>Restocking decisions were based on eyeballing the shelves, not on any demand data or low-stock alerts.</li>
+            <li lang="en">Stock tracked in physical notebooks — no validation, no backup, and no way to query historical data without flipping through pages.</li>
+            <li lang="id">Stok dicatat di buku fisik — tanpa validasi, tanpa cadangan, dan tidak ada cara untuk mengakses data historis tanpa membalik halaman satu per satu.</li>
+            <li lang="en">Daily sales tallied by hand at closing. Any mistake in the count was either caught by the owner or silently carried forward.</li>
+            <li lang="id">Penjualan harian dihitung manual saat tutup toko. Kesalahan apa pun dalam perhitungan bisa tertangkap pemilik atau diam-diam dibawa ke hari berikutnya.</li>
+            <li lang="en">No audit trail. When stock didn't match receipts, there was no data to investigate — only whoever was present that day.</li>
+            <li lang="id">Tidak ada jejak audit. Saat stok tidak cocok dengan struk, tidak ada data untuk diselidiki — hanya siapa pun yang hadir hari itu.</li>
+            <li lang="en">Employee-reported figures were taken at face value. The system had no mechanism to verify what was sold against what was in stock.</li>
+            <li lang="id">Angka yang dilaporkan karyawan diterima begitu saja. Tidak ada mekanisme untuk memverifikasi apa yang terjual terhadap stok yang ada.</li>
+            <li lang="en">Restocking decisions were based on eyeballing the shelves, not on any demand data or low-stock alerts.</li>
+            <li lang="id">Keputusan restok didasarkan pada perkiraan visual rak, bukan data permintaan atau peringatan stok rendah.</li>
           </ul>
         </div>
         <div class="ba-card after">
           <div class="ba-card-label">
             <div class="ba-card-icon">🖥️</div>
-            After — Digital System
+            <span lang="en">After — Digital System</span>
+            <span lang="id">Sesudah — Sistem Digital</span>
           </div>
           <ul class="ba-list">
-            <li>Every stock movement — incoming, outgoing, adjustments — is recorded to the database with a timestamp and the acting user.</li>
-            <li>Transactions are logged at point of sale and cross-referenced against inventory automatically. Discrepancies surface immediately.</li>
-            <li>Full audit trail: the owner can view any transaction, filter by date or product, and compare recorded stock against expected stock at any point in time.</li>
-            <li>Role-based access separates what the owner sees from what employees can do — staff can record sales, but can't edit historical records.</li>
-            <li>Low-stock alerts and inventory reports give the owner real data for restocking decisions instead of guesswork.</li>
+            <li lang="en">Every stock movement — incoming, outgoing, adjustments — is recorded to the database with a timestamp and the acting user.</li>
+            <li lang="id">Setiap pergerakan stok — masuk, keluar, penyesuaian — dicatat ke database dengan timestamp dan pengguna yang bertindak.</li>
+            <li lang="en">Transactions are logged at point of sale and cross-referenced against inventory automatically. Discrepancies surface immediately.</li>
+            <li lang="id">Transaksi dicatat di titik penjualan dan dicocokkan dengan inventaris secara otomatis. Selisih langsung terdeteksi.</li>
+            <li lang="en">Full audit trail: the owner can view any transaction, filter by date or product, and compare recorded stock against expected stock at any point in time.</li>
+            <li lang="id">Jejak audit lengkap: pemilik dapat melihat transaksi apa pun, filter berdasarkan tanggal atau produk, dan membandingkan stok tercatat dengan stok yang seharusnya kapan saja.</li>
+            <li lang="en">Role-based access separates what the owner sees from what employees can do — staff can record sales, but can't edit historical records.</li>
+            <li lang="id">Akses berbasis peran memisahkan apa yang dilihat pemilik dari apa yang bisa dilakukan karyawan — staf bisa mencatat penjualan, tapi tidak bisa mengedit catatan historis.</li>
+            <li lang="en">Low-stock alerts and inventory reports give the owner real data for restocking decisions instead of guesswork.</li>
+            <li lang="id">Peringatan stok rendah dan laporan inventaris memberi pemilik data nyata untuk keputusan restok, bukan tebak-tebakan.</li>
           </ul>
         </div>
       </div>
@@ -712,13 +681,14 @@
 
     <!-- USER ROLES -->
     <div class="content-section fade-in">
-      <p class="content-section-eyebrow">Who Uses It</p>
-      <h2 class="content-section-title">Three levels of access.</h2>
+      <p class="content-section-eyebrow"><span lang="en">Who Uses It</span><span lang="id">Siapa yang Menggunakannya</span></p>
+      <h2 class="content-section-title"><span lang="en">Three levels of access.</span><span lang="id">Tiga level akses.</span></h2>
       <div class="roles-grid">
         <div class="role-card">
           <span class="role-icon">👔</span>
-          <div class="role-name">Owner</div>
-          <div class="role-desc">Full visibility across the business. Views all transactions, runs audit reports, manages products and pricing, and has the only access to historical edit logs.</div>
+          <div class="role-name"><span lang="en">Owner</span><span lang="id">Pemilik</span></div>
+          <div class="role-desc" lang="en">Full visibility across the business. Views all transactions, runs audit reports, manages products and pricing, and has the only access to historical edit logs.</div>
+          <div class="role-desc" lang="id">Visibilitas penuh atas seluruh bisnis. Melihat semua transaksi, menjalankan laporan audit, mengelola produk dan harga, serta satu-satunya yang bisa mengakses log edit historis.</div>
           <div class="role-perms">
             <span class="role-perm">full audit</span>
             <span class="role-perm">reports</span>
@@ -728,8 +698,9 @@
         </div>
         <div class="role-card">
           <span class="role-icon">🧾</span>
-          <div class="role-name">Cashier</div>
-          <div class="role-desc">Records sales transactions at the point of purchase. Can view product stock to answer customer questions, but cannot edit inventory directly or access reports.</div>
+          <div class="role-name"><span lang="en">Cashier</span><span lang="id">Kasir</span></div>
+          <div class="role-desc" lang="en">Records sales transactions at the point of purchase. Can view product stock to answer customer questions, but cannot edit inventory directly or access reports.</div>
+          <div class="role-desc" lang="id">Mencatat transaksi penjualan di titik pembelian. Bisa melihat stok produk untuk menjawab pertanyaan pelanggan, tapi tidak bisa mengedit inventaris langsung atau mengakses laporan.</div>
           <div class="role-perms">
             <span class="role-perm">record sales</span>
             <span class="role-perm">view stock</span>
@@ -738,8 +709,9 @@
         </div>
         <div class="role-card">
           <span class="role-icon">📦</span>
-          <div class="role-name">Warehouse Staff</div>
-          <div class="role-desc">Handles incoming stock from suppliers. Logs restocking entries and updates product quantities when new shipments arrive, with all entries attributed to their account.</div>
+          <div class="role-name"><span lang="en">Warehouse Staff</span><span lang="id">Staf Gudang</span></div>
+          <div class="role-desc" lang="en">Handles incoming stock from suppliers. Logs restocking entries and updates product quantities when new shipments arrive, with all entries attributed to their account.</div>
+          <div class="role-desc" lang="id">Menangani stok masuk dari pemasok. Mencatat entri restok dan memperbarui jumlah produk saat kiriman baru tiba, dengan semua entri dikaitkan ke akun mereka.</div>
           <div class="role-perms">
             <span class="role-perm">log restock</span>
             <span class="role-perm">update stock</span>
@@ -751,71 +723,79 @@
 
     <!-- FEATURES -->
     <div class="content-section fade-in fade-in-delay-1">
-      <p class="content-section-eyebrow">Features</p>
-      <h2 class="content-section-title">What the system covers.</h2>
+      <p class="content-section-eyebrow"><span lang="en">Features</span><span lang="id">Fitur</span></p>
+      <h2 class="content-section-title"><span lang="en">What the system covers.</span><span lang="id">Apa yang dicakup sistem ini.</span></h2>
       <div class="features-grid">
         <div class="feature-card">
           <div class="feature-icon">📦</div>
-          <div class="feature-title">Inventory Management</div>
-          <div class="feature-desc">Full product catalog with stock levels, unit pricing, and category organization. Every product has a real-time stock count that updates on every transaction.</div>
+          <div class="feature-title"><span lang="en">Inventory Management</span><span lang="id">Manajemen Inventaris</span></div>
+          <div class="feature-desc" lang="en">Full product catalog with stock levels, unit pricing, and category organization. Every product has a real-time stock count that updates on every transaction.</div>
+          <div class="feature-desc" lang="id">Katalog produk lengkap dengan level stok, harga satuan, dan organisasi kategori. Setiap produk memiliki hitungan stok real-time yang diperbarui setiap transaksi.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">🧾</div>
-          <div class="feature-title">Transaction Recording</div>
-          <div class="feature-desc">Sales and restocking transactions are logged with timestamps, quantities, and the acting user. Every number in the system traces back to a specific human action.</div>
+          <div class="feature-title"><span lang="en">Transaction Recording</span><span lang="id">Pencatatan Transaksi</span></div>
+          <div class="feature-desc" lang="en">Sales and restocking transactions are logged with timestamps, quantities, and the acting user. Every number in the system traces back to a specific human action.</div>
+          <div class="feature-desc" lang="id">Transaksi penjualan dan restok dicatat dengan timestamp, jumlah, dan pengguna yang bertindak. Setiap angka dalam sistem dapat dilacak kembali ke tindakan manusia yang spesifik.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">🔍</div>
-          <div class="feature-title">Audit & Discrepancy Reports</div>
-          <div class="feature-desc">The owner can run stock audits comparing expected inventory against recorded sales. Discrepancies are flagged automatically — the core feature that closes the fraud gap.</div>
+          <div class="feature-title"><span lang="en">Audit & Discrepancy Reports</span><span lang="id">Laporan Audit & Selisih</span></div>
+          <div class="feature-desc" lang="en">The owner can run stock audits comparing expected inventory against recorded sales. Discrepancies are flagged automatically — the core feature that closes the fraud gap.</div>
+          <div class="feature-desc" lang="id">Pemilik bisa menjalankan audit stok yang membandingkan inventaris yang seharusnya dengan penjualan tercatat. Selisih ditandai secara otomatis — fitur inti yang menutup celah kecurangan.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">🔔</div>
-          <div class="feature-title">Low-Stock Alerts</div>
-          <div class="feature-desc">Products that fall below a set threshold are flagged for restocking. No more discovering an item is out of stock when a customer asks for it.</div>
+          <div class="feature-title"><span lang="en">Low-Stock Alerts</span><span lang="id">Peringatan Stok Rendah</span></div>
+          <div class="feature-desc" lang="en">Products that fall below a set threshold are flagged for restocking. No more discovering an item is out of stock when a customer asks for it.</div>
+          <div class="feature-desc" lang="id">Produk yang jatuh di bawah ambang batas yang ditentukan ditandai untuk restok. Tidak ada lagi kejadian menemukan barang habis saat pelanggan memintanya.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">📊</div>
-          <div class="feature-title">Sales Reports</div>
-          <div class="feature-desc">Daily, weekly, and monthly sales summaries give the owner a data-based view of the business — revenue by product, transaction volume, and peak periods.</div>
+          <div class="feature-title"><span lang="en">Sales Reports</span><span lang="id">Laporan Penjualan</span></div>
+          <div class="feature-desc" lang="en">Daily, weekly, and monthly sales summaries give the owner a data-based view of the business — revenue by product, transaction volume, and peak periods.</div>
+          <div class="feature-desc" lang="id">Ringkasan penjualan harian, mingguan, dan bulanan memberi pemilik pandangan berbasis data tentang bisnis — pendapatan per produk, volume transaksi, dan periode puncak.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">🔐</div>
-          <div class="feature-title">Role-Based Access</div>
-          <div class="feature-desc">Each account type has clearly scoped permissions. Cashiers can't edit stock. Warehouse staff can't delete transactions. The owner sees everything.</div>
+          <div class="feature-title"><span lang="en">Role-Based Access</span><span lang="id">Akses Berbasis Peran</span></div>
+          <div class="feature-desc" lang="en">Each account type has clearly scoped permissions. Cashiers can't edit stock. Warehouse staff can't delete transactions. The owner sees everything.</div>
+          <div class="feature-desc" lang="id">Setiap tipe akun memiliki izin yang jelas. Kasir tidak bisa mengedit stok. Staf gudang tidak bisa menghapus transaksi. Pemilik melihat segalanya.</div>
         </div>
       </div>
     </div>
 
     <!-- IMPACT -->
     <div class="content-section fade-in">
-      <p class="content-section-eyebrow">Impact</p>
-      <h2 class="content-section-title">What the system closes.</h2>
+      <p class="content-section-eyebrow"><span lang="en">Impact</span><span lang="id">Dampak</span></p>
+      <h2 class="content-section-title"><span lang="en">What the system closes.</span><span lang="id">Apa yang sistem ini tutup.</span></h2>
       <div class="impact-grid">
         <div class="impact-card">
           <div class="impact-num">0</div>
-          <div class="impact-label">Manual notebooks still in use for stock tracking</div>
-          <div class="impact-sub">fully replaced</div>
+          <div class="impact-label" lang="en">Manual notebooks still in use for stock tracking</div>
+          <div class="impact-label" lang="id">Buku catatan manual yang masih digunakan untuk pelacakan stok</div>
+          <div class="impact-sub"><span lang="en">fully replaced</span><span lang="id">sepenuhnya digantikan</span></div>
         </div>
         <div class="impact-card">
           <div class="impact-num">3×</div>
-          <div class="impact-label">User roles with scoped permissions, replacing single shared access</div>
-          <div class="impact-sub">owner · cashier · warehouse</div>
+          <div class="impact-label" lang="en">User roles with scoped permissions, replacing single shared access</div>
+          <div class="impact-label" lang="id">Peran pengguna dengan izin terbatas, menggantikan akses bersama tunggal</div>
+          <div class="impact-sub"><span lang="en">owner · cashier · warehouse</span><span lang="id">pemilik · kasir · gudang</span></div>
         </div>
         <div class="impact-card">
           <div class="impact-num">100%</div>
-          <div class="impact-label">Transactions with audit trail — every entry attributed to a user</div>
-          <div class="impact-sub">no anonymous changes</div>
+          <div class="impact-label" lang="en">Transactions with audit trail — every entry attributed to a user</div>
+          <div class="impact-label" lang="id">Transaksi dengan jejak audit — setiap entri dikaitkan ke pengguna</div>
+          <div class="impact-sub"><span lang="en">no anonymous changes</span><span lang="id">tidak ada perubahan anonim</span></div>
         </div>
       </div>
     </div>
 
     <!-- GALLERY -->
     <div class="content-section fade-in fade-in-delay-1">
-      <p class="content-section-eyebrow">Gallery</p>
-      <h2 class="content-section-title">Screenshots.</h2>
+      <p class="content-section-eyebrow"><span lang="en">Gallery</span><span lang="id">Galeri</span></p>
+      <h2 class="content-section-title"><span lang="en">Screenshots.</span><span lang="id">Tangkapan Layar.</span></h2>
       <div class="gallery-grid">
-
         <div class="gallery-item wide">
           <img src="image/harmonisplastik-homepage.png" alt="Homepage" />
           <div class="gallery-placeholder" style="background: linear-gradient(135deg, #060b08 0%, #0a1a0d 50%, #070d09 100%);">
@@ -823,9 +803,8 @@
             <span class="gp-title" style="color:#86efac;">Owner Dashboard</span>
             <span class="gp-label" style="color:#86efac;">replace with screenshot</span>
           </div>
-          <div class="gallery-caption">Beranda Website Harmonis Plastik</div>
+          <div class="gallery-caption"><span lang="en">Harmonis Plastik Homepage</span><span lang="id">Beranda Website Harmonis Plastik</span></div>
         </div>
-
         <div class="gallery-item">
           <img src="image/harmonisplastik-product.png" alt="Product" />
           <div class="gallery-placeholder" style="background: linear-gradient(160deg, #070c09 0%, #0e1a10 100%);">
@@ -833,9 +812,8 @@
             <span class="gp-title" style="color:#4ade80;">Inventory List</span>
             <span class="gp-label" style="color:#4ade80;">replace with screenshot</span>
           </div>
-          <div class="gallery-caption">Halaman Produk</div>
+          <div class="gallery-caption"><span lang="en">Product Page</span><span lang="id">Halaman Produk</span></div>
         </div>
-
         <div class="gallery-item">
           <img src="image/harmonisplastik-admin-dashboard.png" alt="Dashboard Admin" />
           <div class="gallery-placeholder" style="background: linear-gradient(160deg, #060b07 0%, #0c1710 100%);">
@@ -843,9 +821,8 @@
             <span class="gp-title" style="color:#a7f3d0;">Transaction Log</span>
             <span class="gp-label" style="color:#a7f3d0;">replace with screenshot</span>
           </div>
-          <div class="gallery-caption">Dashboard Admin</div>
+          <div class="gallery-caption"><span lang="en">Admin Dashboard</span><span lang="id">Dashboard Admin</span></div>
         </div>
-
         <div class="gallery-item">
           <img src="image/harmonisplastik-admin-pesanan.png" alt="Dashboard Pesanan" />
           <div class="gallery-placeholder" style="background: linear-gradient(160deg, #080d09 0%, #111e13 100%);">
@@ -853,9 +830,8 @@
             <span class="gp-title" style="color:#6ee7b7;">Audit Report</span>
             <span class="gp-label" style="color:#6ee7b7;">replace with screenshot</span>
           </div>
-          <div class="gallery-caption">Halaman Pesanan di Dashboard Admin</div>
+          <div class="gallery-caption"><span lang="en">Orders Page — Admin Dashboard</span><span lang="id">Halaman Pesanan di Dashboard Admin</span></div>
         </div>
-
         <div class="gallery-item">
           <img src="image/harmonisplastik-admin-product.png" alt="Dashboard Product" />
           <div class="gallery-placeholder" style="background: linear-gradient(160deg, #070c08 0%, #0f1a11 100%);">
@@ -863,16 +839,15 @@
             <span class="gp-title" style="color:#d1fae5;">Cashier View</span>
             <span class="gp-label" style="color:#d1fae5;">replace with screenshot</span>
           </div>
-          <div class="gallery-caption">Halaman Produk di Dashboard Admin</div>
+          <div class="gallery-caption"><span lang="en">Products Page — Admin Dashboard</span><span lang="id">Halaman Produk di Dashboard Admin</span></div>
         </div>
-
       </div>
     </div>
 
     <!-- TECH STACK -->
     <div class="content-section fade-in">
-      <p class="content-section-eyebrow">Tech Stack</p>
-      <h2 class="content-section-title">Built with.</h2>
+      <p class="content-section-eyebrow"><span lang="en">Tech Stack</span><span lang="id">Teknologi yang Digunakan</span></p>
+      <h2 class="content-section-title"><span lang="en">Built with.</span><span lang="id">Dibangun dengan.</span></h2>
       <div class="tech-stack-grid">
         <div class="tech-group">
           <div class="tech-group-label">Backend</div>
@@ -884,7 +859,7 @@
           </div>
         </div>
         <div class="tech-group">
-          <div class="tech-group-label">Database</div>
+          <div class="tech-group-label"><span lang="en">Database</span><span lang="id">Basis Data</span></div>
           <div class="tech-tags">
             <span class="tech-tag">MySQL</span>
             <span class="tech-tag">Relational schema</span>
@@ -901,7 +876,7 @@
           </div>
         </div>
         <div class="tech-group">
-          <div class="tech-group-label">Architecture</div>
+          <div class="tech-group-label"><span lang="en">Architecture</span><span lang="id">Arsitektur</span></div>
           <div class="tech-tags">
             <span class="tech-tag">Role-based auth</span>
             <span class="tech-tag">Audit logging</span>
@@ -911,14 +886,14 @@
       </div>
     </div>
 
-  </div>
+  </div><!-- end project-body -->
 
   <!-- FOOTER -->
   <footer>
     <p class="footer-left">Bryan Siagian <span>·</span> Institut Teknologi Del <span>·</span> <span id="year"></span></p>
     <div class="footer-right">
-      <a href="index.html">← Back to Portfolio</a>
-      <a href="index.html#projects">All Projects</a>
+      <a href="index.html"><span lang="en">← Back to Portfolio</span><span lang="id">← Kembali ke Portofolio</span></a>
+      <a href="index.html#projects"><span lang="en">All Projects</span><span lang="id">Semua Proyek</span></a>
       <a href="mailto:bryantorisi@gmail.com">Email</a>
     </div>
   </footer>
@@ -968,20 +943,34 @@
     fadeEls.forEach(el => fadeObserver.observe(el));
 
     // ==========================================
+    // MULTI-LANGUAGE TOGGLE LOGIC
+    // ==========================================
+    const langToggleBtn = document.getElementById('langToggle');
+    const langText = document.getElementById('langText');
+
+    const savedLang = localStorage.getItem('lang') || 'en';
+    document.documentElement.lang = savedLang;
+    langText.textContent = savedLang.toUpperCase();
+
+    langToggleBtn.addEventListener('click', () => {
+      const newLang = document.documentElement.lang === 'en' ? 'id' : 'en';
+      document.documentElement.lang = newLang;
+      localStorage.setItem('lang', newLang);
+      langText.textContent = newLang.toUpperCase();
+    });
+
+    // ==========================================
     // DARK MODE TOGGLE LOGIC
     // ==========================================
     const themeToggleBtn = document.getElementById('themeToggle');
     const htmlElement = document.documentElement;
-    
-    // SVG Icons
+
     const iconSun = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
     const iconMoon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
 
-    // Deteksi LocalStorage / Sistem OS User
     const currentTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    // Inisialisasi awal
     if (currentTheme === 'dark' || (!currentTheme && prefersDark)) {
       htmlElement.setAttribute('data-theme', 'dark');
       themeToggleBtn.innerHTML = iconSun;
@@ -990,10 +979,8 @@
       themeToggleBtn.innerHTML = iconMoon;
     }
 
-    // Fungsi saat tombol diklik
     themeToggleBtn.addEventListener('click', () => {
       let theme = htmlElement.getAttribute('data-theme');
-      
       if (theme === 'dark') {
         htmlElement.setAttribute('data-theme', 'light');
         localStorage.setItem('theme', 'light');
