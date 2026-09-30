@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects — Bryan Siagian</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #ffffff;
+      --bg-subtle: #f5f5f5;
+      --text:      #111111;
+      --text-2:    #555555;
+      --text-3:    #999999;
+      --border:    #e5e5e5;
+      --sidebar-w: 260px;
+    }
+    [data-theme="dark"] {
+      --bg:        #111111;
+      --bg-subtle: #1c1c1c;
+      --text:      #f0f0f0;
+      --text-2:    #aaaaaa;
+      --text-3:    #555555;
+      --border:    #2a2a2a;
+    }
+
+    html[lang="en"] [data-lang="id"] { display: none !important; }
+    html[lang="id"] [data-lang="en"] { display: none !important; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      transition: background .3s, color .3s;
+    }
+
+    /* ── LAYOUT ── */
+    .layout {
+      display: flex;
+      max-width: 1100px;
+      margin: 0 auto;
+      min-height: 100vh;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 2rem 1.25rem 1.5rem;
+      overflow-y: auto;
+    }
+    .sidebar-profile { margin-top: auto; margin-bottom: 1.5rem; text-align: center; }
+    .profile-avatar {
+      width: 128px; height: 128px;
+      border-radius: 50%;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      margin: 0 auto 1rem;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .profile-avatar-placeholder { font-size: 40px; color: var(--text-3); }
+    .profile-name {
+      font-size: 16px; font-weight: 600;
+      color: var(--text); line-height: 1.35;
+      margin-bottom: 3px;
+    }
+    .profile-role { font-size: 13.5px; color: var(--text-3); }
+
+    .sidebar-nav { flex: none; }
+    .nav-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+    .nav-item a {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .55rem .8rem;
+      border-radius: 8px;
+      font-size: 15px; font-weight: 400;
+      color: var(--text-2); text-decoration: none;
+      transition: background .15s, color .15s;
+    }
+    .nav-item a:hover { background: var(--bg-subtle); color: var(--text); }
+    .nav-item a.active { background: var(--bg-subtle); color: var(--text); font-weight: 500; }
+    .nav-count {
+      font-size: 12px; color: var(--text-3);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 1px 7px; min-width: 22px; text-align: center;
+    }
+    .nav-item a.active .nav-count { background: var(--border); border-color: transparent; }
+    .nav-badge {
+      font-size: 11px; font-weight: 600;
+      color: var(--text-3); letter-spacing: .04em;
+      background: var(--bg-subtle); border: 1px solid var(--border);
+      border-radius: 5px; padding: 1px 6px;
+    }
+
+    .sidebar-footer {
+      margin-top: auto; padding-top: 1.5rem;
+      display: flex; align-items: center; justify-content: center; gap: .35rem;
+    }
+    .icon-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--text-3); padding: .375rem;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12.5px; font-weight: 600; letter-spacing: .05em;
+      transition: color .15s, background .15s;
+    }
+    .icon-btn:hover { color: var(--text); background: var(--bg-subtle); }
+    .icon-btn svg { width: 17px; height: 17px; }
+
+    /* ── MAIN CONTENT ── */
+    .main {
+      flex: 1;
+      min-width: 0;
+      padding: 3rem 3rem 4rem 3.5rem;
+    }
+    .main-inner { max-width: 760px; }
+
+    /* ── PAGE HEADER ── */
+    .page-title {
+      font-size: 1.5rem; font-weight: 600;
+      letter-spacing: -.02em; color: var(--text);
+    }
+    .page-sub {
+      font-size: 1rem; color: var(--text-2);
+      line-height: 1.7; margin-top: .35rem; margin-bottom: 1.5rem;
+    }
+
+    /* ── SEARCH ── */
+    .search {
+      display: flex; align-items: center; gap: .75rem;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0 .9rem;
+      height: 50px;
+      transition: border-color .15s;
+    }
+    .search:focus-within { border-color: var(--text-3); }
+    .search svg { width: 17px; height: 17px; color: var(--text-3); flex-shrink: 0; }
+    .search input {
+      flex: 1; min-width: 0;
+      background: none; border: none; outline: none;
+      font: inherit; font-size: 15px; color: var(--text);
+    }
+    .search input::placeholder { color: var(--text-3); }
+    .kbd {
+      font-size: 11px; color: var(--text-3);
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 1px 8px;
+    }
+
+    .result-count { font-size: 13px; color: var(--text-3); margin: 1.25rem 0 1.5rem; }
+
+    /* ── GROUP LABEL ── */
+    .group-label {
+      font-size: 12px; font-weight: 500; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--text-3);
+      margin-bottom: 1.25rem;
+    }
+    .group + .group { margin-top: 2.5rem; }
+
+    /* ── PROJECT ROW ── */
+    .proj-list { display: flex; flex-direction: column; gap: 1.75rem; }
+    .proj {
+      display: flex; gap: 1.5rem; align-items: flex-start;
+      color: inherit; text-decoration: none;
+    }
+    .proj-thumb {
+      position: relative;
+      width: 230px; flex-shrink: 0;
+      aspect-ratio: 8 / 5;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      background: linear-gradient(135deg, hsl(var(--h) 70% 96%), hsl(var(--h) 60% 88%));
+      display: flex; flex-direction: column;
+      transition: transform .2s ease;
+    }
+    [data-theme="dark"] .proj-thumb {
+      background: linear-gradient(135deg, hsl(var(--h) 30% 16%), hsl(var(--h) 30% 11%));
+    }
+    .proj:hover .proj-thumb { transform: translateY(-2px); }
+    .proj-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .thumb-bar {
+      display: flex; gap: 4px; padding: 9px 11px;
+    }
+    .thumb-bar i {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: hsl(var(--h) 30% 55% / .45);
+    }
+    .thumb-title {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 0 1rem 1rem;
+      font-size: 1.15rem; font-weight: 600; letter-spacing: -.02em;
+      color: hsl(var(--h) 45% 25%);
+    }
+    [data-theme="dark"] .thumb-title { color: hsl(var(--h) 60% 80%); }
+    .live-badge {
+      position: absolute; top: 10px; left: 10px; z-index: 1;
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 500;
+      color: #fff; background: rgba(40,40,40,.72);
+      backdrop-filter: blur(4px);
+      padding: 3px 10px 3px 8px; border-radius: 100px;
+    }
+    .live-badge::before {
+      content: ""; width: 7px; height: 7px; border-radius: 50%; background: #22c55e;
+    }
+
+    .proj-body { flex: 1; min-width: 0; }
+    .proj-title {
+      font-size: 1.25rem; font-weight: 500; letter-spacing: -.01em;
+      color: var(--text); line-height: 1.35;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+      margin-bottom: .35rem;
+    }
+    .award-pill {
+      font-size: 11px; font-weight: 500;
+      color: #92400e;
+      background: #fef3c7; border: 1px solid #fde68a;
+      padding: 1px 8px; border-radius: 100px; white-space: nowrap;
+      letter-spacing: 0;
+    }
+    [data-theme="dark"] .award-pill {
+      background: rgba(146,64,14,.18); border-color: rgba(180,83,9,.35); color: #fbbf24;
+    }
+    .proj-desc { font-size: 14.5px; color: var(--text-2); line-height: 1.7; margin-bottom: .75rem; }
+    .proj-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: .75rem; }
+    .tag {
+      font-size: 12px; color: var(--text-2);
+      background: var(--bg-subtle); border: 1px solid var(--border);
+      padding: 2px 10px; border-radius: 100px;
+    }
+    .proj-link {
+      font-size: 13.5px; color: var(--text-2);
+      display: inline-flex; align-items: center; gap: 5px;
+    }
+    .proj-link span.u { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--border); }
+    .proj:hover .proj-link { color: var(--text); }
+    .proj-link svg { width: 12px; height: 12px; }
+    .proj-year { font-size: 12.5px; color: var(--text-3); margin-left: .5rem; }
+
+    .empty { font-size: 14.5px; color: var(--text-3); padding: 2rem 0; }
+
+    /* ── MOBILE ── */
+    .mobile-topbar {
+      display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      height: 52px; background: var(--bg); border-bottom: 1px solid var(--border);
+      align-items: center; justify-content: space-between;
+      padding: 0 1.25rem;
+    }
+    .mobile-topbar-name { font-size: 14px; font-weight: 600; color: var(--text); }
+    .mobile-topbar-right { display: flex; gap: .25rem; }
+    .mobile-menu-btn {
+      background: none; border: none; cursor: pointer; color: var(--text-2);
+      padding: .35rem; border-radius: 6px; display: flex; align-items: center;
+    }
+    .mobile-menu-btn svg { width: 18px; height: 18px; }
+    .mobile-drawer { display: none; position: fixed; inset: 0; z-index: 49; }
+    .mobile-drawer.open { display: block; }
+    .mobile-drawer-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.3); }
+    .mobile-drawer-panel {
+      position: absolute; top: 0; left: 0; bottom: 0;
+      width: 240px; background: var(--bg);
+      border-right: 1px solid var(--border);
+      padding: 1.5rem 1.25rem;
+      overflow-y: auto;
+    }
+
+    @media (max-width: 680px) {
+      .sidebar { display: none; }
+      .layout { display: block; }
+      .main { padding: 4.5rem 1.25rem 3rem; }
+      .main-inner { max-width: 100%; }
+      .mobile-topbar { display: flex; }
+      .proj { flex-direction: column; gap: 1rem; }
+      .proj-thumb { width: 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="layout">
+
+    <!-- SIDEBAR (desktop) -->
+    <aside class="sidebar">
+      <div class="sidebar-profile">
+        <div class="profile-avatar">
+          <img src="/portofolio/image/profil.jpeg" alt="Bryan" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <span class="profile-avatar-placeholder" style="display:none">B</span>
+        </div>
+        <div class="profile-name">Bryan Torisi Siagian</div>
+        <div class="profile-role">Software Engineer</div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="index.html">
+              <span data-lang="en">Home</span><span data-lang="id">Beranda</span>
+              <span class="nav-count">1</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="projects.html" class="active">
+              <span data-lang="en">Projects</span><span data-lang="id">Proyek</span>
+              <span class="nav-count">6</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="achievements.html">
+              <span data-lang="en">Achievements</span><span data-lang="id">Capaian</span>
+              <span class="nav-count">4</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="resume.pdf" target="_blank" rel="noopener">
+              <span>Resume</span>
+              <span class="nav-badge">CV</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="icon-btn" id="langBtn" aria-label="Toggle language">
+          <span id="langLabel">EN</span>
+        </button>
+        <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">
+          <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+      <div class="main-inner">
+
+        <h1 class="page-title">
+          <span data-lang="en">Projects</span>
+          <span data-lang="id">Proyek</span>
+        </h1>
+        <p class="page-sub">
+          <span data-lang="en">Web and mobile apps I've built, from smart city transit to pharmacy logistics and cultural heritage.</span>
+          <span data-lang="id">Aplikasi web dan mobile yang pernah saya bangun, dari transportasi smart city hingga logistik farmasi dan warisan budaya.</span>
+        </p>
+
+        <label class="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="search" id="searchInput" placeholder="Search projects…" autocomplete="off" />
+          <span class="kbd">/</span>
+        </label>
+
+        <div class="result-count" id="resultCount"></div>
+        <div id="projectList"></div>
+
+      </div>
+    </main>
+
+  </div><!-- /.layout -->
+
+  <!-- MOBILE TOPBAR -->
+  <div class="mobile-topbar">
+    <span class="mobile-topbar-name">Bryan Siagian</span>
+    <div class="mobile-topbar-right">
+      <button class="icon-btn" id="langBtnMobile"><span id="langLabelMobile">EN</span></button>
+      <button class="icon-btn" id="themeBtnMobile">
+        <svg id="themeIconMobile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+      <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- MOBILE DRAWER -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <div class="mobile-drawer-overlay" id="drawerOverlay"></div>
+    <div class="mobile-drawer-panel">
+      <div style="margin-bottom:1.5rem">
+        <div class="profile-name" style="margin-bottom:3px">Bryan Torisi Siagian</div>
+        <div class="profile-role">Software Engineer</div>
+      </div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="index.html"><span>Home</span><span class="nav-count">1</span></a></li>
+        <li class="nav-item"><a href="projects.html" class="active"><span>Projects</span><span class="nav-count">6</span></a></li>
+        <li class="nav-item"><a href="achievements.html"><span>Achievements</span><span class="nav-count">4</span></a></li>
+        <li class="nav-item"><a href="resume.pdf" target="_blank"><span>Resume</span><span class="nav-badge">CV</span></a></li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // ─────────────────────────────────────────────
+    // DATA PROYEK — tambah proyek baru di sini
+    // status: 'live' | 'other'
+    // image : (opsional) path screenshot, mis. 'image/medflow.png'
+    // hue   : warna thumbnail (0–360), dipakai bila tidak ada image
+    // ─────────────────────────────────────────────
+    const projects = [
+      {
+        title: 'MedFlow',
+        href: 'medflow.html',
+        year: 2026,
+        status: 'live',
+        hue: 210,
+        image: '',
+        award: '🏆 2nd Place · MCC 2026',
+        desc: {
+          en: "Real-time angkot tracking for Medan's Smart City initiative. Live vehicle tracking, route info, and weather-aware suggestions on AWS EC2.",
+          id: 'Pelacak angkot real-time untuk Smart City Medan. Tracking kendaraan langsung, info rute, dan rekomendasi berbasis cuaca di AWS EC2.'
+        },
+        tags: ['Laravel', 'Flutter', 'MySQL', 'AWS EC2']
+      },
+      {
+        title: 'SI-DOBAT',
+        href: 'sidobat.html',
+        year: 2025,
+        status: 'live',
+        hue: 150,
+        image: '',
+        award: '',
+        desc: {
+          en: 'End-to-end pharmacy e-commerce and logistics for Yayasan Satriabudi Dharma. Microservices on AWS EC2 with Midtrans payment.',
+          id: 'E-commerce dan logistik farmasi end-to-end untuk Yayasan Satriabudi Dharma. Microservices di AWS EC2 dengan pembayaran Midtrans.'
+        },
+        tags: ['Laravel', 'MySQL', 'Midtrans', 'AWS EC2']
+      },
+      {
+        title: 'BoanAksara',
+        href: 'boanaksara.html',
+        year: 2025,
+        status: 'live',
+        hue: 28,
+        image: '',
+        award: '🏅 Top 30 National',
+        desc: {
+          en: 'Interactive website for learning Aksara Batak, preserving North Sumatran cultural heritage.',
+          id: 'Situs web interaktif untuk mempelajari Aksara Batak, melestarikan warisan budaya Sumatera Utara.'
+        },
+        tags: ['HTML', 'CSS', 'JavaScript']
+      }
+      // Contoh template proyek baru:
+      // {
+      //   title: 'Nama Proyek', href: 'nama-proyek.html', year: 2026,
+      //   status: 'live', hue: 270, image: '', award: '',
+      //   desc: { en: 'English description.', id: 'Deskripsi bahasa Indonesia.' },
+      //   tags: ['Laravel', 'MySQL']
+      // },
+    ];
+
+    const groups = [
+      { key: 'live',  en: 'Live Projects', id: 'Proyek Live' },
+      { key: 'other', en: 'Other Projects', id: 'Proyek Lainnya' }
+    ];
+
+    const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>';
+
+    function projectHTML(p) {
+      const thumb = `
+        <div class="proj-thumb" style="--h:${p.hue}">
+          ${p.status === 'live' ? '<span class="live-badge">Live</span>' : ''}
+          ${p.image
+            ? `<img src="${p.image}" alt="${p.title}" loading="lazy" onerror="this.remove()">`
+            : ''}
+          <div class="thumb-bar"><i></i><i></i><i></i></div>
+          <div class="thumb-title">${p.title}</div>
+        </div>`;
+      return `
+        <a class="proj" href="${p.href}">
+          ${thumb}
+          <div class="proj-body">
+            <div class="proj-title">${p.title}${p.award ? `<span class="award-pill">${p.award}</span>` : ''}</div>
+            <p class="proj-desc">
+              <span data-lang="en">${p.desc.en}</span>
+              <span data-lang="id">${p.desc.id}</span>
+            </p>
+            <div class="proj-tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+            <span class="proj-link">
+              <span class="u"><span data-lang="en">View Details</span><span data-lang="id">Lihat Detail</span></span>
+              ${arrow}
+              <span class="proj-year">${p.year}</span>
+            </span>
+          </div>
+        </a>`;
+    }
+
+    function render(query = '') {
+      const q = query.trim().toLowerCase();
+      const list = projects.filter(p => {
+        if (!q) return true;
+        const hay = [p.title, p.desc.en, p.desc.id, p.award, String(p.year), ...p.tags].join(' ').toLowerCase();
+        return hay.includes(q);
+      });
+
+      document.getElementById('resultCount').innerHTML =
+        `<span data-lang="en">${list.length} of ${projects.length} projects</span>` +
+        `<span data-lang="id">${list.length} dari ${projects.length} proyek</span>`;
+
+      let html = '';
+      groups.forEach(g => {
+        const items = list.filter(p => (p.status || 'other') === g.key);
+        if (!items.length) return;
+        html += `
+          <section class="group">
+            <div class="group-label"><span data-lang="en">${g.en}</span><span data-lang="id">${g.id}</span></div>
+            <div class="proj-list">${items.map(projectHTML).join('')}</div>
+          </section>`;
+      });
+
+      if (!list.length) {
+        html = `<p class="empty">
+          <span data-lang="en">No projects match your search.</span>
+          <span data-lang="id">Tidak ada proyek yang cocok dengan pencarian Anda.</span></p>`;
+      }
+      document.getElementById('projectList').innerHTML = html;
+    }
+
+    // SEARCH
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', e => render(e.target.value));
+    document.addEventListener('keydown', e => {
+      const typing = /^(input|textarea|select)$/i.test(document.activeElement.tagName);
+      if (e.key === '/' && !typing) { e.preventDefault(); searchInput.focus(); }
+      if (e.key === 'Escape' && document.activeElement === searchInput) {
+        searchInput.value = ''; render(''); searchInput.blur();
+      }
+    });
+
+    // THEME
+    const themeBtn = document.getElementById('themeBtn');
+    const themeBtnM = document.getElementById('themeBtnMobile');
+    const iconSun  = `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`;
+    const iconMoon = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`;
+    function applyTheme(t) {
+      document.documentElement.setAttribute('data-theme', t);
+      const inner = t === 'dark' ? iconSun : iconMoon;
+      document.getElementById('themeIcon').innerHTML = inner;
+      if (document.getElementById('themeIconMobile')) document.getElementById('themeIconMobile').innerHTML = inner;
+      localStorage.setItem('theme', t);
+    }
+    const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    applyTheme(savedTheme);
+    [themeBtn, themeBtnM].forEach(btn => btn && btn.addEventListener('click', () => {
+      applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    }));
+
+    // LANGUAGE
+    function applyLang(l) {
+      document.documentElement.lang = l;
+      document.querySelectorAll('#langLabel, #langLabelMobile').forEach(el => el.textContent = l.toUpperCase());
+      searchInput.placeholder = l === 'id' ? 'Cari proyek…' : 'Search projects…';
+      localStorage.setItem('lang', l);
+    }
+    applyLang(localStorage.getItem('lang') || 'en');
+    [document.getElementById('langBtn'), document.getElementById('langBtnMobile')].forEach(btn => btn && btn.addEventListener('click', () => {
+      applyLang(document.documentElement.lang === 'en' ? 'id' : 'en');
+    }));
+
+    // MOBILE DRAWER
+    const drawer = document.getElementById('mobileDrawer');
+    document.getElementById('mobileMenuBtn').addEventListener('click', () => drawer.classList.toggle('open'));
+    document.getElementById('drawerOverlay').addEventListener('click', () => drawer.classList.remove('open'));
+
+    // INIT
+    render();
+  </script>
+</body>
+</html>
