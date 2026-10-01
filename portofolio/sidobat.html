@@ -1,1762 +1,755 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SI-DOBAT — Bryan Siagian</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SI-DOBAT — Bryan Siagian</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-      :root {
-        --bg: #ffffff;
-        --bg-subtle: #f8fafc;
-        --bg-dark: #0d1117;
-        --bg-card: #ffffff;
-        --text-primary: #0a0f1e;
-        --text-secondary: #4a5568;
-        --text-muted: #94a3b8;
-        --accent: #6366f1;
-        --accent-hover: #4f46e5;
-        --accent-light: #eef2ff;
-        --accent-border: #c7d2fe;
-        --border: #e8ecf0;
-        --border-strong: #d1d9e0;
-        --green: #10b981;
-        --orange: #f59e0b;
-        --sans: "Space Grotesk", sans-serif;
-        --body: "Inter", sans-serif;
-        --mono: "JetBrains Mono", monospace;
-        --shadow-sm:
-          0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-        --shadow-md:
-          0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
-        --shadow-lg:
-          0 12px 40px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.06);
-        --nav-bg: rgba(255, 255, 255, 0.92);
-      }
+    :root {
+      --bg:        #ffffff;
+      --bg-subtle: #f5f5f5;
+      --text:      #111111;
+      --text-2:    #555555;
+      --text-3:    #999999;
+      --border:    #e5e5e5;
+      --sidebar-w: 260px;
+    }
+    [data-theme="dark"] {
+      --bg:        #111111;
+      --bg-subtle: #1c1c1c;
+      --text:      #f0f0f0;
+      --text-2:    #aaaaaa;
+      --text-3:    #555555;
+      --border:    #2a2a2a;
+    }
 
-      [data-theme="dark"] {
-        --bg: #0f172a;
-        --bg-subtle: #1e293b;
-        --bg-dark: #020617;
-        --bg-card: #1e293b;
-        --text-primary: #f8fafc;
-        --text-secondary: #cbd5e1;
-        --text-muted: #94a3b8;
-        --accent: #818cf8;
-        --accent-hover: #6366f1;
-        --accent-light: rgba(129, 140, 248, 0.15);
-        --accent-border: rgba(129, 140, 248, 0.3);
-        --border: #334155;
-        --border-strong: #475569;
-        --nav-bg: rgba(15, 23, 42, 0.92);
-        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
-        --shadow-md:
-          0 4px 16px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.3);
-        --shadow-lg:
-          0 12px 40px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.4);
-      }
+    html[lang="en"] [data-lang="id"] { display: none !important; }
+    html[lang="id"] [data-lang="en"] { display: none !important; }
 
-      /* MULTI-LANGUAGE TOGGLE LOGIC (CSS BASED) */
-      :root:lang(en) [lang="id"] {
-        display: none !important;
-      }
-      :root:lang(id) [lang="en"] {
-        display: none !important;
-      }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      transition: background .3s, color .3s;
+    }
 
-      html {
-        scroll-behavior: smooth;
-      }
+    /* ── LAYOUT ── */
+    .layout {
+      display: flex;
+      max-width: 1100px;
+      margin: 0 auto;
+      min-height: 100vh;
+    }
 
-      body {
-        font-family: var(--body);
-        background: var(--bg);
-        color: var(--text-primary);
-        line-height: 1.6;
-        -webkit-font-smoothing: antialiased;
-        overflow-x: hidden;
-        cursor: none;
-        transition:
-          background-color 0.4s ease,
-          color 0.4s ease;
-      }
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 2rem 1.25rem 1.5rem;
+      overflow-y: auto;
+    }
+    .sidebar-profile { margin-top: auto; margin-bottom: 1.5rem; text-align: center; }
+    .profile-avatar {
+      width: 128px; height: 128px;
+      border-radius: 50%;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      margin: 0 auto 1rem;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .profile-avatar-placeholder { font-size: 40px; color: var(--text-3); }
+    .profile-name {
+      font-size: 16px; font-weight: 600;
+      color: var(--text); line-height: 1.35;
+      margin-bottom: 3px;
+    }
+    .profile-role { font-size: 13.5px; color: var(--text-3); }
 
-      a,
-      button {
-        cursor: none;
-      }
+    .sidebar-nav { flex: none; }
+    .nav-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+    .nav-item a {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .55rem .8rem;
+      border-radius: 8px;
+      font-size: 15px; font-weight: 400;
+      color: var(--text-2); text-decoration: none;
+      transition: background .15s, color .15s;
+    }
+    .nav-item a:hover { background: var(--bg-subtle); color: var(--text); }
+    .nav-item a.active { background: var(--bg-subtle); color: var(--text); font-weight: 500; }
+    .nav-count {
+      font-size: 12px; color: var(--text-3);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 1px 7px; min-width: 22px; text-align: center;
+    }
+    .nav-item a.active .nav-count { background: var(--border); border-color: transparent; }
+    .nav-badge {
+      font-size: 11px; font-weight: 600;
+      color: var(--text-3); letter-spacing: .04em;
+      background: var(--bg-subtle); border: 1px solid var(--border);
+      border-radius: 5px; padding: 1px 6px;
+    }
 
-      /* CURSOR */
-      .cursor-dot {
-        width: 8px;
-        height: 8px;
-        background: var(--accent);
-        border-radius: 50%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-        z-index: 9999;
-        transform: translate(-50%, -50%);
-        transition:
-          transform 0.1s,
-          width 0.2s,
-          height 0.2s,
-          background 0.2s;
-      }
-      .cursor-ring {
-        width: 36px;
-        height: 36px;
-        border: 1.5px solid var(--accent);
-        border-radius: 50%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-        z-index: 9998;
-        transform: translate(-50%, -50%);
-        transition:
-          transform 0.12s ease,
-          width 0.25s,
-          height 0.25s,
-          border-color 0.2s;
-        opacity: 0.6;
-      }
-      .cursor-dot.hover {
-        width: 12px;
-        height: 12px;
-      }
-      .cursor-ring.hover {
-        width: 52px;
-        height: 52px;
-        opacity: 0.3;
-      }
+    .sidebar-footer {
+      margin-top: auto; padding-top: 1.5rem;
+      display: flex; align-items: center; justify-content: center; gap: .35rem;
+    }
+    .icon-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--text-3); padding: .375rem;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12.5px; font-weight: 600; letter-spacing: .05em;
+      transition: color .15s, background .15s;
+    }
+    .icon-btn:hover { color: var(--text); background: var(--bg-subtle); }
+    .icon-btn svg { width: 17px; height: 17px; }
 
-      /* SCROLL PROGRESS */
-      .scroll-progress {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 0%;
-        height: 2px;
-        background: linear-gradient(90deg, var(--accent), #8b5cf6, #06b6d4);
-        z-index: 200;
-        transition: width 0.05s linear;
-      }
+    /* ── MAIN CONTENT ── */
+    .main {
+      flex: 1;
+      min-width: 0;
+      padding: 3rem 3rem 4rem 3.5rem;
+    }
+    .main-inner { max-width: 760px; }
 
-      /* NAV */
-      nav {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 100;
-        padding: 0 2.5rem;
-        height: 64px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        transition:
-          background 0.3s,
-          box-shadow 0.3s;
-      }
-      nav.scrolled {
-        background: var(--nav-bg);
-        backdrop-filter: blur(16px);
-        box-shadow: 0 1px 0 var(--border);
-      }
-      .nav-logo {
-        font-family: var(--mono);
-        font-size: 15px;
-        font-weight: 600;
-        color: var(--text-primary);
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-      }
-      .nav-logo .logo-bracket {
-        color: var(--accent);
-      }
+    /* ── PAGE HEADER ── */
+    .page-title {
+      font-size: 1.5rem; font-weight: 600;
+      letter-spacing: -.02em; color: var(--text);
+    }
+    .page-sub {
+      font-size: 1rem; color: var(--text-2);
+      line-height: 1.7; margin-top: .35rem; margin-bottom: 1.5rem;
+    }
 
-      .nav-right-actions {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-      }
+    /* ── SEARCH ── */
+    .search {
+      display: flex; align-items: center; gap: .75rem;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0 .9rem;
+      height: 50px;
+      transition: border-color .15s;
+    }
+    .search:focus-within { border-color: var(--text-3); }
+    .search svg { width: 17px; height: 17px; color: var(--text-3); flex-shrink: 0; }
+    .search input {
+      flex: 1; min-width: 0;
+      background: none; border: none; outline: none;
+      font: inherit; font-size: 15px; color: var(--text);
+    }
+    .search input::placeholder { color: var(--text-3); }
+    .kbd {
+      font-size: 11px; color: var(--text-3);
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 1px 8px;
+    }
 
-      .theme-toggle,
-      .lang-toggle {
-        background: transparent;
-        border: none;
-        color: var(--text-primary);
-        cursor: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0.5rem;
-        border-radius: 50%;
-        transition:
-          color 0.2s,
-          transform 0.2s,
-          background 0.2s;
-      }
-      .theme-toggle:hover,
-      .lang-toggle:hover {
-        color: var(--accent);
-        background: var(--bg-subtle);
-        transform: scale(1.05);
-      }
-      .theme-toggle svg {
-        width: 18px;
-        height: 18px;
-      }
-      .lang-toggle {
-        font-family: var(--mono);
-        font-size: 13px;
-        font-weight: 600;
-        letter-spacing: 0.05em;
-        border-radius: 8px;
-        padding: 0.4rem 0.6rem;
-      }
+    .result-count { font-size: 13px; color: var(--text-3); margin: 1.25rem 0 1.5rem; }
 
-      .nav-back {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-family: var(--body);
-        font-size: 13.5px;
-        color: var(--text-secondary);
-        text-decoration: none;
-        padding: 0.4rem 1rem;
-        border-radius: 6px;
-        border: 1px solid var(--border);
-        transition:
-          color 0.2s,
-          border-color 0.2s,
-          background 0.2s;
-      }
-      .nav-back:hover {
-        color: var(--accent);
-        border-color: var(--accent-border);
-        background: var(--accent-light);
-      }
-      .nav-back svg {
-        width: 14px;
-        height: 14px;
-      }
+    /* ── GROUP LABEL ── */
+    .group-label {
+      font-size: 12px; font-weight: 500; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--text-3);
+      margin-bottom: 1.25rem;
+    }
+    .group + .group { margin-top: 2.5rem; }
 
-      /* HERO */
-      .project-hero {
-        padding-top: 64px;
-        min-height: 52vh;
-        display: flex;
-        align-items: flex-end;
-        position: relative;
-        overflow: hidden;
-        background: #0d1117;
-      }
-      .hero-bg-grid {
-        position: absolute;
-        inset: 0;
-        background-image:
-          linear-gradient(rgba(99, 102, 241, 0.07) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(99, 102, 241, 0.07) 1px, transparent 1px);
-        background-size: 48px 48px;
-        mask-image: radial-gradient(
-          ellipse 90% 70% at 50% 30%,
-          black,
-          transparent
-        );
-        pointer-events: none;
-      }
-      .hero-glow {
-        position: absolute;
-        width: 700px;
-        height: 500px;
-        background: radial-gradient(
-          circle,
-          rgba(99, 102, 241, 0.13) 0%,
-          transparent 65%
-        );
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        pointer-events: none;
-      }
-      .project-hero-inner {
-        max-width: 1120px;
-        margin: 0 auto;
-        padding: 4rem 2.5rem 3.5rem;
-        width: 100%;
-        position: relative;
-        z-index: 1;
-      }
-      .hero-breadcrumb {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-family: var(--mono);
-        font-size: 11.5px;
-        color: #3d444d;
-        margin-bottom: 1.75rem;
-      }
-      .hero-breadcrumb a {
-        color: #3d444d;
-        text-decoration: none;
-        transition: color 0.2s;
-      }
-      .hero-breadcrumb a:hover {
-        color: var(--accent);
-      }
-      .hero-breadcrumb .sep {
-        color: #2d3748;
-      }
-      .hero-breadcrumb .current {
-        color: #6e7681;
-      }
+    /* ── PROJECT ROW ── */
+    .proj-list { display: flex; flex-direction: column; gap: 1.75rem; }
+    .proj {
+      display: flex; gap: 1.5rem; align-items: flex-start;
+      color: inherit; text-decoration: none;
+    }
+    .proj-thumb {
+      position: relative;
+      width: 230px; flex-shrink: 0;
+      aspect-ratio: 8 / 5;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      background: linear-gradient(135deg, hsl(var(--h) 70% 96%), hsl(var(--h) 60% 88%));
+      display: flex; flex-direction: column;
+      transition: transform .2s ease;
+    }
+    [data-theme="dark"] .proj-thumb {
+      background: linear-gradient(135deg, hsl(var(--h) 30% 16%), hsl(var(--h) 30% 11%));
+    }
+    a.proj:hover .proj-thumb { transform: translateY(-2px); }
+    .proj-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .thumb-bar {
+      display: flex; gap: 4px; padding: 9px 11px;
+    }
+    .thumb-bar i {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: hsl(var(--h) 30% 55% / .45);
+    }
+    .thumb-title {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 0 1rem 1rem;
+      font-size: 1.15rem; font-weight: 600; letter-spacing: -.02em;
+      color: hsl(var(--h) 45% 25%);
+    }
+    [data-theme="dark"] .thumb-title { color: hsl(var(--h) 60% 80%); }
+    .proj-body { flex: 1; min-width: 0; }
+    a.proj:hover .proj-title { text-decoration: underline; text-decoration-color: var(--text-3); text-underline-offset: 4px; }
+    .proj-title {
+      font-size: 1.25rem; font-weight: 500; letter-spacing: -.01em;
+      color: var(--text); line-height: 1.35;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+      margin-bottom: .35rem;
+    }
+    .award-pill {
+      font-size: 11px; font-weight: 500;
+      color: #92400e;
+      background: #fef3c7; border: 1px solid #fde68a;
+      padding: 1px 8px; border-radius: 100px; white-space: nowrap;
+      letter-spacing: 0;
+    }
+    [data-theme="dark"] .award-pill {
+      background: rgba(146,64,14,.18); border-color: rgba(180,83,9,.35); color: #fbbf24;
+    }
+    .proj-meta { font-size: 13px; color: var(--text-3); margin-bottom: .6rem; }
+    .proj-desc { font-size: 14.5px; color: var(--text-2); line-height: 1.7; margin-bottom: .75rem; }
+    .proj-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: .75rem; }
+    .tag {
+      font-size: 12px; color: var(--text-2);
+      background: var(--bg-subtle); border: 1px solid var(--border);
+      padding: 2px 10px; border-radius: 100px;
+    }
+    .empty { font-size: 14.5px; color: var(--text-3); padding: 2rem 0; }
 
-      .hero-type-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-family: var(--mono);
-        font-size: 10.5px;
-        font-weight: 500;
-        color: var(--accent);
-        background: rgba(99, 102, 241, 0.12);
-        border: 1px solid rgba(99, 102, 241, 0.25);
-        padding: 4px 12px;
-        border-radius: 100px;
-        letter-spacing: 0.05em;
-        margin-bottom: 1.25rem;
-      }
-      .project-hero h1 {
-        font-family: var(--sans);
-        font-size: clamp(2rem, 5vw, 3.2rem);
-        font-weight: 700;
-        letter-spacing: -0.03em;
-        color: #e6edf3;
-        line-height: 1.1;
-        margin-bottom: 1rem;
-      }
-      .project-hero h1 .accent {
-        color: var(--accent);
-      }
-      .project-hero .hero-tagline {
-        font-size: 1.05rem;
-        color: #8b949e;
-        line-height: 1.75;
-        max-width: 620px;
-        margin-bottom: 2rem;
-      }
-      .hero-meta-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2rem;
-        padding-top: 2rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.07);
-      }
-      .hero-meta-item {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-      }
-      .hero-meta-label {
-        font-family: var(--mono);
-        font-size: 10.5px;
-        color: #3d444d;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-      }
-      .hero-meta-value {
-        font-size: 14px;
-        font-weight: 500;
-        color: #c9d1d9;
-      }
+    /* ── PROJECT DETAIL ── */
+    .back {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13.5px; color: var(--text-3); text-decoration: none;
+      margin-bottom: 1.5rem; transition: color .15s;
+    }
+    .back:hover { color: var(--text); }
+    .back svg { width: 14px; height: 14px; }
 
-      /* LINKS ROW */
-      .project-links-row {
-        display: flex;
-        gap: 0.875rem;
-        margin-top: 1.75rem;
-      }
-      .btn-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-family: var(--body);
-        font-size: 13.5px;
-        font-weight: 500;
-        padding: 0.6rem 1.25rem;
-        border-radius: 9px;
-        text-decoration: none;
-        transition: all 0.2s;
-      }
-      .btn-link svg {
-        width: 14px;
-        height: 14px;
-      }
-      .btn-link.primary {
-        background: var(--accent);
-        color: #fff;
-        border: 1px solid var(--accent);
-      }
-      .btn-link.primary:hover {
-        background: var(--accent-hover);
-        transform: translateY(-1px);
-        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3);
-      }
-      .btn-link.outline {
-        background: transparent;
-        color: #8b949e;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-      }
-      .btn-link.outline:hover {
-        border-color: rgba(99, 102, 241, 0.4);
-        color: #c9d1d9;
-      }
+    .d-title { font-size: 2rem; font-weight: 600; letter-spacing: -.03em; line-height: 1.2; }
+    .d-full { font-size: 1rem; color: var(--text-2); margin-top: .4rem; line-height: 1.7; }
 
-      /* MAIN CONTENT */
-      .project-body {
-        max-width: 1120px;
-        margin: 0 auto;
-        padding: 4rem 2.5rem 5rem;
-      }
+    .d-facts {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem 1.5rem;
+      margin: 1.5rem 0 1.25rem; padding: 1rem 0;
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    }
+    .fact-label { font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); }
+    .fact-value { font-size: 14.5px; color: var(--text); margin-top: 2px; }
+    .d-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.75rem; }
 
-      /* SECTION */
-      .content-section {
-        margin-bottom: 4rem;
-      }
-      .content-section-eyebrow {
-        font-family: var(--mono);
-        font-size: 11px;
-        color: var(--accent);
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        margin-bottom: 0.75rem;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .content-section-eyebrow::after {
-        content: "";
-        flex: 1;
-        max-width: 40px;
-        height: 1px;
-        background: var(--accent-border);
-      }
-      .content-section-title {
-        font-family: var(--sans);
-        font-size: clamp(1.35rem, 2.5vw, 1.75rem);
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        color: var(--text-primary);
-        margin-bottom: 1.25rem;
-      }
-      .content-prose p {
-        font-size: 15px;
-        color: var(--text-secondary);
-        line-height: 1.85;
-        margin-bottom: 1rem;
-      }
-      .content-prose p:last-child {
-        margin-bottom: 0;
-      }
+    .d-hero {
+      position: relative; aspect-ratio: 16 / 9;
+      border-radius: 16px; border: 1px solid var(--border); overflow: hidden;
+      background: linear-gradient(135deg, hsl(var(--h) 70% 96%), hsl(var(--h) 60% 88%));
+      display: flex; flex-direction: column;
+    }
+    [data-theme="dark"] .d-hero {
+      background: linear-gradient(135deg, hsl(var(--h) 30% 16%), hsl(var(--h) 30% 11%));
+    }
+    .d-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .d-hero .thumb-bar { padding: 14px 16px; gap: 6px; }
+    .d-hero .thumb-bar i { width: 9px; height: 9px; }
+    .d-hero .thumb-title { font-size: clamp(1.75rem, 5vw, 2.75rem); padding-bottom: 2.5rem; }
 
-      /* OVERVIEW GRID */
-      .overview-grid {
-        display: grid;
-        grid-template-columns: 1.6fr 1fr;
-        gap: 3.5rem;
-        align-items: start;
-      }
+    .d-section { margin-top: 2.25rem; }
+    .d-section h2 { font-size: 1.125rem; font-weight: 600; letter-spacing: -.01em; margin-bottom: .6rem; }
+    .d-section p { font-size: 15.5px; color: var(--text-2); line-height: 1.85; }
+    .d-list { list-style: none; display: flex; flex-direction: column; gap: .55rem; }
+    .d-list li { position: relative; padding-left: 1.25rem; font-size: 15px; color: var(--text-2); line-height: 1.7; }
+    .d-list li::before {
+      content: ""; position: absolute; left: .25rem; top: .7em;
+      width: 5px; height: 5px; border-radius: 50%; background: var(--text-3);
+    }
+    .d-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: .875rem; }
+    .d-gallery img { width: 100%; border-radius: 12px; border: 1px solid var(--border); display: block; }
+    .d-links { display: flex; flex-wrap: wrap; gap: .6rem; }
+    .btn {
+      display: inline-flex; align-items: center; gap: .45rem;
+      font: inherit; font-size: 14.5px; font-weight: 500;
+      padding: .6rem 1.1rem; border-radius: 10px;
+      text-decoration: none; border: 1px solid var(--border);
+      background: var(--bg); color: var(--text); transition: background .15s;
+    }
+    .btn:hover { background: var(--bg-subtle); }
+    .btn svg { width: 13px; height: 13px; }
+    .d-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
 
-      /* QUICK INFO CARD */
-      .quick-info-card {
-        background: var(--bg-subtle);
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 1.5rem;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        transition:
-          background-color 0.4s ease,
-          border-color 0.4s ease;
-      }
-      .quick-info-card-title {
-        font-family: var(--mono);
-        font-size: 11px;
-        color: var(--text-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.09em;
-        padding-bottom: 0.75rem;
-        border-bottom: 1px solid var(--border);
-      }
-      .quick-info-row {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 1rem;
-      }
-      .quick-info-key {
-        font-size: 12.5px;
-        color: var(--text-muted);
-        white-space: nowrap;
-        padding-top: 2px;
-      }
-      .quick-info-val {
-        font-size: 13px;
-        font-weight: 500;
-        color: var(--text-primary);
-        text-align: right;
-        line-height: 1.5;
-      }
-      .quick-info-divider {
-        height: 1px;
-        background: var(--border);
-      }
+    .d-toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: .75rem 1rem; flex-wrap: wrap; margin-bottom: 1.75rem;
+    }
+    .d-toolbar .d-tags { margin: 0; }
+    .d-actions { display: flex; align-items: center; gap: .35rem; flex-wrap: wrap; }
+    .d-sep { width: 1px; height: 20px; background: var(--border); margin: 0 .4rem; }
+    .btn.btn-sm { height: 34px; padding: 0 .85rem; font-size: 13.5px; border-radius: 8px; }
+    .btn.btn-sm svg { width: 16px; height: 16px; }
+    .icon-link {
+      width: 34px; height: 34px; flex-shrink: 0;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 8px; border: 1px solid var(--border);
+      background: var(--bg); color: var(--text-2);
+      cursor: pointer; text-decoration: none;
+      transition: background .15s, color .15s;
+    }
+    .icon-link:hover { background: var(--bg-subtle); color: var(--text); }
+    .icon-link svg { width: 16px; height: 16px; }
+    .toast {
+      position: fixed; left: 50%; bottom: 1.5rem; z-index: 100;
+      transform: translate(-50%, 12px); opacity: 0; pointer-events: none;
+      background: var(--text); color: var(--bg);
+      font-size: 13.5px; padding: .6rem 1rem; border-radius: 10px;
+      transition: opacity .2s, transform .2s;
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
-      .stack-tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-        justify-content: flex-end;
-      }
-      .stag {
-        font-family: var(--mono);
-        font-size: 11px;
-        background: var(--accent-light);
-        color: var(--accent);
-        border: 1px solid var(--accent-border);
-        padding: 3px 9px;
-        border-radius: 5px;
-      }
+    /* ── MOBILE ── */
+    .mobile-topbar {
+      display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      height: 52px; background: var(--bg); border-bottom: 1px solid var(--border);
+      align-items: center; justify-content: space-between;
+      padding: 0 1.25rem;
+    }
+    .mobile-topbar-name { font-size: 14px; font-weight: 600; color: var(--text); }
+    .mobile-topbar-right { display: flex; gap: .25rem; }
+    .mobile-menu-btn {
+      background: none; border: none; cursor: pointer; color: var(--text-2);
+      padding: .35rem; border-radius: 6px; display: flex; align-items: center;
+    }
+    .mobile-menu-btn svg { width: 18px; height: 18px; }
+    .mobile-drawer { display: none; position: fixed; inset: 0; z-index: 49; }
+    .mobile-drawer.open { display: block; }
+    .mobile-drawer-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.3); }
+    .mobile-drawer-panel {
+      position: absolute; top: 0; left: 0; bottom: 0;
+      width: 240px; background: var(--bg);
+      border-right: 1px solid var(--border);
+      padding: 1.5rem 1.25rem;
+      overflow-y: auto;
+    }
 
-      /* PROBLEM / SOLUTION */
-      .ps-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1.5rem;
-      }
-      .ps-card {
-        background: var(--bg-card);
-        border-radius: 14px;
-        padding: 1.75rem;
-        border: 1px solid var(--border);
-        position: relative;
-        overflow: hidden;
-        transition:
-          background-color 0.4s ease,
-          border-color 0.4s ease;
-      }
-      .ps-card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-      }
-      .ps-card.problem::before {
-        background: linear-gradient(90deg, #ef4444, #f97316);
-      }
-      .ps-card.solution::before {
-        background: linear-gradient(90deg, var(--green), #06b6d4);
-      }
-      .ps-card-label {
-        font-family: var(--mono);
-        font-size: 10.5px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        margin-bottom: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .ps-card.problem .ps-card-label {
-        color: #ef4444;
-      }
-      .ps-card.solution .ps-card-label {
-        color: var(--green);
-      }
-      .ps-card-icon {
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 15px;
-        flex-shrink: 0;
-      }
-      .ps-card.problem .ps-card-icon {
-        background: rgba(239, 68, 68, 0.1);
-      }
-      .ps-card.solution .ps-card-icon {
-        background: rgba(16, 185, 129, 0.1);
-      }
-      .ps-list {
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        gap: 0.7rem;
-      }
-      .ps-list li {
-        font-size: 14px;
-        color: var(--text-secondary);
-        line-height: 1.65;
-        padding-left: 1.1rem;
-        position: relative;
-      }
-      .ps-list li::before {
-        content: "▸";
-        position: absolute;
-        left: 0;
-        font-size: 9px;
-        top: 4px;
-      }
-      .ps-card.problem .ps-list li::before {
-        color: #ef4444;
-      }
-      .ps-card.solution .ps-list li::before {
-        color: var(--green);
-      }
+    @media (max-width: 680px) {
+      .sidebar { display: none; }
+      .layout { display: block; }
+      .main { padding: 4.5rem 1.25rem 3rem; }
+      .main-inner { max-width: 100%; }
+      .mobile-topbar { display: flex; }
+      .d-title { font-size: 1.6rem; }
+      .d-gallery { grid-template-columns: 1fr; }
+    }
 
-      /* GALLERY */
-      .gallery-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1rem;
-      }
-      .gallery-item {
-        border-radius: 12px;
-        overflow: hidden;
-        border: 1px solid var(--border);
-        aspect-ratio: 16/10;
-        position: relative;
-        transition:
-          transform 0.25s,
-          box-shadow 0.25s,
-          border-color 0.4s ease;
-        background: var(--bg-subtle);
-      }
-      .gallery-item:first-child {
-        grid-column: span 2;
-        aspect-ratio: 16/9;
-      }
-      .gallery-item:hover {
-        transform: translateY(-3px);
-        box-shadow: var(--shadow-lg);
-      }
-      .gallery-item img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
-      .gallery-placeholder {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        background: linear-gradient(
-          135deg,
-          #0f2027 0%,
-          #1a3a2a 50%,
-          #0f2027 100%
-        );
-      }
-      .gallery-placeholder .gp-icon {
-        font-size: 28px;
-      }
-      .gallery-placeholder .gp-label {
-        font-family: var(--mono);
-        font-size: 10.5px;
-        color: #7ee787;
-        opacity: 0.55;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-      }
-      .gallery-placeholder .gp-title {
-        font-family: var(--sans);
-        font-size: 13px;
-        font-weight: 600;
-        color: #7ee787;
-        opacity: 0.8;
-      }
-      .gallery-caption {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
-        padding: 1.5rem 1rem 0.75rem;
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.75);
-        font-family: var(--body);
-        opacity: 0;
-        transition: opacity 0.25s;
-      }
-      .gallery-item:hover .gallery-caption {
-        opacity: 1;
-      }
+    @media (prefers-reduced-motion: reduce) {
+      * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
 
-      /* ARCHITECTURE */
-      .arch-block {
-        background: var(--bg-dark);
-        border: 1px solid rgba(128, 128, 128, 0.2);
-        border-radius: 14px;
-        padding: 2rem;
-        font-family: var(--mono);
-        font-size: 13px;
-        line-height: 2;
-        overflow-x: auto;
-        transition:
-          background-color 0.4s ease,
-          border-color 0.4s ease;
-      }
-      .arch-row {
-        display: flex;
-        align-items: center;
-        gap: 0;
-        flex-wrap: nowrap;
-      }
-      .arch-node {
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
-        padding: 6px 14px;
-        border-radius: 8px;
-        font-size: 12px;
-        font-weight: 500;
-        white-space: nowrap;
-      }
-      .arch-node.client {
-        background: rgba(99, 102, 241, 0.15);
-        color: #a5b4fc;
-        border: 1px solid rgba(99, 102, 241, 0.25);
-      }
-      .arch-node.gateway {
-        background: rgba(245, 158, 11, 0.12);
-        color: #fcd34d;
-        border: 1px solid rgba(245, 158, 11, 0.2);
-      }
-      .arch-node.service {
-        background: rgba(16, 185, 129, 0.1);
-        color: #6ee7b7;
-        border: 1px solid rgba(16, 185, 129, 0.2);
-      }
-      .arch-node.external {
-        background: rgba(139, 92, 246, 0.12);
-        color: #c4b5fd;
-        border: 1px solid rgba(139, 92, 246, 0.25);
-      }
-      .arch-node.db {
-        background: rgba(6, 182, 212, 0.1);
-        color: #67e8f9;
-        border: 1px solid rgba(6, 182, 212, 0.2);
-      }
-      .arch-arrow {
-        color: #8b949e;
-        font-size: 14px;
-        padding: 0 6px;
-      }
-      .arch-group {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        align-items: flex-start;
-      }
-      .arch-row-group {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-      .arch-section-label {
-        font-size: 10px;
-        color: #8b949e;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        margin-bottom: 6px;
-        margin-top: 16px;
-      }
-      .arch-section-label:first-child {
-        margin-top: 0;
-      }
+  <div class="layout">
 
-      /* FADE IN */
-      .fade-in {
-        opacity: 0;
-        transform: translateY(18px);
-        transition:
-          opacity 0.55s ease,
-          transform 0.55s ease;
-      }
-      .fade-in.visible {
-        opacity: 1;
-        transform: none;
-      }
-      .fade-in-delay-1 {
-        transition-delay: 0.1s;
-      }
-      .fade-in-delay-2 {
-        transition-delay: 0.2s;
-      }
+    <!-- SIDEBAR (desktop) -->
+    <aside class="sidebar">
+      <div class="sidebar-profile">
+        <div class="profile-avatar">
+          <img src="/portofolio/image/profil.jpeg" alt="Bryan" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <span class="profile-avatar-placeholder" style="display:none">B</span>
+        </div>
+        <div class="profile-name">Bryan Torisi Siagian</div>
+        <div class="profile-role">Software Engineer</div>
+      </div>
 
-      /* FOOTER */
-      footer {
-        border-top: 1px solid var(--border);
-        padding: 2rem 2.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .footer-left {
-        font-family: var(--mono);
-        font-size: 12px;
-        color: var(--text-muted);
-      }
-      .footer-left span {
-        color: var(--accent);
-      }
-      .footer-right {
-        display: flex;
-        gap: 1.5rem;
-      }
-      .footer-right a {
-        font-size: 12px;
-        color: var(--text-muted);
-        text-decoration: none;
-        transition: color 0.2s;
-      }
-      .footer-right a:hover {
-        color: var(--text-primary);
-      }
+      <nav class="sidebar-nav">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="index.html">
+              <span data-lang="en">Home</span><span data-lang="id">Beranda</span>
+              <span class="nav-count">1</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="projects.html" class="active">
+              <span data-lang="en">Projects</span><span data-lang="id">Proyek</span>
+              <span class="nav-count">9</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="achievements.html">
+              <span data-lang="en">Achievements</span><span data-lang="id">Capaian</span>
+              <span class="nav-count">3</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="certificates.html">
+              <span data-lang="en">Certificates</span><span data-lang="id">Sertifikat</span>
+              <span class="nav-count">0</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="resume.pdf" target="_blank" rel="noopener">
+              <span>Resume</span>
+              <span class="nav-badge">CV</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
 
-      /* RESPONSIVE */
-      @media (max-width: 900px) {
-        .overview-grid {
-          grid-template-columns: 1fr;
-          gap: 2rem;
-        }
-        .ps-grid {
-          grid-template-columns: 1fr;
-        }
-        .gallery-grid {
-          grid-template-columns: 1fr 1fr;
-        }
-        .gallery-item:first-child {
-          grid-column: span 2;
-        }
-      }
-      @media (max-width: 600px) {
-        nav {
-          padding: 0 1.25rem;
-        }
-        .project-hero-inner {
-          padding: 3rem 1.25rem 2.5rem;
-        }
-        .project-body {
-          padding: 2.5rem 1.25rem 4rem;
-        }
-        .gallery-grid {
-          grid-template-columns: 1fr;
-        }
-        .gallery-item:first-child {
-          grid-column: span 1;
-        }
-        footer {
-          flex-direction: column;
-          gap: 1rem;
-          text-align: center;
-          padding: 1.5rem;
-        }
-        .hero-meta-row {
-          gap: 1.25rem;
-        }
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .cursor-dot,
-        .cursor-ring {
-          display: none;
-        }
-        * {
-          transition-duration: 0.01ms !important;
-          animation-duration: 0.01ms !important;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="cursor-dot" id="cursorDot"></div>
-    <div class="cursor-ring" id="cursorRing"></div>
-    <div class="scroll-progress" id="scrollProgress"></div>
-
-    <!-- NAV -->
-    <nav id="mainNav">
-      <a href="index.html" class="nav-logo">
-        <span class="logo-bracket">{</span>&nbsp;bryan&nbsp;<span
-          class="logo-bracket"
-          >}</span
-        >
-      </a>
-
-      <div class="nav-right-actions">
-        <!-- TOMBOL BAHASA -->
-        <button
-          id="langToggle"
-          class="lang-toggle"
-          aria-label="Toggle Language"
-        >
-          <span id="langText">EN</span>
+      <div class="sidebar-footer">
+        <button class="icon-btn" id="langBtn" aria-label="Toggle language">
+          <span id="langLabel">EN</span>
         </button>
-
-        <!-- TOMBOL DARK MODE -->
-        <button
-          id="themeToggle"
-          class="theme-toggle"
-          aria-label="Toggle Dark Mode"
-        ></button>
-
-        <a href="index.html#projects" class="nav-back">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path d="M19 12H5M12 5l-7 7 7 7" />
+        <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">
+          <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
           </svg>
-          <span lang="en">All Projects</span>
-          <span lang="id">Semua Proyek</span>
-        </a>
+        </button>
       </div>
-    </nav>
+    </aside>
 
-    <!-- HERO -->
-    <section class="project-hero">
-      <div class="hero-bg-grid"></div>
-      <div class="hero-glow"></div>
-      <div class="project-hero-inner">
-        <div class="hero-breadcrumb">
-          <a href="index.html">bryan</a>
-          <span class="sep">/</span>
-          <a href="index.html#projects"
-            ><span lang="en">projects</span><span lang="id">proyek</span></a
-          >
-          <span class="sep">/</span>
-          <span class="current">SI-DOBAT</span>
-        </div>
+    <!-- MAIN CONTENT -->
+    <main class="main">
+      <div class="main-inner" id="detail"></div>
+    </main>
 
-        <div class="hero-type-badge">
-          <span lang="en">Microservices · E-Commerce · Logistics</span>
-          <span lang="id">Microservices · E-Commerce · Logistik</span>
-        </div>
+  </div><!-- /.layout -->
 
-        <h1>
-          SI-DOBAT —
-          <span class="accent"
-            ><span lang="en">Drug Distribution</span
-            ><span lang="id">Distribusi Obat</span></span
-          >
-          Platform
-        </h1>
-
-        <p class="hero-tagline" lang="en">
-          A full-cycle pharmacy logistics and e-commerce system built for
-          Yayasan Satriabudi Dharma — handling everything from drug inventory to
-          courier dispatch, payment processing, and reporting, deployed on AWS
-          EC2.
-        </p>
-        <p class="hero-tagline" lang="id">
-          Sistem logistik farmasi dan e-commerce penuh yang dibangun untuk
-          Yayasan Satriabudi Dharma — menangani segalanya mulai dari inventaris
-          obat hingga pengiriman kurir, pemrosesan pembayaran, dan pelaporan,
-          di-deploy di AWS EC2.
-        </p>
-
-        <div class="project-links-row">
-          <a
-            href="https://github.com/bryansiagian/PA-II-Kelompok-10"
-            target="_blank"
-            rel="noopener"
-            class="btn-link primary"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.75"
-            >
-              <path
-                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"
-              />
-            </svg>
-            <span lang="en">View on GitHub</span>
-            <span lang="id">Lihat di GitHub</span>
-          </a>
-          <a
-            href="https://www.dharma.or.id/"
-            target="_blank"
-            rel="noopener"
-            class="btn-link outline"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.75"
-            >
-              <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
-              <polyline points="15 3 21 3 21 9" />
-              <line x1="10" y1="14" x2="21" y2="3" />
-            </svg>
-            <span lang="en">Foundation Site</span>
-            <span lang="id">Situs Yayasan</span>
-          </a>
-        </div>
-
-        <div class="hero-meta-row">
-          <div class="hero-meta-item">
-            <div class="hero-meta-label">
-              <span lang="en">Role</span><span lang="id">Peran</span>
-            </div>
-            <div class="hero-meta-value">
-              <span lang="en">Full-stack Developer</span
-              ><span lang="id">Developer Full-stack</span>
-            </div>
-          </div>
-          <div class="hero-meta-item">
-            <div class="hero-meta-label">
-              <span lang="en">Team</span><span lang="id">Tim</span>
-            </div>
-            <div class="hero-meta-value">
-              <span lang="en">Kelompok 10 · 5 members</span
-              ><span lang="id">Kelompok 10 · 5 anggota</span>
-            </div>
-          </div>
-          <div class="hero-meta-item">
-            <div class="hero-meta-label">
-              <span lang="en">Platform</span><span lang="id">Platform</span>
-            </div>
-            <div class="hero-meta-value">
-              <span lang="en">Web (Laravel Microservices)</span
-              ><span lang="id">Web (Laravel Microservices)</span>
-            </div>
-          </div>
-          <div class="hero-meta-item">
-            <div class="hero-meta-label">
-              <span lang="en">Deployment</span><span lang="id">Deployment</span>
-            </div>
-            <div class="hero-meta-value">AWS EC2 · Docker Compose</div>
-          </div>
-          <div class="hero-meta-item">
-            <div class="hero-meta-label">Status</div>
-            <div class="hero-meta-value" style="color: var(--green)">
-              ✦ <span lang="en">Active</span><span lang="id">Aktif</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- BODY -->
-    <div class="project-body">
-      <!-- OVERVIEW -->
-      <div class="content-section fade-in">
-        <div class="overview-grid">
-          <div>
-            <p class="content-section-eyebrow">
-              <span lang="en">Overview</span
-              ><span lang="id">Gambaran Umum</span>
-            </p>
-            <h2 class="content-section-title">
-              <span lang="en">What is SI-DOBAT?</span
-              ><span lang="id">Apa itu SI-DOBAT?</span>
-            </h2>
-            <div class="content-prose">
-              <p lang="en">
-                SI-DOBAT is a web-based drug distribution and logistics platform
-                developed as a commissioned project for Yayasan Satriabudi
-                Dharma, a foundation managing pharmaceutical distribution in the
-                region. The system replaces a previously manual workflow with a
-                structured, role-based platform.
-              </p>
-              <p lang="id">
-                SI-DOBAT adalah platform distribusi obat dan logistik berbasis
-                web yang dikembangkan sebagai proyek pesanan untuk Yayasan
-                Satriabudi Dharma, sebuah yayasan yang mengelola distribusi
-                farmasi di wilayah tersebut. Sistem ini menggantikan alur kerja
-                manual sebelumnya dengan platform terstruktur berbasis peran.
-              </p>
-              <p lang="en">
-                The platform supports four distinct user roles — Admin,
-                Operator, Courier, and Customer — each with a tailored
-                interface. Customers browse and order medicines, operators
-                approve orders and manage inventory, couriers handle last-mile
-                delivery, and admins oversee everything from user management to
-                financial reporting.
-              </p>
-              <p lang="id">
-                Platform ini mendukung empat peran pengguna yang berbeda —
-                Admin, Operator, Kurir, dan Pelanggan — masing-masing dengan
-                antarmuka yang disesuaikan. Pelanggan menelusuri dan memesan
-                obat, operator menyetujui pesanan dan mengelola inventaris,
-                kurir menangani pengiriman last-mile, dan admin mengawasi
-                segalanya mulai dari manajemen pengguna hingga pelaporan
-                keuangan.
-              </p>
-              <p lang="en">
-                Built as a Laravel 12 microservice architecture with three
-                independent services —
-                <code
-                  style="
-                    font-family: var(--mono);
-                    font-size: 13px;
-                    background: var(--accent-light);
-                    color: var(--accent);
-                    padding: 2px 7px;
-                    border-radius: 4px;
-                  "
-                  >auth_service</code
-                >,
-                <code
-                  style="
-                    font-family: var(--mono);
-                    font-size: 13px;
-                    background: var(--accent-light);
-                    color: var(--accent);
-                    padding: 2px 7px;
-                    border-radius: 4px;
-                  "
-                  >distribusi_obat</code
-                >, and
-                <code
-                  style="
-                    font-family: var(--mono);
-                    font-size: 13px;
-                    background: var(--accent-light);
-                    color: var(--accent);
-                    padding: 2px 7px;
-                    border-radius: 4px;
-                  "
-                  >report_service</code
-                >
-                — each running in its own Docker container and communicating via
-                REST APIs.
-              </p>
-              <p lang="id">
-                Dibangun sebagai arsitektur microservice Laravel 12 dengan tiga
-                layanan independen —
-                <code
-                  style="
-                    font-family: var(--mono);
-                    font-size: 13px;
-                    background: var(--accent-light);
-                    color: var(--accent);
-                    padding: 2px 7px;
-                    border-radius: 4px;
-                  "
-                  >auth_service</code
-                >,
-                <code
-                  style="
-                    font-family: var(--mono);
-                    font-size: 13px;
-                    background: var(--accent-light);
-                    color: var(--accent);
-                    padding: 2px 7px;
-                    border-radius: 4px;
-                  "
-                  >distribusi_obat</code
-                >, dan
-                <code
-                  style="
-                    font-family: var(--mono);
-                    font-size: 13px;
-                    background: var(--accent-light);
-                    color: var(--accent);
-                    padding: 2px 7px;
-                    border-radius: 4px;
-                  "
-                  >report_service</code
-                >
-                — masing-masing berjalan dalam container Docker sendiri dan
-                berkomunikasi melalui REST API.
-              </p>
-            </div>
-          </div>
-
-          <div class="quick-info-card">
-            <div class="quick-info-card-title">
-              <span lang="en">Project at a glance</span
-              ><span lang="id">Ringkasan proyek</span>
-            </div>
-            <div class="quick-info-row">
-              <span class="quick-info-key"
-                ><span lang="en">Client</span><span lang="id">Klien</span></span
-              >
-              <span class="quick-info-val">Yayasan Satriabudi Dharma</span>
-            </div>
-            <div class="quick-info-divider"></div>
-            <div class="quick-info-row">
-              <span class="quick-info-key"
-                ><span lang="en">Course</span
-                ><span lang="id">Mata Kuliah</span></span
-              >
-              <span class="quick-info-val">PA II · Institut Teknologi Del</span>
-            </div>
-            <div class="quick-info-divider"></div>
-            <div class="quick-info-row">
-              <span class="quick-info-key"
-                ><span lang="en">User roles</span
-                ><span lang="id">Peran pengguna</span></span
-              >
-              <span class="quick-info-val"
-                >Admin · Operator<br /><span lang="en">Courier · Customer</span
-                ><span lang="id">Kurir · Pelanggan</span></span
-              >
-            </div>
-            <div class="quick-info-divider"></div>
-            <div class="quick-info-row">
-              <span class="quick-info-key"
-                ><span lang="en">Payment</span
-                ><span lang="id">Pembayaran</span></span
-              >
-              <span class="quick-info-val">Midtrans Snap</span>
-            </div>
-            <div class="quick-info-divider"></div>
-            <div class="quick-info-row">
-              <span class="quick-info-key">Stack</span>
-              <div class="stack-tags">
-                <span class="stag">Laravel 12</span>
-                <span class="stag">MySQL</span>
-                <span class="stag">Docker</span>
-                <span class="stag">Midtrans</span>
-                <span class="stag">AWS EC2</span>
-                <span class="stag">Nginx</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PROBLEM & SOLUTION -->
-      <div class="content-section fade-in fade-in-delay-1">
-        <p class="content-section-eyebrow">
-          <span lang="en">Problem & Solution</span
-          ><span lang="id">Masalah & Solusi</span>
-        </p>
-        <h2 class="content-section-title">
-          <span lang="en">What we were solving.</span
-          ><span lang="id">Apa yang kami selesaikan.</span>
-        </h2>
-        <div class="ps-grid">
-          <div class="ps-card problem">
-            <div class="ps-card-label">
-              <div class="ps-card-icon">⚠️</div>
-              <span lang="en">The Problem</span>
-              <span lang="id">Masalahnya</span>
-            </div>
-            <ul class="ps-list">
-              <li lang="en">
-                Drug distribution was tracked entirely by hand — orders, stock
-                levels, and courier assignments were done via spreadsheets and
-                phone calls.
-              </li>
-              <li lang="id">
-                Distribusi obat dilacak sepenuhnya secara manual — pesanan,
-                level stok, dan penugasan kurir dilakukan melalui spreadsheet
-                dan telepon.
-              </li>
-              <li lang="en">
-                No payment tracking: the foundation had no visibility into which
-                orders had been paid, which were pending, or which failed.
-              </li>
-              <li lang="id">
-                Tidak ada pelacakan pembayaran: yayasan tidak memiliki
-                visibilitas terhadap pesanan mana yang sudah dibayar, mana yang
-                tertunda, atau mana yang gagal.
-              </li>
-              <li lang="en">
-                No audit trail: operator actions (approvals, rejections,
-                inventory edits) weren't logged, creating room for errors and
-                fraud.
-              </li>
-              <li lang="id">
-                Tidak ada jejak audit: tindakan operator (persetujuan,
-                penolakan, edit inventaris) tidak dicatat, membuka celah untuk
-                kesalahan dan kecurangan.
-              </li>
-              <li lang="en">
-                Multiple teams working in silos — auth, order management, and
-                reporting had no shared system, causing data inconsistency.
-              </li>
-              <li lang="id">
-                Beberapa tim bekerja secara terpisah — autentikasi, manajemen
-                pesanan, dan pelaporan tidak memiliki sistem bersama,
-                menyebabkan inkonsistensi data.
-              </li>
-            </ul>
-          </div>
-          <div class="ps-card solution">
-            <div class="ps-card-label">
-              <div class="ps-card-icon">✦</div>
-              <span lang="en">Our Approach</span>
-              <span lang="id">Pendekatan Kami</span>
-            </div>
-            <ul class="ps-list">
-              <li lang="en">
-                Designed a microservice architecture — auth, order/distribution,
-                and reporting each as an isolated Laravel service — so each
-                domain could evolve independently.
-              </li>
-              <li lang="id">
-                Merancang arsitektur microservice — auth, pesanan/distribusi,
-                dan pelaporan masing-masing sebagai layanan Laravel yang
-                terisolasi — sehingga setiap domain bisa berkembang secara
-                independen.
-              </li>
-              <li lang="en">
-                Integrated Midtrans Snap for real-time payment status, with
-                webhook-based updates to keep order state accurate across
-                services.
-              </li>
-              <li lang="id">
-                Mengintegrasikan Midtrans Snap untuk status pembayaran
-                real-time, dengan pembaruan berbasis webhook untuk menjaga
-                status pesanan tetap akurat di semua layanan.
-              </li>
-              <li lang="en">
-                Built a role-gated operator panel with conditional UI logic
-                (e.g. approve button only visible when payment is confirmed),
-                reducing accidental or unauthorized actions.
-              </li>
-              <li lang="id">
-                Membangun panel operator yang dibatasi peran dengan logika UI
-                kondisional (mis. tombol setujui hanya muncul saat pembayaran
-                dikonfirmasi), mengurangi tindakan tidak sengaja atau tidak sah.
-              </li>
-              <li lang="en">
-                Implemented a
-                <code
-                  style="
-                    font-family: var(--mono);
-                    font-size: 12px;
-                    background: rgba(16, 185, 129, 0.1);
-                    color: #6ee7b7;
-                    padding: 2px 6px;
-                    border-radius: 4px;
-                  "
-                  >report_service</code
-                >
-                with snapshot tables and event-driven sync so reporting never
-                blocks order processing.
-              </li>
-              <li lang="id">
-                Mengimplementasikan
-                <code
-                  style="
-                    font-family: var(--mono);
-                    font-size: 12px;
-                    background: rgba(16, 185, 129, 0.1);
-                    color: #6ee7b7;
-                    padding: 2px 6px;
-                    border-radius: 4px;
-                  "
-                  >report_service</code
-                >
-                dengan tabel snapshot dan sinkronisasi berbasis event agar
-                pelaporan tidak pernah memblokir pemrosesan pesanan.
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- ARCHITECTURE -->
-      <div class="content-section fade-in">
-        <p class="content-section-eyebrow">
-          <span lang="en">Architecture</span><span lang="id">Arsitektur</span>
-        </p>
-        <h2 class="content-section-title">
-          <span lang="en">How the services connect.</span
-          ><span lang="id">Bagaimana layanan saling terhubung.</span>
-        </h2>
-        <div class="arch-block">
-          <div class="arch-section-label">
-            <span lang="en">Client Layer</span
-            ><span lang="id">Lapisan Klien</span>
-          </div>
-          <div class="arch-row-group">
-            <div class="arch-node client">
-              🌐 <span lang="en">Browser (Customer)</span
-              ><span lang="id">Browser (Pelanggan)</span>
-            </div>
-            <div class="arch-node client">
-              🖥️ <span lang="en">Browser (Operator)</span
-              ><span lang="id">Browser (Operator)</span>
-            </div>
-            <div class="arch-node client">
-              📦 <span lang="en">Browser (Courier)</span
-              ><span lang="id">Browser (Kurir)</span>
-            </div>
-            <div class="arch-node client">🔧 Browser (Admin)</div>
-          </div>
-
-          <div class="arch-section-label">
-            <span lang="en">Reverse Proxy</span
-            ><span lang="id">Reverse Proxy</span>
-          </div>
-          <div class="arch-row-group">
-            <div class="arch-node gateway">
-              ⚙️ Nginx — <span lang="en">routes by subdomain/path</span
-              ><span lang="id">routing berdasarkan subdomain/path</span>
-            </div>
-          </div>
-
-          <div class="arch-section-label">
-            <span lang="en">Microservices (each in Docker container)</span
-            ><span lang="id"
-              >Microservices (masing-masing dalam container Docker)</span
-            >
-          </div>
-          <div class="arch-row-group">
-            <div class="arch-node service">🔐 auth_service :8000</div>
-            <div class="arch-arrow">↔</div>
-            <div class="arch-node service">
-              💊 distribusi_obat :8001 / :8003
-            </div>
-            <div class="arch-arrow">→</div>
-            <div class="arch-node service">📊 report_service :8002</div>
-          </div>
-
-          <div class="arch-section-label">
-            <span lang="en">External Services</span
-            ><span lang="id">Layanan Eksternal</span>
-          </div>
-          <div class="arch-row-group">
-            <div class="arch-node external">
-              💳 Midtrans Snap (<span lang="en">payment</span
-              ><span lang="id">pembayaran</span>)
-            </div>
-            <div class="arch-arrow">·</div>
-            <div class="arch-node external">
-              ✉️ Laravel Mail (<span lang="en">notifications</span
-              ><span lang="id">notifikasi</span>)
-            </div>
-            <div class="arch-arrow">·</div>
-            <div class="arch-node external">
-              🔗 ngrok (<span lang="en">webhook dev</span
-              ><span lang="id">webhook dev</span>)
-            </div>
-          </div>
-
-          <div class="arch-section-label">
-            <span lang="en">Data Layer</span><span lang="id">Lapisan Data</span>
-          </div>
-          <div class="arch-row-group">
-            <div class="arch-node db">🗄️ auth_db (MySQL)</div>
-            <div class="arch-arrow">·</div>
-            <div class="arch-node db">🗄️ distribusi_db (MySQL)</div>
-            <div class="arch-arrow">·</div>
-            <div class="arch-node db">🗄️ report_db (MySQL)</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- GALLERY -->
-      <div class="content-section fade-in fade-in-delay-1">
-        <p class="content-section-eyebrow">
-          <span lang="en">Gallery</span><span lang="id">Galeri</span>
-        </p>
-        <h2 class="content-section-title">
-          <span lang="en">Screenshots.</span
-          ><span lang="id">Tangkapan Layar.</span>
-        </h2>
-        <div class="gallery-grid">
-          <div class="gallery-item">
-            <img src="image/SI-DOBAT.png" alt="Dashboard" />
-            <div class="gallery-placeholder">
-              <span class="gp-icon">💊</span>
-              <span class="gp-title"
-                ><span lang="en">Operator Dashboard</span
-                ><span lang="id">Dashboard Operator</span></span
-              >
-              <span class="gp-label"
-                ><span lang="en">replace with screenshot</span
-                ><span lang="id">ganti dengan screenshot</span></span
-              >
-            </div>
-            <div class="gallery-caption">
-              <span lang="en"
-                >Operator dashboard — order queue with payment status
-                indicators</span
-              >
-              <span lang="id"
-                >Dashboard operator — antrian pesanan dengan indikator status
-                pembayaran</span
-              >
-            </div>
-          </div>
-
-          <div class="gallery-item">
-            <img src="image/SI-DOBAT-login.png" alt="Drug Catalog" />
-            <div class="gallery-placeholder">
-              <span class="gp-icon">🛒</span>
-              <span class="gp-title"
-                ><span lang="en">Drug Catalog</span
-                ><span lang="id">Katalog Obat</span></span
-              >
-              <span class="gp-label"
-                ><span lang="en">replace with screenshot</span
-                ><span lang="id">ganti dengan screenshot</span></span
-              >
-            </div>
-            <div class="gallery-caption">
-              <span lang="en"
-                >Customer-facing drug catalog with stock availability</span
-              >
-              <span lang="id"
-                >Katalog obat untuk pelanggan dengan ketersediaan stok</span
-              >
-            </div>
-          </div>
-
-          <div class="gallery-item">
-            <div class="gallery-placeholder">
-              <span class="gp-icon">💳</span>
-              <span class="gp-title"
-                ><span lang="en">Midtrans Payment</span
-                ><span lang="id">Pembayaran Midtrans</span></span
-              >
-              <span class="gp-label"
-                ><span lang="en">replace with screenshot</span
-                ><span lang="id">ganti dengan screenshot</span></span
-              >
-            </div>
-            <div class="gallery-caption">
-              <span lang="en"
-                >Midtrans Snap checkout embedded in order flow</span
-              >
-              <span lang="id"
-                >Checkout Midtrans Snap yang tertanam dalam alur pesanan</span
-              >
-            </div>
-          </div>
-
-          <div class="gallery-item">
-            <div class="gallery-placeholder">
-              <span class="gp-icon">🚚</span>
-              <span class="gp-title"
-                ><span lang="en">Courier Panel</span
-                ><span lang="id">Panel Kurir</span></span
-              >
-              <span class="gp-label"
-                ><span lang="en">replace with screenshot</span
-                ><span lang="id">ganti dengan screenshot</span></span
-              >
-            </div>
-            <div class="gallery-caption">
-              <span lang="en"
-                >Courier assignment and delivery status update panel</span
-              >
-              <span lang="id"
-                >Panel penugasan kurir dan pembaruan status pengiriman</span
-              >
-            </div>
-          </div>
-
-          <div class="gallery-item">
-            <div class="gallery-placeholder">
-              <span class="gp-icon">📊</span>
-              <span class="gp-title"
-                ><span lang="en">Report Service</span
-                ><span lang="id">Layanan Laporan</span></span
-              >
-              <span class="gp-label"
-                ><span lang="en">replace with screenshot</span
-                ><span lang="id">ganti dengan screenshot</span></span
-              >
-            </div>
-            <div class="gallery-caption">
-              <span lang="en"
-                >Sales and distribution reports from snapshot data</span
-              >
-              <span lang="id"
-                >Laporan penjualan dan distribusi dari data snapshot</span
-              >
-            </div>
-          </div>
-        </div>
-      </div>
+  <!-- MOBILE TOPBAR -->
+  <div class="mobile-topbar">
+    <span class="mobile-topbar-name">Bryan Siagian</span>
+    <div class="mobile-topbar-right">
+      <button class="icon-btn" id="langBtnMobile"><span id="langLabelMobile">EN</span></button>
+      <button class="icon-btn" id="themeBtnMobile">
+        <svg id="themeIconMobile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+      <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
     </div>
-    <!-- end project-body -->
+  </div>
 
-    <!-- FOOTER -->
-    <footer>
-      <p class="footer-left">
-        Bryan Siagian <span>·</span> Institut Teknologi Del <span>·</span>
-        <span id="year"></span>
-      </p>
-      <div class="footer-right">
-        <a href="index.html"
-          ><span lang="en">← Back to Portfolio</span
-          ><span lang="id">← Kembali ke Portofolio</span></a
-        >
-        <a href="index.html#projects"
-          ><span lang="en">All Projects</span
-          ><span lang="id">Semua Proyek</span></a
-        >
-        <a href="mailto:bryantorisi@gmail.com">Email</a>
+  <!-- MOBILE DRAWER -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <div class="mobile-drawer-overlay" id="drawerOverlay"></div>
+    <div class="mobile-drawer-panel">
+      <div style="margin-bottom:1.5rem">
+        <div class="profile-name" style="margin-bottom:3px">Bryan Torisi Siagian</div>
+        <div class="profile-role">Software Engineer</div>
       </div>
-    </footer>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="index.html"><span>Home</span><span class="nav-count">1</span></a></li>
+        <li class="nav-item"><a href="projects.html" class="active"><span>Projects</span><span class="nav-count">9</span></a></li>
+        <li class="nav-item"><a href="achievements.html"><span>Achievements</span><span class="nav-count">3</span></a></li>
+        <li class="nav-item"><a href="certificates.html"><span>Certificates</span><span class="nav-count">0</span></a></li>
+        <li class="nav-item"><a href="resume.pdf" target="_blank"><span>Resume</span><span class="nav-badge">CV</span></a></li>
+      </ul>
+    </div>
+  </div>
 
-    <script>
-      document.getElementById("year").textContent = new Date().getFullYear();
+  <script>
+    // ─────────────────────────────────────────────
+    // DATA PROYEK — ubah isi halaman ini cukup lewat objek di bawah.
+    // Bagian opsional (features, stack, gallery, links) otomatis
+    // disembunyikan bila array-nya kosong.
+    // ─────────────────────────────────────────────
+    const project = {
+      title: 'SI-DOBAT',
+      fullName: {
+        en: 'Pharma Logistics Platform',
+        id: 'Platform Logistik Farmasi'
+      },
+      role: 'Backend Developer',
+      period: 'Jan 2026 – Jun 2026',
+      hue: 150,
+      image: '',                       // hero/screenshot utama, mis. 'image/si-dobat/hero.png'
+      tags: ['Laravel', 'Microservices', 'Docker', 'Nginx', 'Midtrans'],
+      repo: 'https://github.com/bryansiagian/PA-II-Kelompok-10',   // tombol GitHub (kosongkan '' bila tidak ada)
+      share: true,                     // tombol share: Facebook, Instagram, LinkedIn, X, salin tautan
 
-      // Cursor
-      const dot = document.getElementById("cursorDot");
-      const ring = document.getElementById("cursorRing");
-      let mx = 0,
-        my = 0,
-        rx = 0,
-        ry = 0;
-      document.addEventListener("mousemove", (e) => {
-        mx = e.clientX;
-        my = e.clientY;
-        dot.style.left = mx + "px";
-        dot.style.top = my + "px";
-      });
-      function animRing() {
-        rx += (mx - rx) * 0.12;
-        ry += (my - ry) * 0.12;
-        ring.style.left = rx + "px";
-        ring.style.top = ry + "px";
-        requestAnimationFrame(animRing);
+      overview: {
+        en: 'SI-DOBAT is an end-to-end pharmacy e-commerce and logistics platform for Yayasan Satriabudi Dharma, built as Laravel microservices.',
+        id: 'SI-DOBAT adalah platform e-commerce dan logistik farmasi end-to-end untuk Yayasan Satriabudi Dharma, dibangun sebagai microservices Laravel.'
+      },
+
+      sections: [
+        {
+          title: { en: 'Microservice Architecture', id: 'Arsitektur Microservices' },
+          body: {
+            en: 'The platform is split into separate Laravel services for drug distribution, authentication, and reporting.',
+            id: 'Platform dipecah menjadi beberapa service Laravel terpisah untuk distribusi obat, autentikasi, dan pelaporan.'
+          }
+        },
+        {
+          title: { en: 'Event-Driven Data Sync', id: 'Sinkronisasi Data Berbasis Event' },
+          body: {
+            en: 'I refactored data synchronization between the services into an event-driven design that uses snapshot tables.',
+            id: 'Saya me-refactor sinkronisasi data antar service menjadi desain berbasis event yang menggunakan snapshot table.'
+          }
+        },
+        {
+          title: { en: 'Payments & Notifications', id: 'Pembayaran & Notifikasi' },
+          body: {
+            en: 'Payments are handled through Midtrans with a webhook, and email notifications are sent for account creation and order status updates.',
+            id: 'Pembayaran diproses melalui Midtrans dengan webhook, dan notifikasi email dikirim untuk pembuatan akun serta pembaruan status pesanan.'
+          }
+        },
+        {
+          title: { en: 'Deployment', id: 'Deployment' },
+          body: {
+            en: 'The services are deployed with Docker and Nginx on a Biznet VPS.',
+            id: 'Seluruh service di-deploy dengan Docker dan Nginx di VPS Biznet.'
+          }
+        },
+        {
+          title: { en: 'My Role', id: 'Peran Saya' },
+          body: {
+            en: 'Backend Developer. I developed the Laravel microservices, the event-driven synchronization, the Midtrans webhook, and the email notifications, and handled the deployment.',
+            id: 'Backend Developer. Saya mengembangkan microservices Laravel, sinkronisasi berbasis event, webhook Midtrans, dan notifikasi email, serta menangani deployment.'
+          }
+        }
+      ],
+
+      // ── Opsional: kosongkan array bila tidak dipakai ──
+      features: [
+        { en: 'Laravel microservices for distribution, authentication, and reporting.',
+          id: 'Microservices Laravel untuk distribusi, autentikasi, dan pelaporan.' },
+        { en: 'Event-driven data synchronization with snapshot tables.',
+          id: 'Sinkronisasi data berbasis event dengan snapshot table.' },
+        { en: 'Midtrans payment webhook.',
+          id: 'Webhook pembayaran Midtrans.' },
+        { en: 'Email notifications for account creation and order status.',
+          id: 'Notifikasi email untuk pembuatan akun dan status pesanan.' },
+        { en: 'PDF reports from the reporting service.',
+          id: 'Laporan PDF dari service pelaporan.' },
+        { en: 'Dockerized deployment with Nginx on a VPS.',
+          id: 'Deployment berbasis Docker dengan Nginx di VPS.' }
+      ],
+      stack: ['Laravel', 'Microservices', 'Docker', 'Nginx', 'Midtrans', 'VPS'],
+      gallery: [
+        // { src: 'image/si-dobat/dashboard.png', alt: 'Dashboard' },
+      ],
+      links: [
+        // { label: { en: 'Live Demo', id: 'Demo' }, url: 'https://…' },
+      ]
+    };
+
+    const periodId = t => t.replace('Present', 'Sekarang').replace('Aug', 'Agu').replace('Oct', 'Okt').replace('Dec', 'Des');
+    const bi = o => `<span data-lang="en">${o.en}</span><span data-lang="id">${o.id}</span>`;
+    const arrowLeft = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>';
+    const arrowOut  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>';
+
+    // ── Ikon ──
+    const icons = {
+      github:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>',
+      facebook:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>',
+      instagram: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>',
+      linkedin:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>',
+      x:         '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>',
+      link:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
+      check:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
+    };
+
+    // ── Share ──
+    const curLang = () => (document.documentElement.lang === 'id' ? 'id' : 'en');
+    const pageUrl = () => location.href.split('#')[0];
+    const shareText = () => `${project.title} — ${project.fullName[curLang()]}`;
+    const shareLinks = {
+      facebook: () => 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(pageUrl()),
+      linkedin: () => 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(pageUrl()),
+      x:        () => 'https://x.com/intent/post?url=' + encodeURIComponent(pageUrl()) + '&text=' + encodeURIComponent(shareText())
+    };
+    const msgs = {
+      copied: { en: 'Link copied',                          id: 'Tautan disalin' },
+      ig:     { en: 'Link copied — paste it in Instagram',  id: 'Tautan disalin — tempel di Instagram' },
+      fail:   { en: "Couldn't copy the link",               id: 'Gagal menyalin tautan' }
+    };
+
+    let toastTimer;
+    function toast(key) {
+      let el = document.getElementById('toast');
+      if (!el) { el = document.createElement('div'); el.id = 'toast'; el.className = 'toast'; el.setAttribute('role', 'status'); document.body.appendChild(el); }
+      el.textContent = msgs[key][curLang()];
+      el.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+    }
+
+    async function copyText(text) {
+      try { await navigator.clipboard.writeText(text); return true; }
+      catch (e) {
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta); ta.select();
+          const ok = document.execCommand('copy'); ta.remove(); return ok;
+        } catch (e2) { return false; }
       }
-      animRing();
-      document
-        .querySelectorAll("a, button, .gallery-item, .ps-card, .stat-block")
-        .forEach((el) => {
-          el.addEventListener("mouseenter", () => {
-            dot.classList.add("hover");
-            ring.classList.add("hover");
-          });
-          el.addEventListener("mouseleave", () => {
-            dot.classList.remove("hover");
-            ring.classList.remove("hover");
-          });
-        });
+    }
 
-      // Scroll progress
-      const progressBar = document.getElementById("scrollProgress");
-      window.addEventListener(
-        "scroll",
-        () => {
-          const st = window.scrollY;
-          const dh = document.documentElement.scrollHeight - window.innerHeight;
-          progressBar.style.width = (st / dh) * 100 + "%";
-        },
-        { passive: true },
-      );
+    function toolbar(p) {
+      const tags = `<div class="d-tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>`;
+      const gh = p.repo
+        ? `<a class="btn btn-sm" href="${p.repo}" target="_blank" rel="noopener" title="GitHub repository">${icons.github}GitHub</a>` : '';
+      const share = p.share ? `
+        <a class="icon-link" data-share="facebook" href="${shareLinks.facebook()}" target="_blank" rel="noopener" aria-label="Share on Facebook" title="Facebook">${icons.facebook}</a>
+        <button class="icon-link" type="button" data-share="instagram" aria-label="Share on Instagram" title="Instagram">${icons.instagram}</button>
+        <a class="icon-link" data-share="linkedin" href="${shareLinks.linkedin()}" target="_blank" rel="noopener" aria-label="Share on LinkedIn" title="LinkedIn">${icons.linkedin}</a>
+        <a class="icon-link" data-share="x" href="${shareLinks.x()}" target="_blank" rel="noopener" aria-label="Share on X" title="X / Twitter">${icons.x}</a>
+        <button class="icon-link" type="button" data-share="copy" aria-label="Copy link" title="Copy link">${icons.link}</button>` : '';
+      const sep = gh && share ? '<span class="d-sep"></span>' : '';
+      return `<div class="d-toolbar">${tags}<div class="d-actions">${gh}${sep}${share}</div></div>`;
+    }
 
-      // Nav scroll
-      const nav = document.getElementById("mainNav");
-      window.addEventListener(
-        "scroll",
-        () => {
-          nav.classList.toggle("scrolled", window.scrollY > 20);
-        },
-        { passive: true },
-      );
+    function wireActions() {
+      // Facebook / LinkedIn / X: perbarui URL tepat saat diklik (bahasa & URL terkini)
+      document.querySelectorAll('a[data-share]').forEach(a =>
+        a.addEventListener('click', () => { a.href = shareLinks[a.dataset.share](); }));
 
-      // Fade in
-      const fadeEls = document.querySelectorAll(".fade-in");
-      const fadeObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("visible");
-              fadeObserver.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.08 },
-      );
-      fadeEls.forEach((el) => fadeObserver.observe(el));
-
-      // ==========================================
-      // MULTI-LANGUAGE TOGGLE LOGIC
-      // ==========================================
-      const langToggleBtn = document.getElementById("langToggle");
-      const langText = document.getElementById("langText");
-
-      const savedLang = localStorage.getItem("lang") || "en";
-      document.documentElement.lang = savedLang;
-      langText.textContent = savedLang.toUpperCase();
-
-      langToggleBtn.addEventListener("click", () => {
-        const newLang = document.documentElement.lang === "en" ? "id" : "en";
-        document.documentElement.lang = newLang;
-        localStorage.setItem("lang", newLang);
-        langText.textContent = newLang.toUpperCase();
-      });
-
-      // ==========================================
-      // DARK MODE TOGGLE LOGIC
-      // ==========================================
-      const themeToggleBtn = document.getElementById("themeToggle");
-      const htmlElement = document.documentElement;
-
-      const iconSun = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
-      const iconMoon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
-
-      const currentTheme = localStorage.getItem("theme");
-      const prefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)",
-      ).matches;
-
-      if (currentTheme === "dark" || (!currentTheme && prefersDark)) {
-        htmlElement.setAttribute("data-theme", "dark");
-        themeToggleBtn.innerHTML = iconSun;
-      } else {
-        htmlElement.setAttribute("data-theme", "light");
-        themeToggleBtn.innerHTML = iconMoon;
-      }
-
-      themeToggleBtn.addEventListener("click", () => {
-        let theme = htmlElement.getAttribute("data-theme");
-        if (theme === "dark") {
-          htmlElement.setAttribute("data-theme", "light");
-          localStorage.setItem("theme", "light");
-          themeToggleBtn.innerHTML = iconMoon;
-        } else {
-          htmlElement.setAttribute("data-theme", "dark");
-          localStorage.setItem("theme", "dark");
-          themeToggleBtn.innerHTML = iconSun;
+      // Salin tautan
+      const copyBtn = document.querySelector('[data-share="copy"]');
+      if (copyBtn) copyBtn.addEventListener('click', async () => {
+        const ok = await copyText(pageUrl());
+        toast(ok ? 'copied' : 'fail');
+        if (ok) {
+          copyBtn.innerHTML = icons.check;
+          setTimeout(() => { copyBtn.innerHTML = icons.link; }, 1500);
         }
       });
-    </script>
-  </body>
+
+      // Instagram tidak punya URL share web:
+      // di ponsel pakai menu share bawaan; di desktop salin tautan lalu buka Instagram.
+      const ig = document.querySelector('[data-share="instagram"]');
+      if (ig) ig.addEventListener('click', async () => {
+        if (navigator.share && window.matchMedia('(pointer: coarse)').matches) {
+          try { await navigator.share({ title: shareText(), url: pageUrl() }); } catch (e) {}
+          return;
+        }
+        const copying = copyText(pageUrl());
+        window.open('https://www.instagram.com/', '_blank', 'noopener');
+        toast((await copying) ? 'ig' : 'fail');
+      });
+    }
+
+    function section(title, inner) {
+      return `<section class="d-section"><h2>${bi(title)}</h2>${inner}</section>`;
+    }
+
+    function render() {
+      const p = project;
+      let html = `
+        <a class="back" href="projects.html">${arrowLeft}<span data-lang="en">Projects</span><span data-lang="id">Proyek</span></a>
+
+        <h1 class="d-title">${p.title}</h1>
+        <p class="d-full">${bi(p.fullName)}</p>
+
+        <div class="d-facts">
+          <div><div class="fact-label">${bi({ en: 'Role', id: 'Peran' })}</div><div class="fact-value">${p.role}</div></div>
+          <div><div class="fact-label">${bi({ en: 'Period', id: 'Periode' })}</div>
+            <div class="fact-value"><span data-lang="en">${p.period}</span><span data-lang="id">${periodId(p.period)}</span></div></div>
+        </div>
+
+        ${toolbar(p)}
+
+        <div class="d-hero" style="--h:${p.hue}">
+          ${p.image ? `<img src="${p.image}" alt="${p.title}" onerror="this.remove()">` : ''}
+          <div class="thumb-bar"><i></i><i></i><i></i></div>
+          <div class="thumb-title">${p.title}</div>
+        </div>
+
+        ${section({ en: 'Overview', id: 'Ringkasan' }, `<p>${bi(p.overview)}</p>`)}
+        ${p.sections.map(x => section(x.title, `<p>${bi(x.body)}</p>`)).join('')}
+      `;
+
+      if (p.features.length)
+        html += section({ en: 'Key Features', id: 'Fitur Utama' }, `<ul class="d-list">${p.features.map(f => `<li>${bi(f)}</li>`).join('')}</ul>`);
+      if (p.stack.length)
+        html += section({ en: 'Tech Stack', id: 'Teknologi' }, `<div class="d-tags" style="margin:0">${p.stack.map(t => `<span class="tag">${t}</span>`).join('')}</div>`);
+      if (p.gallery.length)
+        html += section({ en: 'Screenshots', id: 'Tangkapan Layar' }, `<div class="d-gallery">${p.gallery.map(g => `<img src="${g.src}" alt="${g.alt || p.title}" loading="lazy">`).join('')}</div>`);
+      if (p.links.length)
+        html += section({ en: 'Links', id: 'Tautan' }, `<div class="d-links">${p.links.map(l => `<a class="btn" href="${l.url}" target="_blank" rel="noopener">${bi(l.label)}${arrowOut}</a>`).join('')}</div>`);
+
+      html += `<div class="d-footer"><a class="back" style="margin:0" href="projects.html">${arrowLeft}<span data-lang="en">Back to all projects</span><span data-lang="id">Kembali ke semua proyek</span></a></div>`;
+
+      document.getElementById('detail').innerHTML = html;
+      wireActions();
+    }
+
+    // THEME
+    const themeBtn = document.getElementById('themeBtn');
+    const themeBtnM = document.getElementById('themeBtnMobile');
+    const iconSun  = `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`;
+    const iconMoon = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`;
+    function applyTheme(t) {
+      document.documentElement.setAttribute('data-theme', t);
+      const inner = t === 'dark' ? iconSun : iconMoon;
+      document.getElementById('themeIcon').innerHTML = inner;
+      if (document.getElementById('themeIconMobile')) document.getElementById('themeIconMobile').innerHTML = inner;
+      localStorage.setItem('theme', t);
+    }
+    const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    applyTheme(savedTheme);
+    [themeBtn, themeBtnM].forEach(btn => btn && btn.addEventListener('click', () => {
+      applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    }));
+
+    // LANGUAGE
+    function applyLang(l) {
+      document.documentElement.lang = l;
+      document.querySelectorAll('#langLabel, #langLabelMobile').forEach(el => el.textContent = l.toUpperCase());
+      document.title = project.title + ' — Bryan Siagian';
+      localStorage.setItem('lang', l);
+    }
+    applyLang(localStorage.getItem('lang') || 'en');
+    [document.getElementById('langBtn'), document.getElementById('langBtnMobile')].forEach(btn => btn && btn.addEventListener('click', () => {
+      applyLang(document.documentElement.lang === 'en' ? 'id' : 'en');
+    }));
+
+    // RESUME GUARD
+    // Bila file PDF (resume) belum ada, tampilkan halaman error khusus (404.html)
+    // alih-alih "Cannot GET ..." bawaan server.
+    document.querySelectorAll('a[href$=".pdf"]').forEach(a => a.addEventListener('click', async e => {
+      e.preventDefault();
+      const url = new URL(a.getAttribute('href'), location.href);
+      const w = window.open('', '_blank');
+      if (!w) { location.href = url.href; return; }
+      try {
+        const r = await fetch(url, { method: 'HEAD' });
+        w.location.href = r.ok
+          ? url.href
+          : new URL('404.html?path=' + encodeURIComponent(url.pathname), location.href).href;
+      } catch (err) {
+        w.location.href = url.href;
+      }
+    }));
+
+    // MOBILE DRAWER
+    const drawer = document.getElementById('mobileDrawer');
+    document.getElementById('mobileMenuBtn').addEventListener('click', () => drawer.classList.toggle('open'));
+    document.getElementById('drawerOverlay').addEventListener('click', () => drawer.classList.remove('open'));
+
+    // INIT
+    render();
+  </script>
+</body>
 </html>
