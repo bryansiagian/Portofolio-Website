@@ -1,996 +1,718 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Harmonis Plastik — Bryan Siagian</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #ffffff;
-      --bg-subtle: #f8fafc;
-      --bg-card: #ffffff;
-      --text-primary: #0a0f1e;
-      --text-secondary: #4a5568;
-      --text-muted: #94a3b8;
-      --accent: #6366f1;
-      --accent-hover: #4f46e5;
-      --accent-light: #eef2ff;
-      --accent-border: #c7d2fe;
-      --border: #e8ecf0;
-      --border-strong: #d1d9e0;
-      --green: #10b981;
-      --hp-primary: #16a34a;
-      --hp-secondary: #4ade80;
-      --hp-dark: #052e16;
-      --sans: 'Space Grotesk', sans-serif;
-      --body: 'Inter', sans-serif;
-      --mono: 'JetBrains Mono', monospace;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
-      --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
-      --shadow-lg: 0 12px 40px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.06);
-      --nav-bg: rgba(255, 255, 255, 0.92);
+      --bg:        #ffffff;
+      --bg-subtle: #f5f5f5;
+      --text:      #111111;
+      --text-2:    #555555;
+      --text-3:    #999999;
+      --border:    #e5e5e5;
+      --sidebar-w: 260px;
     }
-
     [data-theme="dark"] {
-      --bg: #0f172a;
-      --bg-subtle: #1e293b;
-      --bg-dark: #020617;
-      --bg-card: #1e293b;
-      --text-primary: #f8fafc;
-      --text-secondary: #cbd5e1;
-      --text-muted: #94a3b8;
-      --border: #334155;
-      --border-strong: #475569;
-      --nav-bg: rgba(15, 23, 42, 0.92);
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
-      --shadow-md: 0 4px 16px rgba(0,0,0,0.5), 0 2px 6px rgba(0,0,0,0.3);
-      --shadow-lg: 0 12px 40px rgba(0,0,0,0.6), 0 4px 12px rgba(0,0,0,0.4);
+      --bg:        #111111;
+      --bg-subtle: #1c1c1c;
+      --text:      #f0f0f0;
+      --text-2:    #aaaaaa;
+      --text-3:    #555555;
+      --border:    #2a2a2a;
     }
 
-    /* MULTI-LANGUAGE TOGGLE LOGIC (CSS BASED) */
-    :root:lang(en) [lang="id"] { display: none !important; }
-    :root:lang(id) [lang="en"] { display: none !important; }
+    html[lang="en"] [data-lang="id"] { display: none !important; }
+    html[lang="id"] [data-lang="en"] { display: none !important; }
 
-    html { scroll-behavior: smooth; }
     body {
-      font-family: var(--body);
+      font-family: 'Inter', sans-serif;
       background: var(--bg);
-      color: var(--text-primary);
+      color: var(--text);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-      cursor: none;
-      transition: background-color 0.4s ease, color 0.4s ease;
-    }
-    a, button { cursor: none; }
-
-    .cursor-dot {
-      width: 8px; height: 8px; background: var(--hp-primary); border-radius: 50%;
-      position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
-    }
-    .cursor-ring {
-      width: 36px; height: 36px; border: 1.5px solid var(--hp-primary); border-radius: 50%;
-      position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998;
-      transform: translate(-50%, -50%);
-      transition: transform 0.12s ease, width 0.25s, height 0.25s, border-color 0.2s;
-      opacity: 0.6;
-    }
-    .cursor-dot.hover { width: 12px; height: 12px; }
-    .cursor-ring.hover { width: 52px; height: 52px; opacity: 0.3; }
-
-    .scroll-progress {
-      position: fixed; top: 0; left: 0; width: 0%; height: 2px;
-      background: linear-gradient(90deg, var(--hp-primary), var(--hp-secondary), #86efac);
-      z-index: 200; transition: width 0.05s linear;
+      transition: background .3s, color .3s;
     }
 
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 0 2.5rem; height: 64px;
-      display: flex; align-items: center; justify-content: space-between;
-      transition: background 0.3s, box-shadow 0.3s;
-    }
-    nav.scrolled {
-      background: var(--nav-bg);
-      backdrop-filter: blur(16px);
-      box-shadow: 0 1px 0 var(--border);
-    }
-    .nav-logo {
-      font-family: var(--mono); font-size: 15px; font-weight: 600;
-      color: var(--text-primary); text-decoration: none;
-      display: flex; align-items: center; gap: 6px;
-    }
-    .nav-logo .logo-bracket { color: var(--accent); }
-
-    .nav-right-actions { display: flex; align-items: center; gap: 0.75rem; }
-
-    .theme-toggle, .lang-toggle {
-      background: transparent; border: none; color: var(--text-primary);
-      cursor: none; display: flex; align-items: center; justify-content: center;
-      padding: 0.5rem; border-radius: 50%;
-      transition: color 0.2s, transform 0.2s, background 0.2s;
-    }
-    .theme-toggle:hover, .lang-toggle:hover {
-      color: var(--hp-primary); background: var(--bg-subtle); transform: scale(1.05);
-    }
-    .theme-toggle svg { width: 18px; height: 18px; }
-    .lang-toggle {
-      font-family: var(--mono); font-size: 13px; font-weight: 600;
-      letter-spacing: 0.05em; border-radius: 8px; padding: 0.4rem 0.6rem;
+    /* ── LAYOUT ── */
+    .layout {
+      display: flex;
+      max-width: 1100px;
+      margin: 0 auto;
+      min-height: 100vh;
     }
 
-    .nav-back {
-      display: flex; align-items: center; gap: 8px;
-      font-family: var(--body); font-size: 13.5px;
-      color: var(--text-secondary); text-decoration: none;
-      padding: 0.4rem 1rem; border-radius: 6px;
-      border: 1px solid var(--border);
-      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 2rem 1.25rem 1.5rem;
+      overflow-y: auto;
     }
-    .nav-back:hover { color: var(--hp-primary); border-color: rgba(22,163,74,0.3); background: rgba(22,163,74,0.05); }
-    .nav-back svg { width: 14px; height: 14px; }
-
-    /* HERO */
-    .project-hero {
-      padding-top: 64px; min-height: 58vh;
-      display: flex; align-items: flex-end;
-      position: relative; overflow: hidden;
-      background: #060b08;
-    }
-    .hero-ledger {
-      position: absolute; inset: 0; pointer-events: none;
-      background-image: linear-gradient(rgba(22,163,74,0.06) 1px, transparent 1px);
-      background-size: 100% 32px;
-      mask-image: linear-gradient(to bottom, transparent 5%, black 30%, black 80%, transparent 100%);
-    }
-    .hero-ledger-cols {
-      position: absolute; inset: 0; pointer-events: none;
-      background-image: linear-gradient(90deg, rgba(22,163,74,0.04) 1px, transparent 1px);
-      background-size: 120px 100%;
-      mask-image: radial-gradient(ellipse 80% 90% at 50% 40%, black, transparent);
-    }
-    .hero-ledger-rows { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
-    .ledger-row {
-      position: absolute; display: flex; gap: 0;
-      font-family: var(--mono); font-size: 10px;
-      color: rgba(22,163,74,0.18); white-space: nowrap;
-      animation: ledgerDrift 24s linear infinite;
-    }
-    .ledger-row span { display: inline-block; padding: 0 16px; border-right: 1px solid rgba(22,163,74,0.08); }
-    .ledger-row:nth-child(2) { animation-delay: -8s; animation-duration: 30s; }
-    .ledger-row:nth-child(3) { animation-delay: -16s; animation-duration: 20s; }
-    .ledger-row:nth-child(4) { animation-delay: -4s; animation-duration: 26s; }
-    .ledger-row:nth-child(5) { animation-delay: -12s; animation-duration: 22s; }
-    @keyframes ledgerDrift {
-      0%   { transform: translateX(0); opacity: 0; }
-      5%   { opacity: 1; }
-      95%  { opacity: 1; }
-      100% { transform: translateX(-50%); opacity: 0; }
-    }
-    .hero-glow {
-      position: absolute; width: 700px; height: 400px;
-      background: radial-gradient(ellipse, rgba(22,163,74,0.08) 0%, rgba(74,222,128,0.04) 50%, transparent 70%);
-      top: -5%; left: 45%; transform: translateX(-50%);
-      pointer-events: none;
-    }
-    .project-hero-inner {
-      max-width: 1120px; margin: 0 auto;
-      padding: 4rem 2.5rem 3.5rem;
-      width: 100%; position: relative; z-index: 1;
-    }
-    .hero-breadcrumb {
-      display: flex; align-items: center; gap: 8px;
-      font-family: var(--mono); font-size: 11.5px;
-      color: #3d444d; margin-bottom: 1.75rem;
-    }
-    .hero-breadcrumb a { color: #3d444d; text-decoration: none; transition: color 0.2s; }
-    .hero-breadcrumb a:hover { color: var(--hp-primary); }
-    .hero-breadcrumb .sep { color: #21262d; }
-    .hero-breadcrumb .current { color: #6e7681; }
-    .hero-type-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-family: var(--mono); font-size: 10.5px; font-weight: 500;
-      color: #86efac; background: rgba(22,163,74,0.1);
-      border: 1px solid rgba(22,163,74,0.2);
-      padding: 4px 12px; border-radius: 100px;
-      letter-spacing: 0.05em; margin-bottom: 1.25rem;
-    }
-    .hero-platform-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-family: var(--mono); font-size: 10.5px; font-weight: 500;
-      color: #a5b4fc; background: rgba(165,180,252,0.1);
-      border: 1px solid rgba(165,180,252,0.2);
-      padding: 4px 12px; border-radius: 100px;
-      letter-spacing: 0.05em; margin-bottom: 1.25rem; margin-left: 8px;
-    }
-    .project-hero h1 {
-      font-family: var(--sans);
-      font-size: clamp(2rem, 5vw, 3.4rem);
-      font-weight: 700; letter-spacing: -0.03em;
-      color: #e6edf3; line-height: 1.1; margin-bottom: 1rem;
-    }
-    .project-hero h1 .accent { color: var(--hp-secondary); }
-    .project-hero .hero-tagline {
-      font-size: 1.05rem; color: #8b949e;
-      line-height: 1.75; max-width: 600px;
-    }
-    .hero-links-row { display: flex; gap: 0.875rem; margin-top: 1.75rem; }
-    .btn-link {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-family: var(--body); font-size: 13.5px; font-weight: 500;
-      padding: 0.6rem 1.25rem; border-radius: 9px;
-      text-decoration: none; transition: all 0.2s;
-    }
-    .btn-link svg { width: 14px; height: 14px; }
-    .btn-link.primary { background: var(--hp-primary); color: #fff; border: 1px solid var(--hp-primary); }
-    .btn-link.primary:hover { background: #15803d; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(22,163,74,0.3); }
-    .btn-link.outline { background: transparent; color: #8b949e; border: 1px solid rgba(255,255,255,0.1); }
-    .btn-link.outline:hover { border-color: rgba(22,163,74,0.4); color: #c9d1d9; }
-    .hero-meta-row {
-      display: flex; flex-wrap: wrap; gap: 2.25rem;
-      padding-top: 2rem; margin-top: 2rem;
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-    .hero-meta-item { display: flex; flex-direction: column; gap: 4px; }
-    .hero-meta-label { font-family: var(--mono); font-size: 10.5px; color: #3d444d; text-transform: uppercase; letter-spacing: 0.1em; }
-    .hero-meta-value { font-size: 14px; font-weight: 500; color: #c9d1d9; }
-
-    /* BODY */
-    .project-body { max-width: 1120px; margin: 0 auto; padding: 4rem 2.5rem 5rem; }
-    .content-section { margin-bottom: 4rem; }
-    .content-section-eyebrow {
-      font-family: var(--mono); font-size: 11px; color: var(--accent);
-      letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.75rem;
-      display: flex; align-items: center; gap: 10px;
-    }
-    .content-section-eyebrow::after { content: ''; flex: 1; max-width: 40px; height: 1px; background: var(--accent-border); }
-    .content-section-title {
-      font-family: var(--sans);
-      font-size: clamp(1.35rem, 2.5vw, 1.75rem);
-      font-weight: 700; letter-spacing: -0.02em;
-      color: var(--text-primary); margin-bottom: 1.25rem;
-    }
-    .content-prose p {
-      font-size: 15px; color: var(--text-secondary);
-      line-height: 1.85; margin-bottom: 1rem;
-    }
-    .content-prose p:last-child { margin-bottom: 0; }
-
-    .overview-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 3.5rem; align-items: start; }
-
-    .quick-info-card {
-      background: var(--bg-subtle); border: 1px solid var(--border);
-      border-radius: 14px; padding: 1.5rem;
-      display: flex; flex-direction: column; gap: 1rem;
-      transition: background-color 0.4s ease, border-color 0.4s ease;
-    }
-    .quick-info-card-title {
-      font-family: var(--mono); font-size: 11px; color: var(--text-muted);
-      text-transform: uppercase; letter-spacing: 0.09em;
-      padding-bottom: 0.75rem; border-bottom: 1px solid var(--border);
-    }
-    .quick-info-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
-    .quick-info-key { font-size: 12.5px; color: var(--text-muted); white-space: nowrap; padding-top: 2px; }
-    .quick-info-val { font-size: 13px; font-weight: 500; color: var(--text-primary); text-align: right; line-height: 1.5; }
-    .quick-info-divider { height: 1px; background: var(--border); }
-    .stack-tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
-    .stag {
-      font-family: var(--mono); font-size: 11px;
-      background: rgba(22,163,74,0.1); color: var(--hp-primary);
-      border: 1px solid rgba(22,163,74,0.2); padding: 3px 9px; border-radius: 5px;
-    }
-
-    .ba-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-    .ba-card {
-      background: var(--bg-card); border-radius: 14px; padding: 1.75rem;
-      border: 1px solid var(--border); position: relative; overflow: hidden;
-      transition: background-color 0.4s ease, border-color 0.4s ease;
-    }
-    .ba-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
-    .ba-card.before::before { background: linear-gradient(90deg, #ef4444, #f97316); }
-    .ba-card.after::before  { background: linear-gradient(90deg, var(--hp-primary), var(--hp-secondary)); }
-    .ba-card-label {
-      font-family: var(--mono); font-size: 10.5px; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .ba-card.before .ba-card-label { color: #ef4444; }
-    .ba-card.after  .ba-card-label { color: var(--hp-primary); }
-    .ba-card-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
-    .ba-card.before .ba-card-icon { background: rgba(239,68,68,0.1); }
-    .ba-card.after  .ba-card-icon { background: rgba(22,163,74,0.1); }
-    .ba-list { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
-    .ba-list li { font-size: 14px; color: var(--text-secondary); line-height: 1.65; padding-left: 1.1rem; position: relative; }
-    .ba-list li::before { content: '▸'; position: absolute; left: 0; font-size: 9px; top: 4px; }
-    .ba-card.before .ba-list li::before { color: #ef4444; }
-    .ba-card.after  .ba-list li::before { color: var(--hp-primary); }
-
-    .roles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-    .role-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 14px; padding: 1.5rem 1.25rem; text-align: center;
-      transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s, background-color 0.4s ease;
-      position: relative; overflow: hidden;
-    }
-    .role-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, var(--hp-primary), var(--hp-secondary));
-      transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease;
-    }
-    .role-card:hover::before { transform: scaleX(1); }
-    .role-card:hover { border-color: rgba(22,163,74,0.3); box-shadow: var(--shadow-md); transform: translateY(-3px); }
-    .role-icon { font-size: 2rem; margin-bottom: 0.75rem; display: block; }
-    .role-name { font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 0.4rem; }
-    .role-desc { font-size: 12.5px; color: var(--text-secondary); line-height: 1.55; }
-    .role-perms { margin-top: 0.875rem; display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
-    .role-perm {
-      font-family: var(--mono); font-size: 10px;
-      color: var(--hp-primary); background: rgba(22,163,74,0.07);
-      border: 1px solid rgba(22,163,74,0.15); padding: 2px 8px; border-radius: 4px;
-    }
-
-    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
-    .feature-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 14px; padding: 1.5rem;
-      transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s, background-color 0.4s ease;
-      position: relative; overflow: hidden;
-    }
-    .feature-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, var(--hp-primary), var(--hp-secondary));
-      transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease;
-    }
-    .feature-card:hover::before { transform: scaleX(1); }
-    .feature-card:hover { border-color: rgba(22,163,74,0.3); box-shadow: var(--shadow-md); transform: translateY(-3px); }
-    .feature-icon {
-      width: 42px; height: 42px;
-      background: rgba(22,163,74,0.08); border: 1px solid rgba(22,163,74,0.15);
-      border-radius: 10px; display: flex; align-items: center;
-      justify-content: center; margin-bottom: 1rem; font-size: 20px;
-    }
-    .feature-title { font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; }
-    .feature-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
-
-    .impact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
-    .impact-card {
-      background: var(--bg-subtle); border: 1px solid var(--border);
-      border-radius: 14px; padding: 1.75rem 1.5rem; text-align: center;
-      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s, background-color 0.4s ease;
-    }
-    .impact-card:hover { border-color: rgba(22,163,74,0.3); transform: translateY(-2px); box-shadow: var(--shadow-md); }
-    .impact-num { font-family: var(--sans); font-size: 2.5rem; font-weight: 700; color: var(--hp-primary); line-height: 1; margin-bottom: 6px; }
-    .impact-label { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
-    .impact-sub { font-family: var(--mono); font-size: 10.5px; color: var(--text-muted); margin-top: 4px; }
-
-    .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-    .gallery-item {
-      border-radius: 12px; overflow: hidden;
-      border: 1px solid var(--border); aspect-ratio: 16/10;
-      position: relative;
-      transition: transform 0.25s, box-shadow 0.25s, border-color 0.4s ease;
+    .sidebar-profile { margin-top: auto; margin-bottom: 1.5rem; text-align: center; }
+    .profile-avatar {
+      width: 128px; height: 128px;
+      border-radius: 50%;
       background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      margin: 0 auto 1rem;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
     }
-    .gallery-item.wide { grid-column: span 2; aspect-ratio: 16/9; }
-    .gallery-item.tall { aspect-ratio: 3/4; }
-    .gallery-item:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
-    .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .gallery-placeholder {
-      width: 100%; height: 100%;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 10px;
+    .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .profile-avatar-placeholder { font-size: 40px; color: var(--text-3); }
+    .profile-name {
+      font-size: 16px; font-weight: 600;
+      color: var(--text); line-height: 1.35;
+      margin-bottom: 3px;
     }
-    .gallery-placeholder .gp-icon { font-size: 28px; }
-    .gallery-placeholder .gp-label { font-family: var(--mono); font-size: 10px; opacity: 0.4; text-transform: uppercase; letter-spacing: 0.08em; }
-    .gallery-placeholder .gp-title { font-family: var(--sans); font-size: 13px; font-weight: 600; opacity: 0.7; }
-    .gallery-caption {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      background: linear-gradient(transparent, rgba(0,0,0,0.65));
-      padding: 1.5rem 1rem 0.75rem;
-      font-size: 12px; color: rgba(255,255,255,0.8);
-      opacity: 0; transition: opacity 0.25s;
-    }
-    .gallery-item:hover .gallery-caption { opacity: 1; }
+    .profile-role { font-size: 13.5px; color: var(--text-3); }
 
-    .tech-stack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-    .tech-group {
+    .sidebar-nav { flex: none; }
+    .nav-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+    .nav-item a {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .55rem .8rem;
+      border-radius: 8px;
+      font-size: 15px; font-weight: 400;
+      color: var(--text-2); text-decoration: none;
+      transition: background .15s, color .15s;
+    }
+    .nav-item a:hover { background: var(--bg-subtle); color: var(--text); }
+    .nav-item a.active { background: var(--bg-subtle); color: var(--text); font-weight: 500; }
+    .nav-count {
+      font-size: 12px; color: var(--text-3);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 1px 7px; min-width: 22px; text-align: center;
+    }
+    .nav-item a.active .nav-count { background: var(--border); border-color: transparent; }
+    .nav-badge {
+      font-size: 11px; font-weight: 600;
+      color: var(--text-3); letter-spacing: .04em;
       background: var(--bg-subtle); border: 1px solid var(--border);
-      border-radius: 12px; padding: 1.25rem;
-      transition: background-color 0.4s ease, border-color 0.4s ease;
+      border-radius: 5px; padding: 1px 6px;
     }
-    .tech-group-label { font-family: var(--mono); font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 0.875rem; }
-    .tech-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-    .tech-tag {
-      font-family: var(--mono); font-size: 11.5px;
-      background: rgba(22,163,74,0.07); color: var(--hp-primary);
-      border: 1px solid rgba(22,163,74,0.2);
-      padding: 4px 10px; border-radius: 6px;
-      transition: background 0.2s, color 0.2s;
-    }
-    .tech-tag:hover { background: var(--hp-primary); color: #fff; }
 
-    .fade-in { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
-    .fade-in.visible { opacity: 1; transform: none; }
-    .fade-in-delay-1 { transition-delay: 0.1s; }
-    .fade-in-delay-2 { transition-delay: 0.2s; }
-
-    footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: flex; align-items: center; justify-content: space-between; }
-    .footer-left { font-family: var(--mono); font-size: 12px; color: var(--text-muted); }
-    .footer-left span { color: var(--accent); }
-    .footer-right { display: flex; gap: 1.5rem; }
-    .footer-right a { font-size: 12px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
-    .footer-right a:hover { color: var(--text-primary); }
-
-    @media (max-width: 900px) {
-      .overview-grid { grid-template-columns: 1fr; gap: 2rem; }
-      .ba-grid { grid-template-columns: 1fr; }
-      .roles-grid { grid-template-columns: 1fr 1fr; }
-      .features-grid { grid-template-columns: 1fr 1fr; }
-      .impact-grid { grid-template-columns: 1fr; }
-      .gallery-grid { grid-template-columns: 1fr 1fr; }
-      .gallery-item.wide { grid-column: span 2; }
-      .tech-stack-grid { grid-template-columns: 1fr; }
+    .sidebar-footer {
+      margin-top: auto; padding-top: 1.5rem;
+      display: flex; align-items: center; justify-content: center; gap: .35rem;
     }
-    @media (max-width: 600px) {
-      nav { padding: 0 1.25rem; }
-      .project-hero-inner { padding: 3rem 1.25rem 2.5rem; }
-      .project-body { padding: 2.5rem 1.25rem 4rem; }
-      .roles-grid { grid-template-columns: 1fr; }
-      .features-grid { grid-template-columns: 1fr; }
-      .impact-grid { grid-template-columns: 1fr 1fr; }
-      .gallery-grid { grid-template-columns: 1fr; }
-      .gallery-item.wide { grid-column: span 1; aspect-ratio: 16/9; }
-      footer { flex-direction: column; gap: 1rem; text-align: center; padding: 1.5rem; }
-      .hero-meta-row { gap: 1.5rem; }
+    .icon-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--text-3); padding: .375rem;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12.5px; font-weight: 600; letter-spacing: .05em;
+      transition: color .15s, background .15s;
     }
+    .icon-btn:hover { color: var(--text); background: var(--bg-subtle); }
+    .icon-btn svg { width: 17px; height: 17px; }
+
+    /* ── MAIN CONTENT ── */
+    .main {
+      flex: 1;
+      min-width: 0;
+      padding: 3rem 3rem 4rem 3.5rem;
+    }
+    .main-inner { max-width: 760px; }
+
+    /* ── PAGE HEADER ── */
+    .page-title {
+      font-size: 1.5rem; font-weight: 600;
+      letter-spacing: -.02em; color: var(--text);
+    }
+    .page-sub {
+      font-size: 1rem; color: var(--text-2);
+      line-height: 1.7; margin-top: .35rem; margin-bottom: 1.5rem;
+    }
+
+    /* ── SEARCH ── */
+    .search {
+      display: flex; align-items: center; gap: .75rem;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0 .9rem;
+      height: 50px;
+      transition: border-color .15s;
+    }
+    .search:focus-within { border-color: var(--text-3); }
+    .search svg { width: 17px; height: 17px; color: var(--text-3); flex-shrink: 0; }
+    .search input {
+      flex: 1; min-width: 0;
+      background: none; border: none; outline: none;
+      font: inherit; font-size: 15px; color: var(--text);
+    }
+    .search input::placeholder { color: var(--text-3); }
+    .kbd {
+      font-size: 11px; color: var(--text-3);
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 1px 8px;
+    }
+
+    .result-count { font-size: 13px; color: var(--text-3); margin: 1.25rem 0 1.5rem; }
+
+    /* ── GROUP LABEL ── */
+    .group-label {
+      font-size: 12px; font-weight: 500; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--text-3);
+      margin-bottom: 1.25rem;
+    }
+    .group + .group { margin-top: 2.5rem; }
+
+    /* ── PROJECT ROW ── */
+    .proj-list { display: flex; flex-direction: column; gap: 1.75rem; }
+    .proj {
+      display: flex; gap: 1.5rem; align-items: flex-start;
+      color: inherit; text-decoration: none;
+    }
+    .proj-thumb {
+      position: relative;
+      width: 230px; flex-shrink: 0;
+      aspect-ratio: 8 / 5;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      background: linear-gradient(135deg, hsl(var(--h) 70% 96%), hsl(var(--h) 60% 88%));
+      display: flex; flex-direction: column;
+      transition: transform .2s ease;
+    }
+    [data-theme="dark"] .proj-thumb {
+      background: linear-gradient(135deg, hsl(var(--h) 30% 16%), hsl(var(--h) 30% 11%));
+    }
+    a.proj:hover .proj-thumb { transform: translateY(-2px); }
+    .proj-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .thumb-bar {
+      display: flex; gap: 4px; padding: 9px 11px;
+    }
+    .thumb-bar i {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: hsl(var(--h) 30% 55% / .45);
+    }
+    .thumb-title {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 0 1rem 1rem;
+      font-size: 1.15rem; font-weight: 600; letter-spacing: -.02em;
+      color: hsl(var(--h) 45% 25%);
+    }
+    [data-theme="dark"] .thumb-title { color: hsl(var(--h) 60% 80%); }
+    .proj-body { flex: 1; min-width: 0; }
+    a.proj:hover .proj-title { text-decoration: underline; text-decoration-color: var(--text-3); text-underline-offset: 4px; }
+    .proj-title {
+      font-size: 1.25rem; font-weight: 500; letter-spacing: -.01em;
+      color: var(--text); line-height: 1.35;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+      margin-bottom: .35rem;
+    }
+    .award-pill {
+      font-size: 11px; font-weight: 500;
+      color: #92400e;
+      background: #fef3c7; border: 1px solid #fde68a;
+      padding: 1px 8px; border-radius: 100px; white-space: nowrap;
+      letter-spacing: 0;
+    }
+    [data-theme="dark"] .award-pill {
+      background: rgba(146,64,14,.18); border-color: rgba(180,83,9,.35); color: #fbbf24;
+    }
+    .proj-meta { font-size: 13px; color: var(--text-3); margin-bottom: .6rem; }
+    .proj-desc { font-size: 14.5px; color: var(--text-2); line-height: 1.7; margin-bottom: .75rem; }
+    .proj-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: .75rem; }
+    .tag {
+      font-size: 12px; color: var(--text-2);
+      background: var(--bg-subtle); border: 1px solid var(--border);
+      padding: 2px 10px; border-radius: 100px;
+    }
+    .empty { font-size: 14.5px; color: var(--text-3); padding: 2rem 0; }
+
+    /* ── PROJECT DETAIL ── */
+    .back {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13.5px; color: var(--text-3); text-decoration: none;
+      margin-bottom: 1.5rem; transition: color .15s;
+    }
+    .back:hover { color: var(--text); }
+    .back svg { width: 14px; height: 14px; }
+
+    .d-title { font-size: 2rem; font-weight: 600; letter-spacing: -.03em; line-height: 1.2; }
+    .d-full { font-size: 1rem; color: var(--text-2); margin-top: .4rem; line-height: 1.7; }
+
+    .d-facts {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem 1.5rem;
+      margin: 1.5rem 0 1.25rem; padding: 1rem 0;
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    }
+    .fact-label { font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); }
+    .fact-value { font-size: 14.5px; color: var(--text); margin-top: 2px; }
+    .d-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.75rem; }
+
+    .d-hero {
+      position: relative; aspect-ratio: 16 / 9;
+      border-radius: 16px; border: 1px solid var(--border); overflow: hidden;
+      background: linear-gradient(135deg, hsl(var(--h) 70% 96%), hsl(var(--h) 60% 88%));
+      display: flex; flex-direction: column;
+    }
+    [data-theme="dark"] .d-hero {
+      background: linear-gradient(135deg, hsl(var(--h) 30% 16%), hsl(var(--h) 30% 11%));
+    }
+    .d-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .d-hero .thumb-bar { padding: 14px 16px; gap: 6px; }
+    .d-hero .thumb-bar i { width: 9px; height: 9px; }
+    .d-hero .thumb-title { font-size: clamp(1.75rem, 5vw, 2.75rem); padding-bottom: 2.5rem; }
+
+    .d-section { margin-top: 2.25rem; }
+    .d-section h2 { font-size: 1.125rem; font-weight: 600; letter-spacing: -.01em; margin-bottom: .6rem; }
+    .d-section p { font-size: 15.5px; color: var(--text-2); line-height: 1.85; }
+    .d-list { list-style: none; display: flex; flex-direction: column; gap: .55rem; }
+    .d-list li { position: relative; padding-left: 1.25rem; font-size: 15px; color: var(--text-2); line-height: 1.7; }
+    .d-list li::before {
+      content: ""; position: absolute; left: .25rem; top: .7em;
+      width: 5px; height: 5px; border-radius: 50%; background: var(--text-3);
+    }
+    .d-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: .875rem; }
+    .d-gallery img { width: 100%; border-radius: 12px; border: 1px solid var(--border); display: block; }
+    .d-links { display: flex; flex-wrap: wrap; gap: .6rem; }
+    .btn {
+      display: inline-flex; align-items: center; gap: .45rem;
+      font: inherit; font-size: 14.5px; font-weight: 500;
+      padding: .6rem 1.1rem; border-radius: 10px;
+      text-decoration: none; border: 1px solid var(--border);
+      background: var(--bg); color: var(--text); transition: background .15s;
+    }
+    .btn:hover { background: var(--bg-subtle); }
+    .btn svg { width: 13px; height: 13px; }
+    .d-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+
+    .d-toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: .75rem 1rem; flex-wrap: wrap; margin-bottom: 1.75rem;
+    }
+    .d-toolbar .d-tags { margin: 0; }
+    .d-actions { display: flex; align-items: center; gap: .35rem; flex-wrap: wrap; }
+    .d-sep { width: 1px; height: 20px; background: var(--border); margin: 0 .4rem; }
+    .btn.btn-sm { height: 34px; padding: 0 .85rem; font-size: 13.5px; border-radius: 8px; }
+    .btn.btn-sm svg { width: 16px; height: 16px; }
+    .icon-link {
+      width: 34px; height: 34px; flex-shrink: 0;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 8px; border: 1px solid var(--border);
+      background: var(--bg); color: var(--text-2);
+      cursor: pointer; text-decoration: none;
+      transition: background .15s, color .15s;
+    }
+    .icon-link:hover { background: var(--bg-subtle); color: var(--text); }
+    .icon-link svg { width: 16px; height: 16px; }
+    .toast {
+      position: fixed; left: 50%; bottom: 1.5rem; z-index: 100;
+      transform: translate(-50%, 12px); opacity: 0; pointer-events: none;
+      background: var(--text); color: var(--bg);
+      font-size: 13.5px; padding: .6rem 1rem; border-radius: 10px;
+      transition: opacity .2s, transform .2s;
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    /* ── MOBILE ── */
+    .mobile-topbar {
+      display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      height: 52px; background: var(--bg); border-bottom: 1px solid var(--border);
+      align-items: center; justify-content: space-between;
+      padding: 0 1.25rem;
+    }
+    .mobile-topbar-name { font-size: 14px; font-weight: 600; color: var(--text); }
+    .mobile-topbar-right { display: flex; gap: .25rem; }
+    .mobile-menu-btn {
+      background: none; border: none; cursor: pointer; color: var(--text-2);
+      padding: .35rem; border-radius: 6px; display: flex; align-items: center;
+    }
+    .mobile-menu-btn svg { width: 18px; height: 18px; }
+    .mobile-drawer { display: none; position: fixed; inset: 0; z-index: 49; }
+    .mobile-drawer.open { display: block; }
+    .mobile-drawer-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.3); }
+    .mobile-drawer-panel {
+      position: absolute; top: 0; left: 0; bottom: 0;
+      width: 240px; background: var(--bg);
+      border-right: 1px solid var(--border);
+      padding: 1.5rem 1.25rem;
+      overflow-y: auto;
+    }
+
+    @media (max-width: 680px) {
+      .sidebar { display: none; }
+      .layout { display: block; }
+      .main { padding: 4.5rem 1.25rem 3rem; }
+      .main-inner { max-width: 100%; }
+      .mobile-topbar { display: flex; }
+      .d-title { font-size: 1.6rem; }
+      .d-gallery { grid-template-columns: 1fr; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
-      .cursor-dot, .cursor-ring { display: none; }
-      .ledger-row { animation: none; }
-      * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+      * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
     }
   </style>
 </head>
 <body>
 
-  <div class="cursor-dot" id="cursorDot"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
-  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="layout">
 
-  <!-- NAV -->
-  <nav id="mainNav">
-    <a href="index.html" class="nav-logo">
-      <span class="logo-bracket">{</span>&nbsp;bryan&nbsp;<span class="logo-bracket">}</span>
-    </a>
+    <!-- SIDEBAR (desktop) -->
+    <aside class="sidebar">
+      <div class="sidebar-profile">
+        <div class="profile-avatar">
+          <img src="/portofolio/image/profil.jpeg" alt="Bryan" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <span class="profile-avatar-placeholder" style="display:none">B</span>
+        </div>
+        <div class="profile-name">Bryan Torisi Siagian</div>
+        <div class="profile-role">Software Engineer</div>
+      </div>
 
-    <div class="nav-right-actions">
-      <!-- TOMBOL BAHASA -->
-      <button id="langToggle" class="lang-toggle" aria-label="Toggle Language">
-        <span id="langText">EN</span>
+      <nav class="sidebar-nav">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="index.html">
+              <span data-lang="en">Home</span><span data-lang="id">Beranda</span>
+              <span class="nav-count">1</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="projects.html" class="active">
+              <span data-lang="en">Projects</span><span data-lang="id">Proyek</span>
+              <span class="nav-count">9</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="achievements.html">
+              <span data-lang="en">Achievements</span><span data-lang="id">Capaian</span>
+              <span class="nav-count">3</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="certificates.html">
+              <span data-lang="en">Certificates</span><span data-lang="id">Sertifikat</span>
+              <span class="nav-count">0</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="resume.pdf" target="_blank" rel="noopener">
+              <span>Resume</span>
+              <span class="nav-badge">CV</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="icon-btn" id="langBtn" aria-label="Toggle language">
+          <span id="langLabel">EN</span>
+        </button>
+        <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">
+          <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+      <div class="main-inner" id="detail"></div>
+    </main>
+
+  </div><!-- /.layout -->
+
+  <!-- MOBILE TOPBAR -->
+  <div class="mobile-topbar">
+    <span class="mobile-topbar-name">Bryan Siagian</span>
+    <div class="mobile-topbar-right">
+      <button class="icon-btn" id="langBtnMobile"><span id="langLabelMobile">EN</span></button>
+      <button class="icon-btn" id="themeBtnMobile">
+        <svg id="themeIconMobile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
       </button>
-
-      <!-- TOMBOL DARK MODE -->
-      <button id="themeToggle" class="theme-toggle" aria-label="Toggle Dark Mode"></button>
-
-      <a href="index.html#projects" class="nav-back">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-        <span lang="en">All Projects</span>
-        <span lang="id">Semua Proyek</span>
-      </a>
+      <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
     </div>
-  </nav>
+  </div>
 
-  <!-- HERO -->
-  <section class="project-hero">
-    <div class="hero-ledger"></div>
-    <div class="hero-ledger-cols"></div>
-    <div class="hero-ledger-rows">
-      <div class="ledger-row" style="top:18%;">
-        <span>Nama Barang</span><span>Satuan</span><span>Stok Awal</span><span>Masuk</span><span>Keluar</span><span>Stok Akhir</span><span>Harga</span><span>Total</span>
-        <span>Nama Barang</span><span>Satuan</span><span>Stok Awal</span><span>Masuk</span><span>Keluar</span><span>Stok Akhir</span><span>Harga</span><span>Total</span>
+  <!-- MOBILE DRAWER -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <div class="mobile-drawer-overlay" id="drawerOverlay"></div>
+    <div class="mobile-drawer-panel">
+      <div style="margin-bottom:1.5rem">
+        <div class="profile-name" style="margin-bottom:3px">Bryan Torisi Siagian</div>
+        <div class="profile-role">Software Engineer</div>
       </div>
-      <div class="ledger-row" style="top:36%;">
-        <span>Ember 20L</span><span>pcs</span><span>240</span><span>80</span><span>55</span><span>265</span><span>Rp 28.000</span><span>Rp 7.420.000</span>
-        <span>Ember 20L</span><span>pcs</span><span>240</span><span>80</span><span>55</span><span>265</span><span>Rp 28.000</span><span>Rp 7.420.000</span>
-      </div>
-      <div class="ledger-row" style="top:52%;">
-        <span>Baskom Merah</span><span>pcs</span><span>180</span><span>120</span><span>95</span><span>205</span><span>Rp 15.500</span><span>Rp 3.177.500</span>
-        <span>Baskom Merah</span><span>pcs</span><span>180</span><span>120</span><span>95</span><span>205</span><span>Rp 15.500</span><span>Rp 3.177.500</span>
-      </div>
-      <div class="ledger-row" style="top:68%;">
-        <span>Gayung Plastik</span><span>pcs</span><span>320</span><span>200</span><span>175</span><span>345</span><span>Rp 8.000</span><span>Rp 2.760.000</span>
-        <span>Gayung Plastik</span><span>pcs</span><span>320</span><span>200</span><span>175</span><span>345</span><span>Rp 8.000</span><span>Rp 2.760.000</span>
-      </div>
-      <div class="ledger-row" style="top:82%;">
-        <span>Tutup Galon</span><span>pcs</span><span>500</span><span>300</span><span>280</span><span>520</span><span>Rp 3.500</span><span>Rp 1.820.000</span>
-        <span>Tutup Galon</span><span>pcs</span><span>500</span><span>300</span><span>280</span><span>520</span><span>Rp 3.500</span><span>Rp 1.820.000</span>
-      </div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="index.html"><span>Home</span><span class="nav-count">1</span></a></li>
+        <li class="nav-item"><a href="projects.html" class="active"><span>Projects</span><span class="nav-count">9</span></a></li>
+        <li class="nav-item"><a href="achievements.html"><span>Achievements</span><span class="nav-count">3</span></a></li>
+        <li class="nav-item"><a href="certificates.html"><span>Certificates</span><span class="nav-count">0</span></a></li>
+        <li class="nav-item"><a href="resume.pdf" target="_blank"><span>Resume</span><span class="nav-badge">CV</span></a></li>
+      </ul>
     </div>
-    <div class="hero-glow"></div>
-
-    <div class="project-hero-inner">
-      <div class="hero-breadcrumb">
-        <a href="index.html">bryan</a>
-        <span class="sep">/</span>
-        <a href="index.html#projects"><span lang="en">projects</span><span lang="id">proyek</span></a>
-        <span class="sep">/</span>
-        <span class="current">harmonis-plastik</span>
-      </div>
-
-      <div>
-        <span class="hero-type-badge">E-Commerce · Internal Tool</span>
-        <span class="hero-platform-badge">Web · Laravel</span>
-      </div>
-
-      <h1>Harmonis Plastik — <span class="accent"><span lang="en">Store Management</span><span lang="id">Manajemen Toko</span></span> System</h1>
-      <p class="hero-tagline" lang="en">
-        A web-based audit and inventory system built to replace a fully manual process at a local plastics store. Closes the operational gaps that previously left room for stock discrepancies, untracked transactions, and employee error.
-      </p>
-      <p class="hero-tagline" lang="id">
-        Sistem audit dan inventaris berbasis web yang dibangun untuk menggantikan proses manual sepenuhnya di toko plastik lokal. Menutup celah operasional yang sebelumnya rentan terhadap selisih stok, transaksi tak tercatat, dan kesalahan karyawan.
-      </p>
-
-      <div class="hero-links-row">
-        <a href="https://github.com/bryansiagian/FinalProject_009-FIX" target="_blank" rel="noopener" class="btn-link primary">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-          <span lang="en">View on GitHub</span>
-          <span lang="id">Lihat di GitHub</span>
-        </a>
-      </div>
-
-      <div class="hero-meta-row">
-        <div class="hero-meta-item">
-          <div class="hero-meta-label"><span lang="en">Client</span><span lang="id">Klien</span></div>
-          <div class="hero-meta-value">Toko Harmonis Plastik</div>
-        </div>
-        <div class="hero-meta-item">
-          <div class="hero-meta-label"><span lang="en">Context</span><span lang="id">Konteks</span></div>
-          <div class="hero-meta-value"><span lang="en">Final Project · Real Client</span><span lang="id">Proyek Akhir · Klien Nyata</span></div>
-        </div>
-        <div class="hero-meta-item">
-          <div class="hero-meta-label"><span lang="en">Platform</span><span lang="id">Platform</span></div>
-          <div class="hero-meta-value"><span lang="en">Web Application</span><span lang="id">Aplikasi Web</span></div>
-        </div>
-        <div class="hero-meta-item">
-          <div class="hero-meta-label"><span lang="en">Process replaced</span><span lang="id">Proses digantikan</span></div>
-          <div class="hero-meta-value">100% manual → digital</div>
-        </div>
-        <div class="hero-meta-item">
-          <div class="hero-meta-label">Stack</div>
-          <div class="hero-meta-value">Laravel · MySQL</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- BODY -->
-  <div class="project-body">
-
-    <!-- OVERVIEW -->
-    <div class="content-section fade-in">
-      <div class="overview-grid">
-        <div>
-          <p class="content-section-eyebrow"><span lang="en">Overview</span><span lang="id">Gambaran Umum</span></p>
-          <h2 class="content-section-title"><span lang="en">What is this system?</span><span lang="id">Apa sistem ini?</span></h2>
-          <div class="content-prose">
-            <p lang="en">
-              Toko Harmonis Plastik is a local plastics retail store that, before this project, managed its entire inventory, sales, and audit process with pen and paper. Stock was tracked in physical notebooks. Sales were tallied manually at the end of each day. Discrepancies between stock and receipts were investigated — or not — by memory.
-            </p>
-            <p lang="id">
-              Toko Harmonis Plastik adalah toko ritel plastik lokal yang, sebelum proyek ini, mengelola seluruh inventaris, penjualan, dan proses auditnya dengan pena dan kertas. Stok dicatat di buku fisik. Penjualan dihitung secara manual di akhir setiap hari. Selisih antara stok dan struk diselidiki — atau tidak — hanya berdasarkan ingatan.
-            </p>
-            <p lang="en">
-              This project replaced that process entirely with a web-based management system built in Laravel. The system handles product inventory, incoming and outgoing stock, transaction recording, and audit reporting — all with a real database behind it, enforcing data integrity that a notebook never could.
-            </p>
-            <p lang="id">
-              Proyek ini menggantikan proses tersebut sepenuhnya dengan sistem manajemen berbasis web yang dibangun di Laravel. Sistem ini menangani inventaris produk, stok masuk dan keluar, pencatatan transaksi, dan pelaporan audit — semuanya dengan database nyata di belakangnya, menegakkan integritas data yang mustahil dilakukan oleh buku catatan.
-            </p>
-            <p lang="en">
-              The motivation behind building this wasn't just to digitize — it was to close a specific gap: the manual process had known vulnerabilities to employee error and, more critically, to internal fraud. With no system of record, there was no way to catch discrepancies between what was sold and what was reported. The system was designed with that accountability layer as a first-class concern, not an afterthought.
-            </p>
-            <p lang="id">
-              Motivasi di balik pembangunan ini bukan sekadar digitalisasi — melainkan menutup celah spesifik: proses manual memiliki kerentanan yang diketahui terhadap kesalahan karyawan dan, yang lebih kritis, terhadap kecurangan internal. Tanpa sistem pencatatan, tidak ada cara untuk mendeteksi selisih antara yang terjual dan yang dilaporkan. Sistem ini dirancang dengan lapisan akuntabilitas tersebut sebagai prioritas utama, bukan sekadar tambahan.
-            </p>
-          </div>
-        </div>
-
-        <div class="quick-info-card">
-          <div class="quick-info-card-title"><span lang="en">Project at a glance</span><span lang="id">Ringkasan proyek</span></div>
-          <div class="quick-info-row">
-            <span class="quick-info-key"><span lang="en">Client</span><span lang="id">Klien</span></span>
-            <span class="quick-info-val">Toko Harmonis Plastik</span>
-          </div>
-          <div class="quick-info-divider"></div>
-          <div class="quick-info-row">
-            <span class="quick-info-key"><span lang="en">Type</span><span lang="id">Tipe</span></span>
-            <span class="quick-info-val"><span lang="en">Local retail store</span><span lang="id">Toko ritel lokal</span></span>
-          </div>
-          <div class="quick-info-divider"></div>
-          <div class="quick-info-row">
-            <span class="quick-info-key"><span lang="en">Before</span><span lang="id">Sebelumnya</span></span>
-            <span class="quick-info-val"><span lang="en">100% manual, pen & paper</span><span lang="id">100% manual, pena & kertas</span></span>
-          </div>
-          <div class="quick-info-divider"></div>
-          <div class="quick-info-row">
-            <span class="quick-info-key"><span lang="en">Context</span><span lang="id">Konteks</span></span>
-            <span class="quick-info-val"><span lang="en">Final Project (real client)</span><span lang="id">Proyek Akhir (klien nyata)</span></span>
-          </div>
-          <div class="quick-info-divider"></div>
-          <div class="quick-info-row">
-            <span class="quick-info-key">Stack</span>
-            <div class="stack-tags">
-              <span class="stag">Laravel</span>
-              <span class="stag">MySQL</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- BEFORE / AFTER -->
-    <div class="content-section fade-in fade-in-delay-1">
-      <p class="content-section-eyebrow"><span lang="en">Before & After</span><span lang="id">Sebelum & Sesudah</span></p>
-      <h2 class="content-section-title"><span lang="en">What actually changed.</span><span lang="id">Apa yang benar-benar berubah.</span></h2>
-      <div class="ba-grid">
-        <div class="ba-card before">
-          <div class="ba-card-label">
-            <div class="ba-card-icon">📒</div>
-            <span lang="en">Before — Manual Process</span>
-            <span lang="id">Sebelum — Proses Manual</span>
-          </div>
-          <ul class="ba-list">
-            <li lang="en">Stock tracked in physical notebooks — no validation, no backup, and no way to query historical data without flipping through pages.</li>
-            <li lang="id">Stok dicatat di buku fisik — tanpa validasi, tanpa cadangan, dan tidak ada cara untuk mengakses data historis tanpa membalik halaman satu per satu.</li>
-            <li lang="en">Daily sales tallied by hand at closing. Any mistake in the count was either caught by the owner or silently carried forward.</li>
-            <li lang="id">Penjualan harian dihitung manual saat tutup toko. Kesalahan apa pun dalam perhitungan bisa tertangkap pemilik atau diam-diam dibawa ke hari berikutnya.</li>
-            <li lang="en">No audit trail. When stock didn't match receipts, there was no data to investigate — only whoever was present that day.</li>
-            <li lang="id">Tidak ada jejak audit. Saat stok tidak cocok dengan struk, tidak ada data untuk diselidiki — hanya siapa pun yang hadir hari itu.</li>
-            <li lang="en">Employee-reported figures were taken at face value. The system had no mechanism to verify what was sold against what was in stock.</li>
-            <li lang="id">Angka yang dilaporkan karyawan diterima begitu saja. Tidak ada mekanisme untuk memverifikasi apa yang terjual terhadap stok yang ada.</li>
-            <li lang="en">Restocking decisions were based on eyeballing the shelves, not on any demand data or low-stock alerts.</li>
-            <li lang="id">Keputusan restok didasarkan pada perkiraan visual rak, bukan data permintaan atau peringatan stok rendah.</li>
-          </ul>
-        </div>
-        <div class="ba-card after">
-          <div class="ba-card-label">
-            <div class="ba-card-icon">🖥️</div>
-            <span lang="en">After — Digital System</span>
-            <span lang="id">Sesudah — Sistem Digital</span>
-          </div>
-          <ul class="ba-list">
-            <li lang="en">Every stock movement — incoming, outgoing, adjustments — is recorded to the database with a timestamp and the acting user.</li>
-            <li lang="id">Setiap pergerakan stok — masuk, keluar, penyesuaian — dicatat ke database dengan timestamp dan pengguna yang bertindak.</li>
-            <li lang="en">Transactions are logged at point of sale and cross-referenced against inventory automatically. Discrepancies surface immediately.</li>
-            <li lang="id">Transaksi dicatat di titik penjualan dan dicocokkan dengan inventaris secara otomatis. Selisih langsung terdeteksi.</li>
-            <li lang="en">Full audit trail: the owner can view any transaction, filter by date or product, and compare recorded stock against expected stock at any point in time.</li>
-            <li lang="id">Jejak audit lengkap: pemilik dapat melihat transaksi apa pun, filter berdasarkan tanggal atau produk, dan membandingkan stok tercatat dengan stok yang seharusnya kapan saja.</li>
-            <li lang="en">Role-based access separates what the owner sees from what employees can do — staff can record sales, but can't edit historical records.</li>
-            <li lang="id">Akses berbasis peran memisahkan apa yang dilihat pemilik dari apa yang bisa dilakukan karyawan — staf bisa mencatat penjualan, tapi tidak bisa mengedit catatan historis.</li>
-            <li lang="en">Low-stock alerts and inventory reports give the owner real data for restocking decisions instead of guesswork.</li>
-            <li lang="id">Peringatan stok rendah dan laporan inventaris memberi pemilik data nyata untuk keputusan restok, bukan tebak-tebakan.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- USER ROLES -->
-    <div class="content-section fade-in">
-      <p class="content-section-eyebrow"><span lang="en">Who Uses It</span><span lang="id">Siapa yang Menggunakannya</span></p>
-      <h2 class="content-section-title"><span lang="en">Three levels of access.</span><span lang="id">Tiga level akses.</span></h2>
-      <div class="roles-grid">
-        <div class="role-card">
-          <span class="role-icon">👔</span>
-          <div class="role-name"><span lang="en">Owner</span><span lang="id">Pemilik</span></div>
-          <div class="role-desc" lang="en">Full visibility across the business. Views all transactions, runs audit reports, manages products and pricing, and has the only access to historical edit logs.</div>
-          <div class="role-desc" lang="id">Visibilitas penuh atas seluruh bisnis. Melihat semua transaksi, menjalankan laporan audit, mengelola produk dan harga, serta satu-satunya yang bisa mengakses log edit historis.</div>
-          <div class="role-perms">
-            <span class="role-perm">full audit</span>
-            <span class="role-perm">reports</span>
-            <span class="role-perm">manage products</span>
-            <span class="role-perm">user mgmt</span>
-          </div>
-        </div>
-        <div class="role-card">
-          <span class="role-icon">🧾</span>
-          <div class="role-name"><span lang="en">Cashier</span><span lang="id">Kasir</span></div>
-          <div class="role-desc" lang="en">Records sales transactions at the point of purchase. Can view product stock to answer customer questions, but cannot edit inventory directly or access reports.</div>
-          <div class="role-desc" lang="id">Mencatat transaksi penjualan di titik pembelian. Bisa melihat stok produk untuk menjawab pertanyaan pelanggan, tapi tidak bisa mengedit inventaris langsung atau mengakses laporan.</div>
-          <div class="role-perms">
-            <span class="role-perm">record sales</span>
-            <span class="role-perm">view stock</span>
-            <span class="role-perm">print receipt</span>
-          </div>
-        </div>
-        <div class="role-card">
-          <span class="role-icon">📦</span>
-          <div class="role-name"><span lang="en">Warehouse Staff</span><span lang="id">Staf Gudang</span></div>
-          <div class="role-desc" lang="en">Handles incoming stock from suppliers. Logs restocking entries and updates product quantities when new shipments arrive, with all entries attributed to their account.</div>
-          <div class="role-desc" lang="id">Menangani stok masuk dari pemasok. Mencatat entri restok dan memperbarui jumlah produk saat kiriman baru tiba, dengan semua entri dikaitkan ke akun mereka.</div>
-          <div class="role-perms">
-            <span class="role-perm">log restock</span>
-            <span class="role-perm">update stock</span>
-            <span class="role-perm">view inventory</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- FEATURES -->
-    <div class="content-section fade-in fade-in-delay-1">
-      <p class="content-section-eyebrow"><span lang="en">Features</span><span lang="id">Fitur</span></p>
-      <h2 class="content-section-title"><span lang="en">What the system covers.</span><span lang="id">Apa yang dicakup sistem ini.</span></h2>
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">📦</div>
-          <div class="feature-title"><span lang="en">Inventory Management</span><span lang="id">Manajemen Inventaris</span></div>
-          <div class="feature-desc" lang="en">Full product catalog with stock levels, unit pricing, and category organization. Every product has a real-time stock count that updates on every transaction.</div>
-          <div class="feature-desc" lang="id">Katalog produk lengkap dengan level stok, harga satuan, dan organisasi kategori. Setiap produk memiliki hitungan stok real-time yang diperbarui setiap transaksi.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🧾</div>
-          <div class="feature-title"><span lang="en">Transaction Recording</span><span lang="id">Pencatatan Transaksi</span></div>
-          <div class="feature-desc" lang="en">Sales and restocking transactions are logged with timestamps, quantities, and the acting user. Every number in the system traces back to a specific human action.</div>
-          <div class="feature-desc" lang="id">Transaksi penjualan dan restok dicatat dengan timestamp, jumlah, dan pengguna yang bertindak. Setiap angka dalam sistem dapat dilacak kembali ke tindakan manusia yang spesifik.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🔍</div>
-          <div class="feature-title"><span lang="en">Audit & Discrepancy Reports</span><span lang="id">Laporan Audit & Selisih</span></div>
-          <div class="feature-desc" lang="en">The owner can run stock audits comparing expected inventory against recorded sales. Discrepancies are flagged automatically — the core feature that closes the fraud gap.</div>
-          <div class="feature-desc" lang="id">Pemilik bisa menjalankan audit stok yang membandingkan inventaris yang seharusnya dengan penjualan tercatat. Selisih ditandai secara otomatis — fitur inti yang menutup celah kecurangan.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🔔</div>
-          <div class="feature-title"><span lang="en">Low-Stock Alerts</span><span lang="id">Peringatan Stok Rendah</span></div>
-          <div class="feature-desc" lang="en">Products that fall below a set threshold are flagged for restocking. No more discovering an item is out of stock when a customer asks for it.</div>
-          <div class="feature-desc" lang="id">Produk yang jatuh di bawah ambang batas yang ditentukan ditandai untuk restok. Tidak ada lagi kejadian menemukan barang habis saat pelanggan memintanya.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">📊</div>
-          <div class="feature-title"><span lang="en">Sales Reports</span><span lang="id">Laporan Penjualan</span></div>
-          <div class="feature-desc" lang="en">Daily, weekly, and monthly sales summaries give the owner a data-based view of the business — revenue by product, transaction volume, and peak periods.</div>
-          <div class="feature-desc" lang="id">Ringkasan penjualan harian, mingguan, dan bulanan memberi pemilik pandangan berbasis data tentang bisnis — pendapatan per produk, volume transaksi, dan periode puncak.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🔐</div>
-          <div class="feature-title"><span lang="en">Role-Based Access</span><span lang="id">Akses Berbasis Peran</span></div>
-          <div class="feature-desc" lang="en">Each account type has clearly scoped permissions. Cashiers can't edit stock. Warehouse staff can't delete transactions. The owner sees everything.</div>
-          <div class="feature-desc" lang="id">Setiap tipe akun memiliki izin yang jelas. Kasir tidak bisa mengedit stok. Staf gudang tidak bisa menghapus transaksi. Pemilik melihat segalanya.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- IMPACT -->
-    <div class="content-section fade-in">
-      <p class="content-section-eyebrow"><span lang="en">Impact</span><span lang="id">Dampak</span></p>
-      <h2 class="content-section-title"><span lang="en">What the system closes.</span><span lang="id">Apa yang sistem ini tutup.</span></h2>
-      <div class="impact-grid">
-        <div class="impact-card">
-          <div class="impact-num">0</div>
-          <div class="impact-label" lang="en">Manual notebooks still in use for stock tracking</div>
-          <div class="impact-label" lang="id">Buku catatan manual yang masih digunakan untuk pelacakan stok</div>
-          <div class="impact-sub"><span lang="en">fully replaced</span><span lang="id">sepenuhnya digantikan</span></div>
-        </div>
-        <div class="impact-card">
-          <div class="impact-num">3×</div>
-          <div class="impact-label" lang="en">User roles with scoped permissions, replacing single shared access</div>
-          <div class="impact-label" lang="id">Peran pengguna dengan izin terbatas, menggantikan akses bersama tunggal</div>
-          <div class="impact-sub"><span lang="en">owner · cashier · warehouse</span><span lang="id">pemilik · kasir · gudang</span></div>
-        </div>
-        <div class="impact-card">
-          <div class="impact-num">100%</div>
-          <div class="impact-label" lang="en">Transactions with audit trail — every entry attributed to a user</div>
-          <div class="impact-label" lang="id">Transaksi dengan jejak audit — setiap entri dikaitkan ke pengguna</div>
-          <div class="impact-sub"><span lang="en">no anonymous changes</span><span lang="id">tidak ada perubahan anonim</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- GALLERY -->
-    <div class="content-section fade-in fade-in-delay-1">
-      <p class="content-section-eyebrow"><span lang="en">Gallery</span><span lang="id">Galeri</span></p>
-      <h2 class="content-section-title"><span lang="en">Screenshots.</span><span lang="id">Tangkapan Layar.</span></h2>
-      <div class="gallery-grid">
-        <div class="gallery-item wide">
-          <img src="image/harmonisplastik-homepage.png" alt="Homepage" />
-          <div class="gallery-placeholder" style="background: linear-gradient(135deg, #060b08 0%, #0a1a0d 50%, #070d09 100%);">
-            <span class="gp-icon">📊</span>
-            <span class="gp-title" style="color:#86efac;">Owner Dashboard</span>
-            <span class="gp-label" style="color:#86efac;">replace with screenshot</span>
-          </div>
-          <div class="gallery-caption"><span lang="en">Harmonis Plastik Homepage</span><span lang="id">Beranda Website Harmonis Plastik</span></div>
-        </div>
-        <div class="gallery-item">
-          <img src="image/harmonisplastik-product.png" alt="Product" />
-          <div class="gallery-placeholder" style="background: linear-gradient(160deg, #070c09 0%, #0e1a10 100%);">
-            <span class="gp-icon">📦</span>
-            <span class="gp-title" style="color:#4ade80;">Inventory List</span>
-            <span class="gp-label" style="color:#4ade80;">replace with screenshot</span>
-          </div>
-          <div class="gallery-caption"><span lang="en">Product Page</span><span lang="id">Halaman Produk</span></div>
-        </div>
-        <div class="gallery-item">
-          <img src="image/harmonisplastik-admin-dashboard.png" alt="Dashboard Admin" />
-          <div class="gallery-placeholder" style="background: linear-gradient(160deg, #060b07 0%, #0c1710 100%);">
-            <span class="gp-icon">🧾</span>
-            <span class="gp-title" style="color:#a7f3d0;">Transaction Log</span>
-            <span class="gp-label" style="color:#a7f3d0;">replace with screenshot</span>
-          </div>
-          <div class="gallery-caption"><span lang="en">Admin Dashboard</span><span lang="id">Dashboard Admin</span></div>
-        </div>
-        <div class="gallery-item">
-          <img src="image/harmonisplastik-admin-pesanan.png" alt="Dashboard Pesanan" />
-          <div class="gallery-placeholder" style="background: linear-gradient(160deg, #080d09 0%, #111e13 100%);">
-            <span class="gp-icon">🔍</span>
-            <span class="gp-title" style="color:#6ee7b7;">Audit Report</span>
-            <span class="gp-label" style="color:#6ee7b7;">replace with screenshot</span>
-          </div>
-          <div class="gallery-caption"><span lang="en">Orders Page — Admin Dashboard</span><span lang="id">Halaman Pesanan di Dashboard Admin</span></div>
-        </div>
-        <div class="gallery-item">
-          <img src="image/harmonisplastik-admin-product.png" alt="Dashboard Product" />
-          <div class="gallery-placeholder" style="background: linear-gradient(160deg, #070c08 0%, #0f1a11 100%);">
-            <span class="gp-icon">🛒</span>
-            <span class="gp-title" style="color:#d1fae5;">Cashier View</span>
-            <span class="gp-label" style="color:#d1fae5;">replace with screenshot</span>
-          </div>
-          <div class="gallery-caption"><span lang="en">Products Page — Admin Dashboard</span><span lang="id">Halaman Produk di Dashboard Admin</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TECH STACK -->
-    <div class="content-section fade-in">
-      <p class="content-section-eyebrow"><span lang="en">Tech Stack</span><span lang="id">Teknologi yang Digunakan</span></p>
-      <h2 class="content-section-title"><span lang="en">Built with.</span><span lang="id">Dibangun dengan.</span></h2>
-      <div class="tech-stack-grid">
-        <div class="tech-group">
-          <div class="tech-group-label">Backend</div>
-          <div class="tech-tags">
-            <span class="tech-tag">Laravel</span>
-            <span class="tech-tag">PHP</span>
-            <span class="tech-tag">Blade Templates</span>
-            <span class="tech-tag">Eloquent ORM</span>
-          </div>
-        </div>
-        <div class="tech-group">
-          <div class="tech-group-label"><span lang="en">Database</span><span lang="id">Basis Data</span></div>
-          <div class="tech-tags">
-            <span class="tech-tag">MySQL</span>
-            <span class="tech-tag">Relational schema</span>
-            <span class="tech-tag">Soft deletes</span>
-          </div>
-        </div>
-        <div class="tech-group">
-          <div class="tech-group-label">Frontend</div>
-          <div class="tech-tags">
-            <span class="tech-tag">Blade</span>
-            <span class="tech-tag">HTML / CSS</span>
-            <span class="tech-tag">JavaScript</span>
-            <span class="tech-tag">Tailwind</span>
-          </div>
-        </div>
-        <div class="tech-group">
-          <div class="tech-group-label"><span lang="en">Architecture</span><span lang="id">Arsitektur</span></div>
-          <div class="tech-tags">
-            <span class="tech-tag">Role-based auth</span>
-            <span class="tech-tag">Audit logging</span>
-            <span class="tech-tag">Git / GitHub</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div><!-- end project-body -->
-
-  <!-- FOOTER -->
-  <footer>
-    <p class="footer-left">Bryan Siagian <span>·</span> Institut Teknologi Del <span>·</span> <span id="year"></span></p>
-    <div class="footer-right">
-      <a href="index.html"><span lang="en">← Back to Portfolio</span><span lang="id">← Kembali ke Portofolio</span></a>
-      <a href="index.html#projects"><span lang="en">All Projects</span><span lang="id">Semua Proyek</span></a>
-      <a href="mailto:bryantorisi@gmail.com">Email</a>
-    </div>
-  </footer>
+  </div>
 
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+    // ─────────────────────────────────────────────
+    // DATA PROYEK — ubah isi halaman ini cukup lewat objek di bawah.
+    // Bagian opsional (features, stack, gallery, links) otomatis
+    // disembunyikan bila array-nya kosong.
+    // ─────────────────────────────────────────────
+    const project = {
+      title: 'Harmonis Plastik',
+      fullName: {
+        en: 'E-Commerce Website for a Plastic Goods Store',
+        id: 'Website E-Commerce untuk Toko Plastik'
+      },
+      role: 'Full-Stack Developer',                        // isi bila ingin menampilkan peran, mis. 'Full-Stack Developer'
+      period: 'Jan 2025 – Jun 2025',
+      hue: 340,
+      image: 'image/harmonisplastik-homepage.png',                       // hero/screenshot utama, mis. 'image/harmonis-plastik/hero.png'
+      tags: ['E-Commerce', 'Web App'],
+      repo: '',                        // isi link GitHub bila ada, mis. 'https://github.com/bryansiagian/…'
+      share: true,                     // tombol share: Facebook, Instagram, LinkedIn, X, salin tautan
 
-    const dot = document.getElementById('cursorDot');
-    const ring = document.getElementById('cursorRing');
-    let mx = 0, my = 0, rx = 0, ry = 0;
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX; my = e.clientY;
-      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
-    });
-    function animRing() {
-      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
-      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-      requestAnimationFrame(animRing);
+      overview: {
+        en: 'Harmonis Plastik is an e-commerce website for a plastic goods store.',
+        id: 'Harmonis Plastik adalah website e-commerce untuk sebuah toko plastik.'
+      },
+
+      sections: [
+        {
+          title: { en: 'About the Project', id: 'Tentang Proyek' },
+          body: {
+            en: 'The site was built as a web application so the store can sell its plastic goods online.',
+            id: 'Situs ini dibangun sebagai aplikasi web agar toko dapat menjual produk plastiknya secara online.'
+          }
+        }
+      ],
+
+      // ── Opsional: kosongkan array bila tidak dipakai ──
+      features: [
+        // { en: 'Feature description', id: 'Deskripsi fitur' },
+      ],
+      stack: [
+        // 'Laravel', …
+      ],
+      gallery: [
+        // { src: 'image/harmonis-plastik/home.png', alt: 'Home' },
+      ],
+      links: [
+        // { label: { en: 'Live Site', id: 'Situs' }, url: 'https://…' },
+      ]
+    };
+
+    const periodId = t => t.replace('Present', 'Sekarang').replace('Aug', 'Agu').replace('Oct', 'Okt').replace('Dec', 'Des');
+    const bi = o => `<span data-lang="en">${o.en}</span><span data-lang="id">${o.id}</span>`;
+    const arrowLeft = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>';
+    const arrowOut  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>';
+
+    // ── Ikon ──
+    const icons = {
+      github:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>',
+      facebook:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>',
+      instagram: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>',
+      linkedin:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>',
+      x:         '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>',
+      link:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
+      check:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
+    };
+
+    // ── Share ──
+    const curLang = () => (document.documentElement.lang === 'id' ? 'id' : 'en');
+    const pageUrl = () => location.href.split('#')[0];
+    const shareText = () => `${project.title} — ${project.fullName[curLang()]}`;
+    const shareLinks = {
+      facebook: () => 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(pageUrl()),
+      linkedin: () => 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(pageUrl()),
+      x:        () => 'https://x.com/intent/post?url=' + encodeURIComponent(pageUrl()) + '&text=' + encodeURIComponent(shareText())
+    };
+    const msgs = {
+      copied: { en: 'Link copied',                          id: 'Tautan disalin' },
+      ig:     { en: 'Link copied — paste it in Instagram',  id: 'Tautan disalin — tempel di Instagram' },
+      fail:   { en: "Couldn't copy the link",               id: 'Gagal menyalin tautan' }
+    };
+
+    let toastTimer;
+    function toast(key) {
+      let el = document.getElementById('toast');
+      if (!el) { el = document.createElement('div'); el.id = 'toast'; el.className = 'toast'; el.setAttribute('role', 'status'); document.body.appendChild(el); }
+      el.textContent = msgs[key][curLang()];
+      el.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
     }
-    animRing();
-    document.querySelectorAll('a, button, .gallery-item, .feature-card, .role-card, .ba-card, .impact-card').forEach(el => {
-      el.addEventListener('mouseenter', () => { dot.classList.add('hover'); ring.classList.add('hover'); });
-      el.addEventListener('mouseleave', () => { dot.classList.remove('hover'); ring.classList.remove('hover'); });
-    });
 
-    const progressBar = document.getElementById('scrollProgress');
-    window.addEventListener('scroll', () => {
-      const st = window.scrollY;
-      const dh = document.documentElement.scrollHeight - window.innerHeight;
-      progressBar.style.width = (st / dh * 100) + '%';
-    }, { passive: true });
+    async function copyText(text) {
+      try { await navigator.clipboard.writeText(text); return true; }
+      catch (e) {
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta); ta.select();
+          const ok = document.execCommand('copy'); ta.remove(); return ok;
+        } catch (e2) { return false; }
+      }
+    }
 
-    const nav = document.getElementById('mainNav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 20);
-    }, { passive: true });
+    function toolbar(p) {
+      const tags = `<div class="d-tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>`;
+      const gh = p.repo
+        ? `<a class="btn btn-sm" href="${p.repo}" target="_blank" rel="noopener" title="GitHub repository">${icons.github}GitHub</a>` : '';
+      const share = p.share ? `
+        <a class="icon-link" data-share="facebook" href="${shareLinks.facebook()}" target="_blank" rel="noopener" aria-label="Share on Facebook" title="Facebook">${icons.facebook}</a>
+        <button class="icon-link" type="button" data-share="instagram" aria-label="Share on Instagram" title="Instagram">${icons.instagram}</button>
+        <a class="icon-link" data-share="linkedin" href="${shareLinks.linkedin()}" target="_blank" rel="noopener" aria-label="Share on LinkedIn" title="LinkedIn">${icons.linkedin}</a>
+        <a class="icon-link" data-share="x" href="${shareLinks.x()}" target="_blank" rel="noopener" aria-label="Share on X" title="X / Twitter">${icons.x}</a>
+        <button class="icon-link" type="button" data-share="copy" aria-label="Copy link" title="Copy link">${icons.link}</button>` : '';
+      const sep = gh && share ? '<span class="d-sep"></span>' : '';
+      return `<div class="d-toolbar">${tags}<div class="d-actions">${gh}${sep}${share}</div></div>`;
+    }
 
-    const fadeEls = document.querySelectorAll('.fade-in');
-    const fadeObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          fadeObserver.unobserve(entry.target);
+    function wireActions() {
+      // Facebook / LinkedIn / X: perbarui URL tepat saat diklik (bahasa & URL terkini)
+      document.querySelectorAll('a[data-share]').forEach(a =>
+        a.addEventListener('click', () => { a.href = shareLinks[a.dataset.share](); }));
+
+      // Salin tautan
+      const copyBtn = document.querySelector('[data-share="copy"]');
+      if (copyBtn) copyBtn.addEventListener('click', async () => {
+        const ok = await copyText(pageUrl());
+        toast(ok ? 'copied' : 'fail');
+        if (ok) {
+          copyBtn.innerHTML = icons.check;
+          setTimeout(() => { copyBtn.innerHTML = icons.link; }, 1500);
         }
       });
-    }, { threshold: 0.08 });
-    fadeEls.forEach(el => fadeObserver.observe(el));
 
-    // ==========================================
-    // MULTI-LANGUAGE TOGGLE LOGIC
-    // ==========================================
-    const langToggleBtn = document.getElementById('langToggle');
-    const langText = document.getElementById('langText');
-
-    const savedLang = localStorage.getItem('lang') || 'en';
-    document.documentElement.lang = savedLang;
-    langText.textContent = savedLang.toUpperCase();
-
-    langToggleBtn.addEventListener('click', () => {
-      const newLang = document.documentElement.lang === 'en' ? 'id' : 'en';
-      document.documentElement.lang = newLang;
-      localStorage.setItem('lang', newLang);
-      langText.textContent = newLang.toUpperCase();
-    });
-
-    // ==========================================
-    // DARK MODE TOGGLE LOGIC
-    // ==========================================
-    const themeToggleBtn = document.getElementById('themeToggle');
-    const htmlElement = document.documentElement;
-
-    const iconSun = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
-    const iconMoon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
-
-    const currentTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    if (currentTheme === 'dark' || (!currentTheme && prefersDark)) {
-      htmlElement.setAttribute('data-theme', 'dark');
-      themeToggleBtn.innerHTML = iconSun;
-    } else {
-      htmlElement.setAttribute('data-theme', 'light');
-      themeToggleBtn.innerHTML = iconMoon;
+      // Instagram tidak punya URL share web:
+      // di ponsel pakai menu share bawaan; di desktop salin tautan lalu buka Instagram.
+      const ig = document.querySelector('[data-share="instagram"]');
+      if (ig) ig.addEventListener('click', async () => {
+        if (navigator.share && window.matchMedia('(pointer: coarse)').matches) {
+          try { await navigator.share({ title: shareText(), url: pageUrl() }); } catch (e) {}
+          return;
+        }
+        const copying = copyText(pageUrl());
+        window.open('https://www.instagram.com/', '_blank', 'noopener');
+        toast((await copying) ? 'ig' : 'fail');
+      });
     }
 
-    themeToggleBtn.addEventListener('click', () => {
-      let theme = htmlElement.getAttribute('data-theme');
-      if (theme === 'dark') {
-        htmlElement.setAttribute('data-theme', 'light');
-        localStorage.setItem('theme', 'light');
-        themeToggleBtn.innerHTML = iconMoon;
-      } else {
-        htmlElement.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
-        themeToggleBtn.innerHTML = iconSun;
+    function section(title, inner) {
+      return `<section class="d-section"><h2>${bi(title)}</h2>${inner}</section>`;
+    }
+
+    function render() {
+      const p = project;
+      let html = `
+        <a class="back" href="projects.html">${arrowLeft}<span data-lang="en">Projects</span><span data-lang="id">Proyek</span></a>
+
+        <h1 class="d-title">${p.title}</h1>
+        <p class="d-full">${bi(p.fullName)}</p>
+
+        <div class="d-facts">
+          ${p.role ? `<div><div class="fact-label">${bi({ en: 'Role', id: 'Peran' })}</div><div class="fact-value">${p.role}</div></div>` : ''}
+          <div><div class="fact-label">${bi({ en: 'Period', id: 'Periode' })}</div>
+            <div class="fact-value"><span data-lang="en">${p.period}</span><span data-lang="id">${periodId(p.period)}</span></div></div>
+        </div>
+
+        ${toolbar(p)}
+
+        <div class="d-hero" style="--h:${p.hue}">
+          ${p.image ? `<img src="${p.image}" alt="${p.title}" onerror="this.remove()">` : ''}
+          <div class="thumb-bar"><i></i><i></i><i></i></div>
+          <div class="thumb-title">${p.title}</div>
+        </div>
+
+        ${section({ en: 'Overview', id: 'Ringkasan' }, `<p>${bi(p.overview)}</p>`)}
+        ${p.sections.map(x => section(x.title, `<p>${bi(x.body)}</p>`)).join('')}
+      `;
+
+      if (p.features.length)
+        html += section({ en: 'Key Features', id: 'Fitur Utama' }, `<ul class="d-list">${p.features.map(f => `<li>${bi(f)}</li>`).join('')}</ul>`);
+      if (p.stack.length)
+        html += section({ en: 'Tech Stack', id: 'Teknologi' }, `<div class="d-tags" style="margin:0">${p.stack.map(t => `<span class="tag">${t}</span>`).join('')}</div>`);
+      if (p.gallery.length)
+        html += section({ en: 'Screenshots', id: 'Tangkapan Layar' }, `<div class="d-gallery">${p.gallery.map(g => `<img src="${g.src}" alt="${g.alt || p.title}" loading="lazy">`).join('')}</div>`);
+      if (p.links.length)
+        html += section({ en: 'Links', id: 'Tautan' }, `<div class="d-links">${p.links.map(l => `<a class="btn" href="${l.url}" target="_blank" rel="noopener">${bi(l.label)}${arrowOut}</a>`).join('')}</div>`);
+
+      html += `<div class="d-footer"><a class="back" style="margin:0" href="projects.html">${arrowLeft}<span data-lang="en">Back to all projects</span><span data-lang="id">Kembali ke semua proyek</span></a></div>`;
+
+      document.getElementById('detail').innerHTML = html;
+      wireActions();
+    }
+
+    // THEME
+    const themeBtn = document.getElementById('themeBtn');
+    const themeBtnM = document.getElementById('themeBtnMobile');
+    const iconSun  = `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`;
+    const iconMoon = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`;
+    function applyTheme(t) {
+      document.documentElement.setAttribute('data-theme', t);
+      const inner = t === 'dark' ? iconSun : iconMoon;
+      document.getElementById('themeIcon').innerHTML = inner;
+      if (document.getElementById('themeIconMobile')) document.getElementById('themeIconMobile').innerHTML = inner;
+      localStorage.setItem('theme', t);
+    }
+    const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    applyTheme(savedTheme);
+    [themeBtn, themeBtnM].forEach(btn => btn && btn.addEventListener('click', () => {
+      applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    }));
+
+    // LANGUAGE
+    function applyLang(l) {
+      document.documentElement.lang = l;
+      document.querySelectorAll('#langLabel, #langLabelMobile').forEach(el => el.textContent = l.toUpperCase());
+      document.title = project.title + ' — Bryan Siagian';
+      localStorage.setItem('lang', l);
+    }
+    applyLang(localStorage.getItem('lang') || 'en');
+    [document.getElementById('langBtn'), document.getElementById('langBtnMobile')].forEach(btn => btn && btn.addEventListener('click', () => {
+      applyLang(document.documentElement.lang === 'en' ? 'id' : 'en');
+    }));
+
+    // RESUME GUARD
+    // Bila file PDF (resume) belum ada, tampilkan halaman error khusus (404.html)
+    // alih-alih "Cannot GET ..." bawaan server.
+    document.querySelectorAll('a[href$=".pdf"]').forEach(a => a.addEventListener('click', async e => {
+      e.preventDefault();
+      const url = new URL(a.getAttribute('href'), location.href);
+      const w = window.open('', '_blank');
+      if (!w) { location.href = url.href; return; }
+      try {
+        const r = await fetch(url, { method: 'HEAD' });
+        w.location.href = r.ok
+          ? url.href
+          : new URL('404.html?path=' + encodeURIComponent(url.pathname), location.href).href;
+      } catch (err) {
+        w.location.href = url.href;
       }
-    });
+    }));
+
+    // MOBILE DRAWER
+    const drawer = document.getElementById('mobileDrawer');
+    document.getElementById('mobileMenuBtn').addEventListener('click', () => drawer.classList.toggle('open'));
+    document.getElementById('drawerOverlay').addEventListener('click', () => drawer.classList.remove('open'));
+
+    // INIT
+    render();
   </script>
 </body>
 </html>
