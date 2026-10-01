@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Projects — Bryan Siagian</title>
+  <title>Certificates — Bryan Siagian</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -129,7 +129,6 @@
     }
     .main-inner { max-width: 760px; }
 
-    /* ── PAGE HEADER ── */
     .page-title {
       font-size: 1.5rem; font-weight: 600;
       letter-spacing: -.02em; color: var(--text);
@@ -162,24 +161,24 @@
       background: var(--bg); border: 1px solid var(--border);
       border-radius: 6px; padding: 1px 8px;
     }
-
     .result-count { font-size: 13px; color: var(--text-3); margin: 1.25rem 0 1.5rem; }
 
-    /* ── GROUP LABEL ── */
+    /* ── GROUP ── */
     .group-label {
       font-size: 12px; font-weight: 500; letter-spacing: .12em;
       text-transform: uppercase; color: var(--text-3);
-      margin-bottom: 1.25rem;
+      margin-bottom: 1rem;
     }
     .group + .group { margin-top: 2.5rem; }
 
-    /* ── PROJECT ROW ── */
-    .proj-list { display: flex; flex-direction: column; gap: 1.75rem; }
-    .proj {
+    /* ── CERTIFICATE ROW ── */
+    .search[hidden] { display: none; }
+    .cert-list { display: flex; flex-direction: column; gap: 1.75rem; }
+    .cert {
       display: flex; gap: 1.5rem; align-items: flex-start;
       color: inherit; text-decoration: none;
     }
-    .proj-thumb {
+    .cert-thumb {
       position: relative;
       width: 230px; flex-shrink: 0;
       aspect-ratio: 8 / 5;
@@ -187,54 +186,49 @@
       border: 1px solid var(--border);
       overflow: hidden;
       background: linear-gradient(135deg, hsl(var(--h) 70% 96%), hsl(var(--h) 60% 88%));
-      display: flex; flex-direction: column;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 1rem;
       transition: transform .2s ease;
     }
-    [data-theme="dark"] .proj-thumb {
+    [data-theme="dark"] .cert-thumb {
       background: linear-gradient(135deg, hsl(var(--h) 30% 16%), hsl(var(--h) 30% 11%));
     }
-    a.proj:hover .proj-thumb { transform: translateY(-2px); }
-    .proj-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-    .thumb-bar {
-      display: flex; gap: 4px; padding: 9px 11px;
-    }
-    .thumb-bar i {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: hsl(var(--h) 30% 55% / .45);
-    }
-    .thumb-title {
-      flex: 1; display: flex; align-items: center; justify-content: center;
-      text-align: center; padding: 0 1rem 1rem;
-      font-size: 1.15rem; font-weight: 600; letter-spacing: -.02em;
+    a.cert:hover .cert-thumb { transform: translateY(-2px); }
+    .cert-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .cert-thumb-text {
+      font-size: 1rem; font-weight: 600; letter-spacing: -.02em;
       color: hsl(var(--h) 45% 25%);
     }
-    [data-theme="dark"] .thumb-title { color: hsl(var(--h) 60% 80%); }
-    .proj-body { flex: 1; min-width: 0; }
-    a.proj:hover .proj-title { text-decoration: underline; text-decoration-color: var(--text-3); text-underline-offset: 4px; }
-    .proj-title {
+    [data-theme="dark"] .cert-thumb-text { color: hsl(var(--h) 60% 80%); }
+    .cert-body { flex: 1; min-width: 0; }
+    .cert-title {
       font-size: 1.25rem; font-weight: 500; letter-spacing: -.01em;
       color: var(--text); line-height: 1.35;
       display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
       margin-bottom: .35rem;
     }
-    .award-pill {
-      font-size: 11px; font-weight: 500;
-      color: #92400e;
-      background: #fef3c7; border: 1px solid #fde68a;
-      padding: 1px 8px; border-radius: 100px; white-space: nowrap;
-      letter-spacing: 0;
+    .cert-title svg { width: 14px; height: 14px; color: var(--text-3); flex-shrink: 0; }
+    a.cert:hover .cert-title { text-decoration: underline; text-decoration-color: var(--text-3); text-underline-offset: 4px; }
+    .cert-meta { font-size: 14px; color: var(--text-2); margin-bottom: .35rem; }
+    .cert-id {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12.5px; color: var(--text-3); margin-bottom: .75rem;
     }
-    [data-theme="dark"] .award-pill {
-      background: rgba(146,64,14,.18); border-color: rgba(180,83,9,.35); color: #fbbf24;
-    }
-    .proj-meta { font-size: 13px; color: var(--text-3); margin-bottom: .6rem; }
-    .proj-desc { font-size: 14.5px; color: var(--text-2); line-height: 1.7; margin-bottom: .75rem; }
-    .proj-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: .75rem; }
+    .cert-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: .75rem; }
+    .cert-id + .cert-tags { margin-top: 0; }
     .tag {
       font-size: 12px; color: var(--text-2);
       background: var(--bg-subtle); border: 1px solid var(--border);
       padding: 2px 10px; border-radius: 100px;
     }
+
+    .empty-card {
+      border: 1px dashed var(--border); border-radius: 14px;
+      padding: 3rem 1.5rem; text-align: center;
+      color: var(--text-3); font-size: 14.5px; line-height: 1.7;
+    }
+    .empty-card .big { font-size: 2rem; margin-bottom: .5rem; }
+
     .empty { font-size: 14.5px; color: var(--text-3); padding: 2rem 0; }
 
     /* ── MOBILE ── */
@@ -268,8 +262,8 @@
       .main { padding: 4.5rem 1.25rem 3rem; }
       .main-inner { max-width: 100%; }
       .mobile-topbar { display: flex; }
-      .proj { flex-direction: column; gap: 1rem; }
-      .proj-thumb { width: 100%; }
+      .cert { flex-direction: column; gap: 1rem; }
+      .cert-thumb { width: 100%; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -301,7 +295,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="projects.html" class="active">
+            <a href="projects.html">
               <span data-lang="en">Projects</span><span data-lang="id">Proyek</span>
               <span class="nav-count">9</span>
             </a>
@@ -313,7 +307,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="certificates.html">
+            <a href="certificates.html" class="active">
               <span data-lang="en">Certificates</span><span data-lang="id">Sertifikat</span>
               <span class="nav-count">0</span>
             </a>
@@ -344,22 +338,22 @@
       <div class="main-inner">
 
         <h1 class="page-title">
-          <span data-lang="en">Projects</span>
-          <span data-lang="id">Proyek</span>
+          <span data-lang="en">Certificates</span>
+          <span data-lang="id">Sertifikat</span>
         </h1>
         <p class="page-sub">
-          <span data-lang="en">Web, mobile, and IoT projects I've built, from public transport tracking to pharmacy logistics, e-commerce, and village services.</span>
-          <span data-lang="id">Proyek web, mobile, dan IoT yang pernah saya bangun, dari pelacakan transportasi umum hingga logistik farmasi, e-commerce, dan layanan desa.</span>
+          <span data-lang="en">Certificates and certifications from courses, training, and professional programs.</span>
+          <span data-lang="id">Sertifikat dan sertifikasi dari kursus, pelatihan, dan program profesional.</span>
         </p>
 
-        <label class="search">
+        <label class="search" id="searchBox">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-          <input type="search" id="searchInput" placeholder="Search projects…" autocomplete="off" />
+          <input type="search" id="searchInput" placeholder="Search certificates…" autocomplete="off" />
           <span class="kbd">/</span>
         </label>
 
         <div class="result-count" id="resultCount"></div>
-        <div id="projectList"></div>
+        <div id="certList"></div>
 
       </div>
     </main>
@@ -392,9 +386,9 @@
       </div>
       <ul class="nav-list">
         <li class="nav-item"><a href="index.html"><span>Home</span><span class="nav-count">1</span></a></li>
-        <li class="nav-item"><a href="projects.html" class="active"><span>Projects</span><span class="nav-count">9</span></a></li>
+        <li class="nav-item"><a href="projects.html"><span>Projects</span><span class="nav-count">9</span></a></li>
         <li class="nav-item"><a href="achievements.html"><span>Achievements</span><span class="nav-count">3</span></a></li>
-        <li class="nav-item"><a href="certificates.html"><span>Certificates</span><span class="nav-count">0</span></a></li>
+        <li class="nav-item"><a href="certificates.html" class="active"><span>Certificates</span><span class="nav-count">0</span></a></li>
         <li class="nav-item"><a href="resume.pdf" target="_blank"><span>Resume</span><span class="nav-badge">CV</span></a></li>
       </ul>
     </div>
@@ -402,184 +396,108 @@
 
   <script>
     // ─────────────────────────────────────────────
-    // DATA PROYEK — urutan tampilan = urutan di array ini
-    // (terbaru → terlama; proyek berjalan "Present" di paling atas)
-    // href   : halaman detail proyek (seluruh kartu bisa diklik)
-    // role / period : opsional, tampil di bawah judul
-    // image  : opsional, path screenshot, mis. 'image/medflow.png'
-    // hue    : warna thumbnail (0–360), dipakai bila tidak ada image
+    // DATA SERTIFIKAT — tambahkan di array ini (urutan otomatis dari terbaru)
+    // type         : 'certification' (sertifikasi resmi) | 'certificate' (kursus/pelatihan)
+    // issued       : 'YYYY-MM'
+    // credentialId : opsional
+    // url          : opsional, tautan kredensial / file sertifikat (membuka tab baru)
+    // image        : opsional, gambar sertifikat, mis. 'image/certs/aws.png'
+    // hue          : warna thumbnail bila tidak ada image (0–360)
     // ─────────────────────────────────────────────
-    const projects = [
-      {
-        title: 'SIGAP-Desa',
-        href: 'sigap-desa.html',
-        role: 'Full-Stack Developer',
-        period: 'Aug 2026 – Present',
-        hue: 100, image: '', award: '',
-        desc: {
-          en: 'Generative adaptive village service information system. Non-technical village staff can create new service features themselves, so new services launch without waiting for IT-team sprints.',
-          id: 'Sistem informasi layanan desa yang generatif dan adaptif. Staf desa non-teknis dapat membuat fitur layanan baru sendiri, sehingga layanan baru bisa diluncurkan tanpa menunggu sprint tim IT.'
-        },
-        tags: ['Full-Stack', 'Generative Features', 'Village Services']
-      },
-      {
-        title: 'Jason Jewelry',
-        href: 'jasonjewelry.html',
-        role: 'Frontend Developer',
-        period: 'Jun 2026 – Present',
-        hue: 42, image: '', award: '',
-        desc: {
-          en: 'Jewelry store management system. Admin CRUD modules for products and trays, a responsive multi-section customer storefront, and a login flow built with the backend developer on a Go/Echo REST API.',
-          id: 'Sistem manajemen toko perhiasan. Modul CRUD admin untuk produk dan baki, storefront pelanggan multi-seksi yang responsif, serta alur login yang dikerjakan bersama backend developer dengan REST API Go/Echo.'
-        },
-        tags: ['Next.js', 'Go', 'Echo', 'REST API']
-      },
-      {
-        title: 'TobaNiaga',
-        href: 'tobaniaga.html',
-        role: 'Full-Stack Developer',
-        period: 'Jun 2026 – Present',
-        hue: 18, image: '', award: '',
-        desc: {
-          en: 'Multi-vendor e-commerce for local SMEs with four roles (customer, sales, courier, admin), Midtrans checkout, and an order fulfillment flow with a courier job pool and courier fund withdrawal.',
-          id: 'E-commerce multi-vendor untuk UMKM lokal dengan empat peran (pelanggan, sales, kurir, admin), checkout Midtrans, serta alur pemenuhan pesanan dengan job pool kurir dan penarikan dana kurir.'
-        },
-        tags: ['Laravel', 'Alpine.js', 'Tailwind CSS', 'Midtrans']
-      },
-      {
-        title: 'ALIN',
-        href: 'alin.html',
-        role: 'Full-Stack Developer',
-        period: 'Jan 2026 – Aug 2026',
-        hue: 222, image: '', award: '',
-        desc: {
-          en: 'Linear algebra learning platform. A lecturer portal (quizzes, bulk question import, student management, results) and a placement test in the Flutter app, with a consistent blue-gradient design system, hosted on AWS EC2.',
-          id: 'Platform pembelajaran aljabar linear. Portal dosen (kuis, impor soal massal, manajemen mahasiswa, hasil kuis) dan placement test di aplikasi Flutter, dengan design system gradasi biru yang konsisten, di-host di AWS EC2.'
-        },
-        tags: ['Laravel', 'Flutter', 'AWS EC2']
-      },
-      {
-        title: 'MedFlow',
-        href: 'medflow.html',
-        role: 'Full-Stack Developer',
-        period: 'Apr 2026 – Jun 2026',
-        hue: 195, image: '',
-        award: '🏆 2nd Place · MCC 2026',
-        desc: {
-          en: "Real-time angkot tracking app for Medan's public transport. Built the core tracking feature with live driver markers on the map and trip lifecycle management, deployed on AWS App Runner with an RDS database.",
-          id: 'Aplikasi pelacak angkot real-time untuk transportasi umum Medan. Membangun fitur inti pelacakan dengan marker pengemudi langsung di peta dan manajemen siklus perjalanan, di-deploy di AWS App Runner dengan database RDS.'
-        },
-        tags: ['Laravel', 'Flutter', 'AWS App Runner', 'AWS RDS']
-      },
-      {
-        title: 'SI-DOBAT',
-        href: 'sidobat.html',
-        role: 'Backend Developer',
-        period: 'Jan 2026 – Jun 2026',
-        hue: 150, image: '', award: '',
-        desc: {
-          en: 'Pharma logistics platform. Laravel microservices with event-driven data synchronization using snapshot tables, deployed with Docker and Nginx on a VPS, plus Midtrans webhooks and email notifications.',
-          id: 'Platform logistik farmasi. Microservices Laravel dengan sinkronisasi data berbasis event menggunakan snapshot table, di-deploy dengan Docker dan Nginx di VPS, plus webhook Midtrans dan notifikasi email.'
-        },
-        tags: ['Laravel', 'Microservices', 'Docker', 'Nginx', 'Midtrans']
-      },
-      {
-        title: 'CampusTalk',
-        href: 'campustalk.html',
-        role: 'Mobile Developer',
-        period: 'Sep 2025 – Dec 2025',
-        hue: 262, image: '', award: '',
-        desc: {
-          en: 'Internal mobile app for information sharing and conversations across the Institut Teknologi Del community, open to students, lecturers, and campus staff.',
-          id: 'Aplikasi mobile internal untuk berbagi informasi dan berdiskusi di komunitas Institut Teknologi Del, terbuka untuk mahasiswa, dosen, dan staf kampus.'
-        },
-        tags: ['Mobile App', 'Campus Community']
-      },
-      {
-        title: 'SiFace',
-        href: 'siface.html',
-        role: '',
-        period: 'Sep 2025 – Oct 2025',
-        hue: 175, image: '', award: '',
-        desc: {
-          en: 'IoT project for face registration and detection, integrated with a web application.',
-          id: 'Proyek IoT untuk registrasi dan deteksi wajah yang terintegrasi dengan aplikasi web.'
-        },
-        tags: ['IoT', 'Face Detection', 'Web App']
-      },
-      {
-        title: 'Harmonis Plastik',
-        href: 'harmonisplastik.html',
-        role: '',
-        period: 'Jan 2025 – Jun 2025',
-        hue: 340, image: '', award: '',
-        desc: {
-          en: 'E-commerce website for a plastic goods store.',
-          id: 'Website e-commerce untuk toko plastik.'
-        },
-        tags: ['E-Commerce', 'Web App']
-      }
-      // Contoh template proyek baru (sisipkan sesuai urutan waktu):
+    const certificates = [
       // {
-      //   title: 'Nama Proyek', href: 'nama-proyek.html', role: 'Full-Stack Developer',
-      //   period: 'Jan 2026 – Mar 2026', hue: 270, image: '', award: '',
-      //   desc: { en: 'English description.', id: 'Deskripsi bahasa Indonesia.' },
-      //   tags: ['Laravel', 'MySQL']
+      //   type: 'certification',
+      //   title: 'Nama Sertifikat',
+      //   issuer: 'Penerbit',
+      //   issued: '2026-05',
+      //   credentialId: 'ABC-123',
+      //   url: 'https://…',
+      //   image: '',
+      //   skills: ['Cloud', 'AWS'],
+      //   hue: 210
       // },
     ];
 
-    // Bulan & kata dalam bahasa Indonesia untuk periode
-    const periodId = t => t.replace('Present', 'Sekarang').replace('Aug', 'Agu').replace('Oct', 'Okt').replace('Dec', 'Des');
+    const groups = [
+      { key: 'certification', en: 'Certifications',         id: 'Sertifikasi' },
+      { key: 'certificate',   en: 'Certificates & Training', id: 'Sertifikat & Pelatihan' }
+    ];
 
-    function projectHTML(p) {
-      const tag = p.href ? 'a' : 'div';
-      const hrefAttr = p.href ? ` href="${p.href}"` : '';
-      const metaEn = [p.role, p.period].filter(Boolean).join(' · ');
-      const metaId = [p.role, periodId(p.period)].filter(Boolean).join(' · ');
+    const extIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>';
+
+    function fmtDate(issued, lang) {
+      const [y, m] = issued.split('-').map(Number);
+      return new Intl.DateTimeFormat(lang, { month: 'short', year: 'numeric' }).format(new Date(y, (m || 1) - 1, 1));
+    }
+
+    function certHTML(c) {
+      const tag = c.url ? 'a' : 'div';
+      const linkAttr = c.url ? ` href="${c.url}" target="_blank" rel="noopener"` : '';
+      const hue = c.hue ?? 210;
       return `
-        <${tag} class="proj"${hrefAttr}>
-          <div class="proj-thumb" style="--h:${p.hue}">
-            ${p.image ? `<img src="${p.image}" alt="${p.title}" loading="lazy" onerror="this.remove()">` : ''}
-            <div class="thumb-bar"><i></i><i></i><i></i></div>
-            <div class="thumb-title">${p.title}</div>
+        <${tag} class="cert"${linkAttr}>
+          <div class="cert-thumb" style="--h:${hue}">
+            ${c.image ? `<img src="${c.image}" alt="${c.title}" loading="lazy" onerror="this.remove()">` : ''}
+            <div class="cert-thumb-text">${c.issuer}</div>
           </div>
-          <div class="proj-body">
-            <div class="proj-title">${p.title}${p.award ? `<span class="award-pill">${p.award}</span>` : ''}</div>
-            ${metaEn ? `<div class="proj-meta"><span data-lang="en">${metaEn}</span><span data-lang="id">${metaId}</span></div>` : ''}
-            <p class="proj-desc">
-              <span data-lang="en">${p.desc.en}</span>
-              <span data-lang="id">${p.desc.id}</span>
-            </p>
-            <div class="proj-tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+          <div class="cert-body">
+            <div class="cert-title">${c.title}${c.url ? extIcon : ''}</div>
+            <div class="cert-meta">
+              ${c.issuer}
+              <span data-lang="en">· ${fmtDate(c.issued, 'en')}</span>
+              <span data-lang="id">· ${fmtDate(c.issued, 'id')}</span>
+            </div>
+            ${c.credentialId ? `<div class="cert-id">ID: ${c.credentialId}</div>` : ''}
+            ${c.skills && c.skills.length ? `<div class="cert-tags">${c.skills.map(t => `<span class="tag">${t}</span>`).join('')}</div>` : ''}
           </div>
         </${tag}>`;
     }
 
     function render(query = '') {
+      const list = document.getElementById('certList');
+      const count = document.getElementById('resultCount');
+      const box = document.getElementById('searchBox');
+
+      // Belum ada data: tampilkan keadaan kosong
+      if (!certificates.length) {
+        box.hidden = true;
+        count.innerHTML = '';
+        list.innerHTML = `
+          <div class="empty-card">
+            <div class="big">🎓</div>
+            <span data-lang="en">Certificates and certifications will be added here soon.</span>
+            <span data-lang="id">Sertifikat dan sertifikasi akan segera ditambahkan di sini.</span>
+          </div>`;
+        return;
+      }
+
       const q = query.trim().toLowerCase();
-      const list = projects.filter(p => {
+      const found = certificates.filter(c => {
         if (!q) return true;
-        const hay = [p.title, p.role, p.period, p.desc.en, p.desc.id, p.award, ...p.tags].join(' ').toLowerCase();
-        return hay.includes(q);
+        return [c.title, c.issuer, c.credentialId || '', c.issued, ...(c.skills || [])].join(' ').toLowerCase().includes(q);
       });
 
-      document.getElementById('resultCount').innerHTML =
-        `<span data-lang="en">${list.length} of ${projects.length} projects</span>` +
-        `<span data-lang="id">${list.length} dari ${projects.length} proyek</span>`;
+      count.innerHTML =
+        `<span data-lang="en">${found.length} of ${certificates.length} certificates</span>` +
+        `<span data-lang="id">${found.length} dari ${certificates.length} sertifikat</span>`;
 
       let html = '';
-      if (list.length) {
-        html = `
+      groups.forEach(g => {
+        const items = found.filter(c => c.type === g.key).sort((a, b) => b.issued.localeCompare(a.issued));
+        if (!items.length) return;
+        html += `
           <section class="group">
-            <div class="group-label"><span data-lang="en">All Projects</span><span data-lang="id">Semua Proyek</span></div>
-            <div class="proj-list">${list.map(projectHTML).join('')}</div>
+            <div class="group-label"><span data-lang="en">${g.en}</span><span data-lang="id">${g.id}</span></div>
+            <div class="cert-list">${items.map(certHTML).join('')}</div>
           </section>`;
-      } else {
+      });
+
+      if (!found.length) {
         html = `<p class="empty">
-          <span data-lang="en">No projects match your search.</span>
-          <span data-lang="id">Tidak ada proyek yang cocok dengan pencarian Anda.</span></p>`;
+          <span data-lang="en">No certificates match your search.</span>
+          <span data-lang="id">Tidak ada sertifikat yang cocok dengan pencarian Anda.</span></p>`;
       }
-      document.getElementById('projectList').innerHTML = html;
+      list.innerHTML = html;
     }
 
     // SEARCH
@@ -615,7 +533,7 @@
     function applyLang(l) {
       document.documentElement.lang = l;
       document.querySelectorAll('#langLabel, #langLabelMobile').forEach(el => el.textContent = l.toUpperCase());
-      searchInput.placeholder = l === 'id' ? 'Cari proyek…' : 'Search projects…';
+      searchInput.placeholder = l === 'id' ? 'Cari sertifikat…' : 'Search certificates…';
       localStorage.setItem('lang', l);
     }
     applyLang(localStorage.getItem('lang') || 'en');

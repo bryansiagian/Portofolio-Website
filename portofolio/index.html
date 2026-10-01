@@ -338,13 +338,19 @@
           <li class="nav-item">
             <a href="projects.html">
               <span data-lang="en">Projects</span><span data-lang="id">Proyek</span>
-              <span class="nav-count">6</span>
+              <span class="nav-count">9</span>
             </a>
           </li>
           <li class="nav-item">
             <a href="achievements.html">
               <span data-lang="en">Achievements</span><span data-lang="id">Capaian</span>
-              <span class="nav-count">4</span>
+              <span class="nav-count">3</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="certificates.html">
+              <span data-lang="en">Certificates</span><span data-lang="id">Sertifikat</span>
+              <span class="nav-count">0</span>
             </a>
           </li>
           <li class="nav-item">
@@ -612,8 +618,9 @@
       </div>
       <ul class="nav-list">
         <li class="nav-item"><a href="index.html" class="active"><span>Home</span><span class="nav-count">1</span></a></li>
-        <li class="nav-item"><a href="projects.html"><span>Projects</span><span class="nav-count">6</span></a></li>
-        <li class="nav-item"><a href="achievements.html"><span>Achievements</span><span class="nav-count">4</span></a></li>
+        <li class="nav-item"><a href="projects.html"><span>Projects</span><span class="nav-count">9</span></a></li>
+        <li class="nav-item"><a href="achievements.html"><span>Achievements</span><span class="nav-count">3</span></a></li>
+        <li class="nav-item"><a href="certificates.html"><span>Certificates</span><span class="nav-count">0</span></a></li>
         <li class="nav-item"><a href="resume.pdf" target="_blank"><span>Resume</span><span class="nav-badge">CV</span></a></li>
       </ul>
     </div>
@@ -655,6 +662,24 @@
     applyLang(localStorage.getItem('lang') || 'en');
     [document.getElementById('langBtn'), document.getElementById('langBtnMobile')].forEach(btn => btn && btn.addEventListener('click', () => {
       applyLang(document.documentElement.lang === 'en' ? 'id' : 'en');
+    }));
+
+    // RESUME GUARD
+    // Bila file PDF (resume) belum ada, tampilkan halaman error khusus (404.html)
+    // alih-alih "Cannot GET ..." bawaan server.
+    document.querySelectorAll('a[href$=".pdf"]').forEach(a => a.addEventListener('click', async e => {
+      e.preventDefault();
+      const url = new URL(a.getAttribute('href'), location.href);
+      const w = window.open('', '_blank');
+      if (!w) { location.href = url.href; return; }
+      try {
+        const r = await fetch(url, { method: 'HEAD' });
+        w.location.href = r.ok
+          ? url.href
+          : new URL('404.html?path=' + encodeURIComponent(url.pathname), location.href).href;
+      } catch (err) {
+        w.location.href = url.href;
+      }
     }));
 
     // MOBILE DRAWER

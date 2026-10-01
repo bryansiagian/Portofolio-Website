@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Projects — Bryan Siagian</title>
+  <title>Achievements — Bryan Siagian</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -129,7 +129,6 @@
     }
     .main-inner { max-width: 760px; }
 
-    /* ── PAGE HEADER ── */
     .page-title {
       font-size: 1.5rem; font-weight: 600;
       letter-spacing: -.02em; color: var(--text);
@@ -162,79 +161,60 @@
       background: var(--bg); border: 1px solid var(--border);
       border-radius: 6px; padding: 1px 8px;
     }
-
     .result-count { font-size: 13px; color: var(--text-3); margin: 1.25rem 0 1.5rem; }
 
-    /* ── GROUP LABEL ── */
+    /* ── GROUP ── */
     .group-label {
       font-size: 12px; font-weight: 500; letter-spacing: .12em;
       text-transform: uppercase; color: var(--text-3);
-      margin-bottom: 1.25rem;
+      margin-bottom: 1rem;
     }
     .group + .group { margin-top: 2.5rem; }
 
-    /* ── PROJECT ROW ── */
-    .proj-list { display: flex; flex-direction: column; gap: 1.75rem; }
-    .proj {
-      display: flex; gap: 1.5rem; align-items: flex-start;
-      color: inherit; text-decoration: none;
-    }
-    .proj-thumb {
-      position: relative;
-      width: 230px; flex-shrink: 0;
-      aspect-ratio: 8 / 5;
-      border-radius: 14px;
+    /* ── ACHIEVEMENT ROW ── */
+    .ach-list { display: flex; flex-direction: column; gap: .875rem; }
+    .ach {
+      display: flex; gap: 1.1rem; align-items: flex-start;
+      padding: 1.1rem 1.25rem;
       border: 1px solid var(--border);
-      overflow: hidden;
-      background: linear-gradient(135deg, hsl(var(--h) 70% 96%), hsl(var(--h) 60% 88%));
-      display: flex; flex-direction: column;
-      transition: transform .2s ease;
+      border-radius: 14px;
+      color: inherit; text-decoration: none;
+      transition: background .15s, transform .2s ease;
     }
-    [data-theme="dark"] .proj-thumb {
-      background: linear-gradient(135deg, hsl(var(--h) 30% 16%), hsl(var(--h) 30% 11%));
+    a.ach:hover { background: var(--bg-subtle); transform: translateY(-2px); }
+    .ach-icon {
+      width: 48px; height: 48px; flex-shrink: 0;
+      border-radius: 12px;
+      background: var(--bg-subtle); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
     }
-    a.proj:hover .proj-thumb { transform: translateY(-2px); }
-    .proj-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-    .thumb-bar {
-      display: flex; gap: 4px; padding: 9px 11px;
+    a.ach:hover .ach-icon { background: var(--bg); }
+    .ach-body { flex: 1; min-width: 0; }
+    .ach-top {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
     }
-    .thumb-bar i {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: hsl(var(--h) 30% 55% / .45);
+    .ach-title {
+      font-size: 1.0625rem; font-weight: 500; letter-spacing: -.01em;
+      color: var(--text); line-height: 1.4;
     }
-    .thumb-title {
-      flex: 1; display: flex; align-items: center; justify-content: center;
-      text-align: center; padding: 0 1rem 1rem;
-      font-size: 1.15rem; font-weight: 600; letter-spacing: -.02em;
-      color: hsl(var(--h) 45% 25%);
-    }
-    [data-theme="dark"] .thumb-title { color: hsl(var(--h) 60% 80%); }
-    .proj-body { flex: 1; min-width: 0; }
-    a.proj:hover .proj-title { text-decoration: underline; text-decoration-color: var(--text-3); text-underline-offset: 4px; }
-    .proj-title {
-      font-size: 1.25rem; font-weight: 500; letter-spacing: -.01em;
-      color: var(--text); line-height: 1.35;
-      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-      margin-bottom: .35rem;
-    }
-    .award-pill {
-      font-size: 11px; font-weight: 500;
-      color: #92400e;
-      background: #fef3c7; border: 1px solid #fde68a;
-      padding: 1px 8px; border-radius: 100px; white-space: nowrap;
-      letter-spacing: 0;
-    }
-    [data-theme="dark"] .award-pill {
-      background: rgba(146,64,14,.18); border-color: rgba(180,83,9,.35); color: #fbbf24;
-    }
-    .proj-meta { font-size: 13px; color: var(--text-3); margin-bottom: .6rem; }
-    .proj-desc { font-size: 14.5px; color: var(--text-2); line-height: 1.7; margin-bottom: .75rem; }
-    .proj-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: .75rem; }
+    .ach-year { font-size: 12.5px; color: var(--text-3); flex-shrink: 0; }
+    .ach-sub { font-size: 14px; color: var(--text-2); margin-top: 2px; line-height: 1.6; }
+    .ach-foot { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin-top: .65rem; }
     .tag {
       font-size: 12px; color: var(--text-2);
       background: var(--bg-subtle); border: 1px solid var(--border);
       padding: 2px 10px; border-radius: 100px;
     }
+    a.ach:hover .tag { background: var(--bg); }
+    .ach-link {
+      margin-left: auto;
+      font-size: 13.5px; color: var(--text-2);
+      display: inline-flex; align-items: center; gap: 5px;
+    }
+    a.ach:hover .ach-link { color: var(--text); }
+    .ach-link svg { width: 12px; height: 12px; }
+
     .empty { font-size: 14.5px; color: var(--text-3); padding: 2rem 0; }
 
     /* ── MOBILE ── */
@@ -268,8 +248,8 @@
       .main { padding: 4.5rem 1.25rem 3rem; }
       .main-inner { max-width: 100%; }
       .mobile-topbar { display: flex; }
-      .proj { flex-direction: column; gap: 1rem; }
-      .proj-thumb { width: 100%; }
+      .ach { padding: 1rem; gap: .875rem; }
+      .ach-top { flex-direction: column; gap: 0; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -301,13 +281,13 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="projects.html" class="active">
+            <a href="projects.html">
               <span data-lang="en">Projects</span><span data-lang="id">Proyek</span>
               <span class="nav-count">9</span>
             </a>
           </li>
           <li class="nav-item">
-            <a href="achievements.html">
+            <a href="achievements.html" class="active">
               <span data-lang="en">Achievements</span><span data-lang="id">Capaian</span>
               <span class="nav-count">3</span>
             </a>
@@ -344,22 +324,22 @@
       <div class="main-inner">
 
         <h1 class="page-title">
-          <span data-lang="en">Projects</span>
-          <span data-lang="id">Proyek</span>
+          <span data-lang="en">Achievements</span>
+          <span data-lang="id">Capaian</span>
         </h1>
         <p class="page-sub">
-          <span data-lang="en">Web, mobile, and IoT projects I've built, from public transport tracking to pharmacy logistics, e-commerce, and village services.</span>
-          <span data-lang="id">Proyek web, mobile, dan IoT yang pernah saya bangun, dari pelacakan transportasi umum hingga logistik farmasi, e-commerce, dan layanan desa.</span>
+          <span data-lang="en">Competitions I've placed in and recognitions I've earned along the way.</span>
+          <span data-lang="id">Kompetisi yang pernah saya menangkan dan penghargaan yang saya raih selama perjalanan ini.</span>
         </p>
 
         <label class="search">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-          <input type="search" id="searchInput" placeholder="Search projects…" autocomplete="off" />
+          <input type="search" id="searchInput" placeholder="Search achievements…" autocomplete="off" />
           <span class="kbd">/</span>
         </label>
 
         <div class="result-count" id="resultCount"></div>
-        <div id="projectList"></div>
+        <div id="achList"></div>
 
       </div>
     </main>
@@ -392,8 +372,8 @@
       </div>
       <ul class="nav-list">
         <li class="nav-item"><a href="index.html"><span>Home</span><span class="nav-count">1</span></a></li>
-        <li class="nav-item"><a href="projects.html" class="active"><span>Projects</span><span class="nav-count">9</span></a></li>
-        <li class="nav-item"><a href="achievements.html"><span>Achievements</span><span class="nav-count">3</span></a></li>
+        <li class="nav-item"><a href="projects.html"><span>Projects</span><span class="nav-count">9</span></a></li>
+        <li class="nav-item"><a href="achievements.html" class="active"><span>Achievements</span><span class="nav-count">3</span></a></li>
         <li class="nav-item"><a href="certificates.html"><span>Certificates</span><span class="nav-count">0</span></a></li>
         <li class="nav-item"><a href="resume.pdf" target="_blank"><span>Resume</span><span class="nav-badge">CV</span></a></li>
       </ul>
@@ -402,184 +382,128 @@
 
   <script>
     // ─────────────────────────────────────────────
-    // DATA PROYEK — urutan tampilan = urutan di array ini
-    // (terbaru → terlama; proyek berjalan "Present" di paling atas)
-    // href   : halaman detail proyek (seluruh kartu bisa diklik)
-    // role / period : opsional, tampil di bawah judul
-    // image  : opsional, path screenshot, mis. 'image/medflow.png'
-    // hue    : warna thumbnail (0–360), dipakai bila tidak ada image
+    // DATA CAPAIAN — tambah capaian baru di sini
+    // type : 'competition' | 'milestone'
+    // year : (opsional) tahun, kosongkan '' bila tidak ada
+    // href : (opsional) halaman proyek terkait
     // ─────────────────────────────────────────────
-    const projects = [
+    const achievements = [
       {
-        title: 'SIGAP-Desa',
-        href: 'sigap-desa.html',
-        role: 'Full-Stack Developer',
-        period: 'Aug 2026 – Present',
-        hue: 100, image: '', award: '',
-        desc: {
-          en: 'Generative adaptive village service information system. Non-technical village staff can create new service features themselves, so new services launch without waiting for IT-team sprints.',
-          id: 'Sistem informasi layanan desa yang generatif dan adaptif. Staf desa non-teknis dapat membuat fitur layanan baru sendiri, sehingga layanan baru bisa diluncurkan tanpa menunggu sprint tim IT.'
+        type: 'competition',
+        icon: '🥉',
+        year: 2026,
+        title: {
+          en: '3rd Place — Business and Innovation Plan Competition, Marpesta QRIS 2026',
+          id: 'Juara 3 — Business and Innovation Plan Competition, Marpesta QRIS 2026'
         },
-        tags: ['Full-Stack', 'Generative Features', 'Village Services']
+        sub: {
+          en: 'TaniCerdas AI — rice and corn disease detection with QRIS-based farm input recommendations · Bank Indonesia Pematangsiantar Office',
+          id: 'TaniCerdas AI — deteksi penyakit padi dan jagung dengan rekomendasi sarana tani berbasis QRIS · Bank Indonesia Kantor Perwakilan Pematangsiantar'
+        },
+        href: '',
+        tags: ['AI', 'Disease Detection', 'QRIS']
       },
       {
-        title: 'Jason Jewelry',
-        href: 'jasonjewelry.html',
-        role: 'Frontend Developer',
-        period: 'Jun 2026 – Present',
-        hue: 42, image: '', award: '',
-        desc: {
-          en: 'Jewelry store management system. Admin CRUD modules for products and trays, a responsive multi-section customer storefront, and a login flow built with the backend developer on a Go/Echo REST API.',
-          id: 'Sistem manajemen toko perhiasan. Modul CRUD admin untuk produk dan baki, storefront pelanggan multi-seksi yang responsif, serta alur login yang dikerjakan bersama backend developer dengan REST API Go/Echo.'
+        type: 'competition',
+        icon: '🏆',
+        year: 2026,
+        title: {
+          en: '2nd Place — Medan Coding Competition 2026',
+          id: 'Juara 2 — Medan Coding Competition 2026'
         },
-        tags: ['Next.js', 'Go', 'Echo', 'REST API']
-      },
-      {
-        title: 'TobaNiaga',
-        href: 'tobaniaga.html',
-        role: 'Full-Stack Developer',
-        period: 'Jun 2026 – Present',
-        hue: 18, image: '', award: '',
-        desc: {
-          en: 'Multi-vendor e-commerce for local SMEs with four roles (customer, sales, courier, admin), Midtrans checkout, and an order fulfillment flow with a courier job pool and courier fund withdrawal.',
-          id: 'E-commerce multi-vendor untuk UMKM lokal dengan empat peran (pelanggan, sales, kurir, admin), checkout Midtrans, serta alur pemenuhan pesanan dengan job pool kurir dan penarikan dana kurir.'
+        sub: {
+          en: 'MedFlow · Smart City Transportation',
+          id: 'MedFlow · Transportasi Smart City'
         },
-        tags: ['Laravel', 'Alpine.js', 'Tailwind CSS', 'Midtrans']
-      },
-      {
-        title: 'ALIN',
-        href: 'alin.html',
-        role: 'Full-Stack Developer',
-        period: 'Jan 2026 – Aug 2026',
-        hue: 222, image: '', award: '',
-        desc: {
-          en: 'Linear algebra learning platform. A lecturer portal (quizzes, bulk question import, student management, results) and a placement test in the Flutter app, with a consistent blue-gradient design system, hosted on AWS EC2.',
-          id: 'Platform pembelajaran aljabar linear. Portal dosen (kuis, impor soal massal, manajemen mahasiswa, hasil kuis) dan placement test di aplikasi Flutter, dengan design system gradasi biru yang konsisten, di-host di AWS EC2.'
-        },
-        tags: ['Laravel', 'Flutter', 'AWS EC2']
-      },
-      {
-        title: 'MedFlow',
         href: 'medflow.html',
-        role: 'Full-Stack Developer',
-        period: 'Apr 2026 – Jun 2026',
-        hue: 195, image: '',
-        award: '🏆 2nd Place · MCC 2026',
-        desc: {
-          en: "Real-time angkot tracking app for Medan's public transport. Built the core tracking feature with live driver markers on the map and trip lifecycle management, deployed on AWS App Runner with an RDS database.",
-          id: 'Aplikasi pelacak angkot real-time untuk transportasi umum Medan. Membangun fitur inti pelacakan dengan marker pengemudi langsung di peta dan manajemen siklus perjalanan, di-deploy di AWS App Runner dengan database RDS.'
-        },
-        tags: ['Laravel', 'Flutter', 'AWS App Runner', 'AWS RDS']
+        tags: ['Laravel', 'Flutter', 'AWS App Runner']
       },
       {
-        title: 'SI-DOBAT',
-        href: 'sidobat.html',
-        role: 'Backend Developer',
-        period: 'Jan 2026 – Jun 2026',
-        hue: 150, image: '', award: '',
-        desc: {
-          en: 'Pharma logistics platform. Laravel microservices with event-driven data synchronization using snapshot tables, deployed with Docker and Nginx on a VPS, plus Midtrans webhooks and email notifications.',
-          id: 'Platform logistik farmasi. Microservices Laravel dengan sinkronisasi data berbasis event menggunakan snapshot table, di-deploy dengan Docker dan Nginx di VPS, plus webhook Midtrans dan notifikasi email.'
+        type: 'competition',
+        icon: '🏅',
+        year: 2025,
+        title: {
+          en: 'Top 30 — National Batak Cultural Website Competition',
+          id: 'Top 30 — Kompetisi Website Budaya Batak Nasional'
         },
-        tags: ['Laravel', 'Microservices', 'Docker', 'Nginx', 'Midtrans']
-      },
-      {
-        title: 'CampusTalk',
-        href: 'campustalk.html',
-        role: 'Mobile Developer',
-        period: 'Sep 2025 – Dec 2025',
-        hue: 262, image: '', award: '',
-        desc: {
-          en: 'Internal mobile app for information sharing and conversations across the Institut Teknologi Del community, open to students, lecturers, and campus staff.',
-          id: 'Aplikasi mobile internal untuk berbagi informasi dan berdiskusi di komunitas Institut Teknologi Del, terbuka untuk mahasiswa, dosen, dan staf kampus.'
+        sub: {
+          en: 'BoanAksara · Cultural Heritage',
+          id: 'BoanAksara · Warisan Budaya'
         },
-        tags: ['Mobile App', 'Campus Community']
-      },
-      {
-        title: 'SiFace',
-        href: 'siface.html',
-        role: '',
-        period: 'Sep 2025 – Oct 2025',
-        hue: 175, image: '', award: '',
-        desc: {
-          en: 'IoT project for face registration and detection, integrated with a web application.',
-          id: 'Proyek IoT untuk registrasi dan deteksi wajah yang terintegrasi dengan aplikasi web.'
-        },
-        tags: ['IoT', 'Face Detection', 'Web App']
-      },
-      {
-        title: 'Harmonis Plastik',
-        href: 'harmonisplastik.html',
-        role: '',
-        period: 'Jan 2025 – Jun 2025',
-        hue: 340, image: '', award: '',
-        desc: {
-          en: 'E-commerce website for a plastic goods store.',
-          id: 'Website e-commerce untuk toko plastik.'
-        },
-        tags: ['E-Commerce', 'Web App']
+        href: 'boanaksara.html',
+        tags: ['HTML', 'CSS', 'JavaScript']
       }
-      // Contoh template proyek baru (sisipkan sesuai urutan waktu):
+      // Contoh template capaian baru (urutkan dari terbaru ke terlama):
       // {
-      //   title: 'Nama Proyek', href: 'nama-proyek.html', role: 'Full-Stack Developer',
-      //   period: 'Jan 2026 – Mar 2026', hue: 270, image: '', award: '',
-      //   desc: { en: 'English description.', id: 'Deskripsi bahasa Indonesia.' },
-      //   tags: ['Laravel', 'MySQL']
+      //   type: 'competition', icon: '🥇', year: 2026,
+      //   title: { en: 'English title', id: 'Judul Indonesia' },
+      //   sub:   { en: 'Short context', id: 'Konteks singkat' },
+      //   href: '', tags: ['Laravel']
       // },
     ];
 
-    // Bulan & kata dalam bahasa Indonesia untuk periode
-    const periodId = t => t.replace('Present', 'Sekarang').replace('Aug', 'Agu').replace('Oct', 'Okt').replace('Dec', 'Des');
+    const groups = [
+      { key: 'competition', en: 'Competitions', id: 'Kompetisi' },
+      { key: 'milestone',   en: 'Milestones',   id: 'Pencapaian' }
+    ];
 
-    function projectHTML(p) {
-      const tag = p.href ? 'a' : 'div';
-      const hrefAttr = p.href ? ` href="${p.href}"` : '';
-      const metaEn = [p.role, p.period].filter(Boolean).join(' · ');
-      const metaId = [p.role, periodId(p.period)].filter(Boolean).join(' · ');
+    const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>';
+
+    function achHTML(a) {
+      const tag = a.href ? 'a' : 'div';
+      const hrefAttr = a.href ? ` href="${a.href}"` : '';
       return `
-        <${tag} class="proj"${hrefAttr}>
-          <div class="proj-thumb" style="--h:${p.hue}">
-            ${p.image ? `<img src="${p.image}" alt="${p.title}" loading="lazy" onerror="this.remove()">` : ''}
-            <div class="thumb-bar"><i></i><i></i><i></i></div>
-            <div class="thumb-title">${p.title}</div>
-          </div>
-          <div class="proj-body">
-            <div class="proj-title">${p.title}${p.award ? `<span class="award-pill">${p.award}</span>` : ''}</div>
-            ${metaEn ? `<div class="proj-meta"><span data-lang="en">${metaEn}</span><span data-lang="id">${metaId}</span></div>` : ''}
-            <p class="proj-desc">
-              <span data-lang="en">${p.desc.en}</span>
-              <span data-lang="id">${p.desc.id}</span>
-            </p>
-            <div class="proj-tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+        <${tag} class="ach"${hrefAttr}>
+          <div class="ach-icon">${a.icon}</div>
+          <div class="ach-body">
+            <div class="ach-top">
+              <div class="ach-title">
+                <span data-lang="en">${a.title.en}</span>
+                <span data-lang="id">${a.title.id}</span>
+              </div>
+              ${a.year ? `<span class="ach-year">${a.year}</span>` : ''}
+            </div>
+            <div class="ach-sub">
+              <span data-lang="en">${a.sub.en}</span>
+              <span data-lang="id">${a.sub.id}</span>
+            </div>
+            <div class="ach-foot">
+              ${a.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+              ${a.href ? `<span class="ach-link"><span data-lang="en">View Project</span><span data-lang="id">Lihat Proyek</span>${arrow}</span>` : ''}
+            </div>
           </div>
         </${tag}>`;
     }
 
     function render(query = '') {
       const q = query.trim().toLowerCase();
-      const list = projects.filter(p => {
+      const list = achievements.filter(a => {
         if (!q) return true;
-        const hay = [p.title, p.role, p.period, p.desc.en, p.desc.id, p.award, ...p.tags].join(' ').toLowerCase();
+        const hay = [a.title.en, a.title.id, a.sub.en, a.sub.id, String(a.year), ...a.tags].join(' ').toLowerCase();
         return hay.includes(q);
       });
 
       document.getElementById('resultCount').innerHTML =
-        `<span data-lang="en">${list.length} of ${projects.length} projects</span>` +
-        `<span data-lang="id">${list.length} dari ${projects.length} proyek</span>`;
+        `<span data-lang="en">${list.length} of ${achievements.length} achievements</span>` +
+        `<span data-lang="id">${list.length} dari ${achievements.length} capaian</span>`;
 
       let html = '';
-      if (list.length) {
-        html = `
+      groups.forEach(g => {
+        const items = list.filter(a => a.type === g.key);
+        if (!items.length) return;
+        html += `
           <section class="group">
-            <div class="group-label"><span data-lang="en">All Projects</span><span data-lang="id">Semua Proyek</span></div>
-            <div class="proj-list">${list.map(projectHTML).join('')}</div>
+            <div class="group-label"><span data-lang="en">${g.en}</span><span data-lang="id">${g.id}</span></div>
+            <div class="ach-list">${items.map(achHTML).join('')}</div>
           </section>`;
-      } else {
+      });
+
+      if (!list.length) {
         html = `<p class="empty">
-          <span data-lang="en">No projects match your search.</span>
-          <span data-lang="id">Tidak ada proyek yang cocok dengan pencarian Anda.</span></p>`;
+          <span data-lang="en">No achievements match your search.</span>
+          <span data-lang="id">Tidak ada capaian yang cocok dengan pencarian Anda.</span></p>`;
       }
-      document.getElementById('projectList').innerHTML = html;
+      document.getElementById('achList').innerHTML = html;
     }
 
     // SEARCH
@@ -615,7 +539,7 @@
     function applyLang(l) {
       document.documentElement.lang = l;
       document.querySelectorAll('#langLabel, #langLabelMobile').forEach(el => el.textContent = l.toUpperCase());
-      searchInput.placeholder = l === 'id' ? 'Cari proyek…' : 'Search projects…';
+      searchInput.placeholder = l === 'id' ? 'Cari capaian…' : 'Search achievements…';
       localStorage.setItem('lang', l);
     }
     applyLang(localStorage.getItem('lang') || 'en');

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Page not found — Bryan Siagian</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #ffffff;
+      --bg-subtle: #f5f5f5;
+      --text:      #111111;
+      --text-2:    #555555;
+      --text-3:    #999999;
+      --border:    #e5e5e5;
+      --sidebar-w: 260px;
+    }
+    [data-theme="dark"] {
+      --bg:        #111111;
+      --bg-subtle: #1c1c1c;
+      --text:      #f0f0f0;
+      --text-2:    #aaaaaa;
+      --text-3:    #555555;
+      --border:    #2a2a2a;
+    }
+
+    html[lang="en"] [data-lang="id"] { display: none !important; }
+    html[lang="id"] [data-lang="en"] { display: none !important; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      transition: background .3s, color .3s;
+    }
+
+    /* ── LAYOUT ── */
+    .layout {
+      display: flex;
+      max-width: 1100px;
+      margin: 0 auto;
+      min-height: 100vh;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 2rem 1.25rem 1.5rem;
+      overflow-y: auto;
+    }
+    .sidebar-profile { margin-top: auto; margin-bottom: 1.5rem; text-align: center; }
+    .profile-avatar {
+      width: 128px; height: 128px;
+      border-radius: 50%;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      margin: 0 auto 1rem;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .profile-avatar-placeholder { font-size: 40px; color: var(--text-3); }
+    .profile-name {
+      font-size: 16px; font-weight: 600;
+      color: var(--text); line-height: 1.35;
+      margin-bottom: 3px;
+    }
+    .profile-role { font-size: 13.5px; color: var(--text-3); }
+
+    .sidebar-nav { flex: none; }
+    .nav-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+    .nav-item a {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .55rem .8rem;
+      border-radius: 8px;
+      font-size: 15px; font-weight: 400;
+      color: var(--text-2); text-decoration: none;
+      transition: background .15s, color .15s;
+    }
+    .nav-item a:hover { background: var(--bg-subtle); color: var(--text); }
+    .nav-count {
+      font-size: 12px; color: var(--text-3);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 1px 7px; min-width: 22px; text-align: center;
+    }
+    .nav-badge {
+      font-size: 11px; font-weight: 600;
+      color: var(--text-3); letter-spacing: .04em;
+      background: var(--bg-subtle); border: 1px solid var(--border);
+      border-radius: 5px; padding: 1px 6px;
+    }
+
+    .sidebar-footer {
+      margin-top: auto; padding-top: 1.5rem;
+      display: flex; align-items: center; justify-content: center; gap: .35rem;
+    }
+    .icon-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--text-3); padding: .375rem;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12.5px; font-weight: 600; letter-spacing: .05em;
+      transition: color .15s, background .15s;
+    }
+    .icon-btn:hover { color: var(--text); background: var(--bg-subtle); }
+    .icon-btn svg { width: 17px; height: 17px; }
+
+    /* ── MAIN CONTENT ── */
+    .main {
+      flex: 1;
+      min-width: 0;
+      padding: 3rem 3rem 4rem 3.5rem;
+      display: flex;
+    }
+    .main-inner {
+      max-width: 760px; width: 100%;
+      display: flex; flex-direction: column; justify-content: center;
+      min-height: calc(100vh - 7rem);
+    }
+
+    /* ── ERROR VIEW ── */
+    .err-code {
+      font-size: clamp(5rem, 13vw, 8.5rem);
+      font-weight: 600; letter-spacing: -.05em; line-height: 1;
+      color: var(--text-3); opacity: .35;
+      margin-bottom: 1rem;
+    }
+    .err-title {
+      font-size: 1.75rem; font-weight: 600;
+      letter-spacing: -.02em; color: var(--text);
+      margin-bottom: .6rem;
+    }
+    .err-desc {
+      font-size: 1rem; color: var(--text-2);
+      line-height: 1.75; max-width: 520px;
+    }
+    .err-desc a { color: var(--text); text-underline-offset: 3px; }
+
+    .err-path {
+      display: inline-flex; align-items: center; gap: .6rem;
+      margin-top: 1.5rem; max-width: 100%;
+      background: var(--bg-subtle); border: 1px solid var(--border);
+      border-radius: 10px; padding: .55rem .9rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 13.5px; color: var(--text-2);
+    }
+    .err-path .method { color: var(--text-3); font-weight: 600; }
+    .err-path code { font: inherit; word-break: break-all; }
+
+    .err-actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 2rem; }
+    .btn {
+      display: inline-flex; align-items: center; gap: .45rem;
+      font: inherit; font-size: 14.5px; font-weight: 500;
+      padding: .65rem 1.15rem; border-radius: 10px;
+      text-decoration: none; cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--bg); color: var(--text);
+      transition: background .15s, opacity .15s;
+    }
+    .btn:hover { background: var(--bg-subtle); }
+    .btn svg { width: 15px; height: 15px; }
+    .btn-primary { background: var(--text); color: var(--bg); border-color: var(--text); }
+    .btn-primary:hover { background: var(--text); opacity: .85; }
+
+    .err-links {
+      display: flex; flex-wrap: wrap; gap: .4rem 1.25rem;
+      margin-top: 2.5rem; padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 13.5px; color: var(--text-3);
+    }
+    .err-links a { color: var(--text-2); text-decoration: none; }
+    .err-links a:hover { color: var(--text); }
+
+    /* ── MOBILE ── */
+    .mobile-topbar {
+      display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      height: 52px; background: var(--bg); border-bottom: 1px solid var(--border);
+      align-items: center; justify-content: space-between;
+      padding: 0 1.25rem;
+    }
+    .mobile-topbar-name { font-size: 14px; font-weight: 600; color: var(--text); }
+    .mobile-topbar-right { display: flex; gap: .25rem; }
+    .mobile-menu-btn {
+      background: none; border: none; cursor: pointer; color: var(--text-2);
+      padding: .35rem; border-radius: 6px; display: flex; align-items: center;
+    }
+    .mobile-menu-btn svg { width: 18px; height: 18px; }
+    .mobile-drawer { display: none; position: fixed; inset: 0; z-index: 49; }
+    .mobile-drawer.open { display: block; }
+    .mobile-drawer-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.3); }
+    .mobile-drawer-panel {
+      position: absolute; top: 0; left: 0; bottom: 0;
+      width: 240px; background: var(--bg);
+      border-right: 1px solid var(--border);
+      padding: 1.5rem 1.25rem;
+      overflow-y: auto;
+    }
+
+    @media (max-width: 680px) {
+      .sidebar { display: none; }
+      .layout { display: block; }
+      .main { padding: 4.5rem 1.25rem 3rem; }
+      .main-inner { max-width: 100%; min-height: calc(100vh - 8rem); }
+      .mobile-topbar { display: flex; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="layout">
+
+    <!-- SIDEBAR (desktop) -->
+    <aside class="sidebar">
+      <div class="sidebar-profile">
+        <div class="profile-avatar">
+          <img id="avatarImg" alt="Bryan" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <span class="profile-avatar-placeholder" style="display:none">B</span>
+        </div>
+        <div class="profile-name">Bryan Torisi Siagian</div>
+        <div class="profile-role">Software Engineer</div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a data-href="index.html">
+              <span data-lang="en">Home</span><span data-lang="id">Beranda</span>
+              <span class="nav-count">1</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a data-href="projects.html">
+              <span data-lang="en">Projects</span><span data-lang="id">Proyek</span>
+              <span class="nav-count">9</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a data-href="achievements.html">
+              <span data-lang="en">Achievements</span><span data-lang="id">Capaian</span>
+              <span class="nav-count">3</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a data-href="certificates.html">
+              <span data-lang="en">Certificates</span><span data-lang="id">Sertifikat</span>
+              <span class="nav-count">0</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a data-href="resume.pdf" target="_blank" rel="noopener">
+              <span>Resume</span>
+              <span class="nav-badge">CV</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="icon-btn" id="langBtn" aria-label="Toggle language">
+          <span id="langLabel">EN</span>
+        </button>
+        <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">
+          <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+      <div class="main-inner" id="errView" role="alert">
+        <!-- diisi oleh JavaScript -->
+      </div>
+    </main>
+
+  </div><!-- /.layout -->
+
+  <!-- MOBILE TOPBAR -->
+  <div class="mobile-topbar">
+    <span class="mobile-topbar-name">Bryan Siagian</span>
+    <div class="mobile-topbar-right">
+      <button class="icon-btn" id="langBtnMobile"><span id="langLabelMobile">EN</span></button>
+      <button class="icon-btn" id="themeBtnMobile">
+        <svg id="themeIconMobile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+      <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- MOBILE DRAWER -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <div class="mobile-drawer-overlay" id="drawerOverlay"></div>
+    <div class="mobile-drawer-panel">
+      <div style="margin-bottom:1.5rem">
+        <div class="profile-name" style="margin-bottom:3px">Bryan Torisi Siagian</div>
+        <div class="profile-role">Software Engineer</div>
+      </div>
+      <ul class="nav-list">
+        <li class="nav-item"><a data-href="index.html"><span>Home</span><span class="nav-count">1</span></a></li>
+        <li class="nav-item"><a data-href="projects.html"><span>Projects</span><span class="nav-count">9</span></a></li>
+        <li class="nav-item"><a data-href="achievements.html"><span>Achievements</span><span class="nav-count">3</span></a></li>
+        <li class="nav-item"><a data-href="certificates.html"><span>Certificates</span><span class="nav-count">0</span></a></li>
+        <li class="nav-item"><a data-href="resume.pdf" target="_blank"><span>Resume</span><span class="nav-badge">CV</span></a></li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // ─────────────────────────────────────────────
+    // BASE PATH
+    // Halaman ini bisa dilayani dari URL yang dalam (mis. /portofolio/a/b/c),
+    // jadi semua tautan dibuat absolut dari BASE. Ubah bila folder situs berbeda.
+    // Saat dibuka langsung dari file (file://) memakai path relatif.
+    // ─────────────────────────────────────────────
+    const BASE = location.protocol === 'file:' ? '' : '/portofolio/';
+    const OWNER_EMAIL = 'bryantorisi@gmail.com';
+
+    document.querySelectorAll('[data-href]').forEach(a => { a.href = BASE + a.dataset.href; });
+    document.getElementById('avatarImg').src = BASE + 'image/profil.jpeg';
+
+    // ─────────────────────────────────────────────
+    // JENIS ERROR
+    // Pakai ?code=403 / ?code=500 untuk kode lain. Bawaan: 404.
+    // ─────────────────────────────────────────────
+    const ERRORS = {
+      404: {
+        title: { en: 'Page not found', id: 'Halaman tidak ditemukan' },
+        desc:  {
+          en: "The page you're looking for doesn't exist or may have been moved.",
+          id: 'Halaman yang Anda cari tidak ada atau mungkin sudah dipindahkan.'
+        }
+      },
+      403: {
+        title: { en: 'Access denied', id: 'Akses ditolak' },
+        desc:  {
+          en: "You don't have permission to view this page.",
+          id: 'Anda tidak memiliki izin untuk membuka halaman ini.'
+        }
+      },
+      500: {
+        title: { en: 'Something went wrong', id: 'Terjadi kesalahan' },
+        desc:  {
+          en: 'The server ran into a problem. Please try again in a moment.',
+          id: 'Server mengalami masalah. Silakan coba lagi beberapa saat.'
+        }
+      }
+    };
+
+    // Kasus khusus: file resume/CV yang belum diunggah
+    const RESUME_ERROR = {
+      title: { en: 'Resume not available yet', id: 'Resume belum tersedia' },
+      desc:  {
+        en: `My resume hasn't been uploaded yet. Please check back soon, or reach me at <a href="mailto:${OWNER_EMAIL}">${OWNER_EMAIL}</a>.`,
+        id: `Resume saya belum diunggah. Silakan cek kembali nanti, atau hubungi saya di <a href="mailto:${OWNER_EMAIL}">${OWNER_EMAIL}</a>.`
+      }
+    };
+
+    const params = new URLSearchParams(location.search);
+    const code = ERRORS[params.get('code')] ? params.get('code') : '404';
+
+    // Path yang diminta: dari ?path=… atau dari URL saat server menyajikan halaman ini
+    let reqPath = params.get('path');
+    if (!reqPath && !/\/404\.html$/i.test(location.pathname)) reqPath = location.pathname;
+
+    const isResume = !!reqPath && /\/resume[^/]*\.pdf$|\/cv[^/]*\.pdf$/i.test(reqPath);
+    const info = (isResume && code === '404') ? RESUME_ERROR : ERRORS[code];
+
+    const arrowLeft = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>';
+
+    function escapeHTML(s) {
+      return s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    document.getElementById('errView').innerHTML = `
+      <div class="err-code">${isResume ? '404' : code}</div>
+      <h1 class="err-title">
+        <span data-lang="en">${info.title.en}</span>
+        <span data-lang="id">${info.title.id}</span>
+      </h1>
+      <p class="err-desc">
+        <span data-lang="en">${info.desc.en}</span>
+        <span data-lang="id">${info.desc.id}</span>
+      </p>
+      ${reqPath ? `<div class="err-path"><span class="method">GET</span><code>${escapeHTML(reqPath)}</code></div>` : ''}
+      <div class="err-actions">
+        <a class="btn btn-primary" href="${BASE}index.html">
+          <span data-lang="en">Back to Home</span><span data-lang="id">Kembali ke Beranda</span>
+        </a>
+        <button class="btn" id="backBtn" type="button" hidden>
+          ${arrowLeft}<span data-lang="en">Go back</span><span data-lang="id">Halaman sebelumnya</span>
+        </button>
+      </div>
+      <div class="err-links">
+        <a href="${BASE}projects.html"><span data-lang="en">Projects</span><span data-lang="id">Proyek</span></a>
+        <a href="${BASE}achievements.html"><span data-lang="en">Achievements</span><span data-lang="id">Capaian</span></a>
+        <a href="mailto:${OWNER_EMAIL}"><span data-lang="en">Contact</span><span data-lang="id">Kontak</span></a>
+      </div>`;
+
+    // Tombol "Go back" hanya muncul bila ada halaman sebelumnya
+    const backBtn = document.getElementById('backBtn');
+    if (history.length > 1) {
+      backBtn.hidden = false;
+      backBtn.addEventListener('click', () => history.back());
+    }
+
+    // THEME
+    const themeBtn = document.getElementById('themeBtn');
+    const themeBtnM = document.getElementById('themeBtnMobile');
+    const iconSun  = `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`;
+    const iconMoon = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`;
+    function applyTheme(t) {
+      document.documentElement.setAttribute('data-theme', t);
+      const inner = t === 'dark' ? iconSun : iconMoon;
+      document.getElementById('themeIcon').innerHTML = inner;
+      if (document.getElementById('themeIconMobile')) document.getElementById('themeIconMobile').innerHTML = inner;
+      localStorage.setItem('theme', t);
+    }
+    const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    applyTheme(savedTheme);
+    [themeBtn, themeBtnM].forEach(btn => btn && btn.addEventListener('click', () => {
+      applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    }));
+
+    // LANGUAGE
+    function applyLang(l) {
+      document.documentElement.lang = l;
+      document.querySelectorAll('#langLabel, #langLabelMobile').forEach(el => el.textContent = l.toUpperCase());
+      document.title = info.title[l] + ' — Bryan Siagian';
+      localStorage.setItem('lang', l);
+    }
+    applyLang(localStorage.getItem('lang') || 'en');
+    [document.getElementById('langBtn'), document.getElementById('langBtnMobile')].forEach(btn => btn && btn.addEventListener('click', () => {
+      applyLang(document.documentElement.lang === 'en' ? 'id' : 'en');
+    }));
+
+    // MOBILE DRAWER
+    const drawer = document.getElementById('mobileDrawer');
+    document.getElementById('mobileMenuBtn').addEventListener('click', () => drawer.classList.toggle('open'));
+    document.getElementById('drawerOverlay').addEventListener('click', () => drawer.classList.remove('open'));
+  </script>
+</body>
+</html>
