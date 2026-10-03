@@ -481,29 +481,29 @@
       role: 'Full-Stack Developer',
       period: 'Jan 2026 – Aug 2026',
       hue: 222,
-      image: '',                       // hero/screenshot utama, mis. 'image/alin/hero.png'
+      image: 'image/alin.png',                       // hero/screenshot utama, mis. 'image/alin/hero.png'
       tags: ['Laravel', 'Livewire', 'Flutter', 'AWS EC2'],
       repo: 'https://github.com/bryansiagian/ALIN',   // tombol GitHub (kosongkan '' bila tidak ada)
       share: true,                     // tombol share: Facebook, Instagram, LinkedIn, X, salin tautan
 
       overview: {
-        en: 'ALIN is a learning platform for linear algebra built as a group project at Institut Teknologi Del. It pairs a web portal for lecturers with a Flutter mobile app for students.',
-        id: 'ALIN adalah platform pembelajaran aljabar linear yang dibangun sebagai proyek kelompok di Institut Teknologi Del. Platform ini memadukan portal web untuk dosen dengan aplikasi mobile Flutter untuk mahasiswa.'
+        en: 'ALIN is a learning platform for linear algebra built as a group project at Institut Teknologi Del. It is available as a Flutter mobile app and as a web dashboard made for lecturers. Lecturers can also access their accounts through the mobile app.',
+        id: 'ALIN adalah platform pembelajaran aljabar linear yang dibangun sebagai proyek kelompok di Institut Teknologi Del. ALIN tersedia sebagai aplikasi mobile Flutter sekaligus dashboard web yang dibuat khusus untuk dosen. Dosen juga tetap dapat mengakses akunnya melalui aplikasi mobile.'
       },
 
       sections: [
         {
-          title: { en: 'Lecturer Portal', id: 'Portal Dosen' },
+          title: { en: 'Lecturer Web Dashboard', id: 'Dashboard Web Dosen' },
           body: {
-            en: 'Lecturers manage quizzes, import questions in bulk, manage students, and review quiz results from a single portal. Placement test and practice questions can be listed, searched, filtered, and edited with Livewire components.',
-            id: 'Dosen mengelola kuis, mengimpor soal secara massal, mengelola mahasiswa, dan melihat hasil kuis dari satu portal. Soal placement test dan latihan dapat ditampilkan, dicari, difilter, dan diedit dengan komponen Livewire.'
+            en: 'Lecturers get a dedicated web dashboard to manage quizzes, import questions in bulk, manage students, and review quiz results. Placement test and practice questions can be listed, searched, filtered, and edited with Livewire components.',
+            id: 'Dosen memiliki dashboard web tersendiri untuk mengelola kuis, mengimpor soal secara massal, mengelola mahasiswa, dan melihat hasil kuis. Soal placement test dan latihan dapat ditampilkan, dicari, difilter, dan diedit dengan komponen Livewire.'
           }
         },
         {
-          title: { en: 'Placement Test in the Mobile App', id: 'Placement Test di Aplikasi Mobile' },
+          title: { en: 'Mobile App', id: 'Aplikasi Mobile' },
           body: {
-            en: 'I built the placement test feature in the Flutter mobile app, so students can take the test from their phones.',
-            id: 'Saya membangun fitur placement test di aplikasi mobile Flutter, sehingga mahasiswa dapat mengerjakan tes langsung dari ponsel.'
+            en: 'I built the placement test feature in the Flutter mobile app, so students can take the test from their phones. The web dashboard is not the only way in for lecturers: they can also sign in and access their accounts through the mobile app.',
+            id: 'Saya membangun fitur placement test di aplikasi mobile Flutter, sehingga mahasiswa dapat mengerjakan tes langsung dari ponsel. Dashboard web bukan satu-satunya jalan masuk bagi dosen: mereka juga dapat login dan mengakses akunnya melalui aplikasi mobile.'
           }
         },
         {
@@ -516,16 +516,18 @@
         {
           title: { en: 'My Role', id: 'Peran Saya' },
           body: {
-            en: 'Full-Stack Developer. I built the lecturer portal and the mobile placement test, and handled the UI and hosting.',
-            id: 'Full-Stack Developer. Saya membangun portal dosen dan placement test di aplikasi mobile, serta menangani UI dan hosting.'
+            en: 'Full-Stack Developer. I built the lecturer web dashboard and the mobile placement test, and handled the UI and hosting.',
+            id: 'Full-Stack Developer. Saya membangun dashboard web dosen dan placement test di aplikasi mobile, serta menangani UI dan hosting.'
           }
         }
       ],
 
       // ── Opsional: kosongkan array bila tidak dipakai ──
       features: [
-        { en: 'Lecturer portal: quizzes, bulk question import (CSV/Excel), student management, and quiz results.',
-          id: 'Portal dosen: kuis, impor soal massal (CSV/Excel), manajemen mahasiswa, dan hasil kuis.' },
+        { en: 'Lecturer web dashboard: quizzes, bulk question import (CSV/Excel), student management, and quiz results.',
+          id: 'Dashboard web dosen: kuis, impor soal massal (CSV/Excel), manajemen mahasiswa, dan hasil kuis.' },
+        { en: 'Flutter mobile app, where lecturers can also access their accounts.',
+          id: 'Aplikasi mobile Flutter, tempat dosen juga dapat mengakses akunnya.' },
         { en: 'Placement test feature in the Flutter mobile app.',
           id: 'Fitur placement test di aplikasi mobile Flutter.' },
         { en: 'Question management for placement tests and level-based practice, with search, filter, and pagination.',
