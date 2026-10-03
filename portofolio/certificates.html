@@ -173,15 +173,18 @@
 
     /* ── CERTIFICATE ROW ── */
     .search[hidden] { display: none; }
+    /* garis pemisah antara Sertifikasi dan Sertifikat */
+    .group + .group { border-top: 1px solid var(--border); padding-top: 2rem; }
     .cert-list { display: flex; flex-direction: column; gap: 1.75rem; }
     .cert {
+      position: relative;
       display: flex; gap: 1.5rem; align-items: flex-start;
       color: inherit; text-decoration: none;
     }
     .cert-thumb {
       position: relative;
       width: 230px; flex-shrink: 0;
-      aspect-ratio: 8 / 5;
+      aspect-ratio: 13 / 10;
       border-radius: 14px;
       border: 1px solid var(--border);
       overflow: hidden;
@@ -193,7 +196,7 @@
     [data-theme="dark"] .cert-thumb {
       background: linear-gradient(135deg, hsl(var(--h) 30% 16%), hsl(var(--h) 30% 11%));
     }
-    a.cert:hover .cert-thumb { transform: translateY(-2px); }
+    .cert:hover .cert-thumb { transform: translateY(-2px); }
     .cert-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
     .cert-thumb-text {
       font-size: 1rem; font-weight: 600; letter-spacing: -.02em;
@@ -202,25 +205,35 @@
     [data-theme="dark"] .cert-thumb-text { color: hsl(var(--h) 60% 80%); }
     .cert-body { flex: 1; min-width: 0; }
     .cert-title {
-      font-size: 1.25rem; font-weight: 500; letter-spacing: -.01em;
-      color: var(--text); line-height: 1.35;
-      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-      margin-bottom: .35rem;
+      font-size: 1.1875rem; font-weight: 500; letter-spacing: -.01em;
+      color: var(--text); line-height: 1.4; margin-bottom: .4rem;
     }
-    .cert-title svg { width: 14px; height: 14px; color: var(--text-3); flex-shrink: 0; }
-    a.cert:hover .cert-title { text-decoration: underline; text-decoration-color: var(--text-3); text-underline-offset: 4px; }
-    .cert-meta { font-size: 14px; color: var(--text-2); margin-bottom: .35rem; }
+    /* seluruh kartu bisa diklik: tautan judul diperluas menutupi kartu */
+    .cert-title a { color: inherit; text-decoration: none; }
+    .cert-title a::after { content: ""; position: absolute; inset: 0; border-radius: 14px; }
+    .cert:hover .cert-title a { text-decoration: underline; text-decoration-color: var(--text-3); text-underline-offset: 4px; }
+    .cert-meta { font-size: 14px; color: var(--text-2); }
+    .cert-extra { font-size: 13px; color: var(--text-3); margin-top: 2px; }
     .cert-id {
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 12.5px; color: var(--text-3); margin-bottom: .75rem;
+      font-size: 12.5px; color: var(--text-3); margin-top: .5rem;
     }
     .cert-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: .75rem; }
-    .cert-id + .cert-tags { margin-top: 0; }
     .tag {
       font-size: 12px; color: var(--text-2);
       background: var(--bg-subtle); border: 1px solid var(--border);
       padding: 2px 10px; border-radius: 100px;
     }
+    .cert-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1rem; margin-top: .85rem; font-size: 13.5px; }
+    .cert-dl { display: inline-flex; align-items: center; gap: 6px; color: var(--text-2); }
+    .cert:hover .cert-dl { color: var(--text); }
+    .cert-dl svg, .cert-verify svg { width: 14px; height: 14px; }
+    .cert-verify {
+      position: relative; z-index: 1;   /* di atas lapisan klik kartu */
+      display: inline-flex; align-items: center; gap: 5px;
+      color: var(--text-2); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--border);
+    }
+    .cert-verify:hover { color: var(--text); }
 
     .empty-card {
       border: 1px dashed var(--border); border-radius: 14px;
@@ -309,7 +322,7 @@
           <li class="nav-item">
             <a href="certificates.html" class="active">
               <span data-lang="en">Certificates</span><span data-lang="id">Sertifikat</span>
-              <span class="nav-count">0</span>
+              <span class="nav-count">3</span>
             </a>
           </li>
           <li class="nav-item">
@@ -388,7 +401,7 @@
         <li class="nav-item"><a href="index.html"><span>Home</span><span class="nav-count">1</span></a></li>
         <li class="nav-item"><a href="projects.html"><span>Projects</span><span class="nav-count">9</span></a></li>
         <li class="nav-item"><a href="achievements.html"><span>Achievements</span><span class="nav-count">3</span></a></li>
-        <li class="nav-item"><a href="certificates.html" class="active"><span>Certificates</span><span class="nav-count">0</span></a></li>
+        <li class="nav-item"><a href="certificates.html" class="active"><span>Certificates</span><span class="nav-count">3</span></a></li>
         <li class="nav-item"><a href="resume.pdf" target="_blank"><span>Resume</span><span class="nav-badge">CV</span></a></li>
       </ul>
     </div>
@@ -396,61 +409,95 @@
 
   <script>
     // ─────────────────────────────────────────────
-    // DATA SERTIFIKAT — tambahkan di array ini (urutan otomatis dari terbaru)
+    // DATA SERTIFIKAT — tambahkan di array ini (urutan otomatis dari yang terbaru)
     // type         : 'certification' (sertifikasi resmi) | 'certificate' (kursus/pelatihan)
-    // issued       : 'YYYY-MM'
+    // issued       : 'YYYY-MM-DD'
+    // expires      : opsional, 'YYYY-MM-DD' (masa berlaku)
+    // hours        : opsional, jumlah jam kursus
     // credentialId : opsional
-    // url          : opsional, tautan kredensial / file sertifikat (membuka tab baru)
-    // image        : opsional, gambar sertifikat, mis. 'image/certs/aws.png'
-    // hue          : warna thumbnail bila tidak ada image (0–360)
+    // file         : path file PDF — kartu diklik = PDF langsung terunduh
+    // image        : pratinjau (gambar halaman pertama PDF)
+    // verifyUrl    : opsional, tautan verifikasi (mis. Credly)
+    // hue          : warna cadangan bila tidak ada image (0–360)
     // ─────────────────────────────────────────────
     const certificates = [
-      // {
-      //   type: 'certification',
-      //   title: 'Nama Sertifikat',
-      //   issuer: 'Penerbit',
-      //   issued: '2026-05',
-      //   credentialId: 'ABC-123',
-      //   url: 'https://…',
-      //   image: '',
-      //   skills: ['Cloud', 'AWS'],
-      //   hue: 210
-      // },
+      {
+        type: 'certification',
+        title: 'Oracle Cloud Infrastructure Certified AI Foundations Associate',
+        issuer: 'Oracle University',
+        issued: '2026-10-01',
+        expires: '2028-10-01',
+        credentialId: '331781631OCI26AICFA',
+        file: 'files/certificates/oracle-oci-ai-foundations-associate.pdf',
+        image: 'image/certificates/oracle-oci-ai-foundations-associate.jpg',
+        skills: ['Oracle Cloud', 'AI Foundations'],
+        hue: 8
+      },
+      {
+        type: 'certification',
+        title: 'Agentic AI Certified Foundations Associate',
+        issuer: 'Oracle University',
+        issued: '2026-09-21',
+        expires: '2028-09-21',
+        credentialId: '331781631AAI26OFA',
+        file: 'files/certificates/oracle-agentic-ai-foundations-associate.pdf',
+        image: 'image/certificates/oracle-agentic-ai-foundations-associate.jpg',
+        skills: ['Agentic AI', 'AI Foundations'],
+        hue: 8
+      },
+      {
+        type: 'certificate',
+        title: 'AWS Academy Graduate - Generative AI Foundations - Training Badge',
+        issuer: 'AWS Academy',
+        issued: '2026-09-28',
+        hours: 12,
+        verifyUrl: 'https://www.credly.com/badges/c6109ae6-cd2f-40bb-af33-d6598babc841',
+        file: 'files/certificates/aws-academy-generative-ai-foundations.pdf',
+        image: 'image/certificates/aws-academy-generative-ai-foundations.jpg',
+        skills: ['Generative AI', 'AWS'],
+        hue: 35
+      }
     ];
 
     const groups = [
-      { key: 'certification', en: 'Certifications',         id: 'Sertifikasi' },
+      { key: 'certification', en: 'Certifications',          id: 'Sertifikasi' },
       { key: 'certificate',   en: 'Certificates & Training', id: 'Sertifikat & Pelatihan' }
     ];
 
-    const extIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>';
+    const icons = {
+      download: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
+      out: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>'
+    };
 
-    function fmtDate(issued, lang) {
-      const [y, m] = issued.split('-').map(Number);
-      return new Intl.DateTimeFormat(lang, { month: 'short', year: 'numeric' }).format(new Date(y, (m || 1) - 1, 1));
+    function fmtDate(d, lang) {
+      const [y, m, day] = d.split('-').map(Number);
+      return new Intl.DateTimeFormat(lang, { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(y, (m || 1) - 1, day || 1));
     }
+    const dual = (en, id) => `<span data-lang="en">${en}</span><span data-lang="id">${id}</span>`;
 
     function certHTML(c) {
-      const tag = c.url ? 'a' : 'div';
-      const linkAttr = c.url ? ` href="${c.url}" target="_blank" rel="noopener"` : '';
-      const hue = c.hue ?? 210;
+      const fileName = c.file.split('/').pop();
+      const extra = [];
+      if (c.expires) extra.push(dual(`Valid until ${fmtDate(c.expires, 'en')}`, `Berlaku hingga ${fmtDate(c.expires, 'id')}`));
+      if (c.hours)   extra.push(dual(`${c.hours} hours`, `${c.hours} jam`));
       return `
-        <${tag} class="cert"${linkAttr}>
-          <div class="cert-thumb" style="--h:${hue}">
+        <div class="cert">
+          <div class="cert-thumb" style="--h:${c.hue ?? 210}">
             ${c.image ? `<img src="${c.image}" alt="${c.title}" loading="lazy" onerror="this.remove()">` : ''}
             <div class="cert-thumb-text">${c.issuer}</div>
           </div>
           <div class="cert-body">
-            <div class="cert-title">${c.title}${c.url ? extIcon : ''}</div>
-            <div class="cert-meta">
-              ${c.issuer}
-              <span data-lang="en">· ${fmtDate(c.issued, 'en')}</span>
-              <span data-lang="id">· ${fmtDate(c.issued, 'id')}</span>
-            </div>
+            <div class="cert-title"><a href="${c.file}" download="${fileName}" data-download>${c.title}</a></div>
+            <div class="cert-meta">${c.issuer} · ${dual(`Issued ${fmtDate(c.issued, 'en')}`, `Diterbitkan ${fmtDate(c.issued, 'id')}`)}</div>
+            ${extra.length ? `<div class="cert-extra">${extra.join(' · ')}</div>` : ''}
             ${c.credentialId ? `<div class="cert-id">ID: ${c.credentialId}</div>` : ''}
             ${c.skills && c.skills.length ? `<div class="cert-tags">${c.skills.map(t => `<span class="tag">${t}</span>`).join('')}</div>` : ''}
+            <div class="cert-actions">
+              <span class="cert-dl">${icons.download}${dual('Download PDF', 'Unduh PDF')}</span>
+              ${c.verifyUrl ? `<a class="cert-verify" href="${c.verifyUrl}" target="_blank" rel="noopener">${dual('Verify badge', 'Verifikasi badge')}${icons.out}</a>` : ''}
+            </div>
           </div>
-        </${tag}>`;
+        </div>`;
     }
 
     function render(query = '') {
@@ -465,8 +512,7 @@
         list.innerHTML = `
           <div class="empty-card">
             <div class="big">🎓</div>
-            <span data-lang="en">Certificates and certifications will be added here soon.</span>
-            <span data-lang="id">Sertifikat dan sertifikasi akan segera ditambahkan di sini.</span>
+            ${dual('Certificates and certifications will be added here soon.', 'Sertifikat dan sertifikasi akan segera ditambahkan di sini.')}
           </div>`;
         return;
       }
@@ -477,9 +523,7 @@
         return [c.title, c.issuer, c.credentialId || '', c.issued, ...(c.skills || [])].join(' ').toLowerCase().includes(q);
       });
 
-      count.innerHTML =
-        `<span data-lang="en">${found.length} of ${certificates.length} certificates</span>` +
-        `<span data-lang="id">${found.length} dari ${certificates.length} sertifikat</span>`;
+      count.innerHTML = dual(`${found.length} of ${certificates.length} certificates`, `${found.length} dari ${certificates.length} sertifikat`);
 
       let html = '';
       groups.forEach(g => {
@@ -487,18 +531,36 @@
         if (!items.length) return;
         html += `
           <section class="group">
-            <div class="group-label"><span data-lang="en">${g.en}</span><span data-lang="id">${g.id}</span></div>
+            <div class="group-label">${dual(g.en, g.id)}</div>
             <div class="cert-list">${items.map(certHTML).join('')}</div>
           </section>`;
       });
 
       if (!found.length) {
-        html = `<p class="empty">
-          <span data-lang="en">No certificates match your search.</span>
-          <span data-lang="id">Tidak ada sertifikat yang cocok dengan pencarian Anda.</span></p>`;
+        html = `<p class="empty">${dual('No certificates match your search.', 'Tidak ada sertifikat yang cocok dengan pencarian Anda.')}</p>`;
       }
       list.innerHTML = html;
     }
+
+    // UNDUH PDF: klik kartu = PDF langsung terunduh.
+    // Bila file belum ada di server, tampilkan halaman error khusus (404.html).
+    document.getElementById('certList').addEventListener('click', async e => {
+      const a = e.target.closest('a[data-download]');
+      if (!a) return;
+      e.preventDefault();
+      const url = new URL(a.getAttribute('href'), location.href);
+      try {
+        const r = await fetch(url, { method: 'HEAD' });
+        if (!r.ok) {
+          location.href = new URL('404.html?path=' + encodeURIComponent(url.pathname), location.href).href;
+          return;
+        }
+      } catch (err) { /* mis. dibuka dari file:// — lanjutkan unduh biasa */ }
+      const t = document.createElement('a');
+      t.href = url.href;
+      t.download = a.getAttribute('download') || '';
+      document.body.appendChild(t); t.click(); t.remove();
+    });
 
     // SEARCH
     const searchInput = document.getElementById('searchInput');
