@@ -107,6 +107,11 @@
       border-radius: 5px; padding: 1px 6px;
     }
 
+    /* Badge ikon unduh pada item Resume */
+    .nav-badge { display: inline-flex; align-items: center; justify-content: center; }
+    .nav-badge svg { width: 13px; height: 13px; display: block; }
+    .nav-item a:hover .nav-badge { color: var(--text); }
+
     .sidebar-footer {
       margin-top: auto; padding-top: 1.5rem;
       display: flex; align-items: center; justify-content: center; gap: .35rem;
@@ -327,9 +332,11 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="resume.pdf" target="_blank" rel="noopener">
+            <a href="resume.pdf" download="CV-Bryan-Torisi-Siagian.pdf" data-download aria-label="Download Resume" title="Download Resume">
               <span>Resume</span>
-              <span class="nav-badge">CV</span>
+              <span class="nav-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </span>
             </a>
           </li>
         </ul>
@@ -403,7 +410,7 @@
         <li class="nav-item"><a href="projects.html"><span>Projects</span><span class="nav-count">9</span></a></li>
         <li class="nav-item"><a href="achievements.html"><span>Achievements</span><span class="nav-count">3</span></a></li>
         <li class="nav-item"><a href="certificates.html" class="active"><span>Certificates</span><span class="nav-count">3</span></a></li>
-        <li class="nav-item"><a href="resume.pdf" target="_blank"><span>Resume</span><span class="nav-badge">CV</span></a></li>
+        <li class="nav-item"><a href="resume.pdf" download="CV-Bryan-Torisi-Siagian.pdf" data-download aria-label="Download Resume" title="Download Resume"><span>Resume</span><span class="nav-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span></a></li>
       </ul>
     </div>
   </div>
@@ -543,12 +550,9 @@
       list.innerHTML = html;
     }
 
-    // UNDUH PDF: klik kartu = PDF langsung terunduh.
+    // UNDUH PDF SERTIFIKAT: klik kartu = PDF langsung terunduh.
     // Bila file belum ada di server, tampilkan halaman error khusus (404.html).
-    document.getElementById('certList').addEventListener('click', async e => {
-      const a = e.target.closest('a[data-download]');
-      if (!a) return;
-      e.preventDefault();
+    async function downloadFile(a) {
       const url = new URL(a.getAttribute('href'), location.href);
       try {
         const r = await fetch(url, { method: 'HEAD' });
@@ -561,6 +565,13 @@
       t.href = url.href;
       t.download = a.getAttribute('download') || '';
       document.body.appendChild(t); t.click(); t.remove();
+    }
+
+    document.getElementById('certList').addEventListener('click', e => {
+      const a = e.target.closest('a[data-download]');
+      if (!a) return;
+      e.preventDefault();
+      downloadFile(a);
     });
 
     // SEARCH
@@ -604,22 +615,12 @@
       applyLang(document.documentElement.lang === 'en' ? 'id' : 'en');
     }));
 
-    // RESUME GUARD
-    // Bila file PDF (resume) belum ada, tampilkan halaman error khusus (404.html)
-    // alih-alih "Cannot GET ..." bawaan server.
-    document.querySelectorAll('a[href$=".pdf"]').forEach(a => a.addEventListener('click', async e => {
+    // DOWNLOAD CV (item Resume di navigasi)
+    // Cek dulu apakah file PDF ada. Jika ada, unduh langsung;
+    // jika belum ada, arahkan ke halaman 404.html.
+    document.querySelectorAll('.nav-list a[data-download]').forEach(a => a.addEventListener('click', e => {
       e.preventDefault();
-      const url = new URL(a.getAttribute('href'), location.href);
-      const w = window.open('', '_blank');
-      if (!w) { location.href = url.href; return; }
-      try {
-        const r = await fetch(url, { method: 'HEAD' });
-        w.location.href = r.ok
-          ? url.href
-          : new URL('404.html?path=' + encodeURIComponent(url.pathname), location.href).href;
-      } catch (err) {
-        w.location.href = url.href;
-      }
+      downloadFile(a);
     }));
 
     // MOBILE DRAWER
