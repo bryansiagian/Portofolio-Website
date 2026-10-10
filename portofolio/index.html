@@ -1,855 +1,1604 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-theme="light">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bryan Siagian — Software Engineer</title>
-  <link rel="icon" type="image/jpeg" href="/image/profil.jpeg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bryan Siagian — Software Engineer</title>
+    <link rel="icon" type="image/jpeg" href="/image/profil.jpeg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    :root {
-      --bg:        #ffffff;
-      --bg-subtle: #f5f5f5;
-      --text:      #111111;
-      --text-2:    #555555;
-      --text-3:    #999999;
-      --border:    #e5e5e5;
-      --sidebar-w: 300px;
+      :root {
+        --bg: #ffffff;
+        --bg-subtle: #f5f5f5;
+        --text: #111111;
+        --text-2: #555555;
+        --text-3: #999999;
+        --border: #e5e5e5;
+        --sidebar-w: 300px;
 
-      /* GitHub contribution levels (light) */
-      --c0: #ebedf0;
-      --c1: #9be9a8;
-      --c2: #40c463;
-      --c3: #30a14e;
-      --c4: #216e39;
-    }
-    [data-theme="dark"] {
-      --bg:        #111111;
-      --bg-subtle: #1c1c1c;
-      --text:      #f0f0f0;
-      --text-2:    #aaaaaa;
-      --text-3:    #555555;
-      --border:    #2a2a2a;
+        /* GitHub contribution levels (light) */
+        --c0: #ebedf0;
+        --c1: #9be9a8;
+        --c2: #40c463;
+        --c3: #30a14e;
+        --c4: #216e39;
+      }
+      [data-theme="dark"] {
+        --bg: #111111;
+        --bg-subtle: #1c1c1c;
+        --text: #f0f0f0;
+        --text-2: #aaaaaa;
+        --text-3: #555555;
+        --border: #2a2a2a;
 
-      /* GitHub contribution levels (dark) */
-      --c0: #1f2023;
-      --c1: #0e4429;
-      --c2: #006d32;
-      --c3: #26a641;
-      --c4: #39d353;
-    }
+        /* GitHub contribution levels (dark) */
+        --c0: #1f2023;
+        --c1: #0e4429;
+        --c2: #006d32;
+        --c3: #26a641;
+        --c4: #39d353;
+      }
 
-    html[lang="en"] [data-lang="id"] { display: none !important; }
-    html[lang="id"] [data-lang="en"] { display: none !important; }
+      html[lang="en"] [data-lang="id"] {
+        display: none !important;
+      }
+      html[lang="id"] [data-lang="en"] {
+        display: none !important;
+      }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      transition: background .3s, color .3s;
-    }
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        transition:
+          background 0.3s,
+          color 0.3s;
+      }
 
-    /* ── LAYOUT (membungkus sidebar + konten, dipusatkan) ── */
-    .layout {
-      display: flex;
-      max-width: 1100px;   /* atur sesuai selera */
-      margin: 0 auto;      /* membuat semuanya berada di tengah */
-      min-height: 100vh;
-    }
+      /* ── LAYOUT (membungkus sidebar + konten, dipusatkan) ── */
+      .layout {
+        display: flex;
+        max-width: 1100px; /* atur sesuai selera */
+        margin: 0 auto; /* membuat semuanya berada di tengah */
+        min-height: 100vh;
+      }
 
-    /* ── SIDEBAR ── */
-    .sidebar {
-      width: var(--sidebar-w);
-      flex-shrink: 0;
-      position: sticky;    /* sebelumnya fixed */
-      top: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      padding: 2rem 1.25rem 1.5rem;
-      overflow-y: auto;
-    }
+      /* ── SIDEBAR ── */
+      .sidebar {
+        width: var(--sidebar-w);
+        flex-shrink: 0;
+        position: sticky; /* sebelumnya fixed */
+        top: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding: 2rem 1.25rem 1.5rem;
+        overflow-y: auto;
+      }
 
-    .sidebar-profile { margin-top: auto; margin-bottom: 1.5rem; text-align: center; }
-    .profile-avatar {
-      width: 180px; height: 180px;
-      border-radius: 50%;
-      background: var(--bg-subtle);
-      border: 1px solid var(--border);
-      margin: 0 auto 1.25rem;
-      overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .profile-avatar-placeholder {
-      font-size: 56px; color: var(--text-3);
-    }
-    .profile-name {
-      font-size: 18px; font-weight: 600;
-      color: var(--text); line-height: 1.35;
-      margin-bottom: 3px;
-    }
-    .profile-role {
-      font-size: 14px; color: var(--text-3);
-    }
+      .sidebar-profile {
+        margin-top: auto;
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+      .profile-avatar {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        margin: 0 auto 1.25rem;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .profile-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .profile-avatar-placeholder {
+        font-size: 56px;
+        color: var(--text-3);
+      }
+      .profile-name {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text);
+        line-height: 1.35;
+        margin-bottom: 3px;
+      }
+      .profile-role {
+        font-size: 14px;
+        color: var(--text-3);
+      }
 
-    /* NAV LIST */
-    .sidebar-nav { flex: none; }
-    .nav-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
-    .nav-item a {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: .55rem .8rem;
-      border-radius: 8px;
-      font-size: 15px; font-weight: 400;
-      color: var(--text-2); text-decoration: none;
-      transition: background .15s, color .15s;
-    }
-    .nav-item a:hover { background: var(--bg-subtle); color: var(--text); }
-    .nav-item a.active {
-      background: var(--bg-subtle); color: var(--text); font-weight: 500;
-    }
-    .nav-count {
-      font-size: 12px; color: var(--text-3);
-      background: var(--bg-subtle);
-      border: 1px solid var(--border);
-      border-radius: 5px;
-      padding: 1px 7px; min-width: 22px; text-align: center;
-    }
-    .nav-item a.active .nav-count {
-      background: var(--border); border-color: transparent;
-    }
-    .nav-badge {
-      font-size: 11px; font-weight: 600;
-      color: var(--text-3); letter-spacing: .04em;
-      background: var(--bg-subtle); border: 1px solid var(--border);
-      border-radius: 5px; padding: 1px 6px;
-    }
+      /* NAV LIST */
+      .sidebar-nav {
+        flex: none;
+      }
+      .nav-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .nav-item a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.55rem 0.8rem;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 400;
+        color: var(--text-2);
+        text-decoration: none;
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
+      .nav-item a:hover {
+        background: var(--bg-subtle);
+        color: var(--text);
+      }
+      .nav-item a.active {
+        background: var(--bg-subtle);
+        color: var(--text);
+        font-weight: 500;
+      }
+      .nav-count {
+        font-size: 12px;
+        color: var(--text-3);
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        padding: 1px 7px;
+        min-width: 22px;
+        text-align: center;
+      }
+      .nav-item a.active .nav-count {
+        background: var(--border);
+        border-color: transparent;
+      }
+      .nav-badge {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-3);
+        letter-spacing: 0.04em;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        padding: 1px 6px;
+      }
 
-    /* Badge ikon unduh pada item Resume */
-    .nav-badge { display: inline-flex; align-items: center; justify-content: center; }
-    .nav-badge svg { width: 13px; height: 13px; display: block; }
-    .nav-item a:hover .nav-badge { color: var(--text); }
+      /* Badge ikon unduh pada item Resume */
+      .nav-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .nav-badge svg {
+        width: 13px;
+        height: 13px;
+        display: block;
+      }
+      .nav-item a:hover .nav-badge {
+        color: var(--text);
+      }
 
-    /* SIDEBAR FOOTER */
-    .sidebar-footer {
-      margin-top: auto; padding-top: 1.5rem;
-      display: flex; align-items: center; justify-content: center; gap: .35rem;
-    }
-    .icon-btn {
-      background: none; border: none; cursor: pointer;
-      color: var(--text-3); padding: .375rem;
-      border-radius: 6px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 12.5px; font-weight: 600; letter-spacing: .05em;
-      transition: color .15s, background .15s;
-    }
-    .icon-btn:hover { color: var(--text); background: var(--bg-subtle); }
-    .icon-btn svg { width: 17px; height: 17px; }
+      /* SIDEBAR FOOTER */
+      .sidebar-footer {
+        margin-top: auto;
+        padding-top: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.35rem;
+      }
+      .icon-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--text-3);
+        padding: 0.375rem;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12.5px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        transition:
+          color 0.15s,
+          background 0.15s;
+      }
+      .icon-btn:hover {
+        color: var(--text);
+        background: var(--bg-subtle);
+      }
+      .icon-btn svg {
+        width: 17px;
+        height: 17px;
+      }
 
-    /* ── MAIN CONTENT ── */
-    .main {
-      flex: 1;
-      min-width: 0;
-      padding: 3rem 3rem 4rem 3.5rem;
-    }
-    .main-inner {
-      max-width: 680px;
-    }
+      /* ── MAIN CONTENT ── */
+      .main {
+        flex: 1;
+        min-width: 0;
+        padding: 3rem 3rem 4rem 3.5rem;
+      }
+      .main-inner {
+        max-width: 680px;
+      }
 
-    /* ── PAGE HEADER ── */
-    .page-header {
-      display: flex; align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: 2rem;
-    }
-    .page-title {
-      font-size: 1.5rem; font-weight: 600;
-      letter-spacing: -.02em; color: var(--text);
-    }
-    .page-actions { display: flex; gap: .25rem; }
+      /* ── PAGE HEADER ── */
+      .page-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+      }
+      .page-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        color: var(--text);
+      }
+      .page-actions {
+        display: flex;
+        gap: 0.25rem;
+      }
 
-    /* ── ABOUT BLOCK ── */
-    .about-text {
-      font-size: 1rem; color: var(--text-2);
-      line-height: 1.85; margin-bottom: 1.75rem;
-    }
-    .about-text strong { color: var(--text); font-weight: 600; }
+      /* ── ABOUT BLOCK ── */
+      .about-text {
+        font-size: 1rem;
+        color: var(--text-2);
+        line-height: 1.85;
+        margin-bottom: 1.75rem;
+      }
+      .about-text strong {
+        color: var(--text);
+        font-weight: 600;
+      }
 
-    .about-meta {
-      display: flex; flex-wrap: wrap; gap: .625rem 1.5rem;
-      margin-bottom: 2rem;
-    }
-    .meta-item {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 14px; color: var(--text-2);
-    }
-    .meta-item svg { width: 15px; height: 15px; color: var(--text-3); flex-shrink: 0; }
-    .meta-item a { color: var(--text-2); text-decoration: none; }
-    .meta-item a:hover { color: var(--text); }
+      .about-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.625rem 1.5rem;
+        margin-bottom: 2rem;
+      }
+      .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 14px;
+        color: var(--text-2);
+      }
+      .meta-item svg {
+        width: 15px;
+        height: 15px;
+        color: var(--text-3);
+        flex-shrink: 0;
+      }
+      .meta-item a {
+        color: var(--text-2);
+        text-decoration: none;
+      }
+      .meta-item a:hover {
+        color: var(--text);
+      }
 
-    /* ── SECTION ── */
-    .section { margin-top: 2.5rem; }
-    .section-header {
-      display: flex; align-items: baseline; justify-content: space-between;
-      margin-bottom: 1.25rem;
-    }
-    .section-title {
-      font-size: 1.125rem; font-weight: 600;
-      color: var(--text); letter-spacing: -.01em;
-    }
-    .section-link {
-      font-size: 13.5px; color: var(--text-3);
-      text-decoration: none;
-      transition: color .15s;
-      display: flex; align-items: center; gap: 4px;
-    }
-    .section-link:hover { color: var(--text); }
-    .section-link svg { width: 11px; height: 11px; }
+      /* ── SECTION ── */
+      .section {
+        margin-top: 2.5rem;
+      }
+      .section-header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        margin-bottom: 1.25rem;
+      }
+      .section-title {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--text);
+        letter-spacing: -0.01em;
+      }
+      .section-link {
+        font-size: 13.5px;
+        color: var(--text-3);
+        text-decoration: none;
+        transition: color 0.15s;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .section-link:hover {
+        color: var(--text);
+      }
+      .section-link svg {
+        width: 11px;
+        height: 11px;
+      }
 
-    /* ── PROJECT LIST ── */
-    .item-list { display: flex; flex-direction: column; }
-    .item-row {
-      display: flex; align-items: flex-start; gap: 1.25rem;
-      padding: 1rem 0; border-bottom: 1px solid var(--border);
-      text-decoration: none; color: inherit;
-    }
-    .item-row:first-child { border-top: 1px solid var(--border); }
-    .item-row[href]:hover { opacity: .65; }
-    .item-meta-col {
-      min-width: 96px; padding-top: 2px;
-    }
-    .item-num {
-      font-size: 12px; font-weight: 600; letter-spacing: .06em;
-      color: var(--text-3); text-transform: uppercase;
-    }
-    .item-date { font-size: 12.5px; color: var(--text-3); margin-top: 1px; }
-    .item-body { flex: 1; }
-    .item-title {
-      font-size: 15px; font-weight: 500; color: var(--text);
-      margin-bottom: 3px; line-height: 1.45;
-      display: flex; align-items: center; gap: 7px; flex-wrap: wrap;
-    }
-    .award-pill {
-      font-size: 11px; font-weight: 500;
-      color: #92400e;
-      background: #fef3c7; border: 1px solid #fde68a;
-      padding: 1px 7px; border-radius: 100px; white-space: nowrap;
-    }
-    [data-theme="dark"] .award-pill {
-      background: rgba(146,64,14,.18); border-color: rgba(180,83,9,.35); color: #fbbf24;
-    }
-    .item-desc { font-size: 14px; color: var(--text-2); line-height: 1.6; margin-bottom: .5rem; }
-    .item-tags { display: flex; flex-wrap: wrap; gap: 4px; }
-    .tag {
-      font-size: 12px; color: var(--text-3);
-      background: var(--bg-subtle); border: 1px solid var(--border);
-      padding: 2px 9px; border-radius: 4px;
-    }
-    .item-arrow { color: var(--text-3); padding-top: 3px; flex-shrink: 0; }
-    .item-arrow svg { width: 14px; height: 14px; }
+      /* ── PROJECT LIST ── */
+      .item-list {
+        display: flex;
+        flex-direction: column;
+      }
+      .item-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 1.25rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--border);
+        text-decoration: none;
+        color: inherit;
+      }
+      .item-row:first-child {
+        border-top: 1px solid var(--border);
+      }
+      .item-row[href]:hover {
+        opacity: 0.65;
+      }
+      .item-meta-col {
+        min-width: 96px;
+        padding-top: 2px;
+      }
+      .item-num {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        color: var(--text-3);
+        text-transform: uppercase;
+      }
+      .item-date {
+        font-size: 12.5px;
+        color: var(--text-3);
+        margin-top: 1px;
+      }
+      .item-body {
+        flex: 1;
+      }
+      .item-title {
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--text);
+        margin-bottom: 3px;
+        line-height: 1.45;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        flex-wrap: wrap;
+      }
+      .award-pill {
+        font-size: 11px;
+        font-weight: 500;
+        color: #92400e;
+        background: #fef3c7;
+        border: 1px solid #fde68a;
+        padding: 1px 7px;
+        border-radius: 100px;
+        white-space: nowrap;
+      }
+      [data-theme="dark"] .award-pill {
+        background: rgba(146, 64, 14, 0.18);
+        border-color: rgba(180, 83, 9, 0.35);
+        color: #fbbf24;
+      }
+      .item-desc {
+        font-size: 14px;
+        color: var(--text-2);
+        line-height: 1.6;
+        margin-bottom: 0.5rem;
+      }
+      .item-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+      .tag {
+        font-size: 12px;
+        color: var(--text-3);
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        padding: 2px 9px;
+        border-radius: 4px;
+      }
+      .item-arrow {
+        color: var(--text-3);
+        padding-top: 3px;
+        flex-shrink: 0;
+      }
+      .item-arrow svg {
+        width: 14px;
+        height: 14px;
+      }
 
-    /* ── ACHIEVEMENT LIST ── */
-    .ach-row {
-      display: flex; align-items: flex-start; gap: 1rem;
-      padding: .9rem 0; border-bottom: 1px solid var(--border);
-    }
-    .ach-row:first-child { border-top: 1px solid var(--border); }
-    .ach-icon { font-size: 17px; padding-top: 1px; }
-    .ach-title { font-size: 14.5px; font-weight: 500; color: var(--text); line-height: 1.4; }
-    .ach-sub { font-size: 13px; color: var(--text-3); margin-top: 1px; }
+      /* ── ACHIEVEMENT LIST ── */
+      .ach-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 0.9rem 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .ach-row:first-child {
+        border-top: 1px solid var(--border);
+      }
+      .ach-icon {
+        font-size: 17px;
+        padding-top: 1px;
+      }
+      .ach-title {
+        font-size: 14.5px;
+        font-weight: 500;
+        color: var(--text);
+        line-height: 1.4;
+      }
+      .ach-sub {
+        font-size: 13px;
+        color: var(--text-3);
+        margin-top: 1px;
+      }
 
-    /* ── GITHUB CONTRIBUTIONS ── */
-    .gh-card {
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1rem 1rem .9rem;
-    }
-    .gh-top {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: .75rem 1rem; flex-wrap: wrap;
-      margin-bottom: 1rem;
-    }
-    .gh-total { font-size: 14.5px; color: var(--text-2); }
-    .gh-total strong { color: var(--text); font-weight: 600; }
-    .gh-tabs { display: flex; gap: 4px; flex-wrap: wrap; }
-    .gh-tab {
-      font: inherit; font-size: 12.5px;
-      background: none; color: var(--text-3);
-      border: 1px solid transparent; border-radius: 6px;
-      padding: 2px 10px; cursor: pointer;
-      transition: color .15s, background .15s;
-    }
-    .gh-tab:hover { color: var(--text); background: var(--bg-subtle); }
-    .gh-tab.active {
-      color: var(--text); background: var(--bg-subtle);
-      border-color: var(--border); font-weight: 500;
-    }
-    .gh-scroll { overflow-x: auto; padding-bottom: 2px; }
-    .gh-inner {
-      min-width: 600px;
-      display: grid;
-      grid-template-columns: 30px 1fr;
-      column-gap: 6px; row-gap: 4px;
-    }
-    .gh-months {
-      display: grid;
-      grid-template-columns: repeat(var(--w), 1fr);
-      column-gap: 3px;
-      height: 16px;
-      font-size: 11px; color: var(--text-3);
-    }
-    .gh-months span { white-space: nowrap; line-height: 16px; }
-    .gh-days {
-      display: grid;
-      grid-template-rows: repeat(7, 1fr);
-      row-gap: 3px;
-      font-size: 10.5px; color: var(--text-3);
-      align-items: center;
-    }
-    .gh-grid {
-      display: grid;
-      grid-auto-flow: column;
-      grid-template-rows: repeat(7, auto);
-      grid-template-columns: repeat(var(--w), 1fr);
-      gap: 3px;
-    }
-    .gh-cell {
-      display: block; aspect-ratio: 1;
-      border-radius: 2px;
-      background: var(--c0);
-    }
-    .gh-cell[data-l="1"] { background: var(--c1); }
-    .gh-cell[data-l="2"] { background: var(--c2); }
-    .gh-cell[data-l="3"] { background: var(--c3); }
-    .gh-cell[data-l="4"] { background: var(--c4); }
-    .gh-cell.gh-empty { background: transparent; }
-    .gh-foot {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: .5rem 1rem; flex-wrap: wrap;
-      margin-top: .75rem;
-      font-size: 12px; color: var(--text-3);
-    }
-    .gh-foot a { color: var(--text-3); text-decoration: none; }
-    .gh-foot a:hover { color: var(--text); }
-    .gh-legend { display: flex; align-items: center; gap: 4px; }
-    .gh-legend .gh-cell { width: 11px; height: 11px; aspect-ratio: auto; }
-    .gh-legend span { margin: 0 3px; }
-    .gh-msg { font-size: 14px; color: var(--text-3); padding: 1.25rem 0; }
-    .gh-msg a { color: var(--text-2); }
+      /* ── GITHUB CONTRIBUTIONS ── */
+      .gh-card {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1rem 1rem 0.9rem;
+      }
+      .gh-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+      }
+      .gh-total {
+        font-size: 14.5px;
+        color: var(--text-2);
+      }
+      .gh-total strong {
+        color: var(--text);
+        font-weight: 600;
+      }
+      .gh-tabs {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+      }
+      .gh-tab {
+        font: inherit;
+        font-size: 12.5px;
+        background: none;
+        color: var(--text-3);
+        border: 1px solid transparent;
+        border-radius: 6px;
+        padding: 2px 10px;
+        cursor: pointer;
+        transition:
+          color 0.15s,
+          background 0.15s;
+      }
+      .gh-tab:hover {
+        color: var(--text);
+        background: var(--bg-subtle);
+      }
+      .gh-tab.active {
+        color: var(--text);
+        background: var(--bg-subtle);
+        border-color: var(--border);
+        font-weight: 500;
+      }
+      .gh-scroll {
+        overflow-x: auto;
+        padding-bottom: 2px;
+      }
+      .gh-inner {
+        min-width: 600px;
+        display: grid;
+        grid-template-columns: 30px 1fr;
+        column-gap: 6px;
+        row-gap: 4px;
+      }
+      .gh-months {
+        display: grid;
+        grid-template-columns: repeat(var(--w), 1fr);
+        column-gap: 3px;
+        height: 16px;
+        font-size: 11px;
+        color: var(--text-3);
+      }
+      .gh-months span {
+        white-space: nowrap;
+        line-height: 16px;
+      }
+      .gh-days {
+        display: grid;
+        grid-template-rows: repeat(7, 1fr);
+        row-gap: 3px;
+        font-size: 10.5px;
+        color: var(--text-3);
+        align-items: center;
+      }
+      .gh-grid {
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-rows: repeat(7, auto);
+        grid-template-columns: repeat(var(--w), 1fr);
+        gap: 3px;
+      }
+      .gh-cell {
+        display: block;
+        aspect-ratio: 1;
+        border-radius: 2px;
+        background: var(--c0);
+      }
+      .gh-cell[data-l="1"] {
+        background: var(--c1);
+      }
+      .gh-cell[data-l="2"] {
+        background: var(--c2);
+      }
+      .gh-cell[data-l="3"] {
+        background: var(--c3);
+      }
+      .gh-cell[data-l="4"] {
+        background: var(--c4);
+      }
+      .gh-cell.gh-empty {
+        background: transparent;
+      }
+      .gh-foot {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem 1rem;
+        flex-wrap: wrap;
+        margin-top: 0.75rem;
+        font-size: 12px;
+        color: var(--text-3);
+      }
+      .gh-foot a {
+        color: var(--text-3);
+        text-decoration: none;
+      }
+      .gh-foot a:hover {
+        color: var(--text);
+      }
+      .gh-legend {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .gh-legend .gh-cell {
+        width: 11px;
+        height: 11px;
+        aspect-ratio: auto;
+      }
+      .gh-legend span {
+        margin: 0 3px;
+      }
+      .gh-msg {
+        font-size: 14px;
+        color: var(--text-3);
+        padding: 1.25rem 0;
+      }
+      .gh-msg a {
+        color: var(--text-2);
+      }
 
-    /* ── SKILL ROWS ── */
-    .skill-row {
-      display: grid; grid-template-columns: 110px 1fr;
-      gap: .5rem; align-items: start;
-      padding: .875rem 0; border-bottom: 1px solid var(--border);
-    }
-    .skill-row:first-child { border-top: 1px solid var(--border); }
-    .skill-row:last-child { border-bottom: none; }
-    .skill-cat { font-size: 13px; font-weight: 500; color: var(--text-3); padding-top: 3px; }
-    .skill-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+      /* ── SKILL ROWS ── */
+      .skill-row {
+        display: grid;
+        grid-template-columns: 110px 1fr;
+        gap: 0.5rem;
+        align-items: start;
+        padding: 0.875rem 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .skill-row:first-child {
+        border-top: 1px solid var(--border);
+      }
+      .skill-row:last-child {
+        border-bottom: none;
+      }
+      .skill-cat {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text-3);
+        padding-top: 3px;
+      }
+      .skill-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+      }
 
-    /* ── STATUS DOT ── */
-    .status-dot {
-      display: inline-block; width: 7px; height: 7px;
-      border-radius: 50%; background: #22c55e;
-      animation: blink 2.5s ease infinite;
-    }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.4} }
+      /* ── STATUS DOT ── */
+      .status-dot {
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #22c55e;
+        animation: blink 2.5s ease infinite;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.4;
+        }
+      }
 
-    /* ── FADE IN ── */
-    .fade { opacity: 0; transform: translateY(8px); transition: opacity .4s ease, transform .4s ease; }
-    .fade.visible { opacity: 1; transform: none; }
-    .fade-d1 { transition-delay: .07s; }
-    .fade-d2 { transition-delay: .14s; }
+      /* ── FADE IN ── */
+      .fade {
+        opacity: 0;
+        transform: translateY(8px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+      .fade.visible {
+        opacity: 1;
+        transform: none;
+      }
+      .fade-d1 {
+        transition-delay: 0.07s;
+      }
+      .fade-d2 {
+        transition-delay: 0.14s;
+      }
 
-    /* ── MOBILE ── */
-    .mobile-topbar {
-      display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-      height: 52px; background: var(--bg); border-bottom: 1px solid var(--border);
-      align-items: center; justify-content: space-between;
-      padding: 0 1.25rem;
-    }
-    .mobile-topbar-name { font-size: 14px; font-weight: 600; color: var(--text); }
-    .mobile-topbar-right { display: flex; gap: .25rem; }
-    .mobile-menu-btn {
-      background: none; border: none; cursor: pointer; color: var(--text-2);
-      padding: .35rem; border-radius: 6px; display: flex; align-items: center;
-    }
-    .mobile-menu-btn svg { width: 18px; height: 18px; }
-    .mobile-drawer {
-      display: none; position: fixed; inset: 0; z-index: 49;
-    }
-    .mobile-drawer.open { display: block; }
-    .mobile-drawer-overlay {
-      position: absolute; inset: 0; background: rgba(0,0,0,.3);
-    }
-    .mobile-drawer-panel {
-      position: absolute; top: 0; left: 0; bottom: 0;
-      width: 240px; background: var(--bg);
-      border-right: 1px solid var(--border);
-      padding: 1.5rem 1.25rem;
-      overflow-y: auto;
-    }
+      /* ── MOBILE ── */
+      .mobile-topbar {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 50;
+        height: 52px;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1.25rem;
+      }
+      .mobile-topbar-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text);
+      }
+      .mobile-topbar-right {
+        display: flex;
+        gap: 0.25rem;
+      }
+      .mobile-menu-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--text-2);
+        padding: 0.35rem;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+      }
+      .mobile-menu-btn svg {
+        width: 18px;
+        height: 18px;
+      }
+      .mobile-drawer {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 49;
+      }
+      .mobile-drawer.open {
+        display: block;
+      }
+      .mobile-drawer-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.3);
+      }
+      .mobile-drawer-panel {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 240px;
+        background: var(--bg);
+        border-right: 1px solid var(--border);
+        padding: 1.5rem 1.25rem;
+        overflow-y: auto;
+      }
 
-    @media (max-width: 680px) {
-      .sidebar { display: none; }
-      .layout { display: block; }
-      .main { padding: 4.5rem 1.25rem 3rem; }
-      .main-inner { max-width: 100%; }
-      .mobile-topbar { display: flex; }
-      .skill-row { grid-template-columns: 1fr; gap: .3rem; }
-    }
+      @media (max-width: 680px) {
+        .sidebar {
+          display: none;
+        }
+        .layout {
+          display: block;
+        }
+        .main {
+          padding: 4.5rem 1.25rem 3rem;
+        }
+        .main-inner {
+          max-width: 100%;
+        }
+        .mobile-topbar {
+          display: flex;
+        }
+        .skill-row {
+          grid-template-columns: 1fr;
+          gap: 0.3rem;
+        }
+      }
 
-    @media (prefers-reduced-motion: reduce) {
-      * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
-    }
-  </style>
-</head>
-<body>
-
-  <div class="layout">
-
-    <!-- SIDEBAR (desktop) -->
-    <aside class="sidebar">
-      <div class="sidebar-profile">
-        <div class="profile-avatar">
-          <img src="/image/profil.jpeg" alt="Bryan" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <span class="profile-avatar-placeholder" style="display:none">B</span>
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <!-- SIDEBAR (desktop) -->
+      <aside class="sidebar">
+        <div class="sidebar-profile">
+          <div class="profile-avatar">
+            <img
+              src="/image/profil.jpeg"
+              alt="Bryan"
+              onerror="
+                this.style.display = 'none';
+                this.nextElementSibling.style.display = 'flex';
+              "
+            />
+            <span class="profile-avatar-placeholder" style="display: none"
+              >B</span
+            >
+          </div>
+          <div class="profile-name">Bryan Torisi Siagian</div>
+          <div class="profile-role">Software Engineer</div>
         </div>
-        <div class="profile-name">Bryan Torisi Siagian</div>
-        <div class="profile-role">Software Engineer</div>
-      </div>
 
-      <nav class="sidebar-nav">
-        <ul class="nav-list">
-          <li class="nav-item">
-            <a href="index.html" class="active">
-              <span data-lang="en">Home</span><span data-lang="id">Beranda</span>
-              <span class="nav-count">1</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="projects.html">
-              <span data-lang="en">Projects</span><span data-lang="id">Proyek</span>
-              <span class="nav-count">9</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="achievements.html">
-              <span data-lang="en">Achievements</span><span data-lang="id">Capaian</span>
-              <span class="nav-count">3</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="certificates.html">
-              <span data-lang="en">Certificates</span><span data-lang="id">Sertifikat</span>
-              <span class="nav-count">4</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="resume.pdf" download="CV-Bryan-Torisi-Siagian.pdf" data-download aria-label="Download Resume" title="Download Resume">
-              <span>Resume</span>
-              <span class="nav-badge">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              </span>
-            </a>
-          </li>
-        </ul>
-      </nav>
+        <nav class="sidebar-nav">
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="index.html" class="active">
+                <span data-lang="en">Home</span
+                ><span data-lang="id">Beranda</span>
+                <span class="nav-count">1</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="projects.html">
+                <span data-lang="en">Projects</span
+                ><span data-lang="id">Proyek</span>
+                <span class="nav-count">10</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="achievements.html">
+                <span data-lang="en">Achievements</span
+                ><span data-lang="id">Capaian</span>
+                <span class="nav-count">3</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="certificates.html">
+                <span data-lang="en">Certificates</span
+                ><span data-lang="id">Sertifikat</span>
+                <span class="nav-count">4</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="resume.pdf"
+                download="CV-Bryan-Torisi-Siagian.pdf"
+                data-download
+                aria-label="Download Resume"
+                title="Download Resume"
+              >
+                <span>Resume</span>
+                <span class="nav-badge">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.25"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </nav>
 
-      <div class="sidebar-footer">
-        <button class="icon-btn" id="langBtn" aria-label="Toggle language">
-          <span id="langLabel">EN</span>
+        <div class="sidebar-footer">
+          <button class="icon-btn" id="langBtn" aria-label="Toggle language">
+            <span id="langLabel">EN</span>
+          </button>
+          <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">
+            <svg
+              id="themeIcon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="main">
+        <div class="main-inner">
+          <div class="page-header fade">
+            <h1 class="page-title">
+              <span data-lang="en">About</span>
+              <span data-lang="id">Tentang</span>
+            </h1>
+            <div class="page-actions"></div>
+          </div>
+
+          <!-- ABOUT -->
+          <p class="about-text fade" style="margin-bottom: 1rem">
+            <span data-lang="en">
+              Hi, I'm <strong>Bryan Torisi Siagian</strong>. I'm a
+              <strong>Software Engineer</strong> at
+              <strong>Institut Teknologi Del</strong>. I specialize in
+              <strong>Laravel</strong>, <strong>Flutter</strong>,
+              <strong>REST API</strong>, and <strong>AWS Deployment</strong> —
+              building full-stack web apps and mobile applications for real
+              users. Currently expanding into <strong>Data Science</strong> and
+              <strong>Machine Learning</strong>.
+            </span>
+            <span data-lang="id">
+              Hai, saya <strong>Bryan Torisi Siagian</strong>. Saya seorang
+              <strong>Software Engineer</strong> di
+              <strong>Institut Teknologi Del</strong>. Saya berfokus pada
+              <strong>Laravel</strong>, <strong>Flutter</strong>,
+              <strong>REST API</strong>, dan <strong>AWS Deployment</strong> —
+              membangun aplikasi web full-stack dan mobile untuk pengguna nyata.
+              Saat ini sedang mendalami <strong>Data Science</strong> dan
+              <strong>Machine Learning</strong>.
+            </span>
+          </p>
+
+          <p class="about-text fade">
+            <span data-lang="en">
+              Away from the keyboard, you'll usually find me behind a camera,
+              chasing good light and quiet corners of the outdoors. I love
+              <strong>photography</strong>, hitting the <strong>gym</strong>,
+              and spending time in <strong>nature</strong>. I'm also a big fan
+              of <strong>coffee</strong> and <strong>movies</strong>, and when I
+              need a break from the screen, I pick up my
+              <strong>guitar</strong>.
+            </span>
+            <span data-lang="id">
+              Di luar urusan coding, saya biasanya sedang memegang kamera,
+              mencari cahaya yang bagus dan sudut-sudut alam yang tenang. Saya
+              suka <strong>fotografi</strong>, berolahraga di
+              <strong>gym</strong>, dan menghabiskan waktu di
+              <strong>alam</strong>. Saya juga penggemar
+              <strong>kopi</strong> dan <strong>film</strong>, dan saat butuh
+              rehat dari layar, saya bermain <strong>gitar</strong>.
+            </span>
+          </p>
+
+          <div class="about-meta fade">
+            <span class="meta-item">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.75"
+              >
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              North Sumatra, Indonesia
+            </span>
+            <span class="meta-item">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.75"
+              >
+                <rect x="2" y="4" width="20" height="16" rx="2" />
+                <path d="M2 7l10 7 10-7" />
+              </svg>
+              <a href="mailto:bryantorisi@gmail.com">bryantorisi@gmail.com</a>
+            </span>
+            <span class="meta-item">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.75"
+              >
+                <path
+                  d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"
+                />
+              </svg>
+              <a
+                href="https://github.com/bryansiagian"
+                target="_blank"
+                rel="noopener"
+                >github.com/bryansiagian</a
+              >
+            </span>
+            <span class="meta-item">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+              </svg>
+              <a
+                href="https://www.instagram.com/brynsgn"
+                target="_blank"
+                rel="noopener"
+                >@brynsgn</a
+              >
+            </span>
+            <span class="meta-item">
+              <span class="status-dot"></span>
+              <span data-lang="en">Open to internship &amp; collaboration</span>
+              <span data-lang="id">Terbuka untuk magang &amp; kolaborasi</span>
+            </span>
+          </div>
+
+          <!-- RECENT PROJECTS -->
+          <div class="section fade fade-d1">
+            <div class="section-header">
+              <h2 class="section-title">
+                <span data-lang="en">Recent Projects</span>
+                <span data-lang="id">Proyek Terkini</span>
+              </h2>
+              <a href="projects.html" class="section-link">
+                <span data-lang="en">All projects</span>
+                <span data-lang="id">Semua proyek</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                >
+                  <path d="M7 17L17 7M17 7H7M17 7v10" />
+                </svg>
+              </a>
+            </div>
+            <div class="item-list">
+              <a href="sigap-desa.html" class="item-row">
+                <div class="item-meta-col">
+                  <div class="item-num">Project 01</div>
+                  <div class="item-date">
+                    <span data-lang="en">2026 — Now</span
+                    ><span data-lang="id">2026 — Sekarang</span>
+                  </div>
+                </div>
+                <div class="item-body">
+                  <div class="item-title">
+                    SIGAP-Desa — Village Service System
+                  </div>
+                  <div class="item-desc">
+                    <span data-lang="en"
+                      >Generative adaptive village service information system.
+                      Non-technical village staff can create new service
+                      features themselves, with no wait for IT-team
+                      sprints.</span
+                    >
+                    <span data-lang="id"
+                      >Sistem informasi layanan desa yang generatif dan adaptif.
+                      Staf desa non-teknis dapat membuat fitur layanan baru
+                      sendiri, tanpa menunggu sprint tim IT.</span
+                    >
+                  </div>
+                  <div class="item-tags">
+                    <span class="tag">Laravel</span
+                    ><span class="tag">Alpine.js</span
+                    ><span class="tag">Livewire</span>
+                  </div>
+                </div>
+                <div class="item-arrow">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M7 17L17 7M17 7H7M17 7v10" />
+                  </svg>
+                </div>
+              </a>
+
+              <a href="jason-jewelry.html" class="item-row">
+                <div class="item-meta-col">
+                  <div class="item-num">Project 02</div>
+                  <div class="item-date">
+                    <span data-lang="en">2026 — Now</span
+                    ><span data-lang="id">2026 — Sekarang</span>
+                  </div>
+                </div>
+                <div class="item-body">
+                  <div class="item-title">Jason Jewelry — Store Management</div>
+                  <div class="item-desc">
+                    <span data-lang="en"
+                      >Jewelry store management system. Admin modules for
+                      products and trays, a responsive customer storefront, and
+                      a login flow, built on a Go/Echo REST API.</span
+                    >
+                    <span data-lang="id"
+                      >Sistem manajemen toko perhiasan. Modul admin untuk produk
+                      dan baki, storefront pelanggan yang responsif, serta alur
+                      login, dibangun di atas REST API Go/Echo.</span
+                    >
+                  </div>
+                  <div class="item-tags">
+                    <span class="tag">Next.js</span><span class="tag">Go</span
+                    ><span class="tag">Echo</span
+                    ><span class="tag">REST API</span>
+                  </div>
+                </div>
+                <div class="item-arrow">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M7 17L17 7M17 7H7M17 7v10" />
+                  </svg>
+                </div>
+              </a>
+
+              <a href="tobaniaga.html" class="item-row">
+                <div class="item-meta-col">
+                  <div class="item-num">Project 03</div>
+                  <div class="item-date">
+                    <span data-lang="en">2026 — Now</span
+                    ><span data-lang="id">2026 — Sekarang</span>
+                  </div>
+                </div>
+                <div class="item-body">
+                  <div class="item-title">
+                    TobaNiaga — Multi-Vendor E-Commerce
+                  </div>
+                  <div class="item-desc">
+                    <span data-lang="en"
+                      >Multi-vendor e-commerce for local SMEs with four roles,
+                      Midtrans checkout, and a courier job pool for order
+                      fulfillment.</span
+                    >
+                    <span data-lang="id"
+                      >E-commerce multi-vendor untuk UMKM lokal dengan empat
+                      peran, checkout Midtrans, dan job pool kurir untuk
+                      pemenuhan pesanan.</span
+                    >
+                  </div>
+                  <div class="item-tags">
+                    <span class="tag">Laravel</span
+                    ><span class="tag">Alpine.js</span
+                    ><span class="tag">Tailwind CSS</span
+                    ><span class="tag">Midtrans</span>
+                  </div>
+                </div>
+                <div class="item-arrow">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M7 17L17 7M17 7H7M17 7v10" />
+                  </svg>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- RECENT ACHIEVEMENTS -->
+          <div class="section fade fade-d2">
+            <div class="section-header">
+              <h2 class="section-title">
+                <span data-lang="en">Achievements</span>
+                <span data-lang="id">Capaian</span>
+              </h2>
+              <a href="achievements.html" class="section-link">
+                <span data-lang="en">All achievements</span>
+                <span data-lang="id">Semua capaian</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                >
+                  <path d="M7 17L17 7M17 7H7M17 7v10" />
+                </svg>
+              </a>
+            </div>
+            <div class="item-list">
+              <div class="ach-row">
+                <div class="ach-icon">🥉</div>
+                <div>
+                  <div class="ach-title">
+                    <span data-lang="en"
+                      >3rd Place — Business and Innovation Plan Competition,
+                      Marpesta QRIS 2026</span
+                    >
+                    <span data-lang="id"
+                      >Juara 3 — Business and Innovation Plan Competition,
+                      Marpesta QRIS 2026</span
+                    >
+                  </div>
+                  <div class="ach-sub">
+                    <span data-lang="en"
+                      >TaniCerdas AI — rice and corn disease detection with
+                      QRIS-based farm input recommendations · Bank Indonesia
+                      Pematangsiantar Office</span
+                    >
+                    <span data-lang="id"
+                      >TaniCerdas AI — deteksi penyakit padi dan jagung dengan
+                      rekomendasi sarana tani berbasis QRIS · Bank Indonesia
+                      Kantor Perwakilan Pematangsiantar</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="ach-row">
+                <div class="ach-icon">🏆</div>
+                <div>
+                  <div class="ach-title">
+                    <span data-lang="en"
+                      >2nd Place — Medan Coding Competition 2026</span
+                    >
+                    <span data-lang="id"
+                      >Juara 2 — Medan Coding Competition 2026</span
+                    >
+                  </div>
+                  <div class="ach-sub">
+                    <span data-lang="en"
+                      >MedFlow · Smart City Transportation</span
+                    >
+                    <span data-lang="id"
+                      >MedFlow · Transportasi Smart City</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="ach-row">
+                <div class="ach-icon">🏅</div>
+                <div>
+                  <div class="ach-title">
+                    <span data-lang="en"
+                      >Top 30 — National Batak Cultural Website
+                      Competition</span
+                    >
+                    <span data-lang="id"
+                      >Top 30 — Kompetisi Website Budaya Batak Nasional</span
+                    >
+                  </div>
+                  <div class="ach-sub">
+                    <span data-lang="en">BoanAksara · Cultural Heritage</span>
+                    <span data-lang="id">BoanAksara · Warisan Budaya</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- GITHUB CONTRIBUTIONS -->
+          <div class="section fade">
+            <div class="section-header">
+              <h2 class="section-title">
+                <span data-lang="en">GitHub Activity</span>
+                <span data-lang="id">Aktivitas GitHub</span>
+              </h2>
+              <a
+                href="https://github.com/bryansiagian"
+                target="_blank"
+                rel="noopener"
+                class="section-link"
+              >
+                <span data-lang="en">View profile</span>
+                <span data-lang="id">Lihat profil</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                >
+                  <path d="M7 17L17 7M17 7H7M17 7v10" />
+                </svg>
+              </a>
+            </div>
+            <div class="gh-card" id="ghCard">
+              <div class="gh-top">
+                <div class="gh-total" id="ghTotal">
+                  <span data-lang="en">Loading contributions…</span>
+                  <span data-lang="id">Memuat kontribusi…</span>
+                </div>
+                <div class="gh-tabs" id="ghTabs"></div>
+              </div>
+              <div id="ghBody"></div>
+            </div>
+          </div>
+
+          <!-- SKILLS -->
+          <div class="section fade">
+            <div class="section-header">
+              <h2 class="section-title">Skills &amp; Tech</h2>
+            </div>
+            <div>
+              <div class="skill-row">
+                <span class="skill-cat">Backend</span>
+                <div class="skill-tags">
+                  <span class="tag">PHP / Laravel</span
+                  ><span class="tag">REST API</span
+                  ><span class="tag">Microservices</span
+                  ><span class="tag">Midtrans</span
+                  ><span class="tag">OSM / OSRM</span>
+                </div>
+              </div>
+              <div class="skill-row">
+                <span class="skill-cat">Mobile</span>
+                <div class="skill-tags">
+                  <span class="tag">Flutter</span><span class="tag">Dart</span
+                  ><span class="tag">Google Maps API</span
+                  ><span class="tag">OWM API</span>
+                </div>
+              </div>
+              <div class="skill-row">
+                <span class="skill-cat">Database</span>
+                <div class="skill-tags">
+                  <span class="tag">MySQL</span
+                  ><span class="tag">PostgreSQL</span
+                  ><span class="tag">Eloquent ORM</span>
+                </div>
+              </div>
+              <div class="skill-row">
+                <span class="skill-cat">DevOps</span>
+                <div class="skill-tags">
+                  <span class="tag">AWS EC2</span><span class="tag">Nginx</span
+                  ><span class="tag">Linux</span
+                  ><span class="tag">Git / GitHub</span>
+                </div>
+              </div>
+              <div class="skill-row">
+                <span class="skill-cat">Frontend</span>
+                <div class="skill-tags">
+                  <span class="tag">HTML / CSS / JS</span
+                  ><span class="tag">Blade</span
+                  ><span class="tag">Tailwind</span
+                  ><span class="tag">React</span>
+                </div>
+              </div>
+              <div class="skill-row">
+                <span class="skill-cat"
+                  ><span data-lang="en">Exploring</span
+                  ><span data-lang="id">Belajar</span></span
+                >
+                <div class="skill-tags">
+                  <span class="tag">Data Science</span
+                  ><span class="tag">Machine Learning</span
+                  ><span class="tag">Python</span
+                  ><span class="tag">Cybersecurity</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- EDUCATION -->
+          <div class="section fade fade-d1">
+            <div class="section-header">
+              <h2 class="section-title">
+                <span data-lang="en">Education</span>
+                <span data-lang="id">Pendidikan</span>
+              </h2>
+            </div>
+            <div class="item-list">
+              <div class="item-row">
+                <div class="item-meta-col">
+                  <div class="item-date">
+                    <span data-lang="en">2024 — Now</span
+                    ><span data-lang="id">2024 — Sekarang</span>
+                  </div>
+                </div>
+                <div class="item-body">
+                  <div class="item-title">Institut Teknologi Del</div>
+                  <div class="item-desc">
+                    <span data-lang="en"
+                      >D3 Information Technology · Semester 5 · Laguboti, North
+                      Sumatra</span
+                    >
+                    <span data-lang="id"
+                      >D3 Teknologi Informasi · Semester 5 · Laguboti, Sumatera
+                      Utara</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="item-row">
+                <div class="item-meta-col">
+                  <div class="item-date">2021 — 2024</div>
+                </div>
+                <div class="item-body">
+                  <div class="item-title">SMK Negeri 1 Balige</div>
+                  <div class="item-desc">
+                    <span data-lang="en"
+                      >Vocational High School · Electronics · Balige, North
+                      Sumatra</span
+                    >
+                    <span data-lang="id"
+                      >SMK · Jurusan Elektronika · Balige, Sumatera Utara</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <!-- /.layout -->
+
+    <!-- MOBILE TOPBAR -->
+    <div class="mobile-topbar">
+      <span class="mobile-topbar-name">Bryan Siagian</span>
+      <div class="mobile-topbar-right">
+        <button class="icon-btn" id="langBtnMobile">
+          <span id="langLabelMobile">EN</span>
         </button>
-        <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">
-          <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        <button class="icon-btn" id="themeBtnMobile">
+          <svg
+            id="themeIconMobile"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            style="width: 16px; height: 16px"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        </button>
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
           </svg>
         </button>
       </div>
-    </aside>
-
-    <!-- MAIN CONTENT -->
-    <main class="main">
-    <div class="main-inner">
-      <div class="page-header fade">
-        <h1 class="page-title">
-          <span data-lang="en">About</span>
-          <span data-lang="id">Tentang</span>
-        </h1>
-        <div class="page-actions">
-        </div>
-      </div>
-
-      <!-- ABOUT -->
-      <p class="about-text fade" style="margin-bottom: 1rem;">
-        <span data-lang="en">
-          Hi, I'm <strong>Bryan Torisi Siagian</strong>. I'm a <strong>Software Engineer</strong> at <strong>Institut Teknologi Del</strong>.
-          I specialize in <strong>Laravel</strong>, <strong>Flutter</strong>, <strong>REST API</strong>, and <strong>AWS Deployment</strong> — building full-stack web apps and mobile applications for real users.
-          Currently expanding into <strong>Data Science</strong> and <strong>Machine Learning</strong>.
-        </span>
-        <span data-lang="id">
-          Hai, saya <strong>Bryan Torisi Siagian</strong>. Saya seorang <strong>Software Engineer</strong> di <strong>Institut Teknologi Del</strong>.
-          Saya berfokus pada <strong>Laravel</strong>, <strong>Flutter</strong>, <strong>REST API</strong>, dan <strong>AWS Deployment</strong> — membangun aplikasi web full-stack dan mobile untuk pengguna nyata.
-          Saat ini sedang mendalami <strong>Data Science</strong> dan <strong>Machine Learning</strong>.
-        </span>
-      </p>
-
-      <p class="about-text fade">
-        <span data-lang="en">
-          Away from the keyboard, you'll usually find me behind a camera, chasing good light and quiet corners of the outdoors. I love <strong>photography</strong>, hitting the <strong>gym</strong>, and spending time in <strong>nature</strong>. I'm also a big fan of <strong>coffee</strong> and <strong>movies</strong>, and when I need a break from the screen, I pick up my <strong>guitar</strong>.
-        </span>
-        <span data-lang="id">
-          Di luar urusan coding, saya biasanya sedang memegang kamera, mencari cahaya yang bagus dan sudut-sudut alam yang tenang. Saya suka <strong>fotografi</strong>, berolahraga di <strong>gym</strong>, dan menghabiskan waktu di <strong>alam</strong>. Saya juga penggemar <strong>kopi</strong> dan <strong>film</strong>, dan saat butuh rehat dari layar, saya bermain <strong>gitar</strong>.
-        </span>
-      </p>
-
-      <div class="about-meta fade">
-        <span class="meta-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          North Sumatra, Indonesia
-        </span>
-        <span class="meta-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
-          <a href="mailto:bryantorisi@gmail.com">bryantorisi@gmail.com</a>
-        </span>
-        <span class="meta-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-          <a href="https://github.com/bryansiagian" target="_blank" rel="noopener">github.com/bryansiagian</a>
-        </span>
-        <span class="meta-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-          <a href="https://www.instagram.com/brynsgn" target="_blank" rel="noopener">@brynsgn</a>
-        </span>
-        <span class="meta-item">
-          <span class="status-dot"></span>
-          <span data-lang="en">Open to internship &amp; collaboration</span>
-          <span data-lang="id">Terbuka untuk magang &amp; kolaborasi</span>
-        </span>
-      </div>
-
-      <!-- RECENT PROJECTS -->
-      <div class="section fade fade-d1">
-        <div class="section-header">
-          <h2 class="section-title">
-            <span data-lang="en">Recent Projects</span>
-            <span data-lang="id">Proyek Terkini</span>
-          </h2>
-          <a href="projects.html" class="section-link">
-            <span data-lang="en">All projects</span>
-            <span data-lang="id">Semua proyek</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-          </a>
-        </div>
-        <div class="item-list">
-
-          <a href="sigap-desa.html" class="item-row">
-            <div class="item-meta-col">
-              <div class="item-num">Project 01</div>
-              <div class="item-date"><span data-lang="en">2026 — Now</span><span data-lang="id">2026 — Sekarang</span></div>
-            </div>
-            <div class="item-body">
-              <div class="item-title">SIGAP-Desa — Village Service System</div>
-              <div class="item-desc">
-                <span data-lang="en">Generative adaptive village service information system. Non-technical village staff can create new service features themselves, with no wait for IT-team sprints.</span>
-                <span data-lang="id">Sistem informasi layanan desa yang generatif dan adaptif. Staf desa non-teknis dapat membuat fitur layanan baru sendiri, tanpa menunggu sprint tim IT.</span>
-              </div>
-              <div class="item-tags">
-                <span class="tag">Laravel</span><span class="tag">Alpine.js</span><span class="tag">Livewire</span>
-              </div>
-            </div>
-            <div class="item-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
-          </a>
-
-          <a href="jason-jewelry.html" class="item-row">
-            <div class="item-meta-col">
-              <div class="item-num">Project 02</div>
-              <div class="item-date"><span data-lang="en">2026 — Now</span><span data-lang="id">2026 — Sekarang</span></div>
-            </div>
-            <div class="item-body">
-              <div class="item-title">Jason Jewelry — Store Management</div>
-              <div class="item-desc">
-                <span data-lang="en">Jewelry store management system. Admin modules for products and trays, a responsive customer storefront, and a login flow, built on a Go/Echo REST API.</span>
-                <span data-lang="id">Sistem manajemen toko perhiasan. Modul admin untuk produk dan baki, storefront pelanggan yang responsif, serta alur login, dibangun di atas REST API Go/Echo.</span>
-              </div>
-              <div class="item-tags">
-                <span class="tag">Next.js</span><span class="tag">Go</span><span class="tag">Echo</span><span class="tag">REST API</span>
-              </div>
-            </div>
-            <div class="item-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
-          </a>
-
-          <a href="tobaniaga.html" class="item-row">
-            <div class="item-meta-col">
-              <div class="item-num">Project 03</div>
-              <div class="item-date"><span data-lang="en">2026 — Now</span><span data-lang="id">2026 — Sekarang</span></div>
-            </div>
-            <div class="item-body">
-              <div class="item-title">TobaNiaga — Multi-Vendor E-Commerce</div>
-              <div class="item-desc">
-                <span data-lang="en">Multi-vendor e-commerce for local SMEs with four roles, Midtrans checkout, and a courier job pool for order fulfillment.</span>
-                <span data-lang="id">E-commerce multi-vendor untuk UMKM lokal dengan empat peran, checkout Midtrans, dan job pool kurir untuk pemenuhan pesanan.</span>
-              </div>
-              <div class="item-tags">
-                <span class="tag">Laravel</span><span class="tag">Alpine.js</span><span class="tag">Tailwind CSS</span><span class="tag">Midtrans</span>
-              </div>
-            </div>
-            <div class="item-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
-          </a>
-
-        </div>
-      </div>
-
-      <!-- RECENT ACHIEVEMENTS -->
-      <div class="section fade fade-d2">
-        <div class="section-header">
-          <h2 class="section-title">
-            <span data-lang="en">Achievements</span>
-            <span data-lang="id">Capaian</span>
-          </h2>
-          <a href="achievements.html" class="section-link">
-            <span data-lang="en">All achievements</span>
-            <span data-lang="id">Semua capaian</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-          </a>
-        </div>
-        <div class="item-list">
-          <div class="ach-row">
-            <div class="ach-icon">🥉</div>
-            <div>
-              <div class="ach-title">
-                <span data-lang="en">3rd Place — Business and Innovation Plan Competition, Marpesta QRIS 2026</span>
-                <span data-lang="id">Juara 3 — Business and Innovation Plan Competition, Marpesta QRIS 2026</span>
-              </div>
-              <div class="ach-sub">
-                <span data-lang="en">TaniCerdas AI — rice and corn disease detection with QRIS-based farm input recommendations · Bank Indonesia Pematangsiantar Office</span>
-                <span data-lang="id">TaniCerdas AI — deteksi penyakit padi dan jagung dengan rekomendasi sarana tani berbasis QRIS · Bank Indonesia Kantor Perwakilan Pematangsiantar</span>
-              </div>
-            </div>
-          </div>
-          <div class="ach-row">
-            <div class="ach-icon">🏆</div>
-            <div>
-              <div class="ach-title">
-                <span data-lang="en">2nd Place — Medan Coding Competition 2026</span>
-                <span data-lang="id">Juara 2 — Medan Coding Competition 2026</span>
-              </div>
-              <div class="ach-sub">
-                <span data-lang="en">MedFlow · Smart City Transportation</span>
-                <span data-lang="id">MedFlow · Transportasi Smart City</span>
-              </div>
-            </div>
-          </div>
-          <div class="ach-row">
-            <div class="ach-icon">🏅</div>
-            <div>
-              <div class="ach-title">
-                <span data-lang="en">Top 30 — National Batak Cultural Website Competition</span>
-                <span data-lang="id">Top 30 — Kompetisi Website Budaya Batak Nasional</span>
-              </div>
-              <div class="ach-sub">
-                <span data-lang="en">BoanAksara · Cultural Heritage</span>
-                <span data-lang="id">BoanAksara · Warisan Budaya</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- GITHUB CONTRIBUTIONS -->
-      <div class="section fade">
-        <div class="section-header">
-          <h2 class="section-title">
-            <span data-lang="en">GitHub Activity</span>
-            <span data-lang="id">Aktivitas GitHub</span>
-          </h2>
-          <a href="https://github.com/bryansiagian" target="_blank" rel="noopener" class="section-link">
-            <span data-lang="en">View profile</span>
-            <span data-lang="id">Lihat profil</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-          </a>
-        </div>
-        <div class="gh-card" id="ghCard">
-          <div class="gh-top">
-            <div class="gh-total" id="ghTotal">
-              <span data-lang="en">Loading contributions…</span>
-              <span data-lang="id">Memuat kontribusi…</span>
-            </div>
-            <div class="gh-tabs" id="ghTabs"></div>
-          </div>
-          <div id="ghBody"></div>
-        </div>
-      </div>
-
-      <!-- SKILLS -->
-      <div class="section fade">
-        <div class="section-header">
-          <h2 class="section-title">Skills &amp; Tech</h2>
-        </div>
-        <div>
-          <div class="skill-row"><span class="skill-cat">Backend</span><div class="skill-tags"><span class="tag">PHP / Laravel</span><span class="tag">REST API</span><span class="tag">Microservices</span><span class="tag">Midtrans</span><span class="tag">OSM / OSRM</span></div></div>
-          <div class="skill-row"><span class="skill-cat">Mobile</span><div class="skill-tags"><span class="tag">Flutter</span><span class="tag">Dart</span><span class="tag">Google Maps API</span><span class="tag">OWM API</span></div></div>
-          <div class="skill-row"><span class="skill-cat">Database</span><div class="skill-tags"><span class="tag">MySQL</span><span class="tag">PostgreSQL</span><span class="tag">Eloquent ORM</span></div></div>
-          <div class="skill-row"><span class="skill-cat">DevOps</span><div class="skill-tags"><span class="tag">AWS EC2</span><span class="tag">Nginx</span><span class="tag">Linux</span><span class="tag">Git / GitHub</span></div></div>
-          <div class="skill-row"><span class="skill-cat">Frontend</span><div class="skill-tags"><span class="tag">HTML / CSS / JS</span><span class="tag">Blade</span><span class="tag">Tailwind</span><span class="tag">React</span></div></div>
-          <div class="skill-row"><span class="skill-cat"><span data-lang="en">Exploring</span><span data-lang="id">Belajar</span></span><div class="skill-tags"><span class="tag">Data Science</span><span class="tag">Machine Learning</span><span class="tag">Python</span><span class="tag">Cybersecurity</span></div></div>
-        </div>
-      </div>
-
-      <!-- EDUCATION -->
-      <div class="section fade fade-d1">
-        <div class="section-header">
-          <h2 class="section-title">
-            <span data-lang="en">Education</span>
-            <span data-lang="id">Pendidikan</span>
-          </h2>
-        </div>
-        <div class="item-list">
-          <div class="item-row">
-            <div class="item-meta-col">
-              <div class="item-date"><span data-lang="en">2024 — Now</span><span data-lang="id">2024 — Sekarang</span></div>
-            </div>
-            <div class="item-body">
-              <div class="item-title">Institut Teknologi Del</div>
-              <div class="item-desc">
-                <span data-lang="en">D3 Information Technology · Semester 5 · Laguboti, North Sumatra</span>
-                <span data-lang="id">D3 Teknologi Informasi · Semester 5 · Laguboti, Sumatera Utara</span>
-              </div>
-            </div>
-          </div>
-          <div class="item-row">
-            <div class="item-meta-col">
-              <div class="item-date">2021 — 2024</div>
-            </div>
-            <div class="item-body">
-              <div class="item-title">SMK Negeri 1 Balige</div>
-              <div class="item-desc">
-                <span data-lang="en">Vocational High School · Electronics · Balige, North Sumatra</span>
-                <span data-lang="id">SMK · Jurusan Elektronika · Balige, Sumatera Utara</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
-    </main>
 
-  </div><!-- /.layout -->
-
-  <!-- MOBILE TOPBAR -->
-  <div class="mobile-topbar">
-    <span class="mobile-topbar-name">Bryan Siagian</span>
-    <div class="mobile-topbar-right">
-      <button class="icon-btn" id="langBtnMobile"><span id="langLabelMobile">EN</span></button>
-      <button class="icon-btn" id="themeBtnMobile">
-        <svg id="themeIconMobile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
-      </button>
-      <button class="mobile-menu-btn" id="mobileMenuBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      </button>
-    </div>
-  </div>
-
-  <!-- MOBILE DRAWER -->
-  <div class="mobile-drawer" id="mobileDrawer">
-    <div class="mobile-drawer-overlay" id="drawerOverlay"></div>
-    <div class="mobile-drawer-panel">
-      <div style="margin-bottom:1.5rem">
-        <div class="profile-name" style="margin-bottom:3px">Bryan Torisi Siagian</div>
-        <div class="profile-role">Software Engineer</div>
+    <!-- MOBILE DRAWER -->
+    <div class="mobile-drawer" id="mobileDrawer">
+      <div class="mobile-drawer-overlay" id="drawerOverlay"></div>
+      <div class="mobile-drawer-panel">
+        <div style="margin-bottom: 1.5rem">
+          <div class="profile-name" style="margin-bottom: 3px">
+            Bryan Torisi Siagian
+          </div>
+          <div class="profile-role">Software Engineer</div>
+        </div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="index.html" class="active"
+              ><span>Home</span><span class="nav-count">1</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="projects.html"
+              ><span>Projects</span><span class="nav-count">10</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="achievements.html"
+              ><span>Achievements</span><span class="nav-count">3</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="certificates.html"
+              ><span>Certificates</span><span class="nav-count">4</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              href="resume.pdf"
+              download="CV-Bryan-Torisi-Siagian.pdf"
+              data-download
+              aria-label="Download Resume"
+              title="Download Resume"
+              ><span>Resume</span
+              ><span class="nav-badge"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.25"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" /></svg></span
+            ></a>
+          </li>
+        </ul>
       </div>
-      <ul class="nav-list">
-        <li class="nav-item"><a href="index.html" class="active"><span>Home</span><span class="nav-count">1</span></a></li>
-        <li class="nav-item"><a href="projects.html"><span>Projects</span><span class="nav-count">9</span></a></li>
-        <li class="nav-item"><a href="achievements.html"><span>Achievements</span><span class="nav-count">3</span></a></li>
-        <li class="nav-item"><a href="certificates.html"><span>Certificates</span><span class="nav-count">4</span></a></li>
-        <li class="nav-item"><a href="resume.pdf" download="CV-Bryan-Torisi-Siagian.pdf" data-download aria-label="Download Resume" title="Download Resume"><span>Resume</span><span class="nav-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span></a></li>
-      </ul>
     </div>
-  </div>
 
-  <script>
-    // FADE IN
-    (() => {
-      const obs = new IntersectionObserver((entries, o) => {
-        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); o.unobserve(e.target); } });
-      }, { threshold: 0.06 });
-      document.querySelectorAll('.fade').forEach(el => obs.observe(el));
-    })();
+    <script>
+      // FADE IN
+      (() => {
+        const obs = new IntersectionObserver(
+          (entries, o) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add("visible");
+                o.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.06 },
+        );
+        document.querySelectorAll(".fade").forEach((el) => obs.observe(el));
+      })();
 
-    // ─────────────────────────────────────────────
-    // GITHUB CONTRIBUTIONS
-    // Data diambil dari API publik github-contributions-api.jogruber.de
-    // (GitHub tidak punya endpoint resmi tanpa token untuk grafik ini).
-    // Ganti GH_USER bila username berubah.
-    // ─────────────────────────────────────────────
-    const GH_USER = 'bryansiagian';
-    const GH_API  = u => `https://github-contributions-api.jogruber.de/v4/${GH_USER}?y=${u}`;
-    const GH_MONTHS = {
-      en: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
-      id: ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des']
-    };
-    const ghYear   = new Date().getFullYear();
-    const ghRanges = ['last', ghYear, ghYear - 1];
-    let ghRange = 'last';
-    let ghDays  = null;
+      // ─────────────────────────────────────────────
+      // GITHUB CONTRIBUTIONS
+      // Data diambil dari API publik github-contributions-api.jogruber.de
+      // (GitHub tidak punya endpoint resmi tanpa token untuk grafik ini).
+      // Ganti GH_USER bila username berubah.
+      // ─────────────────────────────────────────────
+      const GH_USER = "bryansiagian";
+      const GH_API = (u) =>
+        `https://github-contributions-api.jogruber.de/v4/${GH_USER}?y=${u}`;
+      const GH_MONTHS = {
+        en: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ],
+        id: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "Mei",
+          "Jun",
+          "Jul",
+          "Agu",
+          "Sep",
+          "Okt",
+          "Nov",
+          "Des",
+        ],
+      };
+      const ghYear = new Date().getFullYear();
+      const ghRanges = ["last", ghYear, ghYear - 1];
+      let ghRange = "last";
+      let ghDays = null;
 
-    function ghRenderTabs() {
-      document.getElementById('ghTabs').innerHTML = ghRanges.map(r => {
-        const label = r === 'last'
-          ? '<span data-lang="en">Last year</span><span data-lang="id">1 tahun terakhir</span>'
-          : r;
-        return `<button class="gh-tab${String(r) === String(ghRange) ? ' active' : ''}" data-range="${r}">${label}</button>`;
-      }).join('');
-    }
-
-    function ghRender() {
-      if (!ghDays || !ghDays.length) return;
-      const lang  = document.documentElement.lang === 'id' ? 'id' : 'en';
-      const total = ghDays.reduce((s, d) => s + d.count, 0);
-
-      // header total
-      document.getElementById('ghTotal').innerHTML = ghRange === 'last'
-        ? `<strong>${total.toLocaleString()}</strong> <span data-lang="en">contributions in the last year</span><span data-lang="id">kontribusi dalam 1 tahun terakhir</span>`
-        : `<strong>${total.toLocaleString()}</strong> <span data-lang="en">contributions in ${ghRange}</span><span data-lang="id">kontribusi di ${ghRange}</span>`;
-
-      // susun sel per minggu (kolom mulai hari Minggu)
-      const first = new Date(ghDays[0].date + 'T00:00:00Z').getUTCDay();
-      const cells = Array(first).fill(null).concat(ghDays);
-      while (cells.length % 7) cells.push(null);
-      const weeks = cells.length / 7;
-
-      // label bulan
-      let changes = [], prevMonth = -1;
-      for (let w = 0; w < weeks; w++) {
-        const d = cells.slice(w * 7, w * 7 + 7).find(Boolean);
-        if (!d) continue;
-        const m = parseInt(d.date.slice(5, 7), 10) - 1;
-        if (m !== prevMonth) { changes.push({ w, m }); prevMonth = m; }
+      function ghRenderTabs() {
+        document.getElementById("ghTabs").innerHTML = ghRanges
+          .map((r) => {
+            const label =
+              r === "last"
+                ? '<span data-lang="en">Last year</span><span data-lang="id">1 tahun terakhir</span>'
+                : r;
+            return `<button class="gh-tab${String(r) === String(ghRange) ? " active" : ""}" data-range="${r}">${label}</button>`;
+          })
+          .join("");
       }
-      changes = changes.filter((c, i) => i === changes.length - 1 || changes[i + 1].w - c.w >= 3);
-      const monthsHTML = changes.map(c =>
-        `<span style="grid-column:${c.w + 1} / span 3">${GH_MONTHS[lang][c.m]}</span>`).join('');
 
-      // sel
-      const cellsHTML = cells.map(d => {
-        if (!d) return '<i class="gh-cell gh-empty"></i>';
-        const tip = lang === 'id'
-          ? `${d.count} kontribusi pada ${d.date}`
-          : `${d.count} contribution${d.count === 1 ? '' : 's'} on ${d.date}`;
-        return `<i class="gh-cell" data-l="${d.level}" title="${tip}"></i>`;
-      }).join('');
+      function ghRender() {
+        if (!ghDays || !ghDays.length) return;
+        const lang = document.documentElement.lang === "id" ? "id" : "en";
+        const total = ghDays.reduce((s, d) => s + d.count, 0);
 
-      document.getElementById('ghBody').innerHTML = `
+        // header total
+        document.getElementById("ghTotal").innerHTML =
+          ghRange === "last"
+            ? `<strong>${total.toLocaleString()}</strong> <span data-lang="en">contributions in the last year</span><span data-lang="id">kontribusi dalam 1 tahun terakhir</span>`
+            : `<strong>${total.toLocaleString()}</strong> <span data-lang="en">contributions in ${ghRange}</span><span data-lang="id">kontribusi di ${ghRange}</span>`;
+
+        // susun sel per minggu (kolom mulai hari Minggu)
+        const first = new Date(ghDays[0].date + "T00:00:00Z").getUTCDay();
+        const cells = Array(first).fill(null).concat(ghDays);
+        while (cells.length % 7) cells.push(null);
+        const weeks = cells.length / 7;
+
+        // label bulan
+        let changes = [],
+          prevMonth = -1;
+        for (let w = 0; w < weeks; w++) {
+          const d = cells.slice(w * 7, w * 7 + 7).find(Boolean);
+          if (!d) continue;
+          const m = parseInt(d.date.slice(5, 7), 10) - 1;
+          if (m !== prevMonth) {
+            changes.push({ w, m });
+            prevMonth = m;
+          }
+        }
+        changes = changes.filter(
+          (c, i) => i === changes.length - 1 || changes[i + 1].w - c.w >= 3,
+        );
+        const monthsHTML = changes
+          .map(
+            (c) =>
+              `<span style="grid-column:${c.w + 1} / span 3">${GH_MONTHS[lang][c.m]}</span>`,
+          )
+          .join("");
+
+        // sel
+        const cellsHTML = cells
+          .map((d) => {
+            if (!d) return '<i class="gh-cell gh-empty"></i>';
+            const tip =
+              lang === "id"
+                ? `${d.count} kontribusi pada ${d.date}`
+                : `${d.count} contribution${d.count === 1 ? "" : "s"} on ${d.date}`;
+            return `<i class="gh-cell" data-l="${d.level}" title="${tip}"></i>`;
+          })
+          .join("");
+
+        document.getElementById("ghBody").innerHTML = `
         <div class="gh-scroll" id="ghScroll">
           <div class="gh-inner" style="--w:${weeks}">
             <div></div>
@@ -871,108 +1620,145 @@
           </div>
         </div>`;
 
-      // gulir ke bagian terbaru (kanan) bila layar sempit
-      const sc = document.getElementById('ghScroll');
-      sc.scrollLeft = sc.scrollWidth;
-    }
+        // gulir ke bagian terbaru (kanan) bila layar sempit
+        const sc = document.getElementById("ghScroll");
+        sc.scrollLeft = sc.scrollWidth;
+      }
 
-    async function ghLoad(range) {
-      ghRange = range;
-      ghRenderTabs();
-      const body = document.getElementById('ghBody');
-      body.innerHTML = '<div class="gh-msg"><span data-lang="en">Loading…</span><span data-lang="id">Memuat…</span></div>';
-      try {
-        const key = 'gh:' + GH_USER + ':' + range;
-        let data = null;
+      async function ghLoad(range) {
+        ghRange = range;
+        ghRenderTabs();
+        const body = document.getElementById("ghBody");
+        body.innerHTML =
+          '<div class="gh-msg"><span data-lang="en">Loading…</span><span data-lang="id">Memuat…</span></div>';
         try {
-          const c = JSON.parse(sessionStorage.getItem(key));
-          if (c && Date.now() - c.t < 3600000) data = c.d;
-        } catch (e) {}
-        if (!data) {
-          const res = await fetch(GH_API(range));
-          if (!res.ok) throw new Error('HTTP ' + res.status);
-          data = await res.json();
-          try { sessionStorage.setItem(key, JSON.stringify({ t: Date.now(), d: data })); } catch (e) {}
-        }
-        ghDays = (data.contributions || []).slice().sort((a, b) => a.date.localeCompare(b.date));
-        if (!ghDays.length) throw new Error('empty');
-        ghRender();
-      } catch (err) {
-        document.getElementById('ghTotal').innerHTML = '';
-        body.innerHTML = `<div class="gh-msg">
+          const key = "gh:" + GH_USER + ":" + range;
+          let data = null;
+          try {
+            const c = JSON.parse(sessionStorage.getItem(key));
+            if (c && Date.now() - c.t < 3600000) data = c.d;
+          } catch (e) {}
+          if (!data) {
+            const res = await fetch(GH_API(range));
+            if (!res.ok) throw new Error("HTTP " + res.status);
+            data = await res.json();
+            try {
+              sessionStorage.setItem(
+                key,
+                JSON.stringify({ t: Date.now(), d: data }),
+              );
+            } catch (e) {}
+          }
+          ghDays = (data.contributions || [])
+            .slice()
+            .sort((a, b) => a.date.localeCompare(b.date));
+          if (!ghDays.length) throw new Error("empty");
+          ghRender();
+        } catch (err) {
+          document.getElementById("ghTotal").innerHTML = "";
+          body.innerHTML = `<div class="gh-msg">
           <span data-lang="en">Couldn't load GitHub activity right now.</span>
           <span data-lang="id">Aktivitas GitHub belum bisa dimuat saat ini.</span>
           <a href="https://github.com/${GH_USER}" target="_blank" rel="noopener">github.com/${GH_USER} ↗</a></div>`;
-      }
-    }
-
-    document.getElementById('ghTabs').addEventListener('click', e => {
-      const b = e.target.closest('.gh-tab');
-      if (!b || b.dataset.range === String(ghRange)) return;
-      const r = b.dataset.range;
-      ghLoad(r === 'last' ? 'last' : parseInt(r, 10));
-    });
-
-    // THEME
-    const themeBtn = document.getElementById('themeBtn');
-    const themeBtnM = document.getElementById('themeBtnMobile');
-    const iconSun  = `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`;
-    const iconMoon = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`;
-    function applyTheme(t) {
-      document.documentElement.setAttribute('data-theme', t);
-      const inner = t === 'dark' ? iconSun : iconMoon;
-      document.getElementById('themeIcon').innerHTML = inner;
-      if (document.getElementById('themeIconMobile')) document.getElementById('themeIconMobile').innerHTML = inner;
-      localStorage.setItem('theme', t);
-    }
-    const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    applyTheme(savedTheme);
-    [themeBtn, themeBtnM].forEach(btn => btn && btn.addEventListener('click', () => {
-      applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-    }));
-
-    // LANGUAGE
-    function applyLang(l) {
-      document.documentElement.lang = l;
-      document.querySelectorAll('#langLabel, #langLabelMobile').forEach(el => el.textContent = l.toUpperCase());
-      localStorage.setItem('lang', l);
-      if (typeof ghRender === 'function' && ghDays) ghRender();   // perbarui nama bulan & tooltip
-    }
-    applyLang(localStorage.getItem('lang') || 'en');
-    [document.getElementById('langBtn'), document.getElementById('langBtnMobile')].forEach(btn => btn && btn.addEventListener('click', () => {
-      applyLang(document.documentElement.lang === 'en' ? 'id' : 'en');
-    }));
-
-    // DOWNLOAD CV
-    // Cek dulu apakah file PDF ada. Jika ada, unduh langsung;
-    // jika belum ada, arahkan ke halaman 404.html.
-    document.querySelectorAll('a[data-download]').forEach(a => a.addEventListener('click', async e => {
-      e.preventDefault();
-      const url = new URL(a.getAttribute('href'), location.href);
-      try {
-        const r = await fetch(url, { method: 'HEAD' });
-        if (!r.ok) {
-          location.href = '404.html?path=' + encodeURIComponent(url.pathname);
-          return;
         }
-      } catch (err) {
-        // jika pengecekan gagal (mis. dibuka lewat file://), tetap coba unduh
       }
-      const tmp = document.createElement('a');
-      tmp.href = url.href;
-      tmp.download = a.getAttribute('download') || 'resume.pdf';
-      document.body.appendChild(tmp);
-      tmp.click();
-      tmp.remove();
-    }));
 
-    // MOBILE DRAWER
-    const drawer = document.getElementById('mobileDrawer');
-    document.getElementById('mobileMenuBtn').addEventListener('click', () => drawer.classList.toggle('open'));
-    document.getElementById('drawerOverlay').addEventListener('click', () => drawer.classList.remove('open'));
+      document.getElementById("ghTabs").addEventListener("click", (e) => {
+        const b = e.target.closest(".gh-tab");
+        if (!b || b.dataset.range === String(ghRange)) return;
+        const r = b.dataset.range;
+        ghLoad(r === "last" ? "last" : parseInt(r, 10));
+      });
 
-    // INIT GITHUB
-    ghLoad('last');
-  </script>
-</body>
+      // THEME
+      const themeBtn = document.getElementById("themeBtn");
+      const themeBtnM = document.getElementById("themeBtnMobile");
+      const iconSun = `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`;
+      const iconMoon = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`;
+      function applyTheme(t) {
+        document.documentElement.setAttribute("data-theme", t);
+        const inner = t === "dark" ? iconSun : iconMoon;
+        document.getElementById("themeIcon").innerHTML = inner;
+        if (document.getElementById("themeIconMobile"))
+          document.getElementById("themeIconMobile").innerHTML = inner;
+        localStorage.setItem("theme", t);
+      }
+      const savedTheme =
+        localStorage.getItem("theme") ||
+        (window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light");
+      applyTheme(savedTheme);
+      [themeBtn, themeBtnM].forEach(
+        (btn) =>
+          btn &&
+          btn.addEventListener("click", () => {
+            applyTheme(
+              document.documentElement.getAttribute("data-theme") === "dark"
+                ? "light"
+                : "dark",
+            );
+          }),
+      );
+
+      // LANGUAGE
+      function applyLang(l) {
+        document.documentElement.lang = l;
+        document
+          .querySelectorAll("#langLabel, #langLabelMobile")
+          .forEach((el) => (el.textContent = l.toUpperCase()));
+        localStorage.setItem("lang", l);
+        if (typeof ghRender === "function" && ghDays) ghRender(); // perbarui nama bulan & tooltip
+      }
+      applyLang(localStorage.getItem("lang") || "en");
+      [
+        document.getElementById("langBtn"),
+        document.getElementById("langBtnMobile"),
+      ].forEach(
+        (btn) =>
+          btn &&
+          btn.addEventListener("click", () => {
+            applyLang(document.documentElement.lang === "en" ? "id" : "en");
+          }),
+      );
+
+      // DOWNLOAD CV
+      // Cek dulu apakah file PDF ada. Jika ada, unduh langsung;
+      // jika belum ada, arahkan ke halaman 404.html.
+      document.querySelectorAll("a[data-download]").forEach((a) =>
+        a.addEventListener("click", async (e) => {
+          e.preventDefault();
+          const url = new URL(a.getAttribute("href"), location.href);
+          try {
+            const r = await fetch(url, { method: "HEAD" });
+            if (!r.ok) {
+              location.href =
+                "404.html?path=" + encodeURIComponent(url.pathname);
+              return;
+            }
+          } catch (err) {
+            // jika pengecekan gagal (mis. dibuka lewat file://), tetap coba unduh
+          }
+          const tmp = document.createElement("a");
+          tmp.href = url.href;
+          tmp.download = a.getAttribute("download") || "resume.pdf";
+          document.body.appendChild(tmp);
+          tmp.click();
+          tmp.remove();
+        }),
+      );
+
+      // MOBILE DRAWER
+      const drawer = document.getElementById("mobileDrawer");
+      document
+        .getElementById("mobileMenuBtn")
+        .addEventListener("click", () => drawer.classList.toggle("open"));
+      document
+        .getElementById("drawerOverlay")
+        .addEventListener("click", () => drawer.classList.remove("open"));
+
+      // INIT GITHUB
+      ghLoad("last");
+    </script>
+  </body>
 </html>
