@@ -1,646 +1,1127 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-theme="light">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Certificates — Bryan Siagian</title>
-  <link rel="icon" type="image/jpeg" href="/image/profil.jpeg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Certificates — Bryan Siagian</title>
+    <link rel="icon" type="image/jpeg" href="/image/profil.jpeg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    :root {
-      --bg:        #ffffff;
-      --bg-subtle: #f5f5f5;
-      --text:      #111111;
-      --text-2:    #555555;
-      --text-3:    #999999;
-      --border:    #e5e5e5;
-      --sidebar-w: 300px;
-    }
-    [data-theme="dark"] {
-      --bg:        #111111;
-      --bg-subtle: #1c1c1c;
-      --text:      #f0f0f0;
-      --text-2:    #aaaaaa;
-      --text-3:    #555555;
-      --border:    #2a2a2a;
-    }
+      :root {
+        --bg: #ffffff;
+        --bg-subtle: #f5f5f5;
+        --text: #111111;
+        --text-2: #555555;
+        --text-3: #999999;
+        --border: #e5e5e5;
+        --sidebar-w: 300px;
+      }
+      [data-theme="dark"] {
+        --bg: #111111;
+        --bg-subtle: #1c1c1c;
+        --text: #f0f0f0;
+        --text-2: #aaaaaa;
+        --text-3: #555555;
+        --border: #2a2a2a;
+      }
 
-    html[lang="en"] [data-lang="id"] { display: none !important; }
-    html[lang="id"] [data-lang="en"] { display: none !important; }
+      html[lang="en"] [data-lang="id"] {
+        display: none !important;
+      }
+      html[lang="id"] [data-lang="en"] {
+        display: none !important;
+      }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      transition: background .3s, color .3s;
-    }
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        transition:
+          background 0.3s,
+          color 0.3s;
+      }
 
-    /* ── LAYOUT ── */
-    .layout {
-      display: flex;
-      max-width: 1100px;
-      margin: 0 auto;
-      min-height: 100vh;
-    }
+      /* ── LAYOUT ── */
+      .layout {
+        display: flex;
+        max-width: 1100px;
+        margin: 0 auto;
+        min-height: 100vh;
+      }
 
-    /* ── SIDEBAR ── */
-    .sidebar {
-      width: var(--sidebar-w);
-      flex-shrink: 0;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      padding: 2rem 1.25rem 1.5rem;
-      overflow-y: auto;
-    }
-    .sidebar-profile { margin-top: auto; margin-bottom: 1.5rem; text-align: center; }
-    .profile-avatar {
-      width: 180px; height: 180px;
-      border-radius: 50%;
-      background: var(--bg-subtle);
-      border: 1px solid var(--border);
-      margin: 0 auto 1.25rem;
-      overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .profile-avatar-placeholder { font-size: 56px; color: var(--text-3); }
-    .profile-name {
-      font-size: 18px; font-weight: 600;
-      color: var(--text); line-height: 1.35;
-      margin-bottom: 3px;
-    }
-    .profile-role { font-size: 14px; color: var(--text-3); }
+      /* ── SIDEBAR ── */
+      .sidebar {
+        width: var(--sidebar-w);
+        flex-shrink: 0;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding: 2rem 1.25rem 1.5rem;
+        overflow-y: auto;
+      }
+      .sidebar-profile {
+        margin-top: auto;
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+      .profile-avatar {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        margin: 0 auto 1.25rem;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .profile-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .profile-avatar-placeholder {
+        font-size: 56px;
+        color: var(--text-3);
+      }
+      .profile-name {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text);
+        line-height: 1.35;
+        margin-bottom: 3px;
+      }
+      .profile-role {
+        font-size: 14px;
+        color: var(--text-3);
+      }
 
-    .sidebar-nav { flex: none; }
-    .nav-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
-    .nav-item a {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: .55rem .8rem;
-      border-radius: 8px;
-      font-size: 15px; font-weight: 400;
-      color: var(--text-2); text-decoration: none;
-      transition: background .15s, color .15s;
-    }
-    .nav-item a:hover { background: var(--bg-subtle); color: var(--text); }
-    .nav-item a.active { background: var(--bg-subtle); color: var(--text); font-weight: 500; }
-    .nav-count {
-      font-size: 12px; color: var(--text-3);
-      background: var(--bg-subtle);
-      border: 1px solid var(--border);
-      border-radius: 5px;
-      padding: 1px 7px; min-width: 22px; text-align: center;
-    }
-    .nav-item a.active .nav-count { background: var(--border); border-color: transparent; }
-    .nav-badge {
-      font-size: 11px; font-weight: 600;
-      color: var(--text-3); letter-spacing: .04em;
-      background: var(--bg-subtle); border: 1px solid var(--border);
-      border-radius: 5px; padding: 1px 6px;
-    }
+      .sidebar-nav {
+        flex: none;
+      }
+      .nav-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .nav-item a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.55rem 0.8rem;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 400;
+        color: var(--text-2);
+        text-decoration: none;
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
+      .nav-item a:hover {
+        background: var(--bg-subtle);
+        color: var(--text);
+      }
+      .nav-item a.active {
+        background: var(--bg-subtle);
+        color: var(--text);
+        font-weight: 500;
+      }
+      .nav-count {
+        font-size: 12px;
+        color: var(--text-3);
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        padding: 1px 7px;
+        min-width: 22px;
+        text-align: center;
+      }
+      .nav-item a.active .nav-count {
+        background: var(--border);
+        border-color: transparent;
+      }
+      .nav-badge {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-3);
+        letter-spacing: 0.04em;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        padding: 1px 6px;
+      }
 
-    /* Badge ikon unduh pada item Resume */
-    .nav-badge { display: inline-flex; align-items: center; justify-content: center; }
-    .nav-badge svg { width: 13px; height: 13px; display: block; }
-    .nav-item a:hover .nav-badge { color: var(--text); }
+      /* Badge ikon unduh pada item Resume */
+      .nav-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .nav-badge svg {
+        width: 13px;
+        height: 13px;
+        display: block;
+      }
+      .nav-item a:hover .nav-badge {
+        color: var(--text);
+      }
 
-    .sidebar-footer {
-      margin-top: auto; padding-top: 1.5rem;
-      display: flex; align-items: center; justify-content: center; gap: .35rem;
-    }
-    .icon-btn {
-      background: none; border: none; cursor: pointer;
-      color: var(--text-3); padding: .375rem;
-      border-radius: 6px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 12.5px; font-weight: 600; letter-spacing: .05em;
-      transition: color .15s, background .15s;
-    }
-    .icon-btn:hover { color: var(--text); background: var(--bg-subtle); }
-    .icon-btn svg { width: 17px; height: 17px; }
+      .sidebar-footer {
+        margin-top: auto;
+        padding-top: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.35rem;
+      }
+      .icon-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--text-3);
+        padding: 0.375rem;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12.5px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        transition:
+          color 0.15s,
+          background 0.15s;
+      }
+      .icon-btn:hover {
+        color: var(--text);
+        background: var(--bg-subtle);
+      }
+      .icon-btn svg {
+        width: 17px;
+        height: 17px;
+      }
 
-    /* ── MAIN CONTENT ── */
-    .main {
-      flex: 1;
-      min-width: 0;
-      padding: 3rem 3rem 4rem 3.5rem;
-    }
-    .main-inner { max-width: 760px; }
+      /* ── MAIN CONTENT ── */
+      .main {
+        flex: 1;
+        min-width: 0;
+        padding: 3rem 3rem 4rem 3.5rem;
+      }
+      .main-inner {
+        max-width: 760px;
+      }
 
-    .page-title {
-      font-size: 1.5rem; font-weight: 600;
-      letter-spacing: -.02em; color: var(--text);
-    }
-    .page-sub {
-      font-size: 1rem; color: var(--text-2);
-      line-height: 1.7; margin-top: .35rem; margin-bottom: 1.5rem;
-    }
+      .page-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        color: var(--text);
+      }
+      .page-sub {
+        font-size: 1rem;
+        color: var(--text-2);
+        line-height: 1.7;
+        margin-top: 0.35rem;
+        margin-bottom: 1.5rem;
+      }
 
-    /* ── SEARCH ── */
-    .search {
-      display: flex; align-items: center; gap: .75rem;
-      background: var(--bg-subtle);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 0 .9rem;
-      height: 50px;
-      transition: border-color .15s;
-    }
-    .search:focus-within { border-color: var(--text-3); }
-    .search svg { width: 17px; height: 17px; color: var(--text-3); flex-shrink: 0; }
-    .search input {
-      flex: 1; min-width: 0;
-      background: none; border: none; outline: none;
-      font: inherit; font-size: 15px; color: var(--text);
-    }
-    .search input::placeholder { color: var(--text-3); }
-    .kbd {
-      font-size: 11px; color: var(--text-3);
-      background: var(--bg); border: 1px solid var(--border);
-      border-radius: 6px; padding: 1px 8px;
-    }
-    .result-count { font-size: 13px; color: var(--text-3); margin: 1.25rem 0 1.5rem; }
+      /* ── SEARCH ── */
+      .search {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 0 0.9rem;
+        height: 50px;
+        transition: border-color 0.15s;
+      }
+      .search:focus-within {
+        border-color: var(--text-3);
+      }
+      .search svg {
+        width: 17px;
+        height: 17px;
+        color: var(--text-3);
+        flex-shrink: 0;
+      }
+      .search input {
+        flex: 1;
+        min-width: 0;
+        background: none;
+        border: none;
+        outline: none;
+        font: inherit;
+        font-size: 15px;
+        color: var(--text);
+      }
+      .search input::placeholder {
+        color: var(--text-3);
+      }
+      .kbd {
+        font-size: 11px;
+        color: var(--text-3);
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 1px 8px;
+      }
+      .result-count {
+        font-size: 13px;
+        color: var(--text-3);
+        margin: 1.25rem 0 1.5rem;
+      }
 
-    /* ── GROUP ── */
-    .group-label {
-      font-size: 12px; font-weight: 500; letter-spacing: .12em;
-      text-transform: uppercase; color: var(--text-3);
-      margin-bottom: 1rem;
-    }
-    .group + .group { margin-top: 2.5rem; }
+      /* ── GROUP ── */
+      .group-label {
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-3);
+        margin-bottom: 1rem;
+      }
+      .group + .group {
+        margin-top: 2.5rem;
+      }
 
-    /* ── CERTIFICATE ROW ── */
-    .search[hidden] { display: none; }
-    /* garis pemisah antara Sertifikasi dan Sertifikat */
-    .group + .group { border-top: 1px solid var(--border); padding-top: 2rem; }
-    .cert-list { display: flex; flex-direction: column; gap: 1.75rem; }
-    .cert {
-      position: relative;
-      display: flex; gap: 1.5rem; align-items: flex-start;
-      color: inherit; text-decoration: none;
-    }
-    .cert-thumb {
-      position: relative;
-      width: 230px; flex-shrink: 0;
-      aspect-ratio: 13 / 10;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      overflow: hidden;
-      background: linear-gradient(135deg, hsl(var(--h) 70% 96%), hsl(var(--h) 60% 88%));
-      display: flex; align-items: center; justify-content: center;
-      text-align: center; padding: 1rem;
-      transition: transform .2s ease;
-    }
-    [data-theme="dark"] .cert-thumb {
-      background: linear-gradient(135deg, hsl(var(--h) 30% 16%), hsl(var(--h) 30% 11%));
-    }
-    .cert:hover .cert-thumb { transform: translateY(-2px); }
-    .cert-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-    .cert-thumb-text {
-      font-size: 1rem; font-weight: 600; letter-spacing: -.02em;
-      color: hsl(var(--h) 45% 25%);
-    }
-    [data-theme="dark"] .cert-thumb-text { color: hsl(var(--h) 60% 80%); }
-    .cert-body { flex: 1; min-width: 0; }
-    .cert-title {
-      font-size: 1.1875rem; font-weight: 500; letter-spacing: -.01em;
-      color: var(--text); line-height: 1.4; margin-bottom: .4rem;
-    }
-    /* seluruh kartu bisa diklik: tautan judul diperluas menutupi kartu */
-    .cert-title a { color: inherit; text-decoration: none; }
-    .cert-title a::after { content: ""; position: absolute; inset: 0; border-radius: 14px; }
-    .cert:hover .cert-title a { text-decoration: underline; text-decoration-color: var(--text-3); text-underline-offset: 4px; }
-    .cert-meta { font-size: 14px; color: var(--text-2); }
-    .cert-extra { font-size: 13px; color: var(--text-3); margin-top: 2px; }
-    .cert-id {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 12.5px; color: var(--text-3); margin-top: .5rem;
-    }
-    .cert-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: .75rem; }
-    .tag {
-      font-size: 12px; color: var(--text-2);
-      background: var(--bg-subtle); border: 1px solid var(--border);
-      padding: 2px 10px; border-radius: 100px;
-    }
-    .cert-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1rem; margin-top: .85rem; font-size: 13.5px; }
-    .cert-dl { display: inline-flex; align-items: center; gap: 6px; color: var(--text-2); }
-    .cert:hover .cert-dl { color: var(--text); }
-    .cert-dl svg, .cert-verify svg { width: 14px; height: 14px; }
-    .cert-verify {
-      position: relative; z-index: 1;   /* di atas lapisan klik kartu */
-      display: inline-flex; align-items: center; gap: 5px;
-      color: var(--text-2); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--border);
-    }
-    .cert-verify:hover { color: var(--text); }
+      /* ── CERTIFICATE ROW ── */
+      .search[hidden] {
+        display: none;
+      }
+      /* garis pemisah antara Sertifikasi dan Sertifikat */
+      .group + .group {
+        border-top: 1px solid var(--border);
+        padding-top: 2rem;
+      }
+      .cert-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.75rem;
+      }
+      .cert {
+        position: relative;
+        display: flex;
+        gap: 1.5rem;
+        align-items: flex-start;
+        color: inherit;
+        text-decoration: none;
+      }
+      .cert-thumb {
+        position: relative;
+        width: 230px;
+        flex-shrink: 0;
+        aspect-ratio: 13 / 10;
+        border-radius: 14px;
+        border: 1px solid var(--border);
+        overflow: hidden;
+        background: linear-gradient(
+          135deg,
+          hsl(var(--h) 70% 96%),
+          hsl(var(--h) 60% 88%)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 1rem;
+        transition: transform 0.2s ease;
+      }
+      [data-theme="dark"] .cert-thumb {
+        background: linear-gradient(
+          135deg,
+          hsl(var(--h) 30% 16%),
+          hsl(var(--h) 30% 11%)
+        );
+      }
+      .cert:hover .cert-thumb {
+        transform: translateY(-2px);
+      }
+      .cert-thumb img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .cert-thumb-text {
+        font-size: 1rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        color: hsl(var(--h) 45% 25%);
+      }
+      [data-theme="dark"] .cert-thumb-text {
+        color: hsl(var(--h) 60% 80%);
+      }
+      .cert-body {
+        flex: 1;
+        min-width: 0;
+      }
+      .cert-title {
+        font-size: 1.1875rem;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        color: var(--text);
+        line-height: 1.4;
+        margin-bottom: 0.4rem;
+      }
+      /* seluruh kartu bisa diklik: tautan judul diperluas menutupi kartu */
+      .cert-title a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .cert-title a::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 14px;
+      }
+      .cert:hover .cert-title a {
+        text-decoration: underline;
+        text-decoration-color: var(--text-3);
+        text-underline-offset: 4px;
+      }
+      .cert-meta {
+        font-size: 14px;
+        color: var(--text-2);
+      }
+      .cert-extra {
+        font-size: 13px;
+        color: var(--text-3);
+        margin-top: 2px;
+      }
+      .cert-id {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 12.5px;
+        color: var(--text-3);
+        margin-top: 0.5rem;
+      }
+      .cert-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 0.75rem;
+      }
+      .tag {
+        font-size: 12px;
+        color: var(--text-2);
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        padding: 2px 10px;
+        border-radius: 100px;
+      }
+      .cert-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.4rem 1rem;
+        margin-top: 0.85rem;
+        font-size: 13.5px;
+      }
+      .cert-dl {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--text-2);
+      }
+      .cert:hover .cert-dl {
+        color: var(--text);
+      }
+      .cert-dl svg,
+      .cert-verify svg {
+        width: 14px;
+        height: 14px;
+      }
+      .cert-verify {
+        position: relative;
+        z-index: 1; /* di atas lapisan klik kartu */
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        color: var(--text-2);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        text-decoration-color: var(--border);
+      }
+      .cert-verify:hover {
+        color: var(--text);
+      }
 
-    .empty-card {
-      border: 1px dashed var(--border); border-radius: 14px;
-      padding: 3rem 1.5rem; text-align: center;
-      color: var(--text-3); font-size: 14.5px; line-height: 1.7;
-    }
-    .empty-card .big { font-size: 2rem; margin-bottom: .5rem; }
+      .empty-card {
+        border: 1px dashed var(--border);
+        border-radius: 14px;
+        padding: 3rem 1.5rem;
+        text-align: center;
+        color: var(--text-3);
+        font-size: 14.5px;
+        line-height: 1.7;
+      }
+      .empty-card .big {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+      }
 
-    .empty { font-size: 14.5px; color: var(--text-3); padding: 2rem 0; }
+      .empty {
+        font-size: 14.5px;
+        color: var(--text-3);
+        padding: 2rem 0;
+      }
 
-    /* ── MOBILE ── */
-    .mobile-topbar {
-      display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-      height: 52px; background: var(--bg); border-bottom: 1px solid var(--border);
-      align-items: center; justify-content: space-between;
-      padding: 0 1.25rem;
-    }
-    .mobile-topbar-name { font-size: 14px; font-weight: 600; color: var(--text); }
-    .mobile-topbar-right { display: flex; gap: .25rem; }
-    .mobile-menu-btn {
-      background: none; border: none; cursor: pointer; color: var(--text-2);
-      padding: .35rem; border-radius: 6px; display: flex; align-items: center;
-    }
-    .mobile-menu-btn svg { width: 18px; height: 18px; }
-    .mobile-drawer { display: none; position: fixed; inset: 0; z-index: 49; }
-    .mobile-drawer.open { display: block; }
-    .mobile-drawer-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.3); }
-    .mobile-drawer-panel {
-      position: absolute; top: 0; left: 0; bottom: 0;
-      width: 240px; background: var(--bg);
-      border-right: 1px solid var(--border);
-      padding: 1.5rem 1.25rem;
-      overflow-y: auto;
-    }
+      /* ── MOBILE ── */
+      .mobile-topbar {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 50;
+        height: 52px;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1.25rem;
+      }
+      .mobile-topbar-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text);
+      }
+      .mobile-topbar-right {
+        display: flex;
+        gap: 0.25rem;
+      }
+      .mobile-menu-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--text-2);
+        padding: 0.35rem;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+      }
+      .mobile-menu-btn svg {
+        width: 18px;
+        height: 18px;
+      }
+      .mobile-drawer {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 49;
+      }
+      .mobile-drawer.open {
+        display: block;
+      }
+      .mobile-drawer-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.3);
+      }
+      .mobile-drawer-panel {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 240px;
+        background: var(--bg);
+        border-right: 1px solid var(--border);
+        padding: 1.5rem 1.25rem;
+        overflow-y: auto;
+      }
 
-    @media (max-width: 680px) {
-      .sidebar { display: none; }
-      .layout { display: block; }
-      .main { padding: 4.5rem 1.25rem 3rem; }
-      .main-inner { max-width: 100%; }
-      .mobile-topbar { display: flex; }
-      .cert { flex-direction: column; gap: 1rem; }
-      .cert-thumb { width: 100%; }
-    }
+      @media (max-width: 680px) {
+        .sidebar {
+          display: none;
+        }
+        .layout {
+          display: block;
+        }
+        .main {
+          padding: 4.5rem 1.25rem 3rem;
+        }
+        .main-inner {
+          max-width: 100%;
+        }
+        .mobile-topbar {
+          display: flex;
+        }
+        .cert {
+          flex-direction: column;
+          gap: 1rem;
+        }
+        .cert-thumb {
+          width: 100%;
+        }
+      }
 
-    @media (prefers-reduced-motion: reduce) {
-      * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
-    }
-  </style>
-</head>
-<body>
-
-  <div class="layout">
-
-    <!-- SIDEBAR (desktop) -->
-    <aside class="sidebar">
-      <div class="sidebar-profile">
-        <div class="profile-avatar">
-          <img src="/image/profil.jpeg" alt="Bryan" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <span class="profile-avatar-placeholder" style="display:none">B</span>
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <!-- SIDEBAR (desktop) -->
+      <aside class="sidebar">
+        <div class="sidebar-profile">
+          <div class="profile-avatar">
+            <img
+              src="/image/profil.jpeg"
+              alt="Bryan"
+              onerror="
+                this.style.display = 'none';
+                this.nextElementSibling.style.display = 'flex';
+              "
+            />
+            <span class="profile-avatar-placeholder" style="display: none"
+              >B</span
+            >
+          </div>
+          <div class="profile-name">Bryan Torisi Siagian</div>
+          <div class="profile-role">Software Engineer</div>
         </div>
-        <div class="profile-name">Bryan Torisi Siagian</div>
-        <div class="profile-role">Software Engineer</div>
-      </div>
 
-      <nav class="sidebar-nav">
-        <ul class="nav-list">
-          <li class="nav-item">
-            <a href="index.html">
-              <span data-lang="en">Home</span><span data-lang="id">Beranda</span>
-              <span class="nav-count">1</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="projects.html">
-              <span data-lang="en">Projects</span><span data-lang="id">Proyek</span>
-              <span class="nav-count">9</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="achievements.html">
-              <span data-lang="en">Achievements</span><span data-lang="id">Capaian</span>
-              <span class="nav-count">3</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="certificates.html" class="active">
-              <span data-lang="en">Certificates</span><span data-lang="id">Sertifikat</span>
-              <span class="nav-count">4</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="resume.pdf" download="CV-Bryan-Torisi-Siagian.pdf" data-download aria-label="Download Resume" title="Download Resume">
-              <span>Resume</span>
-              <span class="nav-badge">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              </span>
-            </a>
-          </li>
-        </ul>
-      </nav>
+        <nav class="sidebar-nav">
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="index.html">
+                <span data-lang="en">Home</span
+                ><span data-lang="id">Beranda</span>
+                <span class="nav-count">1</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="projects.html">
+                <span data-lang="en">Projects</span
+                ><span data-lang="id">Proyek</span>
+                <span class="nav-count">10</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="achievements.html">
+                <span data-lang="en">Achievements</span
+                ><span data-lang="id">Capaian</span>
+                <span class="nav-count">3</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="certificates.html" class="active">
+                <span data-lang="en">Certificates</span
+                ><span data-lang="id">Sertifikat</span>
+                <span class="nav-count">4</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="resume.pdf"
+                download="CV-Bryan-Torisi-Siagian.pdf"
+                data-download
+                aria-label="Download Resume"
+                title="Download Resume"
+              >
+                <span>Resume</span>
+                <span class="nav-badge">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.25"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </nav>
 
-      <div class="sidebar-footer">
-        <button class="icon-btn" id="langBtn" aria-label="Toggle language">
-          <span id="langLabel">EN</span>
+        <div class="sidebar-footer">
+          <button class="icon-btn" id="langBtn" aria-label="Toggle language">
+            <span id="langLabel">EN</span>
+          </button>
+          <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">
+            <svg
+              id="themeIcon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="main">
+        <div class="main-inner">
+          <h1 class="page-title">
+            <span data-lang="en">Certificates</span>
+            <span data-lang="id">Sertifikat</span>
+          </h1>
+          <p class="page-sub">
+            <span data-lang="en"
+              >Certificates and certifications from courses, training, and
+              professional programs.</span
+            >
+            <span data-lang="id"
+              >Sertifikat dan sertifikasi dari kursus, pelatihan, dan program
+              profesional.</span
+            >
+          </p>
+
+          <label class="search" id="searchBox">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="11" cy="11" r="7" />
+              <path d="M21 21l-4.3-4.3" />
+            </svg>
+            <input
+              type="search"
+              id="searchInput"
+              placeholder="Search certificates…"
+              autocomplete="off"
+            />
+            <span class="kbd">/</span>
+          </label>
+
+          <div class="result-count" id="resultCount"></div>
+          <div id="certList"></div>
+        </div>
+      </main>
+    </div>
+    <!-- /.layout -->
+
+    <!-- MOBILE TOPBAR -->
+    <div class="mobile-topbar">
+      <span class="mobile-topbar-name">Bryan Siagian</span>
+      <div class="mobile-topbar-right">
+        <button class="icon-btn" id="langBtnMobile">
+          <span id="langLabelMobile">EN</span>
         </button>
-        <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">
-          <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        <button class="icon-btn" id="themeBtnMobile">
+          <svg
+            id="themeIconMobile"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            style="width: 16px; height: 16px"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        </button>
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
           </svg>
         </button>
       </div>
-    </aside>
-
-    <!-- MAIN CONTENT -->
-    <main class="main">
-      <div class="main-inner">
-
-        <h1 class="page-title">
-          <span data-lang="en">Certificates</span>
-          <span data-lang="id">Sertifikat</span>
-        </h1>
-        <p class="page-sub">
-          <span data-lang="en">Certificates and certifications from courses, training, and professional programs.</span>
-          <span data-lang="id">Sertifikat dan sertifikasi dari kursus, pelatihan, dan program profesional.</span>
-        </p>
-
-        <label class="search" id="searchBox">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-          <input type="search" id="searchInput" placeholder="Search certificates…" autocomplete="off" />
-          <span class="kbd">/</span>
-        </label>
-
-        <div class="result-count" id="resultCount"></div>
-        <div id="certList"></div>
-
-      </div>
-    </main>
-
-  </div><!-- /.layout -->
-
-  <!-- MOBILE TOPBAR -->
-  <div class="mobile-topbar">
-    <span class="mobile-topbar-name">Bryan Siagian</span>
-    <div class="mobile-topbar-right">
-      <button class="icon-btn" id="langBtnMobile"><span id="langLabelMobile">EN</span></button>
-      <button class="icon-btn" id="themeBtnMobile">
-        <svg id="themeIconMobile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
-      </button>
-      <button class="mobile-menu-btn" id="mobileMenuBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      </button>
     </div>
-  </div>
 
-  <!-- MOBILE DRAWER -->
-  <div class="mobile-drawer" id="mobileDrawer">
-    <div class="mobile-drawer-overlay" id="drawerOverlay"></div>
-    <div class="mobile-drawer-panel">
-      <div style="margin-bottom:1.5rem">
-        <div class="profile-name" style="margin-bottom:3px">Bryan Torisi Siagian</div>
-        <div class="profile-role">Software Engineer</div>
+    <!-- MOBILE DRAWER -->
+    <div class="mobile-drawer" id="mobileDrawer">
+      <div class="mobile-drawer-overlay" id="drawerOverlay"></div>
+      <div class="mobile-drawer-panel">
+        <div style="margin-bottom: 1.5rem">
+          <div class="profile-name" style="margin-bottom: 3px">
+            Bryan Torisi Siagian
+          </div>
+          <div class="profile-role">Software Engineer</div>
+        </div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="index.html"
+              ><span>Home</span><span class="nav-count">1</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="projects.html"
+              ><span>Projects</span><span class="nav-count">10</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="achievements.html"
+              ><span>Achievements</span><span class="nav-count">3</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="certificates.html" class="active"
+              ><span>Certificates</span><span class="nav-count">4</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              href="resume.pdf"
+              download="CV-Bryan-Torisi-Siagian.pdf"
+              data-download
+              aria-label="Download Resume"
+              title="Download Resume"
+              ><span>Resume</span
+              ><span class="nav-badge"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.25"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" /></svg></span
+            ></a>
+          </li>
+        </ul>
       </div>
-      <ul class="nav-list">
-        <li class="nav-item"><a href="index.html"><span>Home</span><span class="nav-count">1</span></a></li>
-        <li class="nav-item"><a href="projects.html"><span>Projects</span><span class="nav-count">9</span></a></li>
-        <li class="nav-item"><a href="achievements.html"><span>Achievements</span><span class="nav-count">3</span></a></li>
-        <li class="nav-item"><a href="certificates.html" class="active"><span>Certificates</span><span class="nav-count">4</span></a></li>
-        <li class="nav-item"><a href="resume.pdf" download="CV-Bryan-Torisi-Siagian.pdf" data-download aria-label="Download Resume" title="Download Resume"><span>Resume</span><span class="nav-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span></a></li>
-      </ul>
     </div>
-  </div>
 
-  <script>
-    // ─────────────────────────────────────────────
-    // DATA SERTIFIKAT — tambahkan di array ini (urutan otomatis dari yang terbaru)
-    // type         : 'certification' (sertifikasi resmi) | 'certificate' (kursus/pelatihan)
-    // issued       : 'YYYY-MM-DD'
-    // expires      : opsional, 'YYYY-MM-DD' (masa berlaku)
-    // hours        : opsional, jumlah jam kursus
-    // credentialId : opsional
-    // file         : path file PDF — kartu diklik = PDF langsung terunduh
-    // image        : pratinjau (gambar halaman pertama PDF)
-    // verifyUrl    : opsional, tautan verifikasi (mis. Credly)
-    // hue          : warna cadangan bila tidak ada image (0–360)
-    // ─────────────────────────────────────────────
-    const certificates = [
-      {
-        type: 'certification',
-        title: 'Oracle Cloud Infrastructure Certified AI Foundations Associate',
-        issuer: 'Oracle University',
-        issued: '2026-10-01',
-        expires: '2028-10-01',
-        credentialId: '331781631OCI26AICFA',
-        file: 'files/certificates/oracle-oci-ai-foundations-associate.pdf',
-        image: 'image/certificates/oracle-oci-ai-foundations-associate.jpg',
-        skills: ['Oracle Cloud', 'AI Foundations'],
-        hue: 8
-      },
-      {
-        type: 'certification',
-        title: 'Agentic AI Certified Foundations Associate',
-        issuer: 'Oracle University',
-        issued: '2026-09-21',
-        expires: '2028-09-21',
-        credentialId: '331781631AAI26OFA',
-        file: 'files/certificates/oracle-agentic-ai-foundations-associate.pdf',
-        image: 'image/certificates/oracle-agentic-ai-foundations-associate.jpg',
-        skills: ['Agentic AI', 'AI Foundations'],
-        hue: 8
-      },
-      {
-        type: 'certificate',
-        title: 'AWS Academy Graduate - Generative AI Foundations - Training Badge',
-        issuer: 'AWS Academy',
-        issued: '2026-09-28',
-        hours: 12,
-        verifyUrl: 'https://www.credly.com/badges/c6109ae6-cd2f-40bb-af33-d6598babc841',
-        file: 'files/certificates/aws-academy-generative-ai-foundations.pdf',
-        image: 'image/certificates/aws-academy-generative-ai-foundations.jpg',
-        skills: ['Generative AI', 'AWS'],
-        hue: 35
-      },
-      {
-        type: 'certificate',
-        title: 'Sertifikat Apresiasi - Anggota Divisi Pendidikan HIMATIF 2025/2026',
-        issuer: 'HIMATIF IT Del',
-        // TODO: sertifikat tidak mencantumkan tanggal terbit — ganti dengan tanggal yang benar
-        issued: '2026-07-01',
-        file: 'files/certificates/himatif-anggota-divisi-pendidikan-2025-2026.pdf',
-        image: 'image/certificates/himatif-anggota-divisi-pendidikan-2025-2026.png',
-        skills: ['Organisasi', 'Divisi Pendidikan', 'HIMATIF'],
-        hue: 265
+    <script>
+      // ─────────────────────────────────────────────
+      // DATA SERTIFIKAT — tambahkan di array ini (urutan otomatis dari yang terbaru)
+      // type         : 'certification' (sertifikasi resmi) | 'certificate' (kursus/pelatihan)
+      // issued       : 'YYYY-MM-DD'
+      // expires      : opsional, 'YYYY-MM-DD' (masa berlaku)
+      // hours        : opsional, jumlah jam kursus
+      // credentialId : opsional
+      // file         : path file PDF — kartu diklik = PDF langsung terunduh
+      // image        : pratinjau (gambar halaman pertama PDF)
+      // verifyUrl    : opsional, tautan verifikasi (mis. Credly)
+      // hue          : warna cadangan bila tidak ada image (0–360)
+      // ─────────────────────────────────────────────
+      const certificates = [
+        {
+          type: "certification",
+          title:
+            "Oracle Cloud Infrastructure Certified AI Foundations Associate",
+          issuer: "Oracle University",
+          issued: "2026-10-01",
+          expires: "2028-10-01",
+          credentialId: "331781631OCI26AICFA",
+          file: "files/certificates/oracle-oci-ai-foundations-associate.pdf",
+          image: "image/certificates/oracle-oci-ai-foundations-associate.jpg",
+          skills: ["Oracle Cloud", "AI Foundations"],
+          hue: 8,
+        },
+        {
+          type: "certification",
+          title: "Agentic AI Certified Foundations Associate",
+          issuer: "Oracle University",
+          issued: "2026-09-21",
+          expires: "2028-09-21",
+          credentialId: "331781631AAI26OFA",
+          file: "files/certificates/oracle-agentic-ai-foundations-associate.pdf",
+          image:
+            "image/certificates/oracle-agentic-ai-foundations-associate.jpg",
+          skills: ["Agentic AI", "AI Foundations"],
+          hue: 8,
+        },
+        {
+          type: "certificate",
+          title:
+            "AWS Academy Graduate - Generative AI Foundations - Training Badge",
+          issuer: "AWS Academy",
+          issued: "2026-09-28",
+          hours: 12,
+          verifyUrl:
+            "https://www.credly.com/badges/c6109ae6-cd2f-40bb-af33-d6598babc841",
+          file: "files/certificates/aws-academy-generative-ai-foundations.pdf",
+          image: "image/certificates/aws-academy-generative-ai-foundations.jpg",
+          skills: ["Generative AI", "AWS"],
+          hue: 35,
+        },
+        {
+          type: "certificate",
+          title:
+            "Sertifikat Apresiasi - Anggota Divisi Pendidikan HIMATIF 2025/2026",
+          issuer: "HIMATIF IT Del",
+          // TODO: sertifikat tidak mencantumkan tanggal terbit — ganti dengan tanggal yang benar
+          issued: "2026-07-01",
+          file: "files/certificates/himatif-anggota-divisi-pendidikan-2025-2026.pdf",
+          image:
+            "image/certificates/himatif-anggota-divisi-pendidikan-2025-2026.png",
+          skills: ["Organisasi", "Divisi Pendidikan", "HIMATIF"],
+          hue: 265,
+        },
+      ];
+
+      const groups = [
+        { key: "certification", en: "Certifications", id: "Sertifikasi" },
+        {
+          key: "certificate",
+          en: "Certificates & Training",
+          id: "Sertifikat & Pelatihan",
+        },
+      ];
+
+      const icons = {
+        download:
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
+        out: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>',
+      };
+
+      function fmtDate(d, lang) {
+        const [y, m, day] = d.split("-").map(Number);
+        return new Intl.DateTimeFormat(lang, {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        }).format(new Date(y, (m || 1) - 1, day || 1));
       }
-    ];
+      const dual = (en, id) =>
+        `<span data-lang="en">${en}</span><span data-lang="id">${id}</span>`;
 
-    const groups = [
-      { key: 'certification', en: 'Certifications',          id: 'Sertifikasi' },
-      { key: 'certificate',   en: 'Certificates & Training', id: 'Sertifikat & Pelatihan' }
-    ];
-
-    const icons = {
-      download: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
-      out: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>'
-    };
-
-    function fmtDate(d, lang) {
-      const [y, m, day] = d.split('-').map(Number);
-      return new Intl.DateTimeFormat(lang, { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(y, (m || 1) - 1, day || 1));
-    }
-    const dual = (en, id) => `<span data-lang="en">${en}</span><span data-lang="id">${id}</span>`;
-
-    function certHTML(c) {
-      const fileName = c.file.split('/').pop();
-      const extra = [];
-      if (c.expires) extra.push(dual(`Valid until ${fmtDate(c.expires, 'en')}`, `Berlaku hingga ${fmtDate(c.expires, 'id')}`));
-      if (c.hours)   extra.push(dual(`${c.hours} hours`, `${c.hours} jam`));
-      return `
+      function certHTML(c) {
+        const fileName = c.file.split("/").pop();
+        const extra = [];
+        if (c.expires)
+          extra.push(
+            dual(
+              `Valid until ${fmtDate(c.expires, "en")}`,
+              `Berlaku hingga ${fmtDate(c.expires, "id")}`,
+            ),
+          );
+        if (c.hours) extra.push(dual(`${c.hours} hours`, `${c.hours} jam`));
+        return `
         <div class="cert">
           <div class="cert-thumb" style="--h:${c.hue ?? 210}">
-            ${c.image ? `<img src="${c.image}" alt="${c.title}" loading="lazy" onerror="this.remove()">` : ''}
+            ${c.image ? `<img src="${c.image}" alt="${c.title}" loading="lazy" onerror="this.remove()">` : ""}
             <div class="cert-thumb-text">${c.issuer}</div>
           </div>
           <div class="cert-body">
             <div class="cert-title"><a href="${c.file}" download="${fileName}" data-download>${c.title}</a></div>
-            <div class="cert-meta">${c.issuer} · ${dual(`Issued ${fmtDate(c.issued, 'en')}`, `Diterbitkan ${fmtDate(c.issued, 'id')}`)}</div>
-            ${extra.length ? `<div class="cert-extra">${extra.join(' · ')}</div>` : ''}
-            ${c.credentialId ? `<div class="cert-id">ID: ${c.credentialId}</div>` : ''}
-            ${c.skills && c.skills.length ? `<div class="cert-tags">${c.skills.map(t => `<span class="tag">${t}</span>`).join('')}</div>` : ''}
+            <div class="cert-meta">${c.issuer} · ${dual(`Issued ${fmtDate(c.issued, "en")}`, `Diterbitkan ${fmtDate(c.issued, "id")}`)}</div>
+            ${extra.length ? `<div class="cert-extra">${extra.join(" · ")}</div>` : ""}
+            ${c.credentialId ? `<div class="cert-id">ID: ${c.credentialId}</div>` : ""}
+            ${c.skills && c.skills.length ? `<div class="cert-tags">${c.skills.map((t) => `<span class="tag">${t}</span>`).join("")}</div>` : ""}
             <div class="cert-actions">
-              <span class="cert-dl">${icons.download}${dual('Download PDF', 'Unduh PDF')}</span>
-              ${c.verifyUrl ? `<a class="cert-verify" href="${c.verifyUrl}" target="_blank" rel="noopener">${dual('Verify badge', 'Verifikasi badge')}${icons.out}</a>` : ''}
+              <span class="cert-dl">${icons.download}${dual("Download PDF", "Unduh PDF")}</span>
+              ${c.verifyUrl ? `<a class="cert-verify" href="${c.verifyUrl}" target="_blank" rel="noopener">${dual("Verify badge", "Verifikasi badge")}${icons.out}</a>` : ""}
             </div>
           </div>
         </div>`;
-    }
+      }
 
-    function render(query = '') {
-      const list = document.getElementById('certList');
-      const count = document.getElementById('resultCount');
-      const box = document.getElementById('searchBox');
+      function render(query = "") {
+        const list = document.getElementById("certList");
+        const count = document.getElementById("resultCount");
+        const box = document.getElementById("searchBox");
 
-      // Belum ada data: tampilkan keadaan kosong
-      if (!certificates.length) {
-        box.hidden = true;
-        count.innerHTML = '';
-        list.innerHTML = `
+        // Belum ada data: tampilkan keadaan kosong
+        if (!certificates.length) {
+          box.hidden = true;
+          count.innerHTML = "";
+          list.innerHTML = `
           <div class="empty-card">
             <div class="big">🎓</div>
-            ${dual('Certificates and certifications will be added here soon.', 'Sertifikat dan sertifikasi akan segera ditambahkan di sini.')}
+            ${dual("Certificates and certifications will be added here soon.", "Sertifikat dan sertifikasi akan segera ditambahkan di sini.")}
           </div>`;
-        return;
-      }
-
-      const q = query.trim().toLowerCase();
-      const found = certificates.filter(c => {
-        if (!q) return true;
-        return [c.title, c.issuer, c.credentialId || '', c.issued, ...(c.skills || [])].join(' ').toLowerCase().includes(q);
-      });
-
-      count.innerHTML = dual(`${found.length} of ${certificates.length} certificates`, `${found.length} dari ${certificates.length} sertifikat`);
-
-      let html = '';
-      groups.forEach(g => {
-        const items = found.filter(c => c.type === g.key).sort((a, b) => b.issued.localeCompare(a.issued));
-        if (!items.length) return;
-        html += `
-          <section class="group">
-            <div class="group-label">${dual(g.en, g.id)}</div>
-            <div class="cert-list">${items.map(certHTML).join('')}</div>
-          </section>`;
-      });
-
-      if (!found.length) {
-        html = `<p class="empty">${dual('No certificates match your search.', 'Tidak ada sertifikat yang cocok dengan pencarian Anda.')}</p>`;
-      }
-      list.innerHTML = html;
-    }
-
-    // UNDUH PDF SERTIFIKAT: klik kartu = PDF langsung terunduh.
-    // Bila file belum ada di server, tampilkan halaman error khusus (404.html).
-    async function downloadFile(a) {
-      const url = new URL(a.getAttribute('href'), location.href);
-      try {
-        const r = await fetch(url, { method: 'HEAD' });
-        if (!r.ok) {
-          location.href = new URL('404.html?path=' + encodeURIComponent(url.pathname), location.href).href;
           return;
         }
-      } catch (err) { /* mis. dibuka dari file:// — lanjutkan unduh biasa */ }
-      const t = document.createElement('a');
-      t.href = url.href;
-      t.download = a.getAttribute('download') || '';
-      document.body.appendChild(t); t.click(); t.remove();
-    }
 
-    document.getElementById('certList').addEventListener('click', e => {
-      const a = e.target.closest('a[data-download]');
-      if (!a) return;
-      e.preventDefault();
-      downloadFile(a);
-    });
+        const q = query.trim().toLowerCase();
+        const found = certificates.filter((c) => {
+          if (!q) return true;
+          return [
+            c.title,
+            c.issuer,
+            c.credentialId || "",
+            c.issued,
+            ...(c.skills || []),
+          ]
+            .join(" ")
+            .toLowerCase()
+            .includes(q);
+        });
 
-    // SEARCH
-    const searchInput = document.getElementById('searchInput');
-    searchInput.addEventListener('input', e => render(e.target.value));
-    document.addEventListener('keydown', e => {
-      const typing = /^(input|textarea|select)$/i.test(document.activeElement.tagName);
-      if (e.key === '/' && !typing) { e.preventDefault(); searchInput.focus(); }
-      if (e.key === 'Escape' && document.activeElement === searchInput) {
-        searchInput.value = ''; render(''); searchInput.blur();
+        count.innerHTML = dual(
+          `${found.length} of ${certificates.length} certificates`,
+          `${found.length} dari ${certificates.length} sertifikat`,
+        );
+
+        let html = "";
+        groups.forEach((g) => {
+          const items = found
+            .filter((c) => c.type === g.key)
+            .sort((a, b) => b.issued.localeCompare(a.issued));
+          if (!items.length) return;
+          html += `
+          <section class="group">
+            <div class="group-label">${dual(g.en, g.id)}</div>
+            <div class="cert-list">${items.map(certHTML).join("")}</div>
+          </section>`;
+        });
+
+        if (!found.length) {
+          html = `<p class="empty">${dual("No certificates match your search.", "Tidak ada sertifikat yang cocok dengan pencarian Anda.")}</p>`;
+        }
+        list.innerHTML = html;
       }
-    });
 
-    // THEME
-    const themeBtn = document.getElementById('themeBtn');
-    const themeBtnM = document.getElementById('themeBtnMobile');
-    const iconSun  = `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`;
-    const iconMoon = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`;
-    function applyTheme(t) {
-      document.documentElement.setAttribute('data-theme', t);
-      const inner = t === 'dark' ? iconSun : iconMoon;
-      document.getElementById('themeIcon').innerHTML = inner;
-      if (document.getElementById('themeIconMobile')) document.getElementById('themeIconMobile').innerHTML = inner;
-      localStorage.setItem('theme', t);
-    }
-    const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    applyTheme(savedTheme);
-    [themeBtn, themeBtnM].forEach(btn => btn && btn.addEventListener('click', () => {
-      applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-    }));
+      // UNDUH PDF SERTIFIKAT: klik kartu = PDF langsung terunduh.
+      // Bila file belum ada di server, tampilkan halaman error khusus (404.html).
+      async function downloadFile(a) {
+        const url = new URL(a.getAttribute("href"), location.href);
+        try {
+          const r = await fetch(url, { method: "HEAD" });
+          if (!r.ok) {
+            location.href = new URL(
+              "404.html?path=" + encodeURIComponent(url.pathname),
+              location.href,
+            ).href;
+            return;
+          }
+        } catch (err) {
+          /* mis. dibuka dari file:// — lanjutkan unduh biasa */
+        }
+        const t = document.createElement("a");
+        t.href = url.href;
+        t.download = a.getAttribute("download") || "";
+        document.body.appendChild(t);
+        t.click();
+        t.remove();
+      }
 
-    // LANGUAGE
-    function applyLang(l) {
-      document.documentElement.lang = l;
-      document.querySelectorAll('#langLabel, #langLabelMobile').forEach(el => el.textContent = l.toUpperCase());
-      searchInput.placeholder = l === 'id' ? 'Cari sertifikat…' : 'Search certificates…';
-      localStorage.setItem('lang', l);
-    }
-    applyLang(localStorage.getItem('lang') || 'en');
-    [document.getElementById('langBtn'), document.getElementById('langBtnMobile')].forEach(btn => btn && btn.addEventListener('click', () => {
-      applyLang(document.documentElement.lang === 'en' ? 'id' : 'en');
-    }));
+      document.getElementById("certList").addEventListener("click", (e) => {
+        const a = e.target.closest("a[data-download]");
+        if (!a) return;
+        e.preventDefault();
+        downloadFile(a);
+      });
 
-    // DOWNLOAD CV (item Resume di navigasi)
-    // Cek dulu apakah file PDF ada. Jika ada, unduh langsung;
-    // jika belum ada, arahkan ke halaman 404.html.
-    document.querySelectorAll('.nav-list a[data-download]').forEach(a => a.addEventListener('click', e => {
-      e.preventDefault();
-      downloadFile(a);
-    }));
+      // SEARCH
+      const searchInput = document.getElementById("searchInput");
+      searchInput.addEventListener("input", (e) => render(e.target.value));
+      document.addEventListener("keydown", (e) => {
+        const typing = /^(input|textarea|select)$/i.test(
+          document.activeElement.tagName,
+        );
+        if (e.key === "/" && !typing) {
+          e.preventDefault();
+          searchInput.focus();
+        }
+        if (e.key === "Escape" && document.activeElement === searchInput) {
+          searchInput.value = "";
+          render("");
+          searchInput.blur();
+        }
+      });
 
-    // MOBILE DRAWER
-    const drawer = document.getElementById('mobileDrawer');
-    document.getElementById('mobileMenuBtn').addEventListener('click', () => drawer.classList.toggle('open'));
-    document.getElementById('drawerOverlay').addEventListener('click', () => drawer.classList.remove('open'));
+      // THEME
+      const themeBtn = document.getElementById("themeBtn");
+      const themeBtnM = document.getElementById("themeBtnMobile");
+      const iconSun = `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`;
+      const iconMoon = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`;
+      function applyTheme(t) {
+        document.documentElement.setAttribute("data-theme", t);
+        const inner = t === "dark" ? iconSun : iconMoon;
+        document.getElementById("themeIcon").innerHTML = inner;
+        if (document.getElementById("themeIconMobile"))
+          document.getElementById("themeIconMobile").innerHTML = inner;
+        localStorage.setItem("theme", t);
+      }
+      const savedTheme =
+        localStorage.getItem("theme") ||
+        (window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light");
+      applyTheme(savedTheme);
+      [themeBtn, themeBtnM].forEach(
+        (btn) =>
+          btn &&
+          btn.addEventListener("click", () => {
+            applyTheme(
+              document.documentElement.getAttribute("data-theme") === "dark"
+                ? "light"
+                : "dark",
+            );
+          }),
+      );
 
-    // INIT
-    render();
-  </script>
-</body>
+      // LANGUAGE
+      function applyLang(l) {
+        document.documentElement.lang = l;
+        document
+          .querySelectorAll("#langLabel, #langLabelMobile")
+          .forEach((el) => (el.textContent = l.toUpperCase()));
+        searchInput.placeholder =
+          l === "id" ? "Cari sertifikat…" : "Search certificates…";
+        localStorage.setItem("lang", l);
+      }
+      applyLang(localStorage.getItem("lang") || "en");
+      [
+        document.getElementById("langBtn"),
+        document.getElementById("langBtnMobile"),
+      ].forEach(
+        (btn) =>
+          btn &&
+          btn.addEventListener("click", () => {
+            applyLang(document.documentElement.lang === "en" ? "id" : "en");
+          }),
+      );
+
+      // DOWNLOAD CV (item Resume di navigasi)
+      // Cek dulu apakah file PDF ada. Jika ada, unduh langsung;
+      // jika belum ada, arahkan ke halaman 404.html.
+      document.querySelectorAll(".nav-list a[data-download]").forEach((a) =>
+        a.addEventListener("click", (e) => {
+          e.preventDefault();
+          downloadFile(a);
+        }),
+      );
+
+      // MOBILE DRAWER
+      const drawer = document.getElementById("mobileDrawer");
+      document
+        .getElementById("mobileMenuBtn")
+        .addEventListener("click", () => drawer.classList.toggle("open"));
+      document
+        .getElementById("drawerOverlay")
+        .addEventListener("click", () => drawer.classList.remove("open"));
+
+      // INIT
+      render();
+    </script>
+  </body>
 </html>
