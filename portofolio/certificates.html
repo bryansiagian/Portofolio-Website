@@ -364,6 +364,18 @@
         height: 100%;
         object-fit: cover;
       }
+      /* Gambar pratinjau yang aslinya miring (halaman PDF portrait berisi
+         konten landscape yang diputar). Diputar 90° searah jarum jam agar
+         tampil horizontal. Lebar elemen = tinggi thumbnail (10/13 ≈ 76.923%),
+         tinggi elemen = lebar thumbnail (130% dari tinggi). */
+      .cert-thumb img.rot90 {
+        inset: auto;
+        top: 50%;
+        left: 50%;
+        width: 76.923%;
+        height: 130%;
+        transform: translate(-50%, -50%) rotate(90deg);
+      }
       .cert-thumb-text {
         font-size: 1rem;
         font-weight: 600;
@@ -633,7 +645,7 @@
               <a href="certificates.html" class="active">
                 <span data-lang="en">Certificates</span
                 ><span data-lang="id">Sertifikat</span>
-                <span class="nav-count">5</span>
+                <span class="nav-count">6</span>
               </a>
             </li>
             <li class="nav-item">
@@ -788,7 +800,7 @@
           </li>
           <li class="nav-item">
             <a href="certificates.html" class="active"
-              ><span>Certificates</span><span class="nav-count">5</span></a
+              ><span>Certificates</span><span class="nav-count">6</span></a
             >
           </li>
           <li class="nav-item">
@@ -827,6 +839,8 @@
       // credentialId : opsional
       // file         : path file PDF — kartu diklik = PDF langsung terunduh
       // image        : pratinjau (gambar halaman pertama PDF)
+      // rotate       : opsional, 90 = putar pratinjau 90° searah jarum jam
+      //                (untuk PDF yang halamannya miring/portrait)
       // verifyUrl    : opsional, tautan verifikasi (mis. Credly)
       // hue          : warna cadangan bila tidak ada image (0–360)
       // ─────────────────────────────────────────────
@@ -887,7 +901,20 @@
         {
           type: "certificate",
           title:
-            "Certificate of Achievement - Lomba Website Aksara Batak",
+            "Sertifikat Juara 2 - Mobile Apps - Medan Coding Competition",
+          issuer: "BRIDA Kota Medan",
+          issued: "2026-05-09",
+          credentialId: "400.14.10/0494/BRIDA/2026",
+          file: "files/certificates/brida-medan-coding-competition-juara-2-mobile-apps.pdf",
+          image:
+            "image/certificates/brida-medan-coding-competition-juara-2-mobile-apps.png",
+          rotate: 90, // halaman PDF miring → putar 90° searah jarum jam
+          skills: ["Mobile Apps", "Juara 2", "Medan Coding Competition"],
+          hue: 28,
+        },
+        {
+          type: "certificate",
+          title: "Certificate of Achievement - Lomba Website Aksara Batak",
           issuer: "PANDI",
           issued: "2025-08-27",
           file: "files/certificates/pandi-lomba-website-aksara-batak.pdf",
@@ -934,10 +961,11 @@
             ),
           );
         if (c.hours) extra.push(dual(`${c.hours} hours`, `${c.hours} jam`));
+        const imgClass = c.rotate === 90 ? ' class="rot90"' : "";
         return `
         <div class="cert">
           <div class="cert-thumb" style="--h:${c.hue ?? 210}">
-            ${c.image ? `<img src="${c.image}" alt="${c.title}" loading="lazy" onerror="this.remove()">` : ""}
+            ${c.image ? `<img${imgClass} src="${c.image}" alt="${c.title}" loading="lazy" onerror="this.remove()">` : ""}
             <div class="cert-thumb-text">${c.issuer}</div>
           </div>
           <div class="cert-body">
