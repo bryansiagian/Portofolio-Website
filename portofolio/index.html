@@ -304,6 +304,33 @@
         color: var(--text);
       }
 
+      /* ── JAM WIB ── */
+      .wib-clock {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 14px;
+        color: var(--text-2);
+        margin-bottom: 0.625rem;
+      }
+      .wib-clock svg {
+        width: 15px;
+        height: 15px;
+        color: var(--text-3);
+        flex-shrink: 0;
+      }
+      .wib-clock .wib-time {
+        font-variant-numeric: tabular-nums; /* angka lebar sama, tidak bergeser tiap detik */
+        font-weight: 500;
+        color: var(--text);
+      }
+      .wib-clock .wib-zone {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: var(--text-3);
+      }
+
       /* ── SECTION ── */
       .section {
         margin-top: 2.5rem;
@@ -918,6 +945,23 @@
               rehat dari layar, saya bermain <strong>gitar</strong>.
             </span>
           </p>
+
+          <!-- JAM WIB -->
+          <div class="wib-clock fade" aria-live="off">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+            <span class="wib-time" id="wibTime">--:--:--</span>
+            <span class="wib-zone">WIB</span>
+          </div>
 
           <div class="about-meta fade">
             <span class="meta-item">
@@ -1756,6 +1800,24 @@
       document
         .getElementById("drawerOverlay")
         .addEventListener("click", () => drawer.classList.remove("open"));
+
+      // JAM WIB (real time, zona Asia/Jakarta)
+      (() => {
+        const el = document.getElementById("wibTime");
+        if (!el) return;
+        const fmt = new Intl.DateTimeFormat("en-GB", {
+          timeZone: "Asia/Jakarta",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hourCycle: "h23",
+        });
+        function tick() {
+          el.textContent = fmt.format(new Date());
+        }
+        tick();
+        setInterval(tick, 1000);
+      })();
 
       // INIT GITHUB
       ghLoad("last");
