@@ -376,6 +376,11 @@
         height: 130%;
         transform: translate(-50%, -50%) rotate(90deg);
       }
+      /* Pratinjau sertifikat portrait asli (tidak miring): ambil bagian
+         tengah-atas (nama + judul sertifikasi) agar tidak terpotong aneh. */
+      .cert-thumb img.portrait {
+        object-position: center 38%;
+      }
       .cert-thumb-text {
         font-size: 1rem;
         font-weight: 600;
@@ -645,7 +650,7 @@
               <a href="certificates.html" class="active">
                 <span data-lang="en">Certificates</span
                 ><span data-lang="id">Sertifikat</span>
-                <span class="nav-count">7</span>
+                <span class="nav-count">8</span>
               </a>
             </li>
             <li class="nav-item">
@@ -800,7 +805,7 @@
           </li>
           <li class="nav-item">
             <a href="certificates.html" class="active"
-              ><span>Certificates</span><span class="nav-count">7</span></a
+              ><span>Certificates</span><span class="nav-count">8</span></a
             >
           </li>
           <li class="nav-item">
@@ -841,10 +846,28 @@
       // image        : pratinjau (gambar halaman pertama PDF)
       // rotate       : opsional, 90 = putar pratinjau 90° searah jarum jam
       //                (untuk PDF yang halamannya miring/portrait)
+      // portrait     : opsional, true = pratinjau asli portrait (tidak miring),
+      //                posisi crop diatur agar nama + judul tetap terlihat
       // verifyUrl    : opsional, tautan verifikasi (mis. Credly)
       // hue          : warna cadangan bila tidak ada image (0–360)
       // ─────────────────────────────────────────────
       const certificates = [
+        {
+          type: "certification",
+          title: "Back-End Development and APIs Developer Certification",
+          issuer: "freeCodeCamp",
+          issued: "2026-10-15",
+          hours: 300,
+          credentialId: "fcc-19f3e100-bc47-4c6f-86c1-26001a11310c",
+          verifyUrl:
+            "https://freecodecamp.org/certification/fcc-19f3e100-bc47-4c6f-86c1-26001a11310c/back-end-development-and-apis-v9",
+          file: "files/certificates/freecodecamp-back-end-development-and-apis.pdf",
+          image:
+            "image/certificates/freecodecamp-back-end-development-and-apis.png",
+          portrait: true,
+          skills: ["Back-End", "APIs", "freeCodeCamp"],
+          hue: 240,
+        },
         {
           type: "certification",
           title:
@@ -974,7 +997,12 @@
             ),
           );
         if (c.hours) extra.push(dual(`${c.hours} hours`, `${c.hours} jam`));
-        const imgClass = c.rotate === 90 ? ' class="rot90"' : "";
+        const imgClass =
+          c.rotate === 90
+            ? ' class="rot90"'
+            : c.portrait
+              ? ' class="portrait"'
+              : "";
         return `
         <div class="cert">
           <div class="cert-thumb" style="--h:${c.hue ?? 210}">
