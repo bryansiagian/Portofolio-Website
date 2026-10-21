@@ -650,7 +650,7 @@
               <a href="certificates.html" class="active">
                 <span data-lang="en">Certificates</span
                 ><span data-lang="id">Sertifikat</span>
-                <span class="nav-count">8</span>
+                <span class="nav-count">9</span>
               </a>
             </li>
             <li class="nav-item">
@@ -805,7 +805,7 @@
           </li>
           <li class="nav-item">
             <a href="certificates.html" class="active"
-              ><span>Certificates</span><span class="nav-count">8</span></a
+              ><span>Certificates</span><span class="nav-count">9</span></a
             >
           </li>
           <li class="nav-item">
@@ -852,6 +852,21 @@
       // hue          : warna cadangan bila tidak ada image (0–360)
       // ─────────────────────────────────────────────
       const certificates = [
+        {
+          type: "certification",
+          title: "Relational Database Developer Certification",
+          issuer: "freeCodeCamp",
+          issued: "2026-10-20",
+          hours: 300,
+          credentialId: "fcc-19f3e100-bc47-4c6f-86c1-26001a11310c",
+          verifyUrl:
+            "https://freecodecamp.org/certification/fcc-19f3e100-bc47-4c6f-86c1-26001a11310c/relational-databases-v9",
+          file: "files/certificates/freecodecamp-relational-database.pdf",
+          image: "image/certificates/freecodecamp-relational-database.png",
+          portrait: true,
+          skills: ["Relational Database", "SQL", "freeCodeCamp"],
+          hue: 240,
+        },
         {
           type: "certification",
           title: "Back-End Development and APIs Developer Certification",
@@ -969,6 +984,9 @@
         },
       ];
 
+      // true (1) bila sertifikasi dari freeCodeCamp → ditempatkan paling bawah
+      const isFcc = (c) => (c.issuer === "freeCodeCamp" ? 1 : 0);
+
       const icons = {
         download:
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
@@ -1064,7 +1082,11 @@
         groups.forEach((g) => {
           const items = found
             .filter((c) => c.type === g.key)
-            .sort((a, b) => b.issued.localeCompare(a.issued));
+            // sertifikasi industri (Oracle, dll.) di atas; freeCodeCamp di
+            // paling bawah grup. Di dalam tiap kelompok: terbaru lebih dulu.
+            .sort(
+              (a, b) => isFcc(a) - isFcc(b) || b.issued.localeCompare(a.issued),
+            );
           if (!items.length) return;
           html += `
           <section class="group">
