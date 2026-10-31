@@ -1,14 +1,14 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BoanAksara — Bryan Siagian</title>
+    <title>🎃 BoanAksara — Bryan Siagian</title>
     <link rel="icon" type="image/jpeg" href="/image/profil.jpeg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Creepster&display=swap"
       rel="stylesheet"
     />
     <style>
@@ -20,22 +20,29 @@
         padding: 0;
       }
 
+      /* 🎃 HALLOWEEN PALETTE */
       :root {
-        --bg: #ffffff;
-        --bg-subtle: #f5f5f5;
-        --text: #111111;
-        --text-2: #555555;
-        --text-3: #999999;
-        --border: #e5e5e5;
+        --bg: #fff7ec;
+        --bg-subtle: #ffe9d0;
+        --text: #2a1236;
+        --text-2: #6b4a7a;
+        --text-3: #9c7aa8;
+        --border: #f1cfa6;
+        --accent: #e8590c;
+        --accent-2: #7b2cbf;
+        --glow: rgba(232, 89, 12, 0.28);
         --sidebar-w: 300px;
       }
       [data-theme="dark"] {
-        --bg: #111111;
-        --bg-subtle: #1c1c1c;
-        --text: #f0f0f0;
-        --text-2: #aaaaaa;
-        --text-3: #555555;
-        --border: #2a2a2a;
+        --bg: #120a1a;
+        --bg-subtle: #1e1230;
+        --text: #f6ecff;
+        --text-2: #c9a9e0;
+        --text-3: #8a68a6;
+        --border: #34204d;
+        --accent: #ff7a1a;
+        --accent-2: #b57bff;
+        --glow: rgba(255, 122, 26, 0.35);
       }
 
       html[lang="en"] [data-lang="id"] {
@@ -803,25 +810,322 @@
           animation-duration: 0.01ms !important;
         }
       }
+
+      /* ───────────────────────── 🎃 HALLOWEEN THEME ───────────────────────── */
+      body {
+        background:
+          radial-gradient(900px 520px at 88% -8%, var(--glow), transparent 62%),
+          radial-gradient(700px 420px at 0% 108%, rgba(123, 44, 191, 0.18), transparent 60%),
+          var(--bg);
+        background-attachment: fixed;
+      }
+      ::selection {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .profile-avatar {
+        border: 2px solid var(--accent);
+        box-shadow:
+          0 0 0 4px var(--bg),
+          0 0 28px var(--glow);
+      }
+      .profile-role {
+        color: var(--accent-2);
+      }
+
+      .nav-item a:hover {
+        color: var(--accent);
+      }
+      .nav-item a.active {
+        color: var(--accent);
+        box-shadow: inset 3px 0 0 var(--accent);
+      }
+      .nav-item a.active .nav-count {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+      }
+      .nav-item a:hover .nav-badge {
+        color: var(--accent);
+      }
+      .icon-btn:hover {
+        color: var(--accent);
+      }
+      .mobile-topbar-name {
+        color: var(--accent);
+      }
+
+      /* detail proyek */
+      .back {
+        color: var(--accent-2);
+      }
+      .back:hover {
+        color: var(--accent);
+      }
+      .d-title {
+        font-family: "Creepster", cursive;
+        font-weight: 400;
+        font-size: 3rem;
+        letter-spacing: 0.05em;
+        line-height: 1.1;
+        color: var(--accent);
+        text-shadow: 0 0 22px var(--glow);
+      }
+      .d-title::before {
+        content: "🎃 ";
+      }
+      .d-full {
+        color: var(--text-2);
+      }
+
+      .d-facts {
+        border-top: 1px dashed var(--accent);
+        border-bottom: 1px dashed var(--accent);
+      }
+      .fact-label {
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      .tag {
+        border-color: var(--accent-2);
+        color: var(--accent-2);
+        background: transparent;
+      }
+
+      .d-hero {
+        background: linear-gradient(135deg, #ffe3c2, #e9d5ff);
+        border: 1px solid var(--accent-2);
+        box-shadow: 0 6px 30px var(--glow);
+      }
+      [data-theme="dark"] .d-hero {
+        background: linear-gradient(135deg, #2a1640, #1a0f2a);
+      }
+      .d-hero .thumb-bar i {
+        background: var(--accent-2);
+        opacity: 0.6;
+      }
+      .d-hero .thumb-title,
+      [data-theme="dark"] .d-hero .thumb-title {
+        font-family: "Creepster", cursive;
+        font-weight: 400;
+        letter-spacing: 0.06em;
+        color: var(--accent);
+        text-shadow: 0 0 24px var(--glow);
+      }
+
+      .d-section h2 {
+        font-family: "Creepster", cursive;
+        font-weight: 400;
+        font-size: 1.6rem;
+        letter-spacing: 0.05em;
+        color: var(--accent-2);
+      }
+      .d-list li::before {
+        content: "🎃";
+        width: auto;
+        height: auto;
+        background: none;
+        left: 0;
+        top: 0.15em;
+        font-size: 0.75rem;
+        line-height: 1.7;
+      }
+      .d-gallery img {
+        border-color: var(--accent-2);
+        box-shadow: 0 4px 18px var(--glow);
+      }
+
+      .btn,
+      .icon-link {
+        border-color: var(--accent-2);
+        color: var(--accent-2);
+        background: transparent;
+        transition:
+          background 0.15s,
+          color 0.15s,
+          border-color 0.15s,
+          transform 0.15s;
+      }
+      .btn:hover,
+      .icon-link:hover {
+        background: var(--bg-subtle);
+        color: var(--accent);
+        border-color: var(--accent);
+        transform: translateY(-2px);
+      }
+      .d-sep {
+        background: var(--accent-2);
+        opacity: 0.5;
+      }
+      .d-footer {
+        border-top: 1px dashed var(--accent);
+      }
+      .toast {
+        background: var(--accent);
+        color: #fff;
+        box-shadow: 0 6px 24px var(--glow);
+      }
+
+      /* dekorasi: kelelawar, hantu, laba-laba */
+      .halloween-deco {
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        overflow: hidden;
+        pointer-events: none;
+      }
+      .bat {
+        position: absolute;
+        left: 100%;
+        font-size: 22px;
+        opacity: 0.85;
+        animation: bat-fly linear infinite;
+      }
+      .bat:nth-child(1) { top: 12%; animation-duration: 22s; animation-delay: 0s; }
+      .bat:nth-child(2) { top: 28%; animation-duration: 30s; animation-delay: 6s; font-size: 16px; }
+      .bat:nth-child(3) { top: 8%;  animation-duration: 26s; animation-delay: 12s; font-size: 28px; }
+      .bat:nth-child(4) { top: 45%; animation-duration: 34s; animation-delay: 18s; font-size: 18px; }
+      @keyframes bat-fly {
+        0%   { transform: translate(0, 0) rotate(0deg); }
+        25%  { transform: translate(-28vw, 8vh) rotate(-10deg); }
+        50%  { transform: translate(-56vw, -2vh) rotate(8deg); }
+        75%  { transform: translate(-84vw, 10vh) rotate(-8deg); }
+        100% { transform: translate(-115vw, 2vh) rotate(0deg); }
+      }
+      .ghost {
+        position: absolute;
+        right: 24px;
+        bottom: 20px;
+        font-size: 36px;
+        opacity: 0.9;
+        filter: drop-shadow(0 0 10px var(--glow));
+        animation: ghost-float 4s ease-in-out infinite;
+      }
+      @keyframes ghost-float {
+        0%, 100% { transform: translateY(0) rotate(-4deg); }
+        50%      { transform: translateY(-14px) rotate(4deg); }
+      }
+      .spider {
+        position: absolute;
+        top: 0;
+        right: 9%;
+        transform-origin: top center;
+        animation: spider-swing 3.2s ease-in-out infinite;
+      }
+      .spider i {
+        display: block;
+        width: 1px;
+        height: 72px;
+        margin: 0 auto;
+        background: var(--text-3);
+      }
+      .spider span {
+        display: block;
+        font-size: 26px;
+        line-height: 1;
+        text-align: center;
+      }
+      @keyframes spider-swing {
+        0%, 100% { transform: rotate(-5deg); }
+        50%      { transform: rotate(5deg); }
+      }
+
+      /* slogan melingkar di sekitar foto profil */
+      .avatar-wrap {
+        position: relative;
+        width: 240px;
+        height: 240px;
+        margin: 0 auto 0.75rem;
+      }
+      .avatar-wrap .profile-avatar {
+        position: absolute;
+        top: 30px;
+        left: 30px;
+        margin: 0;
+      }
+      .avatar-ring {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+        animation: ring-spin 40s linear infinite;
+      }
+      .avatar-ring text {
+        font-family: "Inter", sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        fill: var(--accent);
+        filter: drop-shadow(0 0 6px var(--glow));
+      }
+      @keyframes ring-spin {
+        to { transform: rotate(360deg); }
+      }
+
+      @media (max-width: 680px) {
+        .d-title { font-size: 2.3rem; }
+        .spider i { height: 40px; }
+        .spider { right: 22%; z-index: 60; }
+        .ghost { font-size: 28px; right: 14px; bottom: 14px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .bat { display: none; }
+        .ghost,
+        .spider,
+        .avatar-ring { animation: none !important; }
+      }
     </style>
   </head>
   <body>
+    <!-- 🎃 dekorasi Halloween -->
+    <div class="halloween-deco" aria-hidden="true">
+      <span class="bat">🦇</span>
+      <span class="bat">🦇</span>
+      <span class="bat">🦇</span>
+      <span class="bat">🦇</span>
+      <div class="spider"><i></i><span>🕷️</span></div>
+      <span class="ghost">👻</span>
+    </div>
+
     <div class="layout">
       <!-- SIDEBAR (desktop) -->
       <aside class="sidebar">
         <div class="sidebar-profile">
-          <div class="profile-avatar">
-            <img
-              src="/image/profil.jpeg"
-              alt="Bryan"
-              onerror="
-                this.style.display = 'none';
-                this.nextElementSibling.style.display = 'flex';
-              "
-            />
-            <span class="profile-avatar-placeholder" style="display: none"
-              >B</span
-            >
+          <div class="avatar-wrap">
+            <svg class="avatar-ring" viewBox="0 0 240 240" aria-hidden="true">
+              <defs>
+                <path
+                  id="ringPath"
+                  d="M120,120 m-104,0 a104,104 0 1,1 208,0 a104,104 0 1,1 -208,0"
+                />
+              </defs>
+              <text>
+                <textPath
+                  href="#ringPath"
+                  startOffset="0"
+                  textLength="640"
+                  lengthAdjust="spacing"
+                >
+                  HAPPY HALLOWEEN 🎃 TRICK OR TREAT 🦇 BOO! 👻 STAY SPOOKY 🕷️
+                </textPath>
+              </text>
+            </svg>
+            <div class="profile-avatar">
+              <img
+                src="/image/profil.jpeg"
+                alt="Bryan"
+                onerror="
+                  this.style.display = 'none';
+                  this.nextElementSibling.style.display = 'flex';
+                "
+              />
+              <span class="profile-avatar-placeholder" style="display: none"
+                >B</span
+              >
+            </div>
           </div>
           <div class="profile-name">Bryan Torisi Siagian</div>
           <div class="profile-role">Software Engineer</div>
@@ -1279,11 +1583,8 @@
           document.getElementById("themeIconMobile").innerHTML = inner;
         localStorage.setItem("theme", t);
       }
-      const savedTheme =
-        localStorage.getItem("theme") ||
-        (window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light");
+      // Tema Halloween: default gelap bila pengunjung belum memilih
+      const savedTheme = localStorage.getItem("theme") || "dark";
       applyTheme(savedTheme);
       [themeBtn, themeBtnM].forEach(
         (btn) =>
@@ -1303,7 +1604,7 @@
         document
           .querySelectorAll("#langLabel, #langLabelMobile")
           .forEach((el) => (el.textContent = l.toUpperCase()));
-        document.title = project.title + " — Bryan Siagian";
+        document.title = "🎃 " + project.title + " — Bryan Siagian";
         localStorage.setItem("lang", l);
       }
       applyLang(localStorage.getItem("lang") || "en");
