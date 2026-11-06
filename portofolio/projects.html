@@ -327,11 +327,14 @@
         gap: 1.75rem;
       }
       .proj {
+        position: relative; /* acuan untuk stretched link */
         display: flex;
         gap: 1.5rem;
         align-items: flex-start;
         color: inherit;
-        text-decoration: none;
+      }
+      .proj.is-link {
+        cursor: pointer;
       }
       .proj-thumb {
         position: relative;
@@ -357,7 +360,7 @@
           hsl(var(--h) 30% 11%)
         );
       }
-      a.proj:hover .proj-thumb {
+      .proj.is-link:hover .proj-thumb {
         transform: translateY(-2px);
       }
       .proj-thumb img {
@@ -397,11 +400,32 @@
         flex: 1;
         min-width: 0;
       }
-      a.proj:hover .proj-title {
+
+      /* Link judul = stretched link: ::after menutupi seluruh kartu */
+      .proj-link {
+        color: inherit;
+        text-decoration: none;
+      }
+      .proj-link::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        border-radius: 14px;
+      }
+      .proj-link:focus-visible {
+        outline: none;
+      }
+      .proj-link:focus-visible::after {
+        outline: 2px solid var(--text-3);
+        outline-offset: 4px;
+      }
+      .proj.is-link:hover .proj-link {
         text-decoration: underline;
         text-decoration-color: var(--text-3);
         text-underline-offset: 4px;
       }
+
       .proj-title {
         font-size: 1.25rem;
         font-weight: 500;
@@ -455,6 +479,57 @@
         padding: 2px 10px;
         border-radius: 100px;
       }
+
+      /* ── LINK LIVE ── */
+      .proj-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 0.25rem;
+      }
+      .live-link {
+        position: relative;
+        z-index: 2; /* di atas stretched link kartu */
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12.5px;
+        font-weight: 500;
+        color: var(--text);
+        background: var(--bg);
+        border: 1px solid var(--border);
+        padding: 4px 12px;
+        border-radius: 100px;
+        text-decoration: none;
+        transition:
+          background 0.15s,
+          border-color 0.15s;
+      }
+      .live-link:hover {
+        background: var(--bg-subtle);
+        border-color: var(--text-3);
+      }
+      .live-link:focus-visible {
+        outline: 2px solid var(--text-3);
+        outline-offset: 2px;
+      }
+      .live-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #22c55e;
+        flex-shrink: 0;
+      }
+      .live-link svg {
+        width: 12px;
+        height: 12px;
+        color: var(--text-3);
+        flex-shrink: 0;
+      }
+      .live-link:hover svg {
+        color: var(--text);
+      }
+
       .empty {
         font-size: 14.5px;
         color: var(--text-3);
@@ -923,6 +998,7 @@
       // DATA PROYEK — urutan tampilan = urutan di array ini
       // (terbaru → terlama; proyek berjalan "Present" di paling atas)
       // href   : halaman detail proyek (seluruh kartu bisa diklik)
+      // live   : opsional, URL situs live (tombol "Live Site", tab baru)
       // role / period : opsional, tampil di bawah judul
       // image  : opsional, path screenshot, mis. 'image/medflow.png'
       // hue    : warna thumbnail (0–360), dipakai bila tidak ada image
@@ -931,6 +1007,7 @@
         {
           title: "SIGAP-Desa",
           href: "sigap-desa.html",
+          live: "",
           role: "Full-Stack Developer",
           period: "Aug 2026 – Present",
           hue: 100,
@@ -945,10 +1022,11 @@
         {
           title: "Jason Jewelry",
           href: "jason-jewelry.html",
+          live: "https://jason-jewelry.netlify.app/",
           role: "Frontend Developer",
           period: "Jun 2026 – Present",
           hue: 42,
-          image: "image/jason-jewelry-homepage.png",
+          image: "image/jason-jewelry.png",
           award: "",
           desc: {
             en: "Jewelry store management system. Admin CRUD modules for products and trays, a responsive multi-section customer storefront, and a login flow built with the backend developer on a Go/Echo REST API.",
@@ -959,6 +1037,7 @@
         {
           title: "TobaNiaga",
           href: "tobaniaga.html",
+          live: "",
           role: "Full-Stack Developer",
           period: "Jun 2026 – Present",
           hue: 18,
@@ -973,6 +1052,7 @@
         {
           title: "ALIN",
           href: "alin.html",
+          live: "",
           role: "Full-Stack Developer",
           period: "Jan 2026 – Aug 2026",
           hue: 222,
@@ -987,6 +1067,7 @@
         {
           title: "MedFlow",
           href: "medflow.html",
+          live: "",
           role: "Full-Stack Developer",
           period: "Apr 2026 – Jun 2026",
           hue: 195,
@@ -1001,6 +1082,7 @@
         {
           title: "SI-DOBAT",
           href: "sidobat.html",
+          live: "",
           role: "Backend Developer",
           period: "Jan 2026 – Jun 2026",
           hue: 150,
@@ -1015,6 +1097,7 @@
         {
           title: "CampusTalk",
           href: "campustalk.html",
+          live: "",
           role: "Mobile Developer",
           period: "Sep 2025 – Dec 2025",
           hue: 262,
@@ -1029,6 +1112,7 @@
         {
           title: "SiFace",
           href: "siface.html",
+          live: "",
           role: "Full-Stack Developer",
           period: "Sep 2025 – Oct 2025",
           hue: 175,
@@ -1043,6 +1127,7 @@
         {
           title: "BoanAksara",
           href: "boanaksara.html",
+          live: "",
           role: "Full-Stack Developer",
           period: "Jul 2025 – Aug 2025",
           hue: 20,
@@ -1057,6 +1142,7 @@
         {
           title: "Harmonis Plastik",
           href: "harmonisplastik.html",
+          live: "",
           role: "Full-Stack Developer",
           period: "Jan 2025 – Jun 2025",
           hue: 340,
@@ -1070,7 +1156,8 @@
         },
         // Contoh template proyek baru (sisipkan sesuai urutan waktu):
         // {
-        //   title: 'Nama Proyek', href: 'nama-proyek.html', role: 'Full-Stack Developer',
+        //   title: 'Nama Proyek', href: 'nama-proyek.html', live: 'https://contoh.com',
+        //   role: 'Full-Stack Developer',
         //   period: 'Jan 2026 – Mar 2026', hue: 270, image: '', award: '',
         //   desc: { en: 'English description.', id: 'Deskripsi bahasa Indonesia.' },
         //   tags: ['Laravel', 'MySQL']
@@ -1085,28 +1172,42 @@
           .replace("Oct", "Okt")
           .replace("Dec", "Des");
 
+      // Ikon panah keluar (link eksternal)
+      const iconExternal = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`;
+
       function projectHTML(p) {
-        const tag = p.href ? "a" : "div";
-        const hrefAttr = p.href ? ` href="${p.href}"` : "";
         const metaEn = [p.role, p.period].filter(Boolean).join(" · ");
         const metaId = [p.role, periodId(p.period)].filter(Boolean).join(" · ");
+        const titleInner = p.href
+          ? `<a class="proj-link" href="${p.href}">${p.title}</a>`
+          : p.title;
+        const liveHTML = p.live
+          ? `<div class="proj-links">
+              <a class="live-link" href="${p.live}" target="_blank" rel="noopener noreferrer">
+                <span class="live-dot"></span>
+                <span data-lang="en">Live Site</span><span data-lang="id">Situs Live</span>
+                ${iconExternal}
+              </a>
+            </div>`
+          : "";
         return `
-        <${tag} class="proj"${hrefAttr}>
+        <article class="proj${p.href ? " is-link" : ""}">
           <div class="proj-thumb" style="--h:${p.hue}">
             ${p.image ? `<img src="${p.image}" alt="${p.title}" loading="lazy" onerror="this.remove()">` : ""}
             <div class="thumb-bar"><i></i><i></i><i></i></div>
             <div class="thumb-title">${p.title}</div>
           </div>
           <div class="proj-body">
-            <div class="proj-title">${p.title}${p.award ? `<span class="award-pill">${p.award}</span>` : ""}</div>
+            <div class="proj-title">${titleInner}${p.award ? `<span class="award-pill">${p.award}</span>` : ""}</div>
             ${metaEn ? `<div class="proj-meta"><span data-lang="en">${metaEn}</span><span data-lang="id">${metaId}</span></div>` : ""}
             <p class="proj-desc">
               <span data-lang="en">${p.desc.en}</span>
               <span data-lang="id">${p.desc.id}</span>
             </p>
             <div class="proj-tags">${p.tags.map((t) => `<span class="tag">${t}</span>`).join("")}</div>
+            ${liveHTML}
           </div>
-        </${tag}>`;
+        </article>`;
       }
 
       function render(query = "") {
@@ -1120,6 +1221,7 @@
             p.desc.en,
             p.desc.id,
             p.award,
+            p.live ? "live " + p.live : "",
             ...p.tags,
           ]
             .join(" ")
