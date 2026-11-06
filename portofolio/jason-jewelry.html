@@ -28,6 +28,11 @@
         --text-3: #999999;
         --border: #e5e5e5;
         --sidebar-w: 300px;
+        --avatar-d: 180px; /* diameter foto profil = lebar navigasi desktop */
+
+        /* Mobile menu overlay (blur) */
+        --overlay: rgba(255, 255, 255, 0.62);
+        --bar: rgba(255, 255, 255, 0.82);
       }
       [data-theme="dark"] {
         --bg: #111111;
@@ -36,6 +41,9 @@
         --text-2: #aaaaaa;
         --text-3: #555555;
         --border: #2a2a2a;
+
+        --overlay: rgba(17, 17, 17, 0.6);
+        --bar: rgba(17, 17, 17, 0.82);
       }
 
       html[lang="en"] [data-lang="id"] {
@@ -54,6 +62,9 @@
         transition:
           background 0.3s,
           color 0.3s;
+      }
+      body.menu-open {
+        overflow: hidden;
       }
 
       /* ── LAYOUT ── */
@@ -82,8 +93,8 @@
         text-align: center;
       }
       .profile-avatar {
-        width: 180px;
-        height: 180px;
+        width: var(--avatar-d);
+        height: var(--avatar-d);
         border-radius: 50%;
         background: var(--bg-subtle);
         border: 1px solid var(--border);
@@ -116,6 +127,8 @@
 
       .sidebar-nav {
         flex: none;
+        width: var(--avatar-d); /* selebar diameter foto profil */
+        margin: 0 auto; /* rata tengah di bawah foto */
       }
       .nav-list {
         list-style: none;
@@ -709,25 +722,43 @@
         transform: translate(-50%, 0);
       }
 
-      /* ── MOBILE ── */
+      /* ═══════════════════════════════════════════
+         MOBILE: TOPBAR + MENU FULLSCREEN (BLUR)
+         ═══════════════════════════════════════════ */
       .mobile-topbar {
         display: none;
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
-        z-index: 50;
+        z-index: 70; /* di atas overlay menu, supaya tombol tetap bisa diakses */
         height: 52px;
-        background: var(--bg);
+        background: var(--bar);
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
         border-bottom: 1px solid var(--border);
         align-items: center;
         justify-content: space-between;
         padding: 0 1.25rem;
+        transition:
+          background 0.3s,
+          border-color 0.3s;
+      }
+      /* Saat menu terbuka, topbar jadi transparan agar blur terlihat utuh */
+      body.menu-open .mobile-topbar {
+        background: transparent;
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+        border-bottom-color: transparent;
       }
       .mobile-topbar-name {
         font-size: 14px;
         font-weight: 600;
         color: var(--text);
+        transition: opacity 0.25s;
+      }
+      body.menu-open .mobile-topbar-name {
+        opacity: 0; /* nama sudah tampil di dalam menu */
       }
       .mobile-topbar-right {
         display: flex;
@@ -747,30 +778,94 @@
         width: 18px;
         height: 18px;
       }
-      .mobile-drawer {
+      .mobile-menu-btn .icon-close {
         display: none;
-        position: fixed;
-        inset: 0;
-        z-index: 49;
       }
-      .mobile-drawer.open {
+      body.menu-open .mobile-menu-btn .icon-open {
+        display: none;
+      }
+      body.menu-open .mobile-menu-btn .icon-close {
         display: block;
       }
-      .mobile-drawer-overlay {
-        position: absolute;
+
+      .mobile-drawer {
+        position: fixed;
         inset: 0;
-        background: rgba(0, 0, 0, 0.3);
-      }
-      .mobile-drawer-panel {
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        width: 240px;
-        background: var(--bg);
-        border-right: 1px solid var(--border);
-        padding: 1.5rem 1.25rem;
+        z-index: 60;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 4.5rem 1.5rem 2rem;
         overflow-y: auto;
+        background: var(--overlay);
+        -webkit-backdrop-filter: blur(18px) saturate(1.1);
+        backdrop-filter: blur(18px) saturate(1.1);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition:
+          opacity 0.3s ease,
+          visibility 0s linear 0.3s;
+      }
+      .mobile-drawer.open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transition:
+          opacity 0.3s ease,
+          visibility 0s;
+      }
+      .drawer-content {
+        width: 100%;
+        max-width: 320px;
+        margin: auto;
+        text-align: center;
+        transform: translateY(12px) scale(0.98);
+        transition: transform 0.35s ease;
+      }
+      .mobile-drawer.open .drawer-content {
+        transform: none;
+      }
+      .drawer-profile {
+        margin-bottom: 1.75rem;
+      }
+      .drawer-profile .profile-avatar {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 1rem;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+      }
+      .drawer-profile .profile-avatar-placeholder {
+        font-size: 40px;
+      }
+      .drawer-nav .nav-list {
+        gap: 6px;
+      }
+      .drawer-nav .nav-item a {
+        justify-content: center;
+        gap: 0.6rem;
+        padding: 0.8rem 1rem;
+        font-size: 17px;
+        border-radius: 12px;
+      }
+      .drawer-nav .nav-item a.active {
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        padding: calc(0.8rem - 1px) calc(1rem - 1px);
+      }
+      .drawer-nav .nav-count {
+        font-size: 12px;
+      }
+
+      /* Desktop: menu mobile tidak pernah tampil */
+      @media (min-width: 681px) {
+        .mobile-drawer {
+          display: none;
+        }
+        body.menu-open {
+          overflow: auto;
+        }
       }
 
       @media (max-width: 680px) {
@@ -914,10 +1009,10 @@
     <div class="mobile-topbar">
       <span class="mobile-topbar-name">Bryan Siagian</span>
       <div class="mobile-topbar-right">
-        <button class="icon-btn" id="langBtnMobile">
+        <button class="icon-btn" id="langBtnMobile" aria-label="Toggle language">
           <span id="langLabelMobile">EN</span>
         </button>
-        <button class="icon-btn" id="themeBtnMobile">
+        <button class="icon-btn" id="themeBtnMobile" aria-label="Toggle theme">
           <svg
             id="themeIconMobile"
             viewBox="0 0 24 24"
@@ -929,75 +1024,118 @@
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
           </svg>
         </button>
-        <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <button
+          class="mobile-menu-btn"
+          id="mobileMenuBtn"
+          aria-label="Menu"
+          aria-expanded="false"
+          aria-controls="mobileDrawer"
+        >
           <svg
+            class="icon-open"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             stroke-width="2"
+            stroke-linecap="round"
           >
             <line x1="3" y1="6" x2="21" y2="6" />
             <line x1="3" y1="12" x2="21" y2="12" />
             <line x1="3" y1="18" x2="21" y2="18" />
           </svg>
+          <svg
+            class="icon-close"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          >
+            <line x1="5" y1="5" x2="19" y2="19" />
+            <line x1="19" y1="5" x2="5" y2="19" />
+          </svg>
         </button>
       </div>
     </div>
 
-    <!-- MOBILE DRAWER -->
-    <div class="mobile-drawer" id="mobileDrawer">
-      <div class="mobile-drawer-overlay" id="drawerOverlay"></div>
-      <div class="mobile-drawer-panel">
-        <div style="margin-bottom: 1.5rem">
-          <div class="profile-name" style="margin-bottom: 3px">
-            Bryan Torisi Siagian
+    <!-- MOBILE MENU (fullscreen, blur, di tengah) -->
+    <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+      <div class="drawer-content">
+        <div class="drawer-profile">
+          <div class="profile-avatar">
+            <img
+              src="/image/profil.jpeg"
+              alt="Bryan"
+              onerror="
+                this.style.display = 'none';
+                this.nextElementSibling.style.display = 'flex';
+              "
+            />
+            <span class="profile-avatar-placeholder" style="display: none"
+              >B</span
+            >
           </div>
+          <div class="profile-name">Bryan Torisi Siagian</div>
           <div class="profile-role">Software Engineer</div>
         </div>
-        <ul class="nav-list">
-          <li class="nav-item">
-            <a href="index.html"
-              ><span>Home</span><span class="nav-count">1</span></a
-            >
-          </li>
-          <li class="nav-item">
-            <a href="projects.html" class="active"
-              ><span>Projects</span><span class="nav-count">10</span></a
-            >
-          </li>
-          <li class="nav-item">
-            <a href="achievements.html"
-              ><span>Achievements</span><span class="nav-count">3</span></a
-            >
-          </li>
-          <li class="nav-item">
-            <a href="certificates.html"
-              ><span>Certificates</span><span class="nav-count">16</span></a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-              href="resume.pdf"
-              download="CV-Bryan-Torisi-Siagian.pdf"
-              data-download
-              aria-label="Download Resume"
-              title="Download Resume"
-              ><span>Resume</span
-              ><span class="nav-badge"
-                ><svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2.25"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                  <polyline points="7 10 12 15 17 10" />
-                  <line x1="12" y1="15" x2="12" y2="3" /></svg></span
-            ></a>
-          </li>
-        </ul>
+
+        <nav class="drawer-nav">
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="index.html">
+                <span data-lang="en">Home</span
+                ><span data-lang="id">Beranda</span>
+                <span class="nav-count">1</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="projects.html" class="active">
+                <span data-lang="en">Projects</span
+                ><span data-lang="id">Proyek</span>
+                <span class="nav-count">10</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="achievements.html">
+                <span data-lang="en">Achievements</span
+                ><span data-lang="id">Capaian</span>
+                <span class="nav-count">3</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="certificates.html">
+                <span data-lang="en">Certificates</span
+                ><span data-lang="id">Sertifikat</span>
+                <span class="nav-count">16</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="resume.pdf"
+                download="CV-Bryan-Torisi-Siagian.pdf"
+                data-download
+                aria-label="Download Resume"
+                title="Download Resume"
+              >
+                <span>Resume</span>
+                <span class="nav-badge">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.25"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
 
@@ -1334,40 +1472,72 @@
           }),
       );
 
-      // DOWNLOAD CV
+      // DOWNLOAD CV (item Resume di navigasi)
       // Cek dulu apakah file PDF ada. Jika ada, unduh langsung;
       // jika belum ada, arahkan ke halaman 404.html.
-      document.querySelectorAll("a[data-download]").forEach((a) =>
-        a.addEventListener("click", async (e) => {
-          e.preventDefault();
-          const url = new URL(a.getAttribute("href"), location.href);
-          try {
-            const r = await fetch(url, { method: "HEAD" });
-            if (!r.ok) {
-              location.href =
-                "404.html?path=" + encodeURIComponent(url.pathname);
-              return;
-            }
-          } catch (err) {
-            // jika pengecekan gagal (mis. dibuka lewat file://), tetap coba unduh
+      async function downloadFile(a) {
+        const url = new URL(a.getAttribute("href"), location.href);
+        try {
+          const r = await fetch(url, { method: "HEAD" });
+          if (!r.ok) {
+            location.href = new URL(
+              "404.html?path=" + encodeURIComponent(url.pathname),
+              location.href,
+            ).href;
+            return;
           }
-          const tmp = document.createElement("a");
-          tmp.href = url.href;
-          tmp.download = a.getAttribute("download") || "resume.pdf";
-          document.body.appendChild(tmp);
-          tmp.click();
-          tmp.remove();
+        } catch (err) {
+          /* mis. dibuka dari file:// — lanjutkan unduh biasa */
+        }
+        const t = document.createElement("a");
+        t.href = url.href;
+        t.download = a.getAttribute("download") || "";
+        document.body.appendChild(t);
+        t.click();
+        t.remove();
+      }
+
+      document.querySelectorAll(".nav-list a[data-download]").forEach((a) =>
+        a.addEventListener("click", (e) => {
+          e.preventDefault();
+          closeMenu();
+          downloadFile(a);
         }),
       );
 
-      // MOBILE DRAWER
+      // MOBILE MENU (fullscreen, blur)
       const drawer = document.getElementById("mobileDrawer");
-      document
-        .getElementById("mobileMenuBtn")
-        .addEventListener("click", () => drawer.classList.toggle("open"));
-      document
-        .getElementById("drawerOverlay")
-        .addEventListener("click", () => drawer.classList.remove("open"));
+      const menuBtn = document.getElementById("mobileMenuBtn");
+
+      function setMenu(open) {
+        drawer.classList.toggle("open", open);
+        document.body.classList.toggle("menu-open", open);
+        menuBtn.setAttribute("aria-expanded", String(open));
+        drawer.setAttribute("aria-hidden", String(!open));
+      }
+      function closeMenu() {
+        setMenu(false);
+      }
+
+      menuBtn.addEventListener("click", () =>
+        setMenu(!drawer.classList.contains("open")),
+      );
+      // Tap area kosong di luar konten menu = tutup
+      drawer.addEventListener("click", (e) => {
+        if (!e.target.closest(".drawer-content")) closeMenu();
+      });
+      // Tap link navigasi = tutup menu
+      drawer
+        .querySelectorAll("a:not([data-download])")
+        .forEach((a) => a.addEventListener("click", closeMenu));
+      // Tombol Escape
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeMenu();
+      });
+      // Jika layar diperlebar ke desktop, pastikan menu tertutup
+      window
+        .matchMedia("(min-width: 681px)")
+        .addEventListener("change", (e) => e.matches && closeMenu());
 
       // INIT
       render();
