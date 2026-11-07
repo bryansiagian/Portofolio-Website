@@ -675,6 +675,25 @@
         width: 16px;
         height: 16px;
       }
+
+      /* ── TOMBOL LIVE ── */
+      .live-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #22c55e;
+        flex-shrink: 0;
+      }
+      .btn.btn-sm svg.ext {
+        width: 12px;
+        height: 12px;
+        color: var(--text-3);
+        transition: color 0.15s;
+      }
+      .btn.btn-sm:hover svg.ext {
+        color: var(--text);
+      }
+
       .icon-link {
         width: 34px;
         height: 34px;
@@ -1157,6 +1176,7 @@
         image: "image/jason-jewelry.png", // hero/screenshot utama, mis. 'image/jason-jewelry/hero.png'
         tags: ["Next.js", "Go", "Echo", "REST API"],
         repo: "https://github.com/CV-Devora/website_app", // tombol GitHub (kosongkan '' bila tidak ada)
+        live: "https://jason-jewelry.netlify.app/", // tombol Live Site (kosongkan '' bila tidak ada)
         share: true, // tombol share: Facebook, Instagram, LinkedIn, X, salin tautan
 
         overview: {
@@ -1227,6 +1247,8 @@
       const icons = {
         github:
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>',
+        external:
+          '<svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>',
         facebook:
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>',
         instagram:
@@ -1309,6 +1331,9 @@
         const gh = p.repo
           ? `<a class="btn btn-sm" href="${p.repo}" target="_blank" rel="noopener" title="GitHub repository">${icons.github}GitHub</a>`
           : "";
+        const live = p.live
+          ? `<a class="btn btn-sm" href="${p.live}" target="_blank" rel="noopener noreferrer" title="Live site"><span class="live-dot"></span>${bi({ en: "Live Site", id: "Situs Live" })}${icons.external}</a>`
+          : "";
         const share = p.share
           ? `
         <a class="icon-link" data-share="facebook" href="${shareLinks.facebook()}" target="_blank" rel="noopener" aria-label="Share on Facebook" title="Facebook">${icons.facebook}</a>
@@ -1317,8 +1342,8 @@
         <a class="icon-link" data-share="x" href="${shareLinks.x()}" target="_blank" rel="noopener" aria-label="Share on X" title="X / Twitter">${icons.x}</a>
         <button class="icon-link" type="button" data-share="copy" aria-label="Copy link" title="Copy link">${icons.link}</button>`
           : "";
-        const sep = gh && share ? '<span class="d-sep"></span>' : "";
-        return `<div class="d-toolbar">${tags}<div class="d-actions">${gh}${sep}${share}</div></div>`;
+        const sep = (gh || live) && share ? '<span class="d-sep"></span>' : "";
+        return `<div class="d-toolbar">${tags}<div class="d-actions">${gh}${live}${sep}${share}</div></div>`;
       }
 
       function wireActions() {
