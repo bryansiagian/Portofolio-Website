@@ -432,6 +432,7 @@
         font-size: 12.5px;
         color: var(--text-3);
         margin-top: 0.5rem;
+        overflow-wrap: anywhere;
       }
       .cert-tags {
         display: flex;
@@ -650,7 +651,7 @@
               <a href="certificates.html" class="active">
                 <span data-lang="en">Certificates</span
                 ><span data-lang="id">Sertifikat</span>
-                <span class="nav-count">16</span>
+                <span class="nav-count">17</span>
               </a>
             </li>
             <li class="nav-item">
@@ -805,7 +806,7 @@
           </li>
           <li class="nav-item">
             <a href="certificates.html" class="active"
-              ><span>Certificates</span><span class="nav-count">16</span></a
+              ><span>Certificates</span><span class="nav-count">17</span></a
             >
           </li>
           <li class="nav-item">
@@ -852,6 +853,19 @@
       // hue          : warna cadangan bila tidak ada image (0–360)
       // ─────────────────────────────────────────────
       const certificates = [
+        {
+          type: "certification",
+          title: "AWS Certified AI Practitioner",
+          issuer: "Amazon Web Services (AWS)",
+          issued: "2026-11-08",
+          expires: "2029-11-08",
+          credentialId: "34851103658e4305b332774d13d4cb04",
+          verifyUrl: "https://aws.amazon.com/verification",
+          file: "files/certificates/aws-certified-ai-practitioner.pdf",
+          image: "image/certificates/aws-certified-ai-practitioner.png",
+          skills: ["AWS", "AI Practitioner", "Cloud"],
+          hue: 35,
+        },
         {
           type: "certification",
           title: "JavaScript Developer Certification",
