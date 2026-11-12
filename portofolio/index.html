@@ -649,7 +649,7 @@
       /* ── SKILL ROWS ── */
       .skill-row {
         display: grid;
-        grid-template-columns: 110px 1fr;
+        grid-template-columns: 130px 1fr;
         gap: 0.5rem;
         align-items: start;
         padding: 0.875rem 0;
@@ -922,7 +922,7 @@
               <a href="projects.html">
                 <span data-lang="en">Projects</span
                 ><span data-lang="id">Proyek</span>
-                <span class="nav-count">10</span>
+                <span class="nav-count">11</span>
               </a>
             </li>
             <li class="nav-item">
@@ -1149,7 +1149,8 @@
               </a>
             </div>
             <div class="item-list">
-              <a href="sigap-desa.html" class="item-row">
+              <!-- PROJECT 01 — KOMPAK (BARU, sedang dikerjakan) -->
+              <a href="kompak.html" class="item-row">
                 <div class="item-meta-col">
                   <div class="item-num">Project 01</div>
                   <div class="item-date">
@@ -1159,25 +1160,30 @@
                 </div>
                 <div class="item-body">
                   <div class="item-title">
-                    SIGAP-Desa — Village Service System
+                    Kompak — Student Group Collaboration
                   </div>
                   <div class="item-desc">
                     <span data-lang="en"
-                      >Generative adaptive village service information system.
-                      Non-technical village staff can create new service
-                      features themselves, with no wait for IT-team
-                      sprints.</span
+                      >Real-time collaboration web app for university group
+                      assignments, a simple take on Trello or ClickUp. Built
+                      around the UX of first-time laptop users, with a
+                      mobile-first Indonesian interface, a drag-and-drop task
+                      board, and WhatsApp invite links.</span
                     >
                     <span data-lang="id"
-                      >Sistem informasi layanan desa yang generatif dan adaptif.
-                      Staf desa non-teknis dapat membuat fitur layanan baru
-                      sendiri, tanpa menunggu sprint tim IT.</span
+                      >Aplikasi web kolaborasi real-time untuk tugas kelompok
+                      mahasiswa, versi sederhana dari Trello atau ClickUp.
+                      Dirancang dengan UX untuk pengguna awam teknologi yang
+                      baru belajar memakai laptop, dengan antarmuka bahasa
+                      Indonesia yang mobile-first, papan tugas drag and drop,
+                      dan link undangan lewat WhatsApp.</span
                     >
                   </div>
                   <div class="item-tags">
-                    <span class="tag">Laravel</span
-                    ><span class="tag">Alpine.js</span
-                    ><span class="tag">Livewire</span>
+                    <span class="tag">Next.js</span
+                    ><span class="tag">NestJS</span
+                    ><span class="tag">PostgreSQL</span
+                    ><span class="tag">Socket.IO</span>
                   </div>
                 </div>
                 <div class="item-arrow">
@@ -1192,13 +1198,11 @@
                 </div>
               </a>
 
+              <!-- PROJECT 02 — JASON JEWELRY (selesai) -->
               <a href="jason-jewelry.html" class="item-row">
                 <div class="item-meta-col">
                   <div class="item-num">Project 02</div>
-                  <div class="item-date">
-                    <span data-lang="en">2026 — Now</span
-                    ><span data-lang="id">2026 — Sekarang</span>
-                  </div>
+                  <div class="item-date">2026</div>
                 </div>
                 <div class="item-body">
                   <div class="item-title">Jason Jewelry — Store Management</div>
@@ -1232,12 +1236,13 @@
                 </div>
               </a>
 
+              <!-- PROJECT 03 — TOBANIAGA (sedang dikerjakan) -->
               <a href="tobaniaga.html" class="item-row">
                 <div class="item-meta-col">
                   <div class="item-num">Project 03</div>
                   <div class="item-date">
-                    <span data-lang="en">2026 — Now</span
-                    ><span data-lang="id">2026 — Sekarang</span>
+                    <span data-lang="en">2026</span
+                    ><span data-lang="id">2026</span>
                   </div>
                 </div>
                 <div class="item-body">
@@ -1261,6 +1266,47 @@
                     ><span class="tag">Alpine.js</span
                     ><span class="tag">Tailwind CSS</span
                     ><span class="tag">Midtrans</span>
+                  </div>
+                </div>
+                <div class="item-arrow">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M7 17L17 7M17 7H7M17 7v10" />
+                  </svg>
+                </div>
+              </a>
+
+              <!-- PROJECT 04 — SIGAP-DESA (selesai, paling bawah) -->
+              <a href="sigap-desa.html" class="item-row">
+                <div class="item-meta-col">
+                  <div class="item-num">Project 04</div>
+                  <div class="item-date">2026</div>
+                </div>
+                <div class="item-body">
+                  <div class="item-title">
+                    SIGAP-Desa — Village Service System
+                  </div>
+                  <div class="item-desc">
+                    <span data-lang="en"
+                      >Generative adaptive village service information system.
+                      Non-technical village staff can create new service
+                      features themselves, with no wait for IT-team
+                      sprints.</span
+                    >
+                    <span data-lang="id"
+                      >Sistem informasi layanan desa yang generatif dan adaptif.
+                      Staf desa non-teknis dapat membuat fitur layanan baru
+                      sendiri, tanpa menunggu sprint tim IT.</span
+                    >
+                  </div>
+                  <div class="item-tags">
+                    <span class="tag">Laravel</span
+                    ><span class="tag">Alpine.js</span
+                    ><span class="tag">Livewire</span>
                   </div>
                 </div>
                 <div class="item-arrow">
@@ -1411,58 +1457,107 @@
             </div>
             <div>
               <div class="skill-row">
-                <span class="skill-cat">Backend</span>
+                <span class="skill-cat">
+                  <span data-lang="en">Languages</span>
+                  <span data-lang="id">Bahasa</span>
+                </span>
                 <div class="skill-tags">
-                  <span class="tag">PHP / Laravel</span
-                  ><span class="tag">REST API</span
-                  ><span class="tag">Microservices</span
-                  ><span class="tag">Midtrans</span
-                  ><span class="tag">OSM / OSRM</span>
+                  <span class="tag">PHP</span>
+                  <span class="tag">JavaScript</span>
+                  <span class="tag">TypeScript</span>
+                  <span class="tag">Go</span>
+                  <span class="tag">Dart</span>
+                  <span class="tag">SQL</span>
                 </div>
               </div>
-              <div class="skill-row">
-                <span class="skill-cat">Mobile</span>
-                <div class="skill-tags">
-                  <span class="tag">Flutter</span><span class="tag">Dart</span
-                  ><span class="tag">Google Maps API</span
-                  ><span class="tag">OWM API</span>
-                </div>
-              </div>
-              <div class="skill-row">
-                <span class="skill-cat">Database</span>
-                <div class="skill-tags">
-                  <span class="tag">MySQL</span
-                  ><span class="tag">PostgreSQL</span
-                  ><span class="tag">Eloquent ORM</span>
-                </div>
-              </div>
-              <div class="skill-row">
-                <span class="skill-cat">DevOps</span>
-                <div class="skill-tags">
-                  <span class="tag">AWS EC2</span><span class="tag">Nginx</span
-                  ><span class="tag">Linux</span
-                  ><span class="tag">Git / GitHub</span>
-                </div>
-              </div>
+
               <div class="skill-row">
                 <span class="skill-cat">Frontend</span>
                 <div class="skill-tags">
-                  <span class="tag">HTML / CSS / JS</span
-                  ><span class="tag">Blade</span
-                  ><span class="tag">Tailwind</span
-                  ><span class="tag">React</span>
+                  <span class="tag">HTML / CSS</span>
+                  <span class="tag">Next.js</span>
+                  <span class="tag">React</span>
+                  <span class="tag">Tailwind CSS</span>
+                  <span class="tag">Alpine.js</span>
+                  <span class="tag">Livewire</span>
+                  <span class="tag">Blade</span>
                 </div>
               </div>
+
               <div class="skill-row">
-                <span class="skill-cat"
-                  ><span data-lang="en">Exploring</span
-                  ><span data-lang="id">Belajar</span></span
-                >
+                <span class="skill-cat">Backend</span>
                 <div class="skill-tags">
-                  <span class="tag">Data Science</span
-                  ><span class="tag">Machine Learning</span
-                  ><span class="tag">Python</span
-                  ><span class="tag">Cybersecurity</span>
+                  <span class="tag">Laravel</span>
+                  <span class="tag">NestJS</span>
+                  <span class="tag">Go / Echo</span>
+                  <span class="tag">REST API</span>
+                  <span class="tag">WebSocket / Socket.IO</span>
+                  <span class="tag">JWT Auth</span>
+                  <span class="tag">Microservices</span>
+                </div>
+              </div>
+
+              <div class="skill-row">
+                <span class="skill-cat">Mobile</span>
+                <div class="skill-tags">
+                  <span class="tag">Flutter</span>
+                  <span class="tag">Dart</span>
+                </div>
+              </div>
+
+              <div class="skill-row">
+                <span class="skill-cat">Database</span>
+                <div class="skill-tags">
+                  <span class="tag">PostgreSQL</span>
+                  <span class="tag">MySQL</span>
+                  <span class="tag">Eloquent ORM</span>
+                  <span class="tag">Prisma</span>
+                </div>
+              </div>
+
+              <div class="skill-row">
+                <span class="skill-cat">DevOps &amp; Cloud</span>
+                <div class="skill-tags">
+                  <span class="tag">AWS (EC2, RDS)</span>
+                  <span class="tag">Docker</span>
+                  <span class="tag">GitHub Actions</span>
+                  <span class="tag">Nginx</span>
+                  <span class="tag">Linux</span>
+                </div>
+              </div>
+
+              <div class="skill-row">
+                <span class="skill-cat">APIs &amp; Integrations</span>
+                <div class="skill-tags">
+                  <span class="tag">Midtrans</span>
+                  <span class="tag">Google Maps API</span>
+                  <span class="tag">OSM / OSRM</span>
+                  <span class="tag">OpenWeatherMap API</span>
+                </div>
+              </div>
+
+              <div class="skill-row">
+                <span class="skill-cat">
+                  <span data-lang="en">Testing &amp; Tools</span>
+                  <span data-lang="id">Testing &amp; Tools</span>
+                </span>
+                <div class="skill-tags">
+                  <span class="tag">Git / GitHub</span>
+                  <span class="tag">Jest</span>
+                  <span class="tag">Vitest</span>
+                  <span class="tag">Playwright</span>
+                  <span class="tag">pnpm</span>
+                </div>
+              </div>
+
+              <div class="skill-row">
+                <span class="skill-cat">
+                  <span data-lang="en">Exploring</span>
+                  <span data-lang="id">Belajar</span>
+                </span>
+                <div class="skill-tags">
+                  <span class="tag">Data Science</span>
+                  <span class="tag">Machine Learning</span>
                 </div>
               </div>
             </div>
@@ -1613,7 +1708,7 @@
               <a href="projects.html">
                 <span data-lang="en">Projects</span
                 ><span data-lang="id">Proyek</span>
-                <span class="nav-count">10</span>
+                <span class="nav-count">11</span>
               </a>
             </li>
             <li class="nav-item">
