@@ -1,0 +1,1430 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arisanly — Bryan Siagian</title>
+    <link rel="icon" type="image/jpeg" href="/image/profil.jpeg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #ffffff;
+        --bg-subtle: #f5f5f5;
+        --text: #111111;
+        --text-2: #555555;
+        --text-3: #999999;
+        --border: #e5e5e5;
+        --sidebar-w: 300px;
+        --avatar-d: 180px;
+        --ok: #16a34a;
+
+        --overlay: rgba(255, 255, 255, 0.62);
+        --bar: rgba(255, 255, 255, 0.82);
+      }
+      [data-theme="dark"] {
+        --bg: #111111;
+        --bg-subtle: #1c1c1c;
+        --text: #f0f0f0;
+        --text-2: #aaaaaa;
+        --text-3: #555555;
+        --border: #2a2a2a;
+        --ok: #4ade80;
+
+        --overlay: rgba(17, 17, 17, 0.6);
+        --bar: rgba(17, 17, 17, 0.82);
+      }
+
+      html[lang="en"] [data-lang="id"] {
+        display: none !important;
+      }
+      html[lang="id"] [data-lang="en"] {
+        display: none !important;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        transition:
+          background 0.3s,
+          color 0.3s;
+      }
+      body.menu-open {
+        overflow: hidden;
+      }
+
+      /* ── LAYOUT ── */
+      .layout {
+        display: flex;
+        max-width: 1100px;
+        margin: 0 auto;
+        min-height: 100vh;
+      }
+
+      /* ── SIDEBAR ── */
+      .sidebar {
+        width: var(--sidebar-w);
+        flex-shrink: 0;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding: 2rem 1.25rem 1.5rem;
+        overflow-y: auto;
+      }
+      .sidebar-profile {
+        margin-top: auto;
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+      .profile-avatar {
+        width: var(--avatar-d);
+        height: var(--avatar-d);
+        border-radius: 50%;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        margin: 0 auto 1.25rem;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .profile-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .profile-avatar-placeholder {
+        font-size: 56px;
+        color: var(--text-3);
+      }
+      .profile-name {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text);
+        line-height: 1.35;
+        margin-bottom: 3px;
+      }
+      .profile-role {
+        font-size: 14px;
+        color: var(--text-3);
+      }
+
+      .sidebar-nav {
+        flex: none;
+        width: var(--avatar-d);
+        margin: 0 auto;
+      }
+      .nav-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .nav-item a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.55rem 0.8rem;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 400;
+        color: var(--text-2);
+        text-decoration: none;
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
+      .nav-item a:hover {
+        background: var(--bg-subtle);
+        color: var(--text);
+      }
+      .nav-item a.active {
+        background: var(--bg-subtle);
+        color: var(--text);
+        font-weight: 500;
+      }
+      .nav-count {
+        font-size: 12px;
+        color: var(--text-3);
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        padding: 1px 7px;
+        min-width: 22px;
+        text-align: center;
+      }
+      .nav-item a.active .nav-count {
+        background: var(--border);
+        border-color: transparent;
+      }
+      .nav-badge {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-3);
+        letter-spacing: 0.04em;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        padding: 1px 6px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .nav-badge svg {
+        width: 13px;
+        height: 13px;
+        display: block;
+      }
+      .nav-item a:hover .nav-badge {
+        color: var(--text);
+      }
+
+      .sidebar-footer {
+        margin-top: auto;
+        padding-top: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.35rem;
+      }
+      .icon-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--text-3);
+        padding: 0.375rem;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12.5px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        transition:
+          color 0.15s,
+          background 0.15s;
+      }
+      .icon-btn:hover {
+        color: var(--text);
+        background: var(--bg-subtle);
+      }
+      .icon-btn svg {
+        width: 17px;
+        height: 17px;
+      }
+
+      /* ── MAIN CONTENT ── */
+      .main {
+        flex: 1;
+        min-width: 0;
+        padding: 3rem 3rem 4rem 3.5rem;
+      }
+      .main-inner {
+        max-width: 760px;
+      }
+
+      /* ── DETAIL PAGE ── */
+      .back {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13.5px;
+        color: var(--text-3);
+        text-decoration: none;
+        margin-bottom: 1.5rem;
+        transition: color 0.15s;
+      }
+      .back:hover {
+        color: var(--text);
+      }
+      .back svg {
+        width: 14px;
+        height: 14px;
+      }
+
+      .page-title {
+        font-size: 2rem;
+        font-weight: 600;
+        letter-spacing: -0.03em;
+        line-height: 1.2;
+        color: var(--text);
+      }
+      .tagline {
+        font-size: 1.0625rem;
+        color: var(--text-2);
+        margin-top: 0.4rem;
+      }
+      .meta-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem 0.9rem;
+        margin-top: 0.9rem;
+        font-size: 13.5px;
+        color: var(--text-3);
+      }
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text-2);
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        padding: 1px 10px;
+        border-radius: 100px;
+      }
+      .status i {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #f59e0b;
+      }
+
+      .hero {
+        position: relative;
+        margin-top: 1.5rem;
+        aspect-ratio: 16 / 9;
+        border-radius: 14px;
+        border: 1px solid var(--border);
+        overflow: hidden;
+        background: linear-gradient(
+          135deg,
+          hsl(120 70% 96%),
+          hsl(120 60% 88%)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      [data-theme="dark"] .hero {
+        background: linear-gradient(
+          135deg,
+          hsl(120 30% 16%),
+          hsl(120 30% 11%)
+        );
+      }
+      .hero img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .hero-title {
+        font-size: 2rem;
+        font-weight: 600;
+        letter-spacing: -0.03em;
+        color: hsl(120 45% 25%);
+      }
+      [data-theme="dark"] .hero-title {
+        color: hsl(120 60% 80%);
+      }
+
+      .proj-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 1.25rem;
+      }
+      .live-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text);
+        background: var(--bg);
+        border: 1px solid var(--border);
+        padding: 5px 14px;
+        border-radius: 100px;
+        text-decoration: none;
+        transition:
+          background 0.15s,
+          border-color 0.15s;
+      }
+      .live-link:hover {
+        background: var(--bg-subtle);
+        border-color: var(--text-3);
+      }
+      .live-link svg {
+        width: 13px;
+        height: 13px;
+        color: var(--text-3);
+      }
+      .live-link.is-off {
+        color: var(--text-3);
+        cursor: default;
+        pointer-events: none;
+      }
+
+      .notice {
+        margin-top: 1.5rem;
+        padding: 0.85rem 1rem;
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--text-3);
+        border-radius: 8px;
+        background: var(--bg-subtle);
+        font-size: 14px;
+        color: var(--text-2);
+        line-height: 1.65;
+      }
+
+      .section {
+        margin-top: 2.5rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--border);
+      }
+      .section-label {
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-3);
+        margin-bottom: 1rem;
+      }
+      .prose {
+        font-size: 15px;
+        color: var(--text-2);
+        line-height: 1.8;
+      }
+      .prose + .prose {
+        margin-top: 0.85rem;
+      }
+      .sub-label {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text);
+        margin: 1.25rem 0 0.5rem;
+      }
+      .sub-label:first-of-type {
+        margin-top: 0;
+      }
+
+      .bullets {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .bullets li {
+        position: relative;
+        padding-left: 1.1rem;
+        font-size: 14.5px;
+        color: var(--text-2);
+        line-height: 1.7;
+      }
+      .bullets li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.7em;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--text-3);
+      }
+
+      .problems {
+        list-style: none;
+        counter-reset: p;
+        display: flex;
+        flex-direction: column;
+        gap: 1.1rem;
+      }
+      .problems li {
+        counter-increment: p;
+        position: relative;
+        padding-left: 2rem;
+      }
+      .problems li::before {
+        content: counter(p);
+        position: absolute;
+        left: 0;
+        top: 0.1rem;
+        width: 1.35rem;
+        height: 1.35rem;
+        border-radius: 50%;
+        border: 1px solid var(--border);
+        background: var(--bg-subtle);
+        font-size: 11.5px;
+        font-weight: 600;
+        color: var(--text-2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .problems h3 {
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--text);
+        margin-bottom: 0.2rem;
+      }
+      .problems p {
+        font-size: 14.5px;
+        color: var(--text-2);
+        line-height: 1.75;
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.85em;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 0 5px;
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 0.65rem 0.9rem;
+        vertical-align: top;
+        border-bottom: 1px solid var(--border);
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      th {
+        font-weight: 500;
+        color: var(--text-3);
+        font-size: 12.5px;
+        background: var(--bg-subtle);
+      }
+      td:first-child {
+        color: var(--text);
+        font-weight: 500;
+        white-space: nowrap;
+      }
+      td {
+        color: var(--text-2);
+      }
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 1rem;
+      }
+      .tag {
+        font-size: 12px;
+        color: var(--text-2);
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        padding: 2px 10px;
+        border-radius: 100px;
+      }
+
+      pre {
+        overflow-x: auto;
+        padding: 1rem 1.1rem;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--bg-subtle);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 12.5px;
+        line-height: 1.6;
+        color: var(--text-2);
+      }
+
+      .roadmap {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .roadmap li {
+        display: flex;
+        align-items: baseline;
+        gap: 0.7rem;
+        font-size: 14.5px;
+        color: var(--text-2);
+        line-height: 1.6;
+      }
+      .roadmap .tick {
+        flex-shrink: 0;
+        width: 1.1rem;
+        height: 1.1rem;
+        border-radius: 50%;
+        border: 1px solid var(--border);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transform: translateY(3px);
+      }
+      .roadmap .tick svg {
+        width: 10px;
+        height: 10px;
+        display: none;
+      }
+      .roadmap li.done .tick {
+        background: var(--ok);
+        border-color: var(--ok);
+        color: #fff;
+      }
+      .roadmap li.done .tick svg {
+        display: block;
+      }
+      .roadmap b {
+        font-weight: 600;
+        color: var(--text);
+        margin-right: 0.25rem;
+      }
+
+      /* ═══════════════════════════════════════════
+         MOBILE: TOPBAR + MENU FULLSCREEN (BLUR)
+         ═══════════════════════════════════════════ */
+      .mobile-topbar {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 70;
+        height: 52px;
+        background: var(--bar);
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1.25rem;
+        transition:
+          background 0.3s,
+          border-color 0.3s;
+      }
+      body.menu-open .mobile-topbar {
+        background: transparent;
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+        border-bottom-color: transparent;
+      }
+      .mobile-topbar-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text);
+        transition: opacity 0.25s;
+      }
+      body.menu-open .mobile-topbar-name {
+        opacity: 0;
+      }
+      .mobile-topbar-right {
+        display: flex;
+        gap: 0.25rem;
+      }
+      .mobile-menu-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--text-2);
+        padding: 0.35rem;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+      }
+      .mobile-menu-btn svg {
+        width: 18px;
+        height: 18px;
+      }
+      .mobile-menu-btn .icon-close {
+        display: none;
+      }
+      body.menu-open .mobile-menu-btn .icon-open {
+        display: none;
+      }
+      body.menu-open .mobile-menu-btn .icon-close {
+        display: block;
+      }
+
+      .mobile-drawer {
+        position: fixed;
+        inset: 0;
+        z-index: 60;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 4.5rem 1.5rem 2rem;
+        overflow-y: auto;
+        background: var(--overlay);
+        -webkit-backdrop-filter: blur(18px) saturate(1.1);
+        backdrop-filter: blur(18px) saturate(1.1);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition:
+          opacity 0.3s ease,
+          visibility 0s linear 0.3s;
+      }
+      .mobile-drawer.open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transition:
+          opacity 0.3s ease,
+          visibility 0s;
+      }
+      .drawer-content {
+        width: 100%;
+        max-width: 320px;
+        margin: auto;
+        text-align: center;
+        transform: translateY(12px) scale(0.98);
+        transition: transform 0.35s ease;
+      }
+      .mobile-drawer.open .drawer-content {
+        transform: none;
+      }
+      .drawer-profile {
+        margin-bottom: 1.75rem;
+      }
+      .drawer-profile .profile-avatar {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 1rem;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+      }
+      .drawer-profile .profile-avatar-placeholder {
+        font-size: 40px;
+      }
+      .drawer-nav .nav-list {
+        gap: 6px;
+      }
+      .drawer-nav .nav-item a {
+        justify-content: center;
+        gap: 0.6rem;
+        padding: 0.8rem 1rem;
+        font-size: 17px;
+        border-radius: 12px;
+      }
+      .drawer-nav .nav-item a.active {
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        padding: calc(0.8rem - 1px) calc(1rem - 1px);
+      }
+      .drawer-nav .nav-count {
+        font-size: 12px;
+      }
+
+      @media (min-width: 681px) {
+        .mobile-drawer {
+          display: none;
+        }
+        body.menu-open {
+          overflow: auto;
+        }
+      }
+
+      @media (max-width: 680px) {
+        .sidebar {
+          display: none;
+        }
+        .layout {
+          display: block;
+        }
+        .main {
+          padding: 4.5rem 1.25rem 3rem;
+        }
+        .main-inner {
+          max-width: 100%;
+        }
+        .mobile-topbar {
+          display: flex;
+        }
+        .page-title {
+          font-size: 1.75rem;
+        }
+        td:first-child {
+          white-space: normal;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <!-- SIDEBAR (desktop) -->
+      <aside class="sidebar">
+        <div class="sidebar-profile">
+          <div class="profile-avatar">
+            <img
+              src="/image/profil.jpeg"
+              alt="Bryan"
+              onerror="
+                this.style.display = 'none';
+                this.nextElementSibling.style.display = 'flex';
+              "
+            />
+            <span class="profile-avatar-placeholder" style="display: none"
+              >B</span
+            >
+          </div>
+          <div class="profile-name">Bryan Torisi Siagian</div>
+          <div class="profile-role">Software Engineer</div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="index.html">
+                <span data-lang="en">Home</span
+                ><span data-lang="id">Beranda</span>
+                <span class="nav-count">1</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="projects.html" class="active">
+                <span data-lang="en">Projects</span
+                ><span data-lang="id">Proyek</span>
+                <span class="nav-count">12</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="achievements.html">
+                <span data-lang="en">Achievements</span
+                ><span data-lang="id">Capaian</span>
+                <span class="nav-count">3</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="certificates.html">
+                <span data-lang="en">Certificates</span
+                ><span data-lang="id">Sertifikat</span>
+                <span class="nav-count">25</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="resume.pdf"
+                download="CV-Bryan-Torisi-Siagian.pdf"
+                data-download
+                aria-label="Download Resume"
+                title="Download Resume"
+              >
+                <span>Resume</span>
+                <span class="nav-badge">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.25"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button class="icon-btn" id="langBtn" aria-label="Toggle language">
+            <span id="langLabel">EN</span>
+          </button>
+          <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">
+            <svg
+              id="themeIcon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="main">
+        <div class="main-inner" id="detail"></div>
+      </main>
+    </div>
+    <!-- /.layout -->
+
+    <!-- MOBILE TOPBAR -->
+    <div class="mobile-topbar">
+      <span class="mobile-topbar-name">Bryan Siagian</span>
+      <div class="mobile-topbar-right">
+        <button
+          class="icon-btn"
+          id="langBtnMobile"
+          aria-label="Toggle language"
+        >
+          <span id="langLabelMobile">EN</span>
+        </button>
+        <button class="icon-btn" id="themeBtnMobile" aria-label="Toggle theme">
+          <svg
+            id="themeIconMobile"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            style="width: 16px; height: 16px"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        </button>
+        <button
+          class="mobile-menu-btn"
+          id="mobileMenuBtn"
+          aria-label="Menu"
+          aria-expanded="false"
+          aria-controls="mobileDrawer"
+        >
+          <svg
+            class="icon-open"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          >
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+          <svg
+            class="icon-close"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          >
+            <line x1="5" y1="5" x2="19" y2="19" />
+            <line x1="19" y1="5" x2="5" y2="19" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+      <div class="drawer-content">
+        <div class="drawer-profile">
+          <div class="profile-avatar">
+            <img
+              src="/image/profil.jpeg"
+              alt="Bryan"
+              onerror="
+                this.style.display = 'none';
+                this.nextElementSibling.style.display = 'flex';
+              "
+            />
+            <span class="profile-avatar-placeholder" style="display: none"
+              >B</span
+            >
+          </div>
+          <div class="profile-name">Bryan Torisi Siagian</div>
+          <div class="profile-role">Software Engineer</div>
+        </div>
+
+        <nav class="drawer-nav">
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="index.html">
+                <span data-lang="en">Home</span
+                ><span data-lang="id">Beranda</span>
+                <span class="nav-count">1</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="projects.html" class="active">
+                <span data-lang="en">Projects</span
+                ><span data-lang="id">Proyek</span>
+                <span class="nav-count">12</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="achievements.html">
+                <span data-lang="en">Achievements</span
+                ><span data-lang="id">Capaian</span>
+                <span class="nav-count">3</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="certificates.html">
+                <span data-lang="en">Certificates</span
+                ><span data-lang="id">Sertifikat</span>
+                <span class="nav-count">25</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="resume.pdf"
+                download="CV-Bryan-Torisi-Siagian.pdf"
+                data-download
+                aria-label="Download Resume"
+                title="Download Resume"
+              >
+                <span>Resume</span>
+                <span class="nav-badge">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.25"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <script>
+      // ─────────────────────────────────────────────
+      // KONTEN PROYEK — semua teks dwibahasa { en, id }
+      // ─────────────────────────────────────────────
+      const dual = (o) =>
+        `<span data-lang="en">${o.en}</span><span data-lang="id">${o.id}</span>`;
+
+      const P = {
+        title: "Arisanly",
+        repo: "https://github.com/bryansiagian/arisanly",
+        live: "", // isi bila sudah ada deployment publik
+        image: "image/arisanly.png",
+        role: { en: "Full-Stack Developer", id: "Full-Stack Developer" },
+        period: { en: "Nov 2026 – Present", id: "Nov 2026 – Sekarang" },
+        status: { en: "In development", id: "Dalam pengembangan" },
+        tagline: {
+          en: "Arisan and group cash, recorded neatly and transparently.",
+          id: "Arisan dan kas kelompok, tercatat rapi dan transparan.",
+        },
+        notice: {
+          en: "Arisanly never holds or moves money. Members pay outside the app (cash, transfer, QRIS) and the app only records and verifies. It is a record-keeping tool, not a financial service.",
+          id: "Arisanly tidak pernah memegang atau memindahkan uang. Anggota membayar di luar aplikasi (tunai, transfer, QRIS), aplikasi hanya mencatat dan memverifikasi. Arisanly adalah alat pencatatan, bukan layanan keuangan.",
+        },
+        overview: [
+          {
+            en: "Arisanly is a web app for managing arisan (rotating savings groups) and kas kelompok (shared group cash funds). It keeps a correct, auditable record of who has paid, whose turn it is, and where every rupiah went. It is mobile-first and in Indonesian.",
+            id: "Arisanly adalah aplikasi web untuk mengelola arisan dan kas kelompok. Aplikasi ini menyimpan catatan yang benar dan bisa diaudit tentang siapa yang sudah bayar, giliran siapa, dan ke mana setiap rupiah pergi. Aplikasinya mobile-first dan berbahasa Indonesia.",
+          },
+          {
+            en: "Instead of one shared, always-correct record, groups usually rely on chat threads, notebooks, or spreadsheets. Arisanly gives every member the same view: who paid, who has not, whose turn it is, and the current balance, with a fair draw and a history that cannot be quietly changed.",
+            id: "Kelompok biasanya mencatat lewat grup chat, buku, atau spreadsheet. Arisanly memberi semua anggota satu tampilan yang sama: siapa sudah bayar, siapa belum, giliran siapa, dan saldo saat ini, lengkap dengan undian yang adil dan riwayat yang tidak bisa diubah diam-diam.",
+          },
+        ],
+        problems: [
+          {
+            en: "Payment status buried in chat history",
+            id: "Status pembayaran terkubur di riwayat chat",
+          },
+          {
+            en: "Numbers that drift out of sync and cause disputes",
+            id: "Angka yang tidak sinkron dan memicu perdebatan",
+          },
+          {
+            en: "Treasurers doing manual recaps and reminders",
+            id: "Bendahara merekap dan mengingatkan secara manual",
+          },
+          {
+            en: "No transparent shared view, which hurts trust",
+            id: "Tidak ada tampilan bersama yang transparan sehingga kepercayaan menurun",
+          },
+          {
+            en: "Informal turn order that is easily disputed",
+            id: "Urutan giliran yang informal dan mudah diperdebatkan",
+          },
+        ],
+        features: [
+          {
+            en: "Email and password authentication with refresh-token rotation",
+            id: "Autentikasi email dan password dengan rotasi refresh token",
+          },
+          {
+            en: "Groups with roles: Owner, Treasurer (Bendahara), and Member (Anggota), joined through a shareable, WhatsApp-friendly invite link",
+            id: "Grup dengan peran Owner, Bendahara, dan Anggota, bergabung lewat link undangan yang mudah dibagikan di WhatsApp",
+          },
+          {
+            en: "Arisan rounds with due dates, per-member dues, and a pot per round",
+            id: "Putaran arisan dengan jatuh tempo, iuran per anggota, dan total dana per putaran",
+          },
+          {
+            en: "Fair draw using cryptographically secure randomness with a public audit trail, or a fixed order",
+            id: "Undian adil dengan randomness aman secara kriptografis dan jejak audit publik, atau urutan tetap",
+          },
+          {
+            en: "“Saya sudah bayar” claims that the treasurer confirms or rejects, and payouts blocked until the pot is complete",
+            id: "Klaim “Saya sudah bayar” yang dikonfirmasi atau ditolak bendahara, dan pencairan yang diblokir sampai dana terkumpul penuh",
+          },
+          {
+            en: "Kas mode with categorized income and expenses, weekly or monthly dues, monthly reports, CSV export, and a read-only public summary link",
+            id: "Mode Kas dengan pemasukan dan pengeluaran berkategori, iuran mingguan atau bulanan, laporan bulanan, ekspor CSV, dan link ringkasan publik read-only",
+          },
+          {
+            en: "Hourly payment reminders, a reminder inbox, and a one-tap WhatsApp message for overdue members",
+            id: "Pengingat pembayaran tiap jam, kotak masuk pengingat, dan pesan WhatsApp satu ketukan untuk anggota yang terlambat",
+          },
+        ],
+        planned: [
+          { en: "Payment proof upload", id: "Unggah bukti pembayaran" },
+        ],
+        hard: [
+          {
+            h: {
+              en: "A ledger that never lies",
+              id: "Ledger yang tidak pernah berbohong",
+            },
+            p: {
+              en: "Amounts are whole rupiah in <code>BIGINT</code>, with no floats. Every transaction is double-entry and sums to zero, enforced by a deferred constraint trigger. Ledger rows cannot be updated or deleted, so mistakes are fixed with reversing transactions.",
+              id: "Nominal disimpan sebagai rupiah bulat di <code>BIGINT</code>, tanpa float. Setiap transaksi double-entry dan berjumlah nol, dipaksa oleh deferred constraint trigger. Baris ledger tidak bisa diubah atau dihapus, sehingga kesalahan diperbaiki dengan transaksi pembalik.",
+            },
+          },
+          {
+            h: {
+              en: "Concurrent requests",
+              id: "Request yang berjalan bersamaan",
+            },
+            p: {
+              en: "Two treasurers confirming at once, or a double tap on a flaky mobile connection, must not double-count. Money operations take row locks inside a single PostgreSQL transaction so balance checks cannot race.",
+              id: "Dua bendahara yang mengonfirmasi bersamaan, atau ketukan ganda di koneksi seluler yang tidak stabil, tidak boleh terhitung dua kali. Operasi uang memakai row lock dalam satu transaksi PostgreSQL sehingga pengecekan saldo tidak balapan.",
+            },
+          },
+          {
+            h: { en: "Idempotent APIs", id: "API idempoten" },
+            p: {
+              en: "Money-affecting endpoints require an <code>Idempotency-Key</code>. Redis provides the fast path (in-flight lock and cached response), while a unique constraint in PostgreSQL is the durable guarantee, so a Redis outage cannot cause duplicates.",
+              id: "Endpoint yang memengaruhi uang mewajibkan <code>Idempotency-Key</code>. Redis menjadi jalur cepat (lock in-flight dan cache respons), sedangkan unique constraint di PostgreSQL menjadi jaminan yang tahan lama, sehingga Redis yang mati tidak menyebabkan duplikasi.",
+            },
+          },
+          {
+            h: { en: "Trustworthy draws", id: "Undian yang bisa dipercaya" },
+            p: {
+              en: "The draw uses server-side secure randomness. Candidates, result, and timestamp are stored and visible to every member.",
+              id: "Undian memakai randomness aman di sisi server. Kandidat, hasil, dan waktu undian disimpan dan terlihat oleh semua anggota.",
+            },
+          },
+          {
+            h: { en: "Reconciliation", id: "Rekonsiliasi" },
+            p: {
+              en: "A background job recomputes balances from ledger entries every hour and compares them with cached balances, logging any mismatch.",
+              id: "Background job menghitung ulang saldo dari entri ledger setiap jam dan membandingkannya dengan saldo cache, lalu mencatat setiap selisih.",
+            },
+          },
+        ],
+        stack: [
+          [
+            "Frontend",
+            "Next.js (App Router), React, TypeScript, Tailwind CSS, TanStack Query, next-intl",
+          ],
+          ["Backend", "Go, chi, pgx, sqlc, golang-migrate, slog"],
+          ["Database", "PostgreSQL"],
+          ["Cache, rate limiting, locks", "Redis"],
+          ["Background jobs", "asynq (reminders, reconciliation)"],
+          ["Auth", "JWT access token + httpOnly refresh cookie, argon2id"],
+          [
+            "Testing",
+            "Go testing with testcontainers-go (real PostgreSQL and Redis), Vitest, Testing Library, Playwright",
+          ],
+          ["DevOps", "Docker, Docker Compose, GitHub Actions"],
+          ["Cloud", "AWS (ECR, App Runner, RDS, Redis)"],
+        ],
+        tags: ["Next.js", "Go", "PostgreSQL", "Redis", "Docker"],
+        archNote: {
+          en: "PostgreSQL is the source of truth. Redis accelerates and protects, but the system stays correct without it.",
+          id: "PostgreSQL adalah sumber kebenaran. Redis mempercepat dan melindungi, tetapi sistem tetap benar tanpa Redis.",
+        },
+        arch: `Browser (Next.js, mobile-first)
+        │ REST (JSON)
+        ▼
+   Go API (chi) ──────────────► Redis
+        │   ├─ idempotency keys, rate limits, locks
+        │   └─ enqueue jobs
+        ▼                          │
+   PostgreSQL ◄──── Go worker (asynq): reminders, reconciliation
+   (ledger, groups, audit log)`,
+        ledgerNote: {
+          en: "Each transaction sums to zero, fund and member balances never go negative, and ledger rows are immutable.",
+          id: "Setiap transaksi berjumlah nol, saldo dana dan anggota tidak pernah negatif, dan baris ledger tidak bisa diubah.",
+        },
+        ledger: [
+          [
+            { en: "Charge dues to member", id: "Tagih iuran ke anggota" },
+            "MEMBER:{id}",
+            "DUES_INCOME",
+          ],
+          [
+            { en: "Confirm member payment", id: "Konfirmasi pembayaran anggota" },
+            "FUND",
+            "MEMBER:{id}",
+          ],
+          [
+            { en: "Arisan payout to recipient", id: "Pencairan arisan ke penerima" },
+            "PAYOUT",
+            "FUND",
+          ],
+          [
+            { en: "Record expense", id: "Catat pengeluaran" },
+            "EXPENSE",
+            "FUND",
+          ],
+        ],
+        roadmap: [
+          [true, "M0", { en: "Repository setup: Go API, Next.js, Docker Compose, CI skeleton, health check", id: "Setup repositori: Go API, Next.js, Docker Compose, kerangka CI, health check" }],
+          [true, "M1", { en: "Authentication", id: "Autentikasi" }],
+          [true, "M2", { en: "Groups, members, invite link", id: "Grup, anggota, link undangan" }],
+          [true, "M3", { en: "Ledger core with invariants and tests", id: "Inti ledger dengan invarian dan pengujian" }],
+          [true, "M4", { en: "Arisan flow: rounds, draw, claims, confirmation, payout", id: "Alur arisan: putaran, undian, klaim, konfirmasi, pencairan" }],
+          [true, "M5", { en: "Hardening: idempotency, rate limiting, locks, reconciliation, concurrency tests", id: "Penguatan: idempotensi, rate limiting, lock, rekonsiliasi, uji konkurensi" }],
+          [true, "M6", { en: "Kas mode, reports, CSV export, public share link", id: "Mode Kas, laporan, ekspor CSV, link bagikan publik" }],
+          [true, "M7", { en: "Reminders and UX polish", id: "Pengingat dan penyempurnaan UX" }],
+          [false, "M8", { en: "Public deployment and pilot with a real group", id: "Deployment publik dan pilot dengan kelompok nyata" }],
+        ],
+      };
+
+      const iconBack = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>`;
+      const iconGit = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>`;
+      const iconOut = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`;
+      const iconTick = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+
+      function sec(label, inner) {
+        return `<section class="section"><div class="section-label">${dual(label)}</div>${inner}</section>`;
+      }
+      const ul = (items) =>
+        `<ul class="bullets">${items.map((i) => `<li>${dual(i)}</li>`).join("")}</ul>`;
+
+      function renderDetail() {
+        const live = P.live
+          ? `<a class="live-link" href="${P.live}" target="_blank" rel="noopener noreferrer">${dual({ en: "Live Site", id: "Situs Live" })}${iconOut}</a>`
+          : `<span class="live-link is-off" aria-disabled="true">${dual({ en: "Live demo: coming soon", id: "Demo live: segera hadir" })}</span>`;
+
+        const html = `
+          <a class="back" href="projects.html">${iconBack}${dual({ en: "All projects", id: "Semua proyek" })}</a>
+          <h1 class="page-title">${P.title}</h1>
+          <p class="tagline">${dual(P.tagline)}</p>
+          <div class="meta-row">
+            <span>${dual(P.role)}</span>
+            <span>${dual(P.period)}</span>
+            <span class="status"><i></i>${dual(P.status)}</span>
+          </div>
+
+          <div class="hero">
+            <img src="${P.image}" alt="${P.title}" loading="lazy" onerror="this.remove()">
+            <span class="hero-title">${P.title}</span>
+          </div>
+
+          <div class="proj-links">
+            <a class="live-link" href="${P.repo}" target="_blank" rel="noopener noreferrer">${iconGit}GitHub${iconOut}</a>
+            ${live}
+          </div>
+
+          <div class="notice">${dual(P.notice)}</div>
+
+          ${sec({ en: "Overview", id: "Ringkasan" }, P.overview.map((t) => `<p class="prose">${dual(t)}</p>`).join(""))}
+
+          ${sec({ en: "The problem", id: "Masalah" }, ul(P.problems))}
+
+          ${sec(
+            { en: "Features", id: "Fitur" },
+            `<div class="sub-label">${dual({ en: "Built", id: "Sudah dibangun" })}</div>${ul(P.features)}
+             <div class="sub-label">${dual({ en: "Planned", id: "Direncanakan" })}</div>${ul(P.planned)}`,
+          )}
+
+          ${sec(
+            { en: "The hard problems", id: "Tantangan teknis" },
+            `<ol class="problems">${P.hard
+              .map((x) => `<li><h3>${dual(x.h)}</h3><p>${dual(x.p)}</p></li>`)
+              .join("")}</ol>`,
+          )}
+
+          ${sec(
+            { en: "Architecture", id: "Arsitektur" },
+            `<pre>${P.arch}</pre><p class="prose" style="margin-top:.85rem">${dual(P.archNote)}</p>`,
+          )}
+
+          ${sec(
+            { en: "Ledger at a glance", id: "Sekilas tentang ledger" },
+            `<div class="table-wrap"><table>
+              <thead><tr><th>${dual({ en: "Event", id: "Kejadian" })}</th><th>Debit</th><th>Credit</th></tr></thead>
+              <tbody>${P.ledger
+                .map((r) => `<tr><td>${dual(r[0])}</td><td><code>${r[1]}</code></td><td><code>${r[2]}</code></td></tr>`)
+                .join("")}</tbody>
+            </table></div>
+            <p class="prose" style="margin-top:.85rem">${dual(P.ledgerNote)}</p>`,
+          )}
+
+          ${sec(
+            { en: "Tech stack", id: "Teknologi" },
+            `<div class="table-wrap"><table>
+              <thead><tr><th>${dual({ en: "Layer", id: "Lapisan" })}</th><th>${dual({ en: "Technology", id: "Teknologi" })}</th></tr></thead>
+              <tbody>${P.stack.map((r) => `<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("")}</tbody>
+            </table></div>
+            <div class="tags">${P.tags.map((t) => `<span class="tag">${t}</span>`).join("")}</div>`,
+          )}
+
+          ${sec(
+            { en: "Roadmap", id: "Peta jalan" },
+            `<ul class="roadmap">${P.roadmap
+              .map(
+                (r) =>
+                  `<li class="${r[0] ? "done" : ""}"><span class="tick">${iconTick}</span><span><b>${r[1]}</b>${dual(r[2])}</span></li>`,
+              )
+              .join("")}</ul>`,
+          )}
+        `;
+        document.getElementById("detail").innerHTML = html;
+      }
+
+      // THEME
+      const themeBtn = document.getElementById("themeBtn");
+      const themeBtnM = document.getElementById("themeBtnMobile");
+      const iconSun = `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`;
+      const iconMoon = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`;
+      function applyTheme(t) {
+        document.documentElement.setAttribute("data-theme", t);
+        const inner = t === "dark" ? iconSun : iconMoon;
+        document.getElementById("themeIcon").innerHTML = inner;
+        if (document.getElementById("themeIconMobile"))
+          document.getElementById("themeIconMobile").innerHTML = inner;
+        localStorage.setItem("theme", t);
+      }
+      const savedTheme =
+        localStorage.getItem("theme") ||
+        (window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light");
+      applyTheme(savedTheme);
+      [themeBtn, themeBtnM].forEach(
+        (btn) =>
+          btn &&
+          btn.addEventListener("click", () => {
+            applyTheme(
+              document.documentElement.getAttribute("data-theme") === "dark"
+                ? "light"
+                : "dark",
+            );
+          }),
+      );
+
+      // LANGUAGE
+      function applyLang(l) {
+        document.documentElement.lang = l;
+        document
+          .querySelectorAll("#langLabel, #langLabelMobile")
+          .forEach((el) => (el.textContent = l.toUpperCase()));
+        localStorage.setItem("lang", l);
+      }
+      applyLang(localStorage.getItem("lang") || "en");
+      [
+        document.getElementById("langBtn"),
+        document.getElementById("langBtnMobile"),
+      ].forEach(
+        (btn) =>
+          btn &&
+          btn.addEventListener("click", () => {
+            applyLang(document.documentElement.lang === "en" ? "id" : "en");
+          }),
+      );
+
+      // DOWNLOAD CV (item Resume di navigasi)
+      async function downloadFile(a) {
+        const url = new URL(a.getAttribute("href"), location.href);
+        try {
+          const r = await fetch(url, { method: "HEAD" });
+          if (!r.ok) {
+            location.href = new URL(
+              "404.html?path=" + encodeURIComponent(url.pathname),
+              location.href,
+            ).href;
+            return;
+          }
+        } catch (err) {
+          /* mis. dibuka dari file:// — lanjutkan unduh biasa */
+        }
+        const t = document.createElement("a");
+        t.href = url.href;
+        t.download = a.getAttribute("download") || "";
+        document.body.appendChild(t);
+        t.click();
+        t.remove();
+      }
+
+      document.querySelectorAll(".nav-list a[data-download]").forEach((a) =>
+        a.addEventListener("click", (e) => {
+          e.preventDefault();
+          closeMenu();
+          downloadFile(a);
+        }),
+      );
+
+      // MOBILE MENU (fullscreen, blur)
+      const drawer = document.getElementById("mobileDrawer");
+      const menuBtn = document.getElementById("mobileMenuBtn");
+
+      function setMenu(open) {
+        drawer.classList.toggle("open", open);
+        document.body.classList.toggle("menu-open", open);
+        menuBtn.setAttribute("aria-expanded", String(open));
+        drawer.setAttribute("aria-hidden", String(!open));
+      }
+      function closeMenu() {
+        setMenu(false);
+      }
+
+      menuBtn.addEventListener("click", () =>
+        setMenu(!drawer.classList.contains("open")),
+      );
+      drawer.addEventListener("click", (e) => {
+        if (!e.target.closest(".drawer-content")) closeMenu();
+      });
+      drawer
+        .querySelectorAll("a:not([data-download])")
+        .forEach((a) => a.addEventListener("click", closeMenu));
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeMenu();
+      });
+      window
+        .matchMedia("(min-width: 681px)")
+        .addEventListener("change", (e) => e.matches && closeMenu());
+
+      // INIT
+      renderDetail();
+    </script>
+  </body>
+</html>
