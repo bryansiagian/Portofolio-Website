@@ -28,9 +28,9 @@
         --text-3: #999999;
         --border: #e5e5e5;
         --sidebar-w: 300px;
-        --avatar-d: 180px;
-        --ok: #16a34a;
+        --avatar-d: 180px; /* diameter foto profil = lebar navigasi desktop */
 
+        /* Mobile menu overlay (blur) */
         --overlay: rgba(255, 255, 255, 0.62);
         --bar: rgba(255, 255, 255, 0.82);
       }
@@ -41,7 +41,6 @@
         --text-2: #aaaaaa;
         --text-3: #555555;
         --border: #2a2a2a;
-        --ok: #4ade80;
 
         --overlay: rgba(17, 17, 17, 0.6);
         --bar: rgba(17, 17, 17, 0.82);
@@ -128,8 +127,8 @@
 
       .sidebar-nav {
         flex: none;
-        width: var(--avatar-d);
-        margin: 0 auto;
+        width: var(--avatar-d); /* selebar diameter foto profil */
+        margin: 0 auto; /* rata tengah di bawah foto */
       }
       .nav-list {
         list-style: none;
@@ -183,6 +182,10 @@
         border: 1px solid var(--border);
         border-radius: 5px;
         padding: 1px 6px;
+      }
+
+      /* Badge ikon unduh pada item Resume */
+      .nav-badge {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -240,7 +243,16 @@
         max-width: 760px;
       }
 
-      /* ── DETAIL PAGE ── */
+      .tag {
+        font-size: 12px;
+        color: var(--text-2);
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        padding: 2px 10px;
+        border-radius: 100px;
+      }
+
+      /* ── PROJECT DETAIL ── */
       .back {
         display: inline-flex;
         align-items: center;
@@ -259,141 +271,129 @@
         height: 14px;
       }
 
-      .page-title {
+      .d-title {
         font-size: 2rem;
         font-weight: 600;
         letter-spacing: -0.03em;
         line-height: 1.2;
-        color: var(--text);
       }
-      .tagline {
-        font-size: 1.0625rem;
+      .d-full {
+        font-size: 1rem;
         color: var(--text-2);
         margin-top: 0.4rem;
+        line-height: 1.7;
       }
-      .meta-row {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 0.5rem 0.9rem;
-        margin-top: 0.9rem;
-        font-size: 13.5px;
+
+      .d-facts {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem 1.5rem;
+        margin: 1.5rem 0 1.25rem;
+        padding: 1rem 0;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+      .fact-label {
+        font-size: 11.5px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
         color: var(--text-3);
       }
-      .status {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 12px;
-        font-weight: 500;
-        color: var(--text-2);
-        background: var(--bg-subtle);
-        border: 1px solid var(--border);
-        padding: 1px 10px;
-        border-radius: 100px;
+      .fact-value {
+        font-size: 14.5px;
+        color: var(--text);
+        margin-top: 2px;
       }
-      .status i {
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: #f59e0b;
-      }
-
-      .hero {
-        position: relative;
-        margin-top: 1.5rem;
-        aspect-ratio: 16 / 9;
-        border-radius: 14px;
-        border: 1px solid var(--border);
-        overflow: hidden;
-        background: linear-gradient(
-          135deg,
-          hsl(120 70% 96%),
-          hsl(120 60% 88%)
-        );
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      [data-theme="dark"] .hero {
-        background: linear-gradient(
-          135deg,
-          hsl(120 30% 16%),
-          hsl(120 30% 11%)
-        );
-      }
-      .hero img {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-      .hero-title {
-        font-size: 2rem;
-        font-weight: 600;
-        letter-spacing: -0.03em;
-        color: hsl(120 45% 25%);
-      }
-      [data-theme="dark"] .hero-title {
-        color: hsl(120 60% 80%);
-      }
-
-      .proj-links {
+      .d-tags {
         display: flex;
         flex-wrap: wrap;
-        gap: 8px;
-        margin-top: 1.25rem;
-      }
-      .live-link {
-        display: inline-flex;
-        align-items: center;
         gap: 6px;
-        font-size: 13px;
+        margin-bottom: 1.75rem;
+      }
+
+      .d-hero {
+        display: block;
+        width: 100%;
+        height: auto;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+      }
+
+      .d-section p + p {
+        margin-top: 0.85rem;
+      }
+      .d-note {
+        margin-top: 0.85rem;
+        padding: 0.75rem 1rem;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        color: var(--text-2);
+        font-size: 14px;
+      }
+      .d-subtitle {
+        font-size: 14px;
         font-weight: 500;
         color: var(--text);
-        background: var(--bg);
-        border: 1px solid var(--border);
-        padding: 5px 14px;
-        border-radius: 100px;
-        text-decoration: none;
-        transition:
-          background 0.15s,
-          border-color 0.15s;
+        margin: 1.25rem 0 0.5rem;
       }
-      .live-link:hover {
-        background: var(--bg-subtle);
-        border-color: var(--text-3);
+      .d-subtitle:first-of-type {
+        margin-top: 0;
       }
-      .live-link svg {
-        width: 13px;
-        height: 13px;
-        color: var(--text-3);
+      .d-highlights {
+        padding-left: 1.25rem;
       }
-      .live-link.is-off {
-        color: var(--text-3);
-        cursor: default;
-        pointer-events: none;
+      .d-highlights li + li {
+        margin-top: 1rem;
       }
-
-      .notice {
-        margin-top: 1.5rem;
-        padding: 0.85rem 1rem;
-        border: 1px solid var(--border);
-        border-left: 3px solid var(--text-3);
-        border-radius: 8px;
-        background: var(--bg-subtle);
-        font-size: 14px;
+      .d-highlights h3 {
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--text);
+        margin-bottom: 0.2rem;
+      }
+      .d-section .d-highlights p {
+        font-size: 14.5px;
         color: var(--text-2);
-        line-height: 1.65;
+        line-height: 1.75;
       }
-
-      .section {
-        margin-top: 2.5rem;
-        padding-top: 2rem;
+      .d-table-wrap {
+        overflow-x: auto;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }
+      .d-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+        font-size: 14px;
+      }
+      .d-table th,
+      .d-table td {
+        padding: 0.65rem clamp(0.55rem, 2vw, 1rem);
+        vertical-align: top;
+        overflow-wrap: anywhere;
+      }
+      .d-table thead th {
+        font-weight: 500;
+        color: var(--text-3);
+        font-size: 12.5px;
+        background: var(--bg-subtle);
+      }
+      .d-table tbody th {
+        width: 29%;
+        font-weight: 500;
+      }
+      .d-table tbody td {
+        color: var(--text-2);
+      }
+      .d-table tbody tr {
         border-top: 1px solid var(--border);
       }
-      .section-label {
+      .d-section {
+        margin-top: 2.25rem;
+      }
+      .d-section h2 {
         font-size: 12px;
         font-weight: 500;
         letter-spacing: 0.12em;
@@ -401,201 +401,156 @@
         color: var(--text-3);
         margin-bottom: 1rem;
       }
-      .prose {
+      .d-section p {
         font-size: 15px;
         color: var(--text-2);
         line-height: 1.8;
       }
-      .prose + .prose {
-        margin-top: 0.85rem;
-      }
-      .sub-label {
-        font-size: 14px;
-        font-weight: 500;
-        color: var(--text);
-        margin: 1.25rem 0 0.5rem;
-      }
-      .sub-label:first-of-type {
-        margin-top: 0;
-      }
-
-      .bullets {
+      .d-list {
         list-style: none;
         display: flex;
         flex-direction: column;
         gap: 0.55rem;
       }
-      .bullets li {
+      .d-list li {
         position: relative;
-        padding-left: 1.1rem;
-        font-size: 14.5px;
+        padding-left: 1.25rem;
+        font-size: 15px;
         color: var(--text-2);
         line-height: 1.7;
       }
-      .bullets li::before {
+      .d-list li::before {
         content: "";
         position: absolute;
-        left: 0;
+        left: 0.25rem;
         top: 0.7em;
         width: 5px;
         height: 5px;
         border-radius: 50%;
         background: var(--text-3);
       }
-
-      .problems {
-        list-style: none;
-        counter-reset: p;
-        display: flex;
-        flex-direction: column;
-        gap: 1.1rem;
+      .d-gallery {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.875rem;
       }
-      .problems li {
-        counter-increment: p;
-        position: relative;
-        padding-left: 2rem;
-      }
-      .problems li::before {
-        content: counter(p);
-        position: absolute;
-        left: 0;
-        top: 0.1rem;
-        width: 1.35rem;
-        height: 1.35rem;
-        border-radius: 50%;
-        border: 1px solid var(--border);
-        background: var(--bg-subtle);
-        font-size: 11.5px;
-        font-weight: 600;
-        color: var(--text-2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .problems h3 {
-        font-size: 15px;
-        font-weight: 500;
-        color: var(--text);
-        margin-bottom: 0.2rem;
-      }
-      .problems p {
-        font-size: 14.5px;
-        color: var(--text-2);
-        line-height: 1.75;
-      }
-      code {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        font-size: 0.85em;
-        background: var(--bg-subtle);
-        border: 1px solid var(--border);
-        border-radius: 4px;
-        padding: 0 5px;
-      }
-
-      .table-wrap {
-        overflow-x: auto;
-        border: 1px solid var(--border);
-        border-radius: 12px;
-      }
-      table {
+      .d-gallery img {
         width: 100%;
-        border-collapse: collapse;
-        font-size: 14px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        display: block;
       }
-      th,
-      td {
-        text-align: left;
-        padding: 0.65rem 0.9rem;
-        vertical-align: top;
-        border-bottom: 1px solid var(--border);
-      }
-      tr:last-child td {
-        border-bottom: none;
-      }
-      th {
-        font-weight: 500;
-        color: var(--text-3);
-        font-size: 12.5px;
-        background: var(--bg-subtle);
-      }
-      td:first-child {
-        color: var(--text);
-        font-weight: 500;
-        white-space: nowrap;
-      }
-      td {
-        color: var(--text-2);
-      }
-
-      .tags {
+      .d-links {
         display: flex;
         flex-wrap: wrap;
-        gap: 6px;
-        margin-top: 1rem;
+        gap: 0.6rem;
       }
-      .tag {
-        font-size: 12px;
-        color: var(--text-2);
-        background: var(--bg-subtle);
-        border: 1px solid var(--border);
-        padding: 2px 10px;
-        border-radius: 100px;
-      }
-
-      pre {
-        overflow-x: auto;
-        padding: 1rem 1.1rem;
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        background: var(--bg-subtle);
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        font-size: 12.5px;
-        line-height: 1.6;
-        color: var(--text-2);
-      }
-
-      .roadmap {
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        gap: 0.55rem;
-      }
-      .roadmap li {
-        display: flex;
-        align-items: baseline;
-        gap: 0.7rem;
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        font: inherit;
         font-size: 14.5px;
-        color: var(--text-2);
-        line-height: 1.6;
-      }
-      .roadmap .tick {
-        flex-shrink: 0;
-        width: 1.1rem;
-        height: 1.1rem;
-        border-radius: 50%;
+        font-weight: 500;
+        padding: 0.6rem 1.1rem;
+        border-radius: 10px;
+        text-decoration: none;
         border: 1px solid var(--border);
+        background: var(--bg);
+        color: var(--text);
+        transition: background 0.15s;
+      }
+      .btn:hover {
+        background: var(--bg-subtle);
+      }
+      .btn svg {
+        width: 13px;
+        height: 13px;
+      }
+      .d-footer {
+        margin-top: 3rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--border);
+      }
+
+      .d-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 1.75rem;
+      }
+      .d-toolbar .d-tags {
+        margin: 0;
+      }
+      .d-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        flex-wrap: wrap;
+      }
+      .d-sep {
+        width: 1px;
+        height: 20px;
+        background: var(--border);
+        margin: 0 0.4rem;
+      }
+      .btn.btn-sm {
+        height: 34px;
+        padding: 0 0.85rem;
+        font-size: 13.5px;
+        border-radius: 8px;
+      }
+      .btn.btn-sm svg {
+        width: 16px;
+        height: 16px;
+      }
+      .icon-link {
+        width: 34px;
+        height: 34px;
+        flex-shrink: 0;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        transform: translateY(3px);
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--bg);
+        color: var(--text-2);
+        cursor: pointer;
+        text-decoration: none;
+        transition:
+          background 0.15s,
+          color 0.15s;
       }
-      .roadmap .tick svg {
-        width: 10px;
-        height: 10px;
-        display: none;
-      }
-      .roadmap li.done .tick {
-        background: var(--ok);
-        border-color: var(--ok);
-        color: #fff;
-      }
-      .roadmap li.done .tick svg {
-        display: block;
-      }
-      .roadmap b {
-        font-weight: 600;
+      .icon-link:hover {
+        background: var(--bg-subtle);
         color: var(--text);
-        margin-right: 0.25rem;
+      }
+      .icon-link svg {
+        width: 16px;
+        height: 16px;
+      }
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 1.5rem;
+        z-index: 100;
+        transform: translate(-50%, 12px);
+        opacity: 0;
+        pointer-events: none;
+        background: var(--text);
+        color: var(--bg);
+        font-size: 13.5px;
+        padding: 0.6rem 1rem;
+        border-radius: 10px;
+        transition:
+          opacity 0.2s,
+          transform 0.2s;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translate(-50%, 0);
       }
 
       /* ═══════════════════════════════════════════
@@ -607,7 +562,7 @@
         top: 0;
         left: 0;
         right: 0;
-        z-index: 70;
+        z-index: 70; /* di atas overlay menu, supaya tombol tetap bisa diakses */
         height: 52px;
         background: var(--bar);
         -webkit-backdrop-filter: blur(12px);
@@ -620,6 +575,7 @@
           background 0.3s,
           border-color 0.3s;
       }
+      /* Saat menu terbuka, topbar jadi transparan agar blur terlihat utuh */
       body.menu-open .mobile-topbar {
         background: transparent;
         -webkit-backdrop-filter: none;
@@ -633,7 +589,7 @@
         transition: opacity 0.25s;
       }
       body.menu-open .mobile-topbar-name {
-        opacity: 0;
+        opacity: 0; /* nama sudah tampil di dalam menu */
       }
       .mobile-topbar-right {
         display: flex;
@@ -733,6 +689,7 @@
         font-size: 12px;
       }
 
+      /* Desktop: menu mobile tidak pernah tampil */
       @media (min-width: 681px) {
         .mobile-drawer {
           display: none;
@@ -758,11 +715,17 @@
         .mobile-topbar {
           display: flex;
         }
-        .page-title {
-          font-size: 1.75rem;
+        .d-title {
+          font-size: 1.6rem;
         }
-        td:first-child {
-          white-space: normal;
+        .d-facts {
+          column-gap: 1rem;
+        }
+        .d-sep {
+          margin-inline: 0.2rem;
+        }
+        .d-gallery {
+          grid-template-columns: 1fr;
         }
       }
 
@@ -936,7 +899,7 @@
       </div>
     </div>
 
-    <!-- MOBILE MENU -->
+    <!-- MOBILE MENU (fullscreen, blur, di tengah) -->
     <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
       <div class="drawer-content">
         <div class="drawer-profile">
@@ -1018,21 +981,16 @@
     </div>
 
     <script>
-      // ─────────────────────────────────────────────
-      // KONTEN PROYEK — semua teks dwibahasa { en, id }
-      // ─────────────────────────────────────────────
-      const dual = (o) =>
-        `<span data-lang="en">${o.en}</span><span data-lang="id">${o.id}</span>`;
-
-      const P = {
+      // Konten proyek dalam bahasa Inggris dan Indonesia.
+      const project = {
         title: "Arisanly",
         repo: "https://github.com/bryansiagian/arisanly",
         live: "", // isi bila sudah ada deployment publik
         image: "image/arisanly.png",
-        role: { en: "Full-Stack Developer", id: "Full-Stack Developer" },
-        period: { en: "Nov 2026 – Present", id: "Nov 2026 – Sekarang" },
+        role: "Full-Stack Developer",
+        period: "Nov 2026 – Present",
         status: { en: "In development", id: "Dalam pengembangan" },
-        tagline: {
+        fullName: {
           en: "Arisan and group cash, recorded neatly and transparently.",
           id: "Arisan dan kas kelompok, tercatat rapi dan transparan.",
         },
@@ -1105,7 +1063,7 @@
         planned: [
           { en: "Payment proof upload", id: "Unggah bukti pembayaran" },
         ],
-        hard: [
+        highlights: [
           {
             h: {
               en: "A ledger that never lies",
@@ -1166,19 +1124,48 @@
           ["Cloud", "AWS (ECR, App Runner, RDS, Redis)"],
         ],
         tags: ["Next.js", "Go", "PostgreSQL", "Redis", "Docker"],
+        share: true,
+        architecture: [
+          [
+            "Next.js",
+            {
+              "en": "The mobile-first web client sends REST requests to the Go API.",
+              "id": "Aplikasi web mobile-first mengirim permintaan REST ke API Go."
+            }
+          ],
+          [
+            "Go API (chi)",
+            {
+              "en": "Handles group and money operations, writes to PostgreSQL, and queues background jobs.",
+              "id": "Menangani operasi grup dan keuangan, menulis ke PostgreSQL, serta memasukkan tugas latar belakang ke antrean."
+            }
+          ],
+          [
+            "PostgreSQL",
+            {
+              "en": "Stores the ledger, group data, and audit history.",
+              "id": "Menyimpan ledger, data grup, dan riwayat audit."
+            }
+          ],
+          [
+            "Redis",
+            {
+              "en": "Supports idempotency, rate limits, locks, and the asynq queue.",
+              "id": "Mendukung idempotensi, rate limit, lock, dan antrean asynq."
+            }
+          ],
+          [
+            "Go worker (asynq)",
+            {
+              "en": "Processes reminders and reconciles balances against the PostgreSQL ledger.",
+              "id": "Memproses pengingat dan mencocokkan saldo dengan ledger di PostgreSQL."
+            }
+          ]
+        ],
         archNote: {
           en: "PostgreSQL is the source of truth. Redis accelerates and protects, but the system stays correct without it.",
           id: "PostgreSQL adalah sumber kebenaran. Redis mempercepat dan melindungi, tetapi sistem tetap benar tanpa Redis.",
         },
-        arch: `Browser (Next.js, mobile-first)
-        │ REST (JSON)
-        ▼
-   Go API (chi) ──────────────► Redis
-        │   ├─ idempotency keys, rate limits, locks
-        │   └─ enqueue jobs
-        ▼                          │
-   PostgreSQL ◄──── Go worker (asynq): reminders, reconciliation
-   (ledger, groups, audit log)`,
         ledgerNote: {
           en: "Each transaction sums to zero, fund and member balances never go negative, and ledger rows are immutable.",
           id: "Setiap transaksi berjumlah nol, saldo dana dan anggota tidak pernah negatif, dan baris ledger tidak bisa diubah.",
@@ -1205,111 +1192,273 @@
             "FUND",
           ],
         ],
-        roadmap: [
-          [true, "M0", { en: "Repository setup: Go API, Next.js, Docker Compose, CI skeleton, health check", id: "Setup repositori: Go API, Next.js, Docker Compose, kerangka CI, health check" }],
-          [true, "M1", { en: "Authentication", id: "Autentikasi" }],
-          [true, "M2", { en: "Groups, members, invite link", id: "Grup, anggota, link undangan" }],
-          [true, "M3", { en: "Ledger core with invariants and tests", id: "Inti ledger dengan invarian dan pengujian" }],
-          [true, "M4", { en: "Arisan flow: rounds, draw, claims, confirmation, payout", id: "Alur arisan: putaran, undian, klaim, konfirmasi, pencairan" }],
-          [true, "M5", { en: "Hardening: idempotency, rate limiting, locks, reconciliation, concurrency tests", id: "Penguatan: idempotensi, rate limiting, lock, rekonsiliasi, uji konkurensi" }],
-          [true, "M6", { en: "Kas mode, reports, CSV export, public share link", id: "Mode Kas, laporan, ekspor CSV, link bagikan publik" }],
-          [true, "M7", { en: "Reminders and UX polish", id: "Pengingat dan penyempurnaan UX" }],
-          [false, "M8", { en: "Public deployment and pilot with a real group", id: "Deployment publik dan pilot dengan kelompok nyata" }],
-        ],
       };
 
-      const iconBack = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>`;
-      const iconGit = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>`;
-      const iconOut = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`;
-      const iconTick = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+      const periodId = (t) =>
+        t
+          .replace("Present", "Sekarang")
+          .replace("Aug", "Agu")
+          .replace("Oct", "Okt")
+          .replace("Dec", "Des");
+      const bi = (o) =>
+        `<span data-lang="en">${o.en}</span><span data-lang="id">${o.id}</span>`;
+      const arrowLeft =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>';
+      const arrowOut =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>';
 
-      function sec(label, inner) {
-        return `<section class="section"><div class="section-label">${dual(label)}</div>${inner}</section>`;
+      // ── Ikon ──
+      const icons = {
+        github:
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>',
+        facebook:
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>',
+        instagram:
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>',
+        linkedin:
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>',
+        x: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>',
+        link: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
+        check:
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+      };
+
+      // ── Share ──
+      const curLang = () =>
+        document.documentElement.lang === "id" ? "id" : "en";
+      const pageUrl = () => location.href.split("#")[0];
+      const shareText = () =>
+        `${project.title} — ${project.fullName[curLang()]}`;
+      const shareLinks = {
+        facebook: () =>
+          "https://www.facebook.com/sharer/sharer.php?u=" +
+          encodeURIComponent(pageUrl()),
+        linkedin: () =>
+          "https://www.linkedin.com/sharing/share-offsite/?url=" +
+          encodeURIComponent(pageUrl()),
+        x: () =>
+          "https://x.com/intent/post?url=" +
+          encodeURIComponent(pageUrl()) +
+          "&text=" +
+          encodeURIComponent(shareText()),
+      };
+      const msgs = {
+        copied: { en: "Link copied", id: "Tautan disalin" },
+        ig: {
+          en: "Link copied — paste it in Instagram",
+          id: "Tautan disalin — tempel di Instagram",
+        },
+        fail: { en: "Couldn't copy the link", id: "Gagal menyalin tautan" },
+      };
+
+      let toastTimer;
+      function toast(key) {
+        let el = document.getElementById("toast");
+        if (!el) {
+          el = document.createElement("div");
+          el.id = "toast";
+          el.className = "toast";
+          el.setAttribute("role", "status");
+          document.body.appendChild(el);
+        }
+        el.textContent = msgs[key][curLang()];
+        el.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => el.classList.remove("show"), 2200);
       }
-      const ul = (items) =>
-        `<ul class="bullets">${items.map((i) => `<li>${dual(i)}</li>`).join("")}</ul>`;
 
-      function renderDetail() {
-        const live = P.live
-          ? `<a class="live-link" href="${P.live}" target="_blank" rel="noopener noreferrer">${dual({ en: "Live Site", id: "Situs Live" })}${iconOut}</a>`
-          : `<span class="live-link is-off" aria-disabled="true">${dual({ en: "Live demo: coming soon", id: "Demo live: segera hadir" })}</span>`;
+      async function copyText(text) {
+        try {
+          await navigator.clipboard.writeText(text);
+          return true;
+        } catch (e) {
+          try {
+            const ta = document.createElement("textarea");
+            ta.value = text;
+            ta.style.position = "fixed";
+            ta.style.opacity = "0";
+            document.body.appendChild(ta);
+            ta.select();
+            const ok = document.execCommand("copy");
+            ta.remove();
+            return ok;
+          } catch (e2) {
+            return false;
+          }
+        }
+      }
 
-        const html = `
-          <a class="back" href="projects.html">${iconBack}${dual({ en: "All projects", id: "Semua proyek" })}</a>
-          <h1 class="page-title">${P.title}</h1>
-          <p class="tagline">${dual(P.tagline)}</p>
-          <div class="meta-row">
-            <span>${dual(P.role)}</span>
-            <span>${dual(P.period)}</span>
-            <span class="status"><i></i>${dual(P.status)}</span>
-          </div>
+      function toolbar(p) {
+        const tags = `<div class="d-tags">${p.tags.map((t) => `<span class="tag">${t}</span>`).join("")}</div>`;
+        const gh = p.repo
+          ? `<a class="btn btn-sm" href="${p.repo}" target="_blank" rel="noopener" title="GitHub repository">${icons.github}GitHub</a>`
+          : "";
+        const share = p.share
+          ? `
+        <a class="icon-link" data-share="facebook" href="${shareLinks.facebook()}" target="_blank" rel="noopener" aria-label="Share on Facebook" title="Facebook">${icons.facebook}</a>
+        <button class="icon-link" type="button" data-share="instagram" aria-label="Share on Instagram" title="Instagram">${icons.instagram}</button>
+        <a class="icon-link" data-share="linkedin" href="${shareLinks.linkedin()}" target="_blank" rel="noopener" aria-label="Share on LinkedIn" title="LinkedIn">${icons.linkedin}</a>
+        <a class="icon-link" data-share="x" href="${shareLinks.x()}" target="_blank" rel="noopener" aria-label="Share on X" title="X / Twitter">${icons.x}</a>
+        <button class="icon-link" type="button" data-share="copy" aria-label="Copy link" title="Copy link">${icons.link}</button>`
+          : "";
+        const live = p.live
+          ? `<a class="btn btn-sm" href="${p.live}" target="_blank" rel="noopener noreferrer">${bi({ en: "Live Site", id: "Situs Live" })}${arrowOut}</a>`
+          : "";
+        const sep = (gh || live) && share ? '<span class="d-sep"></span>' : "";
+        return `<div class="d-toolbar">${tags}<div class="d-actions">${gh}${live}${sep}${share}</div></div>`;
+      }
 
-          <div class="hero">
-            <img src="${P.image}" alt="${P.title}" loading="lazy" onerror="this.remove()">
-            <span class="hero-title">${P.title}</span>
-          </div>
+      function wireActions() {
+        // Facebook / LinkedIn / X: perbarui URL tepat saat diklik (bahasa & URL terkini)
+        document.querySelectorAll("a[data-share]").forEach((a) =>
+          a.addEventListener("click", () => {
+            a.href = shareLinks[a.dataset.share]();
+          }),
+        );
 
-          <div class="proj-links">
-            <a class="live-link" href="${P.repo}" target="_blank" rel="noopener noreferrer">${iconGit}GitHub${iconOut}</a>
-            ${live}
-          </div>
+        // Salin tautan
+        const copyBtn = document.querySelector('[data-share="copy"]');
+        if (copyBtn)
+          copyBtn.addEventListener("click", async () => {
+            const ok = await copyText(pageUrl());
+            toast(ok ? "copied" : "fail");
+            if (ok) {
+              copyBtn.innerHTML = icons.check;
+              setTimeout(() => {
+                copyBtn.innerHTML = icons.link;
+              }, 1500);
+            }
+          });
 
-          <div class="notice">${dual(P.notice)}</div>
+        // Instagram tidak punya URL share web:
+        // di ponsel pakai menu share bawaan; di desktop salin tautan lalu buka Instagram.
+        const ig = document.querySelector('[data-share="instagram"]');
+        if (ig)
+          ig.addEventListener("click", async () => {
+            if (
+              navigator.share &&
+              window.matchMedia("(pointer: coarse)").matches
+            ) {
+              try {
+                await navigator.share({ title: shareText(), url: pageUrl() });
+              } catch (e) {}
+              return;
+            }
+            const copying = copyText(pageUrl());
+            window.open("https://www.instagram.com/", "_blank", "noopener");
+            toast((await copying) ? "ig" : "fail");
+          });
+      }
 
-          ${sec({ en: "Overview", id: "Ringkasan" }, P.overview.map((t) => `<p class="prose">${dual(t)}</p>`).join(""))}
+      function section(title, inner) {
+        return `<section class="d-section"><h2>${bi(title)}</h2>${inner}</section>`;
+      }
 
-          ${sec({ en: "The problem", id: "Masalah" }, ul(P.problems))}
+      function list(items) {
+        return `<ul class="d-list">${items.map((item) => `<li>${bi(item)}</li>`).join("")}</ul>`;
+      }
 
-          ${sec(
-            { en: "Features", id: "Fitur" },
-            `<div class="sub-label">${dual({ en: "Built", id: "Sudah dibangun" })}</div>${ul(P.features)}
-             <div class="sub-label">${dual({ en: "Planned", id: "Direncanakan" })}</div>${ul(P.planned)}`,
-          )}
+      function table(headers, rows) {
+        const cell = (value) => typeof value === "string" ? value : bi(value);
+        return `<div class="d-table-wrap"><table class="d-table">
+          <thead><tr>${headers.map((header) => `<th scope="col">${cell(header)}</th>`).join("")}</tr></thead>
+          <tbody>${rows.map(([label, ...values]) => `
+            <tr><th scope="row">${cell(label)}</th>${values.map((value) => `<td>${cell(value)}</td>`).join("")}</tr>`).join("")}
+          </tbody>
+        </table></div>`;
+      }
 
-          ${sec(
-            { en: "The hard problems", id: "Tantangan teknis" },
-            `<ol class="problems">${P.hard
-              .map((x) => `<li><h3>${dual(x.h)}</h3><p>${dual(x.p)}</p></li>`)
-              .join("")}</ol>`,
-          )}
+      function render() {
+        const p = project;
+        const overview = [p.overview].flat().map((paragraph) => `<p>${bi(paragraph)}</p>`).join("");
+        const architecture = table(
+          [{ en: "Component", id: "Komponen" }, { en: "Responsibility", id: "Tanggung jawab" }],
+          p.architecture,
+        );
+        const highlights = `<ol class="d-highlights">${p.highlights.map(({ h, p }) => `
+          <li><h3>${bi(h)}</h3><p>${bi(p)}</p></li>`).join("")}</ol>`;
+        const stack = table(
+          [{ en: "Layer", id: "Lapisan" }, { en: "Technology", id: "Teknologi" }],
+          p.stack,
+        );
 
-          ${sec(
-            { en: "Architecture", id: "Arsitektur" },
-            `<pre>${P.arch}</pre><p class="prose" style="margin-top:.85rem">${dual(P.archNote)}</p>`,
-          )}
-
-          ${sec(
-            { en: "Ledger at a glance", id: "Sekilas tentang ledger" },
-            `<div class="table-wrap"><table>
-              <thead><tr><th>${dual({ en: "Event", id: "Kejadian" })}</th><th>Debit</th><th>Credit</th></tr></thead>
-              <tbody>${P.ledger
-                .map((r) => `<tr><td>${dual(r[0])}</td><td><code>${r[1]}</code></td><td><code>${r[2]}</code></td></tr>`)
-                .join("")}</tbody>
-            </table></div>
-            <p class="prose" style="margin-top:.85rem">${dual(P.ledgerNote)}</p>`,
-          )}
-
-          ${sec(
-            { en: "Tech stack", id: "Teknologi" },
-            `<div class="table-wrap"><table>
-              <thead><tr><th>${dual({ en: "Layer", id: "Lapisan" })}</th><th>${dual({ en: "Technology", id: "Teknologi" })}</th></tr></thead>
-              <tbody>${P.stack.map((r) => `<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("")}</tbody>
-            </table></div>
-            <div class="tags">${P.tags.map((t) => `<span class="tag">${t}</span>`).join("")}</div>`,
-          )}
-
-          ${sec(
-            { en: "Roadmap", id: "Peta jalan" },
-            `<ul class="roadmap">${P.roadmap
-              .map(
-                (r) =>
-                  `<li class="${r[0] ? "done" : ""}"><span class="tick">${iconTick}</span><span><b>${r[1]}</b>${dual(r[2])}</span></li>`,
-              )
-              .join("")}</ul>`,
-          )}
+        let html = `
+          <header>
+            <a class="back" href="projects.html">${arrowLeft}${bi({ en: "Projects", id: "Proyek" })}</a>
+            <h1 class="d-title">${p.title}</h1>
+            <p class="d-full">${bi(p.fullName)}</p>
+            <div class="d-facts">
+              <div>
+                <div class="fact-label">${bi({ en: "Role", id: "Peran" })}</div>
+                <div class="fact-value">${p.role}</div>
+              </div>
+              <div>
+                <div class="fact-label">${bi({ en: "Period", id: "Periode" })}</div>
+                <div class="fact-value">${bi({ en: p.period, id: periodId(p.period) })}</div>
+              </div>
+            </div>
+            ${toolbar(p)}
+          </header>
+          ${p.image ? `<img class="d-hero" src="${p.image}" alt="${p.title}" decoding="async">` : ""}
+          ${p.notice ? `<p class="d-note">${bi(p.notice)}</p>` : ""}
+          ${section({ en: "Overview", id: "Ringkasan" }, overview)}
         `;
+
+        if (p.problems?.length) {
+          html += section({ en: "The Problem", id: "Masalah" }, list(p.problems));
+        }
+        for (const item of p.sections ?? []) {
+          html += section(item.title, `<p>${bi(item.body)}</p>`);
+        }
+        if (p.features?.length) {
+          const planned = p.planned?.length
+            ? `<h3 class="d-subtitle">${bi({ en: "Built", id: "Sudah dibangun" })}</h3>${list(p.features)}
+               <h3 class="d-subtitle">${bi({ en: "Planned", id: "Direncanakan" })}</h3>${list(p.planned)}`
+            : list(p.features);
+          html += section({ en: "Key Features", id: "Fitur Utama" }, planned);
+        }
+
+        html += section(
+          { en: "Architecture", id: "Arsitektur" },
+          architecture + (p.archNote ? `<p class="d-note">${bi(p.archNote)}</p>` : ""),
+        );
+        html += section({ en: "Engineering Highlights", id: "Aspek Teknis" }, highlights);
+        html += section({ en: "Tech Stack", id: "Teknologi" }, stack);
+
+        if (p.ledger?.length) {
+          html += section(
+            { en: "Ledger at a Glance", id: "Sekilas tentang Ledger" },
+            table(
+              [{ en: "Event", id: "Kejadian" }, "Debit", "Credit"],
+              p.ledger.map(([event, debit, credit]) => [event, `<code>${debit}</code>`, `<code>${credit}</code>`]),
+            ) + `<p class="d-note">${bi(p.ledgerNote)}</p>`,
+          );
+        }
+        if (p.gallery?.length) {
+          html += section(
+            { en: "Screenshots", id: "Tangkapan Layar" },
+            `<div class="d-gallery">${p.gallery.map((g) => `<img src="${g.src}" alt="${g.alt || p.title}" loading="lazy">`).join("")}</div>`,
+          );
+        }
+
+        const projectLinks = (p.links ?? []).map((link) =>
+          `<a class="btn" href="${link.url}" target="_blank" rel="noopener noreferrer">${bi(link.label)}${arrowOut}</a>`,
+        ).join("");
+        if (projectLinks) {
+          html += section({ en: "Links", id: "Tautan" }, `<div class="d-links">${projectLinks}</div>`);
+        }
+        if (p.footerNote) {
+          html += `<p class="d-note">${bi(p.footerNote)}</p>`;
+        }
+        if (p.status) {
+          html += `<p class="d-note">${bi(p.status)}</p>`;
+        }
+        html += `<div class="d-footer"><a class="back" style="margin:0" href="projects.html">${arrowLeft}${bi({ en: "Back to all projects", id: "Kembali ke semua proyek" })}</a></div>`;
+
         document.getElementById("detail").innerHTML = html;
+        wireActions();
       }
+
 
       // THEME
       const themeBtn = document.getElementById("themeBtn");
@@ -1348,6 +1497,7 @@
         document
           .querySelectorAll("#langLabel, #langLabelMobile")
           .forEach((el) => (el.textContent = l.toUpperCase()));
+        document.title = project.title + " — Bryan Siagian";
         localStorage.setItem("lang", l);
       }
       applyLang(localStorage.getItem("lang") || "en");
@@ -1362,34 +1512,30 @@
           }),
       );
 
-      // DOWNLOAD CV (item Resume di navigasi)
-      async function downloadFile(a) {
-        const url = new URL(a.getAttribute("href"), location.href);
-        try {
-          const r = await fetch(url, { method: "HEAD" });
-          if (!r.ok) {
-            location.href = new URL(
-              "404.html?path=" + encodeURIComponent(url.pathname),
-              location.href,
-            ).href;
-            return;
-          }
-        } catch (err) {
-          /* mis. dibuka dari file:// — lanjutkan unduh biasa */
-        }
-        const t = document.createElement("a");
-        t.href = url.href;
-        t.download = a.getAttribute("download") || "";
-        document.body.appendChild(t);
-        t.click();
-        t.remove();
-      }
-
-      document.querySelectorAll(".nav-list a[data-download]").forEach((a) =>
-        a.addEventListener("click", (e) => {
+      // DOWNLOAD CV
+      // Cek dulu apakah file PDF ada. Jika ada, unduh langsung;
+      // jika belum ada, arahkan ke halaman 404.html.
+      document.querySelectorAll("a[data-download]").forEach((a) =>
+        a.addEventListener("click", async (e) => {
           e.preventDefault();
           closeMenu();
-          downloadFile(a);
+          const url = new URL(a.getAttribute("href"), location.href);
+          try {
+            const r = await fetch(url, { method: "HEAD" });
+            if (!r.ok) {
+              location.href =
+                "404.html?path=" + encodeURIComponent(url.pathname);
+              return;
+            }
+          } catch (err) {
+            // jika pengecekan gagal (mis. dibuka lewat file://), tetap coba unduh
+          }
+          const tmp = document.createElement("a");
+          tmp.href = url.href;
+          tmp.download = a.getAttribute("download") || "resume.pdf";
+          document.body.appendChild(tmp);
+          tmp.click();
+          tmp.remove();
         }),
       );
 
@@ -1410,21 +1556,25 @@
       menuBtn.addEventListener("click", () =>
         setMenu(!drawer.classList.contains("open")),
       );
+      // Tap area kosong di luar konten menu = tutup
       drawer.addEventListener("click", (e) => {
         if (!e.target.closest(".drawer-content")) closeMenu();
       });
+      // Tap link navigasi = tutup menu
       drawer
         .querySelectorAll("a:not([data-download])")
         .forEach((a) => a.addEventListener("click", closeMenu));
+      // Tombol Escape
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") closeMenu();
       });
+      // Jika layar diperlebar ke desktop, pastikan menu tertutup
       window
         .matchMedia("(min-width: 681px)")
         .addEventListener("change", (e) => e.matches && closeMenu());
 
       // INIT
-      renderDetail();
+      render();
     </script>
   </body>
 </html>
