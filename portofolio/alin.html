@@ -243,210 +243,6 @@
         max-width: 760px;
       }
 
-      /* ── PAGE HEADER ── */
-      .page-title {
-        font-size: 1.5rem;
-        font-weight: 600;
-        letter-spacing: -0.02em;
-        color: var(--text);
-      }
-      .page-sub {
-        font-size: 1rem;
-        color: var(--text-2);
-        line-height: 1.7;
-        margin-top: 0.35rem;
-        margin-bottom: 1.5rem;
-      }
-
-      /* ── SEARCH ── */
-      .search {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        background: var(--bg-subtle);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 0 0.9rem;
-        height: 50px;
-        transition: border-color 0.15s;
-      }
-      .search:focus-within {
-        border-color: var(--text-3);
-      }
-      .search svg {
-        width: 17px;
-        height: 17px;
-        color: var(--text-3);
-        flex-shrink: 0;
-      }
-      .search input {
-        flex: 1;
-        min-width: 0;
-        background: none;
-        border: none;
-        outline: none;
-        font: inherit;
-        font-size: 15px;
-        color: var(--text);
-      }
-      .search input::placeholder {
-        color: var(--text-3);
-      }
-      .kbd {
-        font-size: 11px;
-        color: var(--text-3);
-        background: var(--bg);
-        border: 1px solid var(--border);
-        border-radius: 6px;
-        padding: 1px 8px;
-      }
-
-      .result-count {
-        font-size: 13px;
-        color: var(--text-3);
-        margin: 1.25rem 0 1.5rem;
-      }
-
-      /* ── GROUP LABEL ── */
-      .group-label {
-        font-size: 12px;
-        font-weight: 500;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: var(--text-3);
-        margin-bottom: 1.25rem;
-      }
-      .group + .group {
-        margin-top: 2.5rem;
-      }
-
-      /* ── PROJECT ROW ── */
-      .proj-list {
-        display: flex;
-        flex-direction: column;
-        gap: 1.75rem;
-      }
-      .proj {
-        display: flex;
-        gap: 1.5rem;
-        align-items: flex-start;
-        color: inherit;
-        text-decoration: none;
-      }
-      .proj-thumb {
-        position: relative;
-        width: 230px;
-        flex-shrink: 0;
-        aspect-ratio: 8 / 5;
-        border-radius: 14px;
-        border: 1px solid var(--border);
-        overflow: hidden;
-        background: linear-gradient(
-          135deg,
-          hsl(var(--h) 70% 96%),
-          hsl(var(--h) 60% 88%)
-        );
-        display: flex;
-        flex-direction: column;
-        transition: transform 0.2s ease;
-      }
-      [data-theme="dark"] .proj-thumb {
-        background: linear-gradient(
-          135deg,
-          hsl(var(--h) 30% 16%),
-          hsl(var(--h) 30% 11%)
-        );
-      }
-      a.proj:hover .proj-thumb {
-        transform: translateY(-2px);
-      }
-      .proj-thumb img {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-      .thumb-bar {
-        display: flex;
-        gap: 4px;
-        padding: 9px 11px;
-      }
-      .thumb-bar i {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: hsl(var(--h) 30% 55% / 0.45);
-      }
-      .thumb-title {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 0 1rem 1rem;
-        font-size: 1.15rem;
-        font-weight: 600;
-        letter-spacing: -0.02em;
-        color: hsl(var(--h) 45% 25%);
-      }
-      [data-theme="dark"] .thumb-title {
-        color: hsl(var(--h) 60% 80%);
-      }
-      .proj-body {
-        flex: 1;
-        min-width: 0;
-      }
-      a.proj:hover .proj-title {
-        text-decoration: underline;
-        text-decoration-color: var(--text-3);
-        text-underline-offset: 4px;
-      }
-      .proj-title {
-        font-size: 1.25rem;
-        font-weight: 500;
-        letter-spacing: -0.01em;
-        color: var(--text);
-        line-height: 1.35;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        flex-wrap: wrap;
-        margin-bottom: 0.35rem;
-      }
-      .award-pill {
-        font-size: 11px;
-        font-weight: 500;
-        color: #92400e;
-        background: #fef3c7;
-        border: 1px solid #fde68a;
-        padding: 1px 8px;
-        border-radius: 100px;
-        white-space: nowrap;
-        letter-spacing: 0;
-      }
-      [data-theme="dark"] .award-pill {
-        background: rgba(146, 64, 14, 0.18);
-        border-color: rgba(180, 83, 9, 0.35);
-        color: #fbbf24;
-      }
-      .proj-meta {
-        font-size: 13px;
-        color: var(--text-3);
-        margin-bottom: 0.6rem;
-      }
-      .proj-desc {
-        font-size: 14.5px;
-        color: var(--text-2);
-        line-height: 1.7;
-        margin-bottom: 0.75rem;
-      }
-      .proj-tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-        margin-bottom: 0.75rem;
-      }
       .tag {
         font-size: 12px;
         color: var(--text-2);
@@ -454,11 +250,6 @@
         border: 1px solid var(--border);
         padding: 2px 10px;
         border-radius: 100px;
-      }
-      .empty {
-        font-size: 14.5px;
-        color: var(--text-3);
-        padding: 2rem 0;
       }
 
       /* ── PROJECT DETAIL ── */
@@ -495,7 +286,7 @@
 
       .d-facts {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 1rem 1.5rem;
         margin: 1.5rem 0 1.25rem;
         padding: 1rem 0;
@@ -521,59 +312,99 @@
       }
 
       .d-hero {
-        position: relative;
-        aspect-ratio: 16 / 9;
-        border-radius: 16px;
-        border: 1px solid var(--border);
-        overflow: hidden;
-        background: linear-gradient(
-          135deg,
-          hsl(var(--h) 70% 96%),
-          hsl(var(--h) 60% 88%)
-        );
-        display: flex;
-        flex-direction: column;
-      }
-      [data-theme="dark"] .d-hero {
-        background: linear-gradient(
-          135deg,
-          hsl(var(--h) 30% 16%),
-          hsl(var(--h) 30% 11%)
-        );
-      }
-      .d-hero img {
-        position: absolute;
-        inset: 0;
+        display: block;
         width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-      .d-hero .thumb-bar {
-        padding: 14px 16px;
-        gap: 6px;
-      }
-      .d-hero .thumb-bar i {
-        width: 9px;
-        height: 9px;
-      }
-      .d-hero .thumb-title {
-        font-size: clamp(1.75rem, 5vw, 2.75rem);
-        padding-bottom: 2.5rem;
+        height: auto;
+        border: 1px solid var(--border);
+        border-radius: 16px;
       }
 
+      .d-section p + p {
+        margin-top: 0.85rem;
+      }
+      .d-note {
+        margin-top: 0.85rem;
+        padding: 0.75rem 1rem;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        color: var(--text-2);
+        font-size: 14px;
+      }
+      .d-subtitle {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text);
+        margin: 1.25rem 0 0.5rem;
+      }
+      .d-subtitle:first-of-type {
+        margin-top: 0;
+      }
+      .d-highlights {
+        padding-left: 1.25rem;
+      }
+      .d-highlights li + li {
+        margin-top: 1rem;
+      }
+      .d-highlights h3 {
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--text);
+        margin-bottom: 0.2rem;
+      }
+      .d-section .d-highlights p {
+        font-size: 14.5px;
+        color: var(--text-2);
+        line-height: 1.75;
+      }
+      .d-table-wrap {
+        overflow-x: auto;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }
+      .d-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+        font-size: 14px;
+      }
+      .d-table th,
+      .d-table td {
+        padding: 0.65rem clamp(0.55rem, 2vw, 1rem);
+        vertical-align: top;
+        overflow-wrap: anywhere;
+      }
+      .d-table thead th {
+        font-weight: 500;
+        color: var(--text-3);
+        font-size: 12.5px;
+        background: var(--bg-subtle);
+      }
+      .d-table tbody th {
+        width: 29%;
+        font-weight: 500;
+      }
+      .d-table tbody td {
+        color: var(--text-2);
+      }
+      .d-table tbody tr {
+        border-top: 1px solid var(--border);
+      }
       .d-section {
         margin-top: 2.25rem;
       }
       .d-section h2 {
-        font-size: 1.125rem;
-        font-weight: 600;
-        letter-spacing: -0.01em;
-        margin-bottom: 0.6rem;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-3);
+        margin-bottom: 1rem;
       }
       .d-section p {
-        font-size: 15.5px;
+        font-size: 15px;
         color: var(--text-2);
-        line-height: 1.85;
+        line-height: 1.8;
       }
       .d-list {
         list-style: none;
@@ -887,6 +718,12 @@
         .d-title {
           font-size: 1.6rem;
         }
+        .d-facts {
+          column-gap: 1rem;
+        }
+        .d-sep {
+          margin-inline: 0.2rem;
+        }
         .d-gallery {
           grid-template-columns: 1fr;
         }
@@ -1144,11 +981,7 @@
     </div>
 
     <script>
-      // ─────────────────────────────────────────────
-      // DATA PROYEK — ubah isi halaman ini cukup lewat objek di bawah.
-      // Bagian opsional (features, stack, gallery, links) otomatis
-      // disembunyikan bila array-nya kosong.
-      // ─────────────────────────────────────────────
+      // Konten proyek dalam bahasa Inggris dan Indonesia.
       const project = {
         title: "ALIN",
         fullName: {
@@ -1157,7 +990,6 @@
         },
         role: "Full-Stack Developer",
         period: "Jan 2026 – Aug 2026",
-        hue: 222,
         image: "image/alin.png", // hero/screenshot utama, mis. 'image/alin/hero.png'
         tags: ["Laravel", "Livewire", "Flutter", "AWS EC2"],
         repo: "https://github.com/bryansiagian/ALIN", // tombol GitHub (kosongkan '' bila tidak ada)
@@ -1199,6 +1031,90 @@
           },
         ],
 
+        architecture: [
+          [
+            "Web dashboard · Laravel / Livewire",
+            {
+              "en": "Lecturers manage quizzes, question banks, students, and results in the browser.",
+              "id": "Dosen mengelola kuis, bank soal, mahasiswa, dan hasil melalui browser."
+            }
+          ],
+          [
+            "Mobile · Flutter / Dart",
+            {
+              "en": "Students take the placement test on their phones, and lecturers can sign in to their accounts from the app.",
+              "id": "Mahasiswa mengerjakan placement test di ponsel dan dosen dapat masuk ke akunnya melalui aplikasi."
+            }
+          ],
+          [
+            "Hosting · AWS EC2",
+            {
+              "en": "EC2 hosts the server-side application used by ALIN.",
+              "id": "EC2 menjadi tempat hosting aplikasi sisi server ALIN."
+            }
+          ]
+        ],
+        highlights: [
+          {
+            "h": {
+              "en": "Bulk question import",
+              "id": "Impor soal massal"
+            },
+            "p": {
+              "en": "Lecturers can import quiz questions from CSV or Excel files instead of entering them one at a time.",
+              "id": "Dosen dapat mengimpor soal kuis dari file CSV atau Excel sehingga tidak perlu memasukkan satu per satu."
+            }
+          },
+          {
+            "h": {
+              "en": "Question bank management",
+              "id": "Pengelolaan bank soal"
+            },
+            "p": {
+              "en": "Livewire supports searching, filtering, and pagination for placement test and level-based practice questions.",
+              "id": "Livewire mendukung pencarian, filter, dan paginasi untuk soal placement test dan latihan berjenjang."
+            }
+          },
+          {
+            "h": {
+              "en": "Mobile placement test",
+              "id": "Placement test di ponsel"
+            },
+            "p": {
+              "en": "I built the Flutter placement test so students can complete it directly in the mobile app.",
+              "id": "Saya membangun placement test di Flutter agar mahasiswa bisa mengerjakannya langsung melalui aplikasi mobile."
+            }
+          }
+        ],
+        stack: [
+          [
+            {
+              "en": "Web dashboard",
+              "id": "Dashboard web"
+            },
+            {
+              "en": "Laravel, Livewire",
+              "id": "Laravel, Livewire"
+            }
+          ],
+          [
+            {
+              "en": "Mobile app",
+              "id": "Aplikasi mobile"
+            },
+            {
+              "en": "Flutter, Dart",
+              "id": "Flutter, Dart"
+            }
+          ],
+          [
+            "Hosting",
+            {
+              "en": "AWS EC2",
+              "id": "AWS EC2"
+            }
+          ]
+        ],
         // ── Opsional: kosongkan array bila tidak dipakai ──
         features: [
           {
@@ -1226,7 +1142,6 @@
             id: "Seluruh stack di-host di AWS EC2.",
           },
         ],
-        stack: ["Laravel", "Livewire", "Flutter", "Dart", "AWS EC2"],
         gallery: [
           // { src: 'image/alin/lecturer-portal.png', alt: 'Lecturer portal' },
         ],
@@ -1342,8 +1257,11 @@
         <a class="icon-link" data-share="x" href="${shareLinks.x()}" target="_blank" rel="noopener" aria-label="Share on X" title="X / Twitter">${icons.x}</a>
         <button class="icon-link" type="button" data-share="copy" aria-label="Copy link" title="Copy link">${icons.link}</button>`
           : "";
-        const sep = gh && share ? '<span class="d-sep"></span>' : "";
-        return `<div class="d-toolbar">${tags}<div class="d-actions">${gh}${sep}${share}</div></div>`;
+        const live = p.live
+          ? `<a class="btn btn-sm" href="${p.live}" target="_blank" rel="noopener noreferrer">${bi({ en: "Live Site", id: "Situs Live" })}${arrowOut}</a>`
+          : "";
+        const sep = (gh || live) && share ? '<span class="d-sep"></span>' : "";
+        return `<div class="d-toolbar">${tags}<div class="d-actions">${gh}${live}${sep}${share}</div></div>`;
       }
 
       function wireActions() {
@@ -1392,58 +1310,111 @@
         return `<section class="d-section"><h2>${bi(title)}</h2>${inner}</section>`;
       }
 
+      function list(items) {
+        return `<ul class="d-list">${items.map((item) => `<li>${bi(item)}</li>`).join("")}</ul>`;
+      }
+
+      function table(headers, rows) {
+        const cell = (value) => typeof value === "string" ? value : bi(value);
+        return `<div class="d-table-wrap"><table class="d-table">
+          <thead><tr>${headers.map((header) => `<th scope="col">${cell(header)}</th>`).join("")}</tr></thead>
+          <tbody>${rows.map(([label, ...values]) => `
+            <tr><th scope="row">${cell(label)}</th>${values.map((value) => `<td>${cell(value)}</td>`).join("")}</tr>`).join("")}
+          </tbody>
+        </table></div>`;
+      }
+
       function render() {
         const p = project;
+        const overview = [p.overview].flat().map((paragraph) => `<p>${bi(paragraph)}</p>`).join("");
+        const architecture = table(
+          [{ en: "Component", id: "Komponen" }, { en: "Responsibility", id: "Tanggung jawab" }],
+          p.architecture,
+        );
+        const highlights = `<ol class="d-highlights">${p.highlights.map(({ h, p }) => `
+          <li><h3>${bi(h)}</h3><p>${bi(p)}</p></li>`).join("")}</ol>`;
+        const stack = table(
+          [{ en: "Layer", id: "Lapisan" }, { en: "Technology", id: "Teknologi" }],
+          p.stack,
+        );
+
         let html = `
-        <a class="back" href="projects.html">${arrowLeft}<span data-lang="en">Projects</span><span data-lang="id">Proyek</span></a>
+          <header>
+            <a class="back" href="projects.html">${arrowLeft}${bi({ en: "Projects", id: "Proyek" })}</a>
+            <h1 class="d-title">${p.title}</h1>
+            <p class="d-full">${bi(p.fullName)}</p>
+            <div class="d-facts">
+              <div>
+                <div class="fact-label">${bi({ en: "Role", id: "Peran" })}</div>
+                <div class="fact-value">${p.role}</div>
+              </div>
+              <div>
+                <div class="fact-label">${bi({ en: "Period", id: "Periode" })}</div>
+                <div class="fact-value">${bi({ en: p.period, id: periodId(p.period) })}</div>
+              </div>
+            </div>
+            ${toolbar(p)}
+          </header>
+          ${p.image ? `<img class="d-hero" src="${p.image}" alt="${p.title}" decoding="async">` : ""}
+          ${p.notice ? `<p class="d-note">${bi(p.notice)}</p>` : ""}
+          ${section({ en: "Overview", id: "Ringkasan" }, overview)}
+        `;
 
-        <h1 class="d-title">${p.title}</h1>
-        <p class="d-full">${bi(p.fullName)}</p>
+        if (p.problems?.length) {
+          html += section({ en: "The Problem", id: "Masalah" }, list(p.problems));
+        }
+        for (const item of p.sections ?? []) {
+          html += section(item.title, `<p>${bi(item.body)}</p>`);
+        }
+        if (p.features?.length) {
+          const planned = p.planned?.length
+            ? `<h3 class="d-subtitle">${bi({ en: "Built", id: "Sudah dibangun" })}</h3>${list(p.features)}
+               <h3 class="d-subtitle">${bi({ en: "Planned", id: "Direncanakan" })}</h3>${list(p.planned)}`
+            : list(p.features);
+          html += section({ en: "Key Features", id: "Fitur Utama" }, planned);
+        }
 
-        <div class="d-facts">
-          <div><div class="fact-label">${bi({ en: "Role", id: "Peran" })}</div><div class="fact-value">${p.role}</div></div>
-          <div><div class="fact-label">${bi({ en: "Period", id: "Periode" })}</div>
-            <div class="fact-value"><span data-lang="en">${p.period}</span><span data-lang="id">${periodId(p.period)}</span></div></div>
-        </div>
+        html += section(
+          { en: "Architecture", id: "Arsitektur" },
+          architecture + (p.archNote ? `<p class="d-note">${bi(p.archNote)}</p>` : ""),
+        );
+        html += section({ en: "Engineering Highlights", id: "Aspek Teknis" }, highlights);
+        html += section({ en: "Tech Stack", id: "Teknologi" }, stack);
 
-        ${toolbar(p)}
-
-        <div class="d-hero" style="--h:${p.hue}">
-          ${p.image ? `<img src="${p.image}" alt="${p.title}" onerror="this.remove()">` : ""}
-          <div class="thumb-bar"><i></i><i></i><i></i></div>
-          <div class="thumb-title">${p.title}</div>
-        </div>
-
-        ${section({ en: "Overview", id: "Ringkasan" }, `<p>${bi(p.overview)}</p>`)}
-        ${p.sections.map((x) => section(x.title, `<p>${bi(x.body)}</p>`)).join("")}
-      `;
-
-        if (p.features.length)
+        if (p.ledger?.length) {
           html += section(
-            { en: "Key Features", id: "Fitur Utama" },
-            `<ul class="d-list">${p.features.map((f) => `<li>${bi(f)}</li>`).join("")}</ul>`,
+            { en: "Ledger at a Glance", id: "Sekilas tentang Ledger" },
+            table(
+              [{ en: "Event", id: "Kejadian" }, "Debit", "Credit"],
+              p.ledger.map(([event, debit, credit]) => [event, `<code>${debit}</code>`, `<code>${credit}</code>`]),
+            ) + `<p class="d-note">${bi(p.ledgerNote)}</p>`,
           );
-        if (p.stack.length)
-          html += section(
-            { en: "Tech Stack", id: "Teknologi" },
-            `<div class="d-tags" style="margin:0">${p.stack.map((t) => `<span class="tag">${t}</span>`).join("")}</div>`,
-          );
-        if (p.gallery.length)
+        }
+        if (p.gallery?.length) {
           html += section(
             { en: "Screenshots", id: "Tangkapan Layar" },
             `<div class="d-gallery">${p.gallery.map((g) => `<img src="${g.src}" alt="${g.alt || p.title}" loading="lazy">`).join("")}</div>`,
           );
-        if (p.links.length)
-          html += section(
-            { en: "Links", id: "Tautan" },
-            `<div class="d-links">${p.links.map((l) => `<a class="btn" href="${l.url}" target="_blank" rel="noopener">${bi(l.label)}${arrowOut}</a>`).join("")}</div>`,
-          );
+        }
 
-        html += `<div class="d-footer"><a class="back" style="margin:0" href="projects.html">${arrowLeft}<span data-lang="en">Back to all projects</span><span data-lang="id">Kembali ke semua proyek</span></a></div>`;
+        const projectLinks = (p.links ?? []).map((link) =>
+          `<a class="btn" href="${link.url}" target="_blank" rel="noopener noreferrer">${bi(link.label)}${arrowOut}</a>`,
+        ).join("");
+        if (projectLinks) {
+          html += section({ en: "Links", id: "Tautan" }, `<div class="d-links">${projectLinks}</div>`);
+        }
+        if (p.footerNote) {
+          html += `<p class="d-note">${bi(p.footerNote)}</p>`;
+        }
+        if (p.status) {
+          html += `<p class="d-note">${bi(p.status)}</p>`;
+        }
+        html += `<div class="d-footer"><a class="back" style="margin:0" href="projects.html">${arrowLeft}${bi({ en: "Back to all projects", id: "Kembali ke semua proyek" })}</a></div>`;
 
         document.getElementById("detail").innerHTML = html;
         wireActions();
       }
+
 
       // THEME
       const themeBtn = document.getElementById("themeBtn");
