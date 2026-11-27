@@ -495,12 +495,15 @@
 
       .d-facts {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 1rem 1.5rem;
         margin: 1.5rem 0 1.25rem;
         padding: 1rem 0;
         border-top: 1px solid var(--border);
         border-bottom: 1px solid var(--border);
+      }
+      .d-fact-award {
+        grid-column: 1 / -1;
       }
       .fact-label {
         font-size: 11.5px;
@@ -521,59 +524,82 @@
       }
 
       .d-hero {
-        position: relative;
-        aspect-ratio: 16 / 9;
-        border-radius: 16px;
-        border: 1px solid var(--border);
-        overflow: hidden;
-        background: linear-gradient(
-          135deg,
-          hsl(var(--h) 70% 96%),
-          hsl(var(--h) 60% 88%)
-        );
-        display: flex;
-        flex-direction: column;
-      }
-      [data-theme="dark"] .d-hero {
-        background: linear-gradient(
-          135deg,
-          hsl(var(--h) 30% 16%),
-          hsl(var(--h) 30% 11%)
-        );
-      }
-      .d-hero img {
-        position: absolute;
-        inset: 0;
+        display: block;
         width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-      .d-hero .thumb-bar {
-        padding: 14px 16px;
-        gap: 6px;
-      }
-      .d-hero .thumb-bar i {
-        width: 9px;
-        height: 9px;
-      }
-      .d-hero .thumb-title {
-        font-size: clamp(1.75rem, 5vw, 2.75rem);
-        padding-bottom: 2.5rem;
+        height: auto;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: 16px;
       }
 
+      .d-section p + p {
+        margin-top: 0.85rem;
+      }
+      .d-highlights {
+        padding-left: 1.25rem;
+      }
+      .d-highlights li + li {
+        margin-top: 1rem;
+      }
+      .d-highlights h3 {
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--text);
+        margin-bottom: 0.2rem;
+      }
+      .d-section .d-highlights p {
+        font-size: 14.5px;
+        color: var(--text-2);
+        line-height: 1.75;
+      }
+      .d-table-wrap {
+        overflow-x: auto;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }
+      .d-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+        font-size: 14px;
+      }
+      .d-table th,
+      .d-table td {
+        padding: 0.65rem clamp(0.55rem, 2vw, 1rem);
+        vertical-align: top;
+        overflow-wrap: anywhere;
+      }
+      .d-table thead th {
+        font-weight: 500;
+        color: var(--text-3);
+        font-size: 12.5px;
+        background: var(--bg-subtle);
+      }
+      .d-table tbody th {
+        width: 29%;
+        font-weight: 500;
+      }
+      .d-table tbody td {
+        color: var(--text-2);
+      }
+      .d-table tbody tr {
+        border-top: 1px solid var(--border);
+      }
       .d-section {
         margin-top: 2.25rem;
       }
       .d-section h2 {
-        font-size: 1.125rem;
-        font-weight: 600;
-        letter-spacing: -0.01em;
-        margin-bottom: 0.6rem;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-3);
+        margin-bottom: 1rem;
       }
       .d-section p {
-        font-size: 15.5px;
+        font-size: 15px;
         color: var(--text-2);
-        line-height: 1.85;
+        line-height: 1.8;
       }
       .d-list {
         list-style: none;
@@ -887,6 +913,12 @@
         .d-title {
           font-size: 1.6rem;
         }
+        .d-facts {
+          column-gap: 1rem;
+        }
+        .d-sep {
+          margin-inline: 0.2rem;
+        }
         .d-gallery {
           grid-template-columns: 1fr;
         }
@@ -1162,7 +1194,6 @@
           en: "🏆 2nd Place — Medan Coding Competition 2026",
           id: "🏆 Juara 2 — Medan Coding Competition 2026",
         },
-        hue: 195,
         image: "image/mockup-medflow.png", // hero/screenshot utama, mis. 'image/medflow/hero.png'
         tags: ["Laravel", "Flutter", "AWS App Runner", "AWS RDS"],
         repo: "https://github.com/bryansiagian/MedFlow", // tombol GitHub (kosongkan '' bila tidak ada)
@@ -1253,7 +1284,74 @@
             id: "Aplikasi Flutter diuji di berbagai perangkat.",
           },
         ],
-        stack: ["Laravel", "Flutter", "Dart", "AWS App Runner", "AWS RDS"],
+        architecture: [
+          [
+            "Flutter / Dart",
+            {
+              "en": "Shows live driver markers, trip information, and routes on the mobile app.",
+              "id": "Menampilkan penanda sopir secara langsung, informasi perjalanan, dan rute di aplikasi mobile."
+            }
+          ],
+          [
+            "Laravel",
+            {
+              "en": "Runs the application backend on AWS App Runner.",
+              "id": "Menjalankan backend aplikasi di AWS App Runner."
+            }
+          ],
+          [
+            "AWS RDS",
+            {
+              "en": "Hosts the database used by the backend.",
+              "id": "Menjadi tempat hosting database yang digunakan backend."
+            }
+          ]
+        ],
+        highlights: [
+          {
+            "title": {
+              "en": "Live driver markers",
+              "id": "Penanda sopir real-time"
+            },
+            "body": {
+              "en": "I built the tracking feature that displays live angkot driver locations on the map.",
+              "id": "Saya membangun fitur pelacakan yang menampilkan posisi sopir angkot secara real-time pada peta."
+            }
+          },
+          {
+            "title": {
+              "en": "Trip lifecycle",
+              "id": "Siklus perjalanan"
+            },
+            "body": {
+              "en": "Tracking is organized around each trip and its stages. I also tested the Flutter app across multiple devices.",
+              "id": "Pelacakan dikelola per perjalanan dan tahapannya. Saya juga menguji aplikasi Flutter di beberapa perangkat."
+            }
+          }
+        ],
+        stack: [
+          [
+            {
+              "en": "Mobile application",
+              "id": "Aplikasi mobile"
+            },
+            "Flutter, Dart"
+          ],
+          [
+            {
+              "en": "Backend",
+              "id": "Backend"
+            },
+            "Laravel"
+          ],
+          [
+            {
+              "en": "Cloud hosting and database",
+              "id": "Hosting cloud dan database"
+            },
+            "AWS App Runner, AWS RDS"
+          ]
+        ],
         gallery: [
           // { src: 'image/medflow/tracking.png', alt: 'Live tracking' },
         ],
@@ -1431,9 +1529,20 @@
         return `<section class="d-section"><h2>${bi(title)}</h2>${inner}</section>`;
       }
 
+      function table(headers, rows) {
+        const cell = (value) => typeof value === "string" ? value : bi(value);
+        return `<div class="d-table-wrap"><table class="d-table">
+          <thead><tr>${headers.map((header) => `<th scope="col">${cell(header)}</th>`).join("")}</tr></thead>
+          <tbody>${rows.map(([label, ...values]) => `
+            <tr><th scope="row">${cell(label)}</th>${values.map((value) => `<td>${cell(value)}</td>`).join("")}</tr>`).join("")}
+          </tbody>
+        </table></div>`;
+      }
+
       function render() {
         const p = project;
         let html = `
+        <header>
         <a class="back" href="projects.html">${arrowLeft}<span data-lang="en">Projects</span><span data-lang="id">Proyek</span></a>
 
         <h1 class="d-title">${p.title}</h1>
@@ -1443,16 +1552,14 @@
           <div><div class="fact-label">${bi({ en: "Role", id: "Peran" })}</div><div class="fact-value">${p.role}</div></div>
           <div><div class="fact-label">${bi({ en: "Period", id: "Periode" })}</div>
             <div class="fact-value"><span data-lang="en">${p.period}</span><span data-lang="id">${periodId(p.period)}</span></div></div>
-          ${p.award ? `<div><div class="fact-label">${bi({ en: "Award", id: "Penghargaan" })}</div><div class="fact-value">${bi(p.award)}</div></div>` : ""}
+          ${p.award ? `<div class="d-fact-award"><div class="fact-label">${bi({ en: "Award", id: "Penghargaan" })}</div><div class="fact-value">${bi(p.award)}</div></div>` : ""}
         </div>
 
         ${toolbar(p)}
 
-        <div class="d-hero" style="--h:${p.hue}">
-          ${p.image ? `<img src="${p.image}" alt="${p.title}" onerror="this.remove()">` : ""}
-          <div class="thumb-bar"><i></i><i></i><i></i></div>
-          <div class="thumb-title">${p.title}</div>
-        </div>
+        </header>
+
+        ${p.image ? `<img class="d-hero" src="${p.image}" alt="${p.title}" decoding="async">` : ""}
 
         ${section({ en: "Overview", id: "Ringkasan" }, `<p>${bi(p.overview)}</p>`)}
         ${p.sections.map((x) => section(x.title, `<p>${bi(x.body)}</p>${actionButtons(x.buttons)}`)).join("")}
@@ -1463,11 +1570,26 @@
             { en: "Key Features", id: "Fitur Utama" },
             `<ul class="d-list">${p.features.map((f) => `<li>${bi(f)}</li>`).join("")}</ul>`,
           );
-        if (p.stack.length)
-          html += section(
-            { en: "Tech Stack", id: "Teknologi" },
-            `<div class="d-tags" style="margin:0">${p.stack.map((t) => `<span class="tag">${t}</span>`).join("")}</div>`,
-          );
+        html += section(
+          { en: "Architecture", id: "Arsitektur" },
+          table(
+            [{ en: "Component", id: "Komponen" }, { en: "Responsibility", id: "Tanggung jawab" }],
+            p.architecture,
+          ),
+        );
+        html += section(
+          { en: "Engineering Highlights", id: "Aspek Teknis" },
+          `<ol class="d-highlights">${p.highlights.map(({ title, body }) =>
+            `<li><h3>${bi(title)}</h3><p>${bi(body)}</p></li>`,
+          ).join("")}</ol>`,
+        );
+        html += section(
+          { en: "Tech Stack", id: "Teknologi" },
+          table(
+            [{ en: "Layer", id: "Lapisan" }, { en: "Technology", id: "Teknologi" }],
+            p.stack,
+          ),
+        );
         if (p.gallery.length)
           html += section(
             { en: "Screenshots", id: "Tangkapan Layar" },
