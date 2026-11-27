@@ -1,172 +1,1530 @@
 <!doctype html>
 <html lang="en" data-theme="light">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Kompak — a real-time student group collaboration platform built with Next.js, NestJS, PostgreSQL and Socket.IO. A project by Bryan Torisi Siagian." />
-  <title>Kompak — Bryan Siagian</title>
-  <link rel="icon" type="image/jpeg" href="image/profil.jpeg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <style>
-    *,*::before,*::after{box-sizing:border-box}
-    *{margin:0;padding:0}
-    :root{--bg:#fff;--bg-subtle:#f5f5f5;--text:#111;--text-2:#555;--text-3:#888;--border:#e5e5e5;--sidebar-w:300px;--avatar-d:180px;--overlay:rgba(255,255,255,.72);--bar:rgba(255,255,255,.88)}
-    [data-theme=dark]{--bg:#111;--bg-subtle:#1c1c1c;--text:#f0f0f0;--text-2:#aaa;--text-3:#777;--border:#2a2a2a;--overlay:rgba(17,17,17,.75);--bar:rgba(17,17,17,.86)}
-    html[lang=en] [data-lang=id],html[lang=id] [data-lang=en]{display:none!important}
-    html{scroll-behavior:smooth}
-    body{font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .25s,color .25s}
-    body.menu-open{overflow:hidden}
-    a{color:inherit}
-    button{font:inherit}
-    :focus-visible{outline:2px solid #668553;outline-offset:3px}
-    .layout{display:flex;max-width:1100px;margin:0 auto;min-height:100vh}
-    .sidebar{width:var(--sidebar-w);flex-shrink:0;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:2rem 1.25rem 1.5rem;overflow-y:auto}
-    .sidebar-profile{margin-top:auto;margin-bottom:1.5rem;text-align:center}
-    .profile-avatar{width:var(--avatar-d);height:var(--avatar-d);border-radius:50%;background:var(--bg-subtle);border:1px solid var(--border);margin:0 auto 1.25rem;overflow:hidden;display:flex;align-items:center;justify-content:center}
-    .profile-avatar img{width:100%;height:100%;object-fit:cover}
-    .profile-name{font-size:18px;font-weight:600;line-height:1.35;margin-bottom:3px}
-    .profile-role{font-size:14px;color:var(--text-3)}
-    .sidebar-nav{width:var(--avatar-d);margin:0 auto}
-    .nav-list{list-style:none;display:flex;flex-direction:column;gap:2px}
-    .nav-item a{display:flex;align-items:center;justify-content:space-between;padding:.55rem .8rem;border-radius:8px;font-size:15px;color:var(--text-2);text-decoration:none;transition:background .15s,color .15s}
-    .nav-item a:hover,.nav-item a.active{background:var(--bg-subtle);color:var(--text)}
-    .nav-item a.active{font-weight:500}
-    .nav-count,.nav-badge{font-size:12px;color:var(--text-3);background:var(--bg-subtle);border:1px solid var(--border);border-radius:5px;padding:1px 7px;min-width:22px;text-align:center}
-    .nav-badge{display:flex;align-items:center;justify-content:center}
-    .nav-badge svg{width:13px;height:13px}
-    .sidebar-footer{margin-top:auto;padding-top:1.5rem;display:flex;align-items:center;justify-content:center;gap:.35rem}
-    .icon-btn{background:none;border:0;cursor:pointer;color:var(--text-3);padding:.375rem;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;letter-spacing:.05em;min-height:30px;min-width:30px;transition:color .15s,background .15s}
-    .icon-btn:hover{color:var(--text);background:var(--bg-subtle)}
-    .icon-btn svg{width:17px;height:17px}
-    .main{flex:1;min-width:0;padding:3rem 3rem 4rem 3.5rem}
-    .main-inner{max-width:760px}
-    .back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:13.5px;color:var(--text-3);margin-bottom:1.5rem}
-    .back:hover{color:var(--text)}
-    .back svg{width:14px;height:14px}
-    .d-title{font-size:2rem;font-weight:600;letter-spacing:-.03em;line-height:1.2}
-    .d-full{font-size:1rem;color:var(--text-2);margin-top:.4rem;line-height:1.7}
-    .d-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem 1.5rem;margin:1.5rem 0 1.25rem;padding:1rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-    .fact-label{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
-    .fact-value{font-size:14.5px;margin-top:2px}
-    .d-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.5rem}
-    .tag{font-size:12px;color:var(--text-2);background:var(--bg-subtle);border:1px solid var(--border);padding:2px 10px;border-radius:100px}
-    .d-section{margin-top:2.25rem}
-    .d-section h2{font-size:1.125rem;font-weight:600;letter-spacing:-.01em;margin-bottom:.6rem}
-    .d-section p{font-size:15px;color:var(--text-2);line-height:1.85}
-    .d-list{list-style:none;display:flex;flex-direction:column;gap:.65rem}
-    .d-list li{position:relative;padding-left:1.25rem;font-size:15px;color:var(--text-2);line-height:1.7}
-    .d-list li:before{content:"";position:absolute;left:.25rem;top:.73em;width:5px;height:5px;border-radius:50%;background:var(--text-3)}
-    .d-links{display:flex;gap:10px;flex-wrap:wrap}
-    .btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;padding:9px 14px;border:1px solid var(--border);border-radius:9px;font-size:13px;font-weight:500;transition:background .15s,transform .15s}
-    .btn:hover{background:var(--bg-subtle);transform:translateY(-1px)}
-    .btn.primary{background:#455c36;color:#fff;border-color:#455c36}
-    .btn.primary:hover{background:#33462a}
-    .d-footer{margin-top:2.7rem;padding-top:1.25rem;border-top:1px solid var(--border)}
-    .notice{padding:12px 14px;border-left:3px solid #455c36;background:var(--bg-subtle);border-radius:0 8px 8px 0;color:var(--text-2);font-size:13px;margin-top:14px}
-    .project-image {
-      display: block;
-      width: 100%;
-      height: auto;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-    }
-    .feature-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:15px}
-    .feature-strip div{border:1px solid var(--border);border-radius:9px;padding:13px 11px;background:var(--bg-subtle)}
-    .feature-strip b{display:block;font-size:12px;margin-bottom:5px}.feature-strip span{color:var(--text-3);font-size:11px;line-height:1.5;display:block}
-    .arch{margin-top:12px;background:var(--bg-subtle);border:1px solid var(--border);border-radius:12px;padding:19px}
-    .arch-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;align-items:center;text-align:center}
-    .arch-node{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 8px;font-size:12px;font-weight:600}
-    .arch-node small{display:block;font-weight:400;color:var(--text-3);font-size:10px;margin-top:3px}
-    .arch-down{height:30px;display:grid;place-items:center;color:var(--text-3);font-size:16px}
-    .mobile-topbar,.mobile-drawer{display:none}
-    @media(max-width:680px){
-      .layout{display:block}.sidebar{display:none}.main{padding:82px 1.3rem 3rem}.main-inner{max-width:none}
-      .mobile-topbar{display:flex;position:fixed;top:0;left:0;right:0;z-index:70;height:52px;background:var(--bar);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);align-items:center;justify-content:space-between;padding:0 1.25rem}
-      .mobile-topbar-name{font-size:14px;font-weight:600}.mobile-topbar-right{display:flex;gap:5px;align-items:center}
-      .mobile-menu-btn{width:32px;height:34px;background:none;border:none;color:var(--text);display:grid;place-items:center;cursor:pointer}
-      .mobile-menu-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
-      .mobile-drawer{display:flex;position:fixed;inset:52px 0 0;z-index:65;background:var(--overlay);backdrop-filter:blur(18px);align-items:center;justify-content:center;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s,visibility .2s}
-      .mobile-drawer.open{opacity:1;visibility:visible;pointer-events:auto}
-      .drawer-content{width:min(330px,90vw);max-height:calc(100dvh - 80px);overflow:auto;padding:18px;text-align:center}
-      .drawer-content .profile-avatar{width:110px;height:110px;margin-bottom:12px}.drawer-content .profile-name{font-size:17px}.drawer-content .profile-role{margin-bottom:22px}
-      .drawer-nav .nav-list{gap:4px}.drawer-nav .nav-item a{padding:12px;text-align:left;font-size:16px}
-      .feature-strip{grid-template-columns:1fr}.d-facts{grid-template-columns:1fr 1fr}.arch-row{gap:4px}.arch-node{font-size:11px;padding:8px 4px}
-    }
-    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
-  </style>
-</head>
-<body>
-  <div class="layout">
-    <aside class="sidebar" aria-label="Portfolio navigation">
-      <div class="sidebar-profile"><div class="profile-avatar"><img src="image/profil.jpeg" alt="Bryan Torisi Siagian" /></div><div class="profile-name">Bryan Torisi Siagian</div><div class="profile-role">Software Engineer</div></div>
-      <nav class="sidebar-nav" aria-label="Primary"><ul class="nav-list">
-        <li class="nav-item"><a href="index.html"><span data-lang="en">Home</span><span data-lang="id">Beranda</span><span class="nav-count">1</span></a></li>
-        <li class="nav-item"><a class="active" href="projects.html" aria-current="page"><span data-lang="en">Projects</span><span data-lang="id">Proyek</span><span class="nav-count">11</span></a></li>
-        <li class="nav-item"><a href="achievements.html"><span data-lang="en">Achievements</span><span data-lang="id">Capaian</span><span class="nav-count">3</span></a></li>
-        <li class="nav-item"><a href="certificates.html"><span data-lang="en">Certificates</span><span data-lang="id">Sertifikat</span><span class="nav-count">25</span></a></li>
-        <li class="nav-item"><a href="resume.pdf" download="CV-Bryan-Torisi-Siagian.pdf" data-download><span>Resume</span><span class="nav-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5M12 15V3"/></svg></span></a></li>
-      </ul></nav>
-      <div class="sidebar-footer"><button type="button" class="icon-btn" id="langBtn" aria-label="Change language"><span id="langLabel">EN</span></button><button type="button" class="icon-btn" id="themeBtn" aria-label="Toggle color theme"><svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div>
-    </aside>
-    <main class="main"><article class="main-inner">
-      <a class="back" href="projects.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg><span data-lang="en">Projects</span><span data-lang="id">Proyek</span></a>
-      <h1 class="d-title">Kompak</h1>
-      <p class="d-full"><span data-lang="en">Real-time Student Collaboration & Task Management Platform</span><span data-lang="id">Platform Kolaborasi dan Manajemen Tugas Kelompok secara Real-Time</span></p>
-      <div class="d-facts"><div><div class="fact-label"><span data-lang="en">Role</span><span data-lang="id">Peran</span></div><div class="fact-value">Full-Stack Developer</div></div><div><div class="fact-label"><span data-lang="en">Period</span><span data-lang="id">Periode</span></div><div class="fact-value"><span data-lang="en">Nov 2026 – Present</span><span data-lang="id">Nov 2026 – Sekarang</span></div></div></div>
-      <div class="d-tags"><span class="tag">Next.js</span><span class="tag">NestJS</span><span class="tag">TypeScript</span><span class="tag">PostgreSQL</span><span class="tag">Prisma</span><span class="tag">Socket.IO</span><span class="tag">Groq API</span></div>
-      <img
-        class="project-image"
-        src="image/kompak.png"
-        alt="Kompak project preview"
-      />
-      <section class="d-section"><h2><span data-lang="en">Overview</span><span data-lang="id">Ringkasan</span></h2><p><span data-lang="en">Kompak is a web application designed to make university group assignments easier to coordinate. Instead of losing important tasks in messaging threads, students can create shared workspaces, organize projects on Kanban boards, assign responsibilities, and follow updates together in real time. The interface is designed around Indonesian-first workflows and mobile usability.</span><span data-lang="id">Kompak adalah aplikasi web untuk mempermudah koordinasi tugas kelompok mahasiswa. Daripada kehilangan tugas penting di percakapan chat, anggota dapat membuat ruang kerja bersama, mengatur proyek pada papan Kanban, membagi tanggung jawab, dan mengikuti perubahan tugas secara real-time. Antarmukanya mengutamakan bahasa Indonesia dan kemudahan penggunaan di perangkat mobile.</span></p></section>
-      <section class="d-section"><h2><span data-lang="en">The Problem & Solution</span><span data-lang="id">Masalah & Solusi</span></h2><p><span data-lang="en">Group assignments are often coordinated through chat applications, where instructions, decisions, and task ownership become difficult to track. Kompak brings essential collaboration tools into a simpler workflow: create a group, invite classmates through a shareable link, split a project into tasks, and track changes from a shared board.</span><span data-lang="id">Koordinasi tugas kelompok sering berlangsung melalui aplikasi chat sehingga instruksi, keputusan, dan pembagian tanggung jawab sulit dilacak. Kompak menyatukan kebutuhan kolaborasi ke dalam alur yang lebih sederhana: buat kelompok, undang teman melalui tautan, pecah proyek menjadi tugas, lalu pantau perubahannya melalui papan bersama.</span></p></section>
-      <section class="d-section"><h2><span data-lang="en">Key Features</span><span data-lang="id">Fitur Utama</span></h2><ul class="d-list">
-        <li><span data-lang="en">Group and project workspaces with member roles and shareable invitation links, including WhatsApp sharing.</span><span data-lang="id">Ruang kerja kelompok dan proyek dengan peran anggota serta tautan undangan yang dapat dibagikan melalui WhatsApp.</span></li>
-        <li><span data-lang="en">Kanban boards with customizable columns, task creation, drag-and-drop ordering, and non-drag task movement.</span><span data-lang="id">Papan Kanban dengan kolom yang dapat diatur, pembuatan tugas, drag-and-drop, dan alternatif pemindahan tugas tanpa drag.</span></li>
-        <li><span data-lang="en">Real-time task and board synchronization using Socket.IO, with optimistic updates and rollback on failure.</span><span data-lang="id">Sinkronisasi papan dan tugas secara real-time dengan Socket.IO, termasuk optimistic update dan rollback ketika terjadi kegagalan.</span></li>
-        <li><span data-lang="en">Task details, labels, filters, comments, activity history, and project/workspace search.</span><span data-lang="id">Detail tugas, label, filter, komentar, riwayat aktivitas, serta pencarian di proyek dan ruang kerja.</span></li>
-        <li><span data-lang="en">AI-assisted subtask suggestions and discussion summaries integrated through a server-side LLM service.</span><span data-lang="id">Saran subtugas dan ringkasan diskusi berbantuan AI melalui layanan LLM pada backend.</span></li>
-        <li><span data-lang="en">Email verification, session management, role-based permissions, and responsive Indonesian-language UI.</span><span data-lang="id">Verifikasi email, pengelolaan sesi, hak akses berbasis peran, serta UI responsif berbahasa Indonesia.</span></li>
-      </ul></section>
-      <section class="d-section"><h2><span data-lang="en">System Architecture</span><span data-lang="id">Arsitektur Sistem</span></h2><p><span data-lang="en">A TypeScript monorepo separates the Next.js interface, NestJS API, and shared request/response schemas. REST handles writes while Socket.IO broadcasts changes to collaborators. Prisma manages access to PostgreSQL. Authentication and AI integrations run server-side.</span><span data-lang="id">Monorepo TypeScript memisahkan antarmuka Next.js, API NestJS, serta skema request/response bersama. REST menangani perubahan data, sedangkan Socket.IO menyiarkan pembaruan kepada anggota lain. Prisma mengelola akses ke PostgreSQL. Autentikasi dan integrasi AI berjalan pada sisi server.</span></p>
-        <div class="arch" aria-label="Architecture diagram"><div class="arch-row"><div class="arch-node">Next.js<small>Web UI</small></div><div class="arch-node">REST API<small>Requests</small></div><div class="arch-node">Socket.IO<small>Realtime</small></div></div><div class="arch-down" aria-hidden="true">↓</div><div class="arch-row"><div class="arch-node">NestJS<small>Application API</small></div><div class="arch-node">Prisma<small>ORM</small></div><div class="arch-node">LLM Service<small>AI assistance</small></div></div><div class="arch-down" aria-hidden="true">↓</div><div class="arch-row"><div class="arch-node">PostgreSQL<small>Data storage</small></div><div class="arch-node">SMTP<small>Email flows</small></div><div class="arch-node">GitHub Actions<small>CI checks</small></div></div></div>
-      </section>
-      <section class="d-section"><h2><span data-lang="en">Engineering Highlights</span><span data-lang="id">Aspek Teknis</span></h2><ul class="d-list">
-        <li><span data-lang="en">Implemented optimistic task movement with recovery when server-side updates fail.</span><span data-lang="id">Menerapkan perpindahan tugas secara optimistic dengan pemulihan saat pembaruan pada server gagal.</span></li>
-        <li><span data-lang="en">Used project-scoped Socket.IO rooms and cache synchronization to prevent duplicate board items.</span><span data-lang="id">Menggunakan room Socket.IO berdasarkan proyek dan sinkronisasi cache untuk mencegah duplikasi item papan.</span></li>
-        <li><span data-lang="en">Added automated linting, type checking, unit tests, and CI workflows.</span><span data-lang="id">Menambahkan linting, pemeriksaan tipe, unit test, dan alur CI otomatis.</span></li>
-      </ul></section>
-      <section class="d-section"><h2><span data-lang="en">Tech Stack</span><span data-lang="id">Teknologi</span></h2><div class="d-tags"><span class="tag">React</span><span class="tag">Next.js App Router</span><span class="tag">Tailwind CSS</span><span class="tag">TanStack Query</span><span class="tag">dnd-kit</span><span class="tag">NestJS</span><span class="tag">Prisma ORM</span><span class="tag">PostgreSQL</span><span class="tag">Socket.IO</span><span class="tag">Zod</span><span class="tag">Docker</span><span class="tag">GitHub Actions</span></div></section>
-      <section class="d-section"><h2><span data-lang="en">Project Links</span><span data-lang="id">Tautan Proyek</span></h2><div class="d-links"><a class="btn primary" href="https://github.com/bryansiagian/kompak" target="_blank" rel="noopener noreferrer"><span data-lang="en">View Source Code ↗</span><span data-lang="id">Lihat Kode Sumber ↗</span></a><a class="btn" href="projects.html"><span data-lang="en">All Projects →</span><span data-lang="id">Semua Proyek →</span></a></div><p class="notice"><span data-lang="en">Public demo is not available yet. The repository contains the code and setup instructions.</span><span data-lang="id">Demo publik belum tersedia. Repository memuat kode dan petunjuk menjalankan aplikasi.</span></p></section>
-      <div class="d-footer"><a class="back" href="projects.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg><span data-lang="en">Back to all projects</span><span data-lang="id">Kembali ke semua proyek</span></a></div>
-    </article></main>
-  </div>
-  <div class="mobile-topbar"><span class="mobile-topbar-name">Bryan Siagian</span><div class="mobile-topbar-right"><button class="icon-btn" id="langBtnMobile" aria-label="Change language"><span id="langLabelMobile">EN</span></button><button class="icon-btn" id="themeBtnMobile" aria-label="Toggle color theme"><svg id="themeIconMobile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button><button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu" aria-controls="mobileDrawer" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button></div></div>
-  <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true"><div class="drawer-content"><div class="profile-avatar"><img src="image/profil.jpeg" alt="Bryan Torisi Siagian" /></div><div class="profile-name">Bryan Torisi Siagian</div><div class="profile-role">Software Engineer</div><nav class="drawer-nav" aria-label="Mobile navigation"><ul class="nav-list"><li class="nav-item"><a href="index.html"><span data-lang="en">Home</span><span data-lang="id">Beranda</span></a></li><li class="nav-item"><a class="active" href="projects.html"><span data-lang="en">Projects</span><span data-lang="id">Proyek</span></a></li><li class="nav-item"><a href="achievements.html"><span data-lang="en">Achievements</span><span data-lang="id">Capaian</span></a></li><li class="nav-item"><a href="certificates.html"><span data-lang="en">Certificates</span><span data-lang="id">Sertifikat</span></a></li><li class="nav-item"><a href="resume.pdf" download="CV-Bryan-Torisi-Siagian.pdf" data-download>Resume</a></li></ul></nav></div></div>
-  <script>
-    (()=>{
-      const root=document.documentElement;
-      const moon='<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />';
-      const sun='<circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72 1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>';
-      const savedTheme=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
-      const savedLang=localStorage.getItem('lang')||'en';
-      function setTheme(theme){root.dataset.theme=theme;localStorage.setItem('theme',theme);document.querySelectorAll('#themeIcon,#themeIconMobile').forEach(el=>el.innerHTML=theme==='dark'?sun:moon)}
-      function setLang(lang){root.lang=lang;localStorage.setItem('lang',lang);document.querySelectorAll('#langLabel,#langLabelMobile').forEach(el=>el.textContent=lang.toUpperCase())}
-      setTheme(savedTheme);setLang(savedLang);
-      document.querySelectorAll('#themeBtn,#themeBtnMobile').forEach(b=>b.addEventListener('click',()=>setTheme(root.dataset.theme==='dark'?'light':'dark')));
-      document.querySelectorAll('#langBtn,#langBtnMobile').forEach(b=>b.addEventListener('click',()=>setLang(root.lang==='en'?'id':'en')));
-      const drawer=document.getElementById('mobileDrawer');const menu=document.getElementById('mobileMenuBtn');
-      function close(){drawer.classList.remove('open');document.body.classList.remove('menu-open');menu.setAttribute('aria-expanded','false');drawer.setAttribute('aria-hidden','true')}
-      menu.addEventListener('click',()=>{const open=!drawer.classList.contains('open');drawer.classList.toggle('open',open);document.body.classList.toggle('menu-open',open);menu.setAttribute('aria-expanded',String(open));drawer.setAttribute('aria-hidden',String(!open))});
-      drawer.addEventListener('click',e=>{if(!e.target.closest('.drawer-content'))close()});
-      drawer.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));
-      document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
-      matchMedia('(min-width:681px)').addEventListener('change',e=>{if(e.matches)close()});
-      document.querySelectorAll('[data-download]').forEach(a=>a.addEventListener('click',async e=>{e.preventDefault();const target=new URL(a.getAttribute('href'),location.href);try{const response=await fetch(target,{method:'HEAD'});if(!response.ok){location.href='404.html?path='+encodeURIComponent(target.pathname);return}}catch(_){}const download=document.createElement('a');download.href=target.href;download.download=a.download||'';document.body.appendChild(download);download.click();download.remove()}));
-    })();
-  </script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kompak — Bryan Siagian</title>
+    <link rel="icon" type="image/jpeg" href="/image/profil.jpeg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #ffffff;
+        --bg-subtle: #f5f5f5;
+        --text: #111111;
+        --text-2: #555555;
+        --text-3: #999999;
+        --border: #e5e5e5;
+        --sidebar-w: 300px;
+        --avatar-d: 180px; /* diameter foto profil = lebar navigasi desktop */
+
+        /* Mobile menu overlay (blur) */
+        --overlay: rgba(255, 255, 255, 0.62);
+        --bar: rgba(255, 255, 255, 0.82);
+      }
+      [data-theme="dark"] {
+        --bg: #111111;
+        --bg-subtle: #1c1c1c;
+        --text: #f0f0f0;
+        --text-2: #aaaaaa;
+        --text-3: #555555;
+        --border: #2a2a2a;
+
+        --overlay: rgba(17, 17, 17, 0.6);
+        --bar: rgba(17, 17, 17, 0.82);
+      }
+
+      html[lang="en"] [data-lang="id"] {
+        display: none !important;
+      }
+      html[lang="id"] [data-lang="en"] {
+        display: none !important;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        transition:
+          background 0.3s,
+          color 0.3s;
+      }
+      body.menu-open {
+        overflow: hidden;
+      }
+
+      /* ── LAYOUT ── */
+      .layout {
+        display: flex;
+        max-width: 1100px;
+        margin: 0 auto;
+        min-height: 100vh;
+      }
+
+      /* ── SIDEBAR ── */
+      .sidebar {
+        width: var(--sidebar-w);
+        flex-shrink: 0;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding: 2rem 1.25rem 1.5rem;
+        overflow-y: auto;
+      }
+      .sidebar-profile {
+        margin-top: auto;
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+      .profile-avatar {
+        width: var(--avatar-d);
+        height: var(--avatar-d);
+        border-radius: 50%;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        margin: 0 auto 1.25rem;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .profile-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .profile-avatar-placeholder {
+        font-size: 56px;
+        color: var(--text-3);
+      }
+      .profile-name {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text);
+        line-height: 1.35;
+        margin-bottom: 3px;
+      }
+      .profile-role {
+        font-size: 14px;
+        color: var(--text-3);
+      }
+
+      .sidebar-nav {
+        flex: none;
+        width: var(--avatar-d); /* selebar diameter foto profil */
+        margin: 0 auto; /* rata tengah di bawah foto */
+      }
+      .nav-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .nav-item a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.55rem 0.8rem;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 400;
+        color: var(--text-2);
+        text-decoration: none;
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
+      .nav-item a:hover {
+        background: var(--bg-subtle);
+        color: var(--text);
+      }
+      .nav-item a.active {
+        background: var(--bg-subtle);
+        color: var(--text);
+        font-weight: 500;
+      }
+      .nav-count {
+        font-size: 12px;
+        color: var(--text-3);
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        padding: 1px 7px;
+        min-width: 22px;
+        text-align: center;
+      }
+      .nav-item a.active .nav-count {
+        background: var(--border);
+        border-color: transparent;
+      }
+      .nav-badge {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-3);
+        letter-spacing: 0.04em;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        padding: 1px 6px;
+      }
+
+      /* Badge ikon unduh pada item Resume */
+      .nav-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .nav-badge svg {
+        width: 13px;
+        height: 13px;
+        display: block;
+      }
+      .nav-item a:hover .nav-badge {
+        color: var(--text);
+      }
+
+      .sidebar-footer {
+        margin-top: auto;
+        padding-top: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.35rem;
+      }
+      .icon-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--text-3);
+        padding: 0.375rem;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12.5px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        transition:
+          color 0.15s,
+          background 0.15s;
+      }
+      .icon-btn:hover {
+        color: var(--text);
+        background: var(--bg-subtle);
+      }
+      .icon-btn svg {
+        width: 17px;
+        height: 17px;
+      }
+
+      /* ── MAIN CONTENT ── */
+      .main {
+        flex: 1;
+        min-width: 0;
+        padding: 3rem 3rem 4rem 3.5rem;
+      }
+      .main-inner {
+        max-width: 760px;
+      }
+
+      .tag {
+        font-size: 12px;
+        color: var(--text-2);
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        padding: 2px 10px;
+        border-radius: 100px;
+      }
+
+      /* ── PROJECT DETAIL ── */
+      .back {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13.5px;
+        color: var(--text-3);
+        text-decoration: none;
+        margin-bottom: 1.5rem;
+        transition: color 0.15s;
+      }
+      .back:hover {
+        color: var(--text);
+      }
+      .back svg {
+        width: 14px;
+        height: 14px;
+      }
+
+      .d-title {
+        font-size: 2rem;
+        font-weight: 600;
+        letter-spacing: -0.03em;
+        line-height: 1.2;
+      }
+      .d-full {
+        font-size: 1rem;
+        color: var(--text-2);
+        margin-top: 0.4rem;
+        line-height: 1.7;
+      }
+
+      .d-facts {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem 1.5rem;
+        margin: 1.5rem 0 1.25rem;
+        padding: 1rem 0;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+      .fact-label {
+        font-size: 11.5px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-3);
+      }
+      .fact-value {
+        font-size: 14.5px;
+        color: var(--text);
+        margin-top: 2px;
+      }
+      .d-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 1.75rem;
+      }
+
+      .d-hero {
+        display: block;
+        width: 100%;
+        height: auto;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+      }
+
+      .d-section p + p {
+        margin-top: 0.85rem;
+      }
+      .d-note {
+        margin-top: 0.85rem;
+        padding: 0.75rem 1rem;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        color: var(--text-2);
+        font-size: 14px;
+      }
+      .d-subtitle {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text);
+        margin: 1.25rem 0 0.5rem;
+      }
+      .d-subtitle:first-of-type {
+        margin-top: 0;
+      }
+      .d-highlights {
+        padding-left: 1.25rem;
+      }
+      .d-highlights li + li {
+        margin-top: 1rem;
+      }
+      .d-highlights h3 {
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--text);
+        margin-bottom: 0.2rem;
+      }
+      .d-section .d-highlights p {
+        font-size: 14.5px;
+        color: var(--text-2);
+        line-height: 1.75;
+      }
+      .d-table-wrap {
+        overflow-x: auto;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }
+      .d-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+        font-size: 14px;
+      }
+      .d-table th,
+      .d-table td {
+        padding: 0.65rem clamp(0.55rem, 2vw, 1rem);
+        vertical-align: top;
+        overflow-wrap: anywhere;
+      }
+      .d-table thead th {
+        font-weight: 500;
+        color: var(--text-3);
+        font-size: 12.5px;
+        background: var(--bg-subtle);
+      }
+      .d-table tbody th {
+        width: 29%;
+        font-weight: 500;
+      }
+      .d-table tbody td {
+        color: var(--text-2);
+      }
+      .d-table tbody tr {
+        border-top: 1px solid var(--border);
+      }
+      .d-section {
+        margin-top: 2.25rem;
+      }
+      .d-section h2 {
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-3);
+        margin-bottom: 1rem;
+      }
+      .d-section p {
+        font-size: 15px;
+        color: var(--text-2);
+        line-height: 1.8;
+      }
+      .d-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .d-list li {
+        position: relative;
+        padding-left: 1.25rem;
+        font-size: 15px;
+        color: var(--text-2);
+        line-height: 1.7;
+      }
+      .d-list li::before {
+        content: "";
+        position: absolute;
+        left: 0.25rem;
+        top: 0.7em;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--text-3);
+      }
+      .d-gallery {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.875rem;
+      }
+      .d-gallery img {
+        width: 100%;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        display: block;
+      }
+      .d-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        font: inherit;
+        font-size: 14.5px;
+        font-weight: 500;
+        padding: 0.6rem 1.1rem;
+        border-radius: 10px;
+        text-decoration: none;
+        border: 1px solid var(--border);
+        background: var(--bg);
+        color: var(--text);
+        transition: background 0.15s;
+      }
+      .btn:hover {
+        background: var(--bg-subtle);
+      }
+      .btn svg {
+        width: 13px;
+        height: 13px;
+      }
+      .d-footer {
+        margin-top: 3rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--border);
+      }
+
+      .d-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 1.75rem;
+      }
+      .d-toolbar .d-tags {
+        margin: 0;
+      }
+      .d-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        flex-wrap: wrap;
+      }
+      .d-sep {
+        width: 1px;
+        height: 20px;
+        background: var(--border);
+        margin: 0 0.4rem;
+      }
+      .btn.btn-sm {
+        height: 34px;
+        padding: 0 0.85rem;
+        font-size: 13.5px;
+        border-radius: 8px;
+      }
+      .btn.btn-sm svg {
+        width: 16px;
+        height: 16px;
+      }
+      .icon-link {
+        width: 34px;
+        height: 34px;
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--bg);
+        color: var(--text-2);
+        cursor: pointer;
+        text-decoration: none;
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
+      .icon-link:hover {
+        background: var(--bg-subtle);
+        color: var(--text);
+      }
+      .icon-link svg {
+        width: 16px;
+        height: 16px;
+      }
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 1.5rem;
+        z-index: 100;
+        transform: translate(-50%, 12px);
+        opacity: 0;
+        pointer-events: none;
+        background: var(--text);
+        color: var(--bg);
+        font-size: 13.5px;
+        padding: 0.6rem 1rem;
+        border-radius: 10px;
+        transition:
+          opacity 0.2s,
+          transform 0.2s;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      /* ═══════════════════════════════════════════
+         MOBILE: TOPBAR + MENU FULLSCREEN (BLUR)
+         ═══════════════════════════════════════════ */
+      .mobile-topbar {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 70; /* di atas overlay menu, supaya tombol tetap bisa diakses */
+        height: 52px;
+        background: var(--bar);
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1.25rem;
+        transition:
+          background 0.3s,
+          border-color 0.3s;
+      }
+      /* Saat menu terbuka, topbar jadi transparan agar blur terlihat utuh */
+      body.menu-open .mobile-topbar {
+        background: transparent;
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+        border-bottom-color: transparent;
+      }
+      .mobile-topbar-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text);
+        transition: opacity 0.25s;
+      }
+      body.menu-open .mobile-topbar-name {
+        opacity: 0; /* nama sudah tampil di dalam menu */
+      }
+      .mobile-topbar-right {
+        display: flex;
+        gap: 0.25rem;
+      }
+      .mobile-menu-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--text-2);
+        padding: 0.35rem;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+      }
+      .mobile-menu-btn svg {
+        width: 18px;
+        height: 18px;
+      }
+      .mobile-menu-btn .icon-close {
+        display: none;
+      }
+      body.menu-open .mobile-menu-btn .icon-open {
+        display: none;
+      }
+      body.menu-open .mobile-menu-btn .icon-close {
+        display: block;
+      }
+
+      .mobile-drawer {
+        position: fixed;
+        inset: 0;
+        z-index: 60;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 4.5rem 1.5rem 2rem;
+        overflow-y: auto;
+        background: var(--overlay);
+        -webkit-backdrop-filter: blur(18px) saturate(1.1);
+        backdrop-filter: blur(18px) saturate(1.1);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition:
+          opacity 0.3s ease,
+          visibility 0s linear 0.3s;
+      }
+      .mobile-drawer.open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transition:
+          opacity 0.3s ease,
+          visibility 0s;
+      }
+      .drawer-content {
+        width: 100%;
+        max-width: 320px;
+        margin: auto;
+        text-align: center;
+        transform: translateY(12px) scale(0.98);
+        transition: transform 0.35s ease;
+      }
+      .mobile-drawer.open .drawer-content {
+        transform: none;
+      }
+      .drawer-profile {
+        margin-bottom: 1.75rem;
+      }
+      .drawer-profile .profile-avatar {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 1rem;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+      }
+      .drawer-profile .profile-avatar-placeholder {
+        font-size: 40px;
+      }
+      .drawer-nav .nav-list {
+        gap: 6px;
+      }
+      .drawer-nav .nav-item a {
+        justify-content: center;
+        gap: 0.6rem;
+        padding: 0.8rem 1rem;
+        font-size: 17px;
+        border-radius: 12px;
+      }
+      .drawer-nav .nav-item a.active {
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        padding: calc(0.8rem - 1px) calc(1rem - 1px);
+      }
+      .drawer-nav .nav-count {
+        font-size: 12px;
+      }
+
+      /* Desktop: menu mobile tidak pernah tampil */
+      @media (min-width: 681px) {
+        .mobile-drawer {
+          display: none;
+        }
+        body.menu-open {
+          overflow: auto;
+        }
+      }
+
+      @media (max-width: 680px) {
+        .sidebar {
+          display: none;
+        }
+        .layout {
+          display: block;
+        }
+        .main {
+          padding: 4.5rem 1.25rem 3rem;
+        }
+        .main-inner {
+          max-width: 100%;
+        }
+        .mobile-topbar {
+          display: flex;
+        }
+        .d-title {
+          font-size: 1.6rem;
+        }
+        .d-facts {
+          column-gap: 1rem;
+        }
+        .d-sep {
+          margin-inline: 0.2rem;
+        }
+        .d-gallery {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <!-- SIDEBAR (desktop) -->
+      <aside class="sidebar">
+        <div class="sidebar-profile">
+          <div class="profile-avatar">
+            <img
+              src="/image/profil.jpeg"
+              alt="Bryan"
+              onerror="
+                this.style.display = 'none';
+                this.nextElementSibling.style.display = 'flex';
+              "
+            />
+            <span class="profile-avatar-placeholder" style="display: none"
+              >B</span
+            >
+          </div>
+          <div class="profile-name">Bryan Torisi Siagian</div>
+          <div class="profile-role">Software Engineer</div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="index.html">
+                <span data-lang="en">Home</span
+                ><span data-lang="id">Beranda</span>
+                <span class="nav-count">1</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="projects.html" class="active">
+                <span data-lang="en">Projects</span
+                ><span data-lang="id">Proyek</span>
+                <span class="nav-count">12</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="achievements.html">
+                <span data-lang="en">Achievements</span
+                ><span data-lang="id">Capaian</span>
+                <span class="nav-count">3</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="certificates.html">
+                <span data-lang="en">Certificates</span
+                ><span data-lang="id">Sertifikat</span>
+                <span class="nav-count">25</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="resume.pdf"
+                download="CV-Bryan-Torisi-Siagian.pdf"
+                data-download
+                aria-label="Download Resume"
+                title="Download Resume"
+              >
+                <span>Resume</span>
+                <span class="nav-badge">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.25"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button class="icon-btn" id="langBtn" aria-label="Toggle language">
+            <span id="langLabel">EN</span>
+          </button>
+          <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">
+            <svg
+              id="themeIcon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="main">
+        <div class="main-inner" id="detail"></div>
+      </main>
+    </div>
+    <!-- /.layout -->
+
+    <!-- MOBILE TOPBAR -->
+    <div class="mobile-topbar">
+      <span class="mobile-topbar-name">Bryan Siagian</span>
+      <div class="mobile-topbar-right">
+        <button
+          class="icon-btn"
+          id="langBtnMobile"
+          aria-label="Toggle language"
+        >
+          <span id="langLabelMobile">EN</span>
+        </button>
+        <button class="icon-btn" id="themeBtnMobile" aria-label="Toggle theme">
+          <svg
+            id="themeIconMobile"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            style="width: 16px; height: 16px"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        </button>
+        <button
+          class="mobile-menu-btn"
+          id="mobileMenuBtn"
+          aria-label="Menu"
+          aria-expanded="false"
+          aria-controls="mobileDrawer"
+        >
+          <svg
+            class="icon-open"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          >
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+          <svg
+            class="icon-close"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          >
+            <line x1="5" y1="5" x2="19" y2="19" />
+            <line x1="19" y1="5" x2="5" y2="19" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- MOBILE MENU (fullscreen, blur, di tengah) -->
+    <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+      <div class="drawer-content">
+        <div class="drawer-profile">
+          <div class="profile-avatar">
+            <img
+              src="/image/profil.jpeg"
+              alt="Bryan"
+              onerror="
+                this.style.display = 'none';
+                this.nextElementSibling.style.display = 'flex';
+              "
+            />
+            <span class="profile-avatar-placeholder" style="display: none"
+              >B</span
+            >
+          </div>
+          <div class="profile-name">Bryan Torisi Siagian</div>
+          <div class="profile-role">Software Engineer</div>
+        </div>
+
+        <nav class="drawer-nav">
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="index.html">
+                <span data-lang="en">Home</span
+                ><span data-lang="id">Beranda</span>
+                <span class="nav-count">1</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="projects.html" class="active">
+                <span data-lang="en">Projects</span
+                ><span data-lang="id">Proyek</span>
+                <span class="nav-count">12</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="achievements.html">
+                <span data-lang="en">Achievements</span
+                ><span data-lang="id">Capaian</span>
+                <span class="nav-count">3</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="certificates.html">
+                <span data-lang="en">Certificates</span
+                ><span data-lang="id">Sertifikat</span>
+                <span class="nav-count">25</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="resume.pdf"
+                download="CV-Bryan-Torisi-Siagian.pdf"
+                data-download
+                aria-label="Download Resume"
+                title="Download Resume"
+              >
+                <span>Resume</span>
+                <span class="nav-badge">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.25"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <script>
+      // Konten proyek dalam bahasa Inggris dan Indonesia.
+      const project = {
+        title: "Kompak",
+        fullName: {
+          "en": "Real-time Student Collaboration & Task Management Platform",
+          "id": "Platform Kolaborasi dan Manajemen Tugas Kelompok secara Real-Time"
+        },
+        role: "Full-Stack Developer",
+        period: "Nov 2026 – Present",
+        image: "image/kompak.png",
+        tags: [
+          "Next.js",
+          "NestJS",
+          "TypeScript",
+          "PostgreSQL",
+          "Prisma",
+          "Socket.IO",
+          "Groq API"
+        ],
+        repo: "https://github.com/bryansiagian/kompak",
+        share: true,
+        overview: {
+          "en": "Kompak is a web application designed to make university group assignments easier to coordinate. Instead of losing important tasks in messaging threads, students can create shared workspaces, organize projects on Kanban boards, assign responsibilities, and follow updates together in real time. The interface is designed around Indonesian-first workflows and mobile usability.",
+          "id": "Kompak adalah aplikasi web untuk mempermudah koordinasi tugas kelompok mahasiswa. Daripada kehilangan tugas penting di percakapan chat, anggota dapat membuat ruang kerja bersama, mengatur proyek pada papan Kanban, membagi tanggung jawab, dan mengikuti perubahan tugas secara real-time. Antarmukanya mengutamakan bahasa Indonesia dan kemudahan penggunaan di perangkat mobile."
+        },
+        sections: [
+          {
+            "title": {
+              "en": "The Problem & Solution",
+              "id": "Masalah & Solusi"
+            },
+            "body": {
+              "en": "Group assignments are often coordinated through chat applications, where instructions, decisions, and task ownership become difficult to track. Kompak brings essential collaboration tools into a simpler workflow: create a group, invite classmates through a shareable link, split a project into tasks, and track changes from a shared board.",
+              "id": "Koordinasi tugas kelompok sering berlangsung melalui aplikasi chat sehingga instruksi, keputusan, dan pembagian tanggung jawab sulit dilacak. Kompak menyatukan kebutuhan kolaborasi ke dalam alur yang lebih sederhana: buat kelompok, undang teman melalui tautan, pecah proyek menjadi tugas, lalu pantau perubahannya melalui papan bersama."
+            }
+          }
+        ],
+        features: [
+          {
+            "en": "Group and project workspaces with member roles and shareable invitation links, including WhatsApp sharing.",
+            "id": "Ruang kerja kelompok dan proyek dengan peran anggota serta tautan undangan yang dapat dibagikan melalui WhatsApp."
+          },
+          {
+            "en": "Kanban boards with customizable columns, task creation, drag-and-drop ordering, and non-drag task movement.",
+            "id": "Papan Kanban dengan kolom yang dapat diatur, pembuatan tugas, drag-and-drop, dan alternatif pemindahan tugas tanpa drag."
+          },
+          {
+            "en": "Real-time task and board synchronization using Socket.IO, with optimistic updates and rollback on failure.",
+            "id": "Sinkronisasi papan dan tugas secara real-time dengan Socket.IO, termasuk optimistic update dan rollback ketika terjadi kegagalan."
+          },
+          {
+            "en": "Task details, labels, filters, comments, activity history, and project/workspace search.",
+            "id": "Detail tugas, label, filter, komentar, riwayat aktivitas, serta pencarian di proyek dan ruang kerja."
+          },
+          {
+            "en": "AI-assisted subtask suggestions and discussion summaries integrated through a server-side LLM service.",
+            "id": "Saran subtugas dan ringkasan diskusi berbantuan AI melalui layanan LLM pada backend."
+          },
+          {
+            "en": "Email verification, session management, role-based permissions, and responsive Indonesian-language UI.",
+            "id": "Verifikasi email, pengelolaan sesi, hak akses berbasis peran, serta UI responsif berbahasa Indonesia."
+          }
+        ],
+        architecture: [
+          [
+            "Next.js",
+            {
+              "en": "The web client calls the NestJS REST API and subscribes to project updates through Socket.IO.",
+              "id": "Aplikasi web mengakses REST API NestJS dan menerima pembaruan proyek melalui Socket.IO."
+            }
+          ],
+          [
+            "NestJS",
+            {
+              "en": "Handles authentication, permissions, and project operations. The API and web client use shared TypeScript schemas.",
+              "id": "Menangani autentikasi, hak akses, dan operasi proyek. API dan aplikasi web menggunakan skema TypeScript bersama."
+            }
+          ],
+          [
+            "Prisma / PostgreSQL",
+            {
+              "en": "The API uses Prisma to read and write workspaces, boards, and tasks in PostgreSQL.",
+              "id": "API memakai Prisma untuk membaca dan menyimpan ruang kerja, papan, dan tugas di PostgreSQL."
+            }
+          ],
+          [
+            "Groq API / SMTP",
+            {
+              "en": "The backend calls the LLM service for AI features and uses SMTP for account verification emails.",
+              "id": "Backend mengakses layanan LLM untuk fitur AI dan memakai SMTP untuk email verifikasi akun."
+            }
+          ]
+        ],
+        highlights: [
+          {
+            "h": {
+              "en": "Optimistic task movement",
+              "id": "Pemindahan tugas secara optimistic"
+            },
+            "p": {
+              "en": "The board updates immediately after a task moves and restores its previous position if the server rejects the update.",
+              "id": "Papan langsung diperbarui saat tugas dipindahkan dan mengembalikan posisi sebelumnya jika server menolak pembaruan."
+            }
+          },
+          {
+            "h": {
+              "en": "Project-scoped real-time updates",
+              "id": "Pembaruan real-time per proyek"
+            },
+            "p": {
+              "en": "Socket.IO rooms route updates to the corresponding project. Cache synchronization helps avoid duplicate board items.",
+              "id": "Room Socket.IO mengirim pembaruan ke proyek terkait. Sinkronisasi cache membantu mencegah duplikasi item papan."
+            }
+          },
+          {
+            "h": {
+              "en": "Automated validation",
+              "id": "Validasi otomatis"
+            },
+            "p": {
+              "en": "GitHub Actions runs lint checks, type checking, and automated tests.",
+              "id": "GitHub Actions menjalankan lint, pemeriksaan tipe, dan pengujian otomatis."
+            }
+          }
+        ],
+        stack: [
+          [
+            "Frontend",
+            "React, Next.js App Router, TypeScript, Tailwind CSS, TanStack Query, dnd-kit"
+          ],
+          [
+            "Backend",
+            "NestJS, TypeScript, REST, Zod"
+          ],
+          [
+            {
+              "en": "Data layer",
+              "id": "Lapisan data"
+            },
+            "PostgreSQL, Prisma ORM"
+          ],
+          [
+            "Real-time",
+            "Socket.IO"
+          ],
+          [
+            {
+              "en": "AI and email",
+              "id": "AI dan email"
+            },
+            "Groq API, SMTP"
+          ],
+          [
+            "DevOps",
+            "Docker, GitHub Actions"
+          ]
+        ],
+        footerNote: {
+          "en": "The GitHub repository contains the code and setup instructions. A public demo is not available yet.",
+          "id": "Repositori GitHub berisi kode dan petunjuk menjalankan aplikasi. Demo publik belum tersedia."
+        },
+      };
+
+      const periodId = (t) =>
+        t
+          .replace("Present", "Sekarang")
+          .replace("Aug", "Agu")
+          .replace("Oct", "Okt")
+          .replace("Dec", "Des");
+      const bi = (o) =>
+        `<span data-lang="en">${o.en}</span><span data-lang="id">${o.id}</span>`;
+      const arrowLeft =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>';
+      const arrowOut =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>';
+
+      // ── Ikon ──
+      const icons = {
+        github:
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>',
+        facebook:
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>',
+        instagram:
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>',
+        linkedin:
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>',
+        x: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>',
+        link: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
+        check:
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+      };
+
+      // ── Share ──
+      const curLang = () =>
+        document.documentElement.lang === "id" ? "id" : "en";
+      const pageUrl = () => location.href.split("#")[0];
+      const shareText = () =>
+        `${project.title} — ${project.fullName[curLang()]}`;
+      const shareLinks = {
+        facebook: () =>
+          "https://www.facebook.com/sharer/sharer.php?u=" +
+          encodeURIComponent(pageUrl()),
+        linkedin: () =>
+          "https://www.linkedin.com/sharing/share-offsite/?url=" +
+          encodeURIComponent(pageUrl()),
+        x: () =>
+          "https://x.com/intent/post?url=" +
+          encodeURIComponent(pageUrl()) +
+          "&text=" +
+          encodeURIComponent(shareText()),
+      };
+      const msgs = {
+        copied: { en: "Link copied", id: "Tautan disalin" },
+        ig: {
+          en: "Link copied — paste it in Instagram",
+          id: "Tautan disalin — tempel di Instagram",
+        },
+        fail: { en: "Couldn't copy the link", id: "Gagal menyalin tautan" },
+      };
+
+      let toastTimer;
+      function toast(key) {
+        let el = document.getElementById("toast");
+        if (!el) {
+          el = document.createElement("div");
+          el.id = "toast";
+          el.className = "toast";
+          el.setAttribute("role", "status");
+          document.body.appendChild(el);
+        }
+        el.textContent = msgs[key][curLang()];
+        el.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => el.classList.remove("show"), 2200);
+      }
+
+      async function copyText(text) {
+        try {
+          await navigator.clipboard.writeText(text);
+          return true;
+        } catch (e) {
+          try {
+            const ta = document.createElement("textarea");
+            ta.value = text;
+            ta.style.position = "fixed";
+            ta.style.opacity = "0";
+            document.body.appendChild(ta);
+            ta.select();
+            const ok = document.execCommand("copy");
+            ta.remove();
+            return ok;
+          } catch (e2) {
+            return false;
+          }
+        }
+      }
+
+      function toolbar(p) {
+        const tags = `<div class="d-tags">${p.tags.map((t) => `<span class="tag">${t}</span>`).join("")}</div>`;
+        const gh = p.repo
+          ? `<a class="btn btn-sm" href="${p.repo}" target="_blank" rel="noopener" title="GitHub repository">${icons.github}GitHub</a>`
+          : "";
+        const share = p.share
+          ? `
+        <a class="icon-link" data-share="facebook" href="${shareLinks.facebook()}" target="_blank" rel="noopener" aria-label="Share on Facebook" title="Facebook">${icons.facebook}</a>
+        <button class="icon-link" type="button" data-share="instagram" aria-label="Share on Instagram" title="Instagram">${icons.instagram}</button>
+        <a class="icon-link" data-share="linkedin" href="${shareLinks.linkedin()}" target="_blank" rel="noopener" aria-label="Share on LinkedIn" title="LinkedIn">${icons.linkedin}</a>
+        <a class="icon-link" data-share="x" href="${shareLinks.x()}" target="_blank" rel="noopener" aria-label="Share on X" title="X / Twitter">${icons.x}</a>
+        <button class="icon-link" type="button" data-share="copy" aria-label="Copy link" title="Copy link">${icons.link}</button>`
+          : "";
+        const live = p.live
+          ? `<a class="btn btn-sm" href="${p.live}" target="_blank" rel="noopener noreferrer">${bi({ en: "Live Site", id: "Situs Live" })}${arrowOut}</a>`
+          : "";
+        const sep = (gh || live) && share ? '<span class="d-sep"></span>' : "";
+        return `<div class="d-toolbar">${tags}<div class="d-actions">${gh}${live}${sep}${share}</div></div>`;
+      }
+
+      function wireActions() {
+        // Facebook / LinkedIn / X: perbarui URL tepat saat diklik (bahasa & URL terkini)
+        document.querySelectorAll("a[data-share]").forEach((a) =>
+          a.addEventListener("click", () => {
+            a.href = shareLinks[a.dataset.share]();
+          }),
+        );
+
+        // Salin tautan
+        const copyBtn = document.querySelector('[data-share="copy"]');
+        if (copyBtn)
+          copyBtn.addEventListener("click", async () => {
+            const ok = await copyText(pageUrl());
+            toast(ok ? "copied" : "fail");
+            if (ok) {
+              copyBtn.innerHTML = icons.check;
+              setTimeout(() => {
+                copyBtn.innerHTML = icons.link;
+              }, 1500);
+            }
+          });
+
+        // Instagram tidak punya URL share web:
+        // di ponsel pakai menu share bawaan; di desktop salin tautan lalu buka Instagram.
+        const ig = document.querySelector('[data-share="instagram"]');
+        if (ig)
+          ig.addEventListener("click", async () => {
+            if (
+              navigator.share &&
+              window.matchMedia("(pointer: coarse)").matches
+            ) {
+              try {
+                await navigator.share({ title: shareText(), url: pageUrl() });
+              } catch (e) {}
+              return;
+            }
+            const copying = copyText(pageUrl());
+            window.open("https://www.instagram.com/", "_blank", "noopener");
+            toast((await copying) ? "ig" : "fail");
+          });
+      }
+
+      function section(title, inner) {
+        return `<section class="d-section"><h2>${bi(title)}</h2>${inner}</section>`;
+      }
+
+      function list(items) {
+        return `<ul class="d-list">${items.map((item) => `<li>${bi(item)}</li>`).join("")}</ul>`;
+      }
+
+      function table(headers, rows) {
+        const cell = (value) => typeof value === "string" ? value : bi(value);
+        return `<div class="d-table-wrap"><table class="d-table">
+          <thead><tr>${headers.map((header) => `<th scope="col">${cell(header)}</th>`).join("")}</tr></thead>
+          <tbody>${rows.map(([label, ...values]) => `
+            <tr><th scope="row">${cell(label)}</th>${values.map((value) => `<td>${cell(value)}</td>`).join("")}</tr>`).join("")}
+          </tbody>
+        </table></div>`;
+      }
+
+      function render() {
+        const p = project;
+        const overview = [p.overview].flat().map((paragraph) => `<p>${bi(paragraph)}</p>`).join("");
+        const architecture = table(
+          [{ en: "Component", id: "Komponen" }, { en: "Responsibility", id: "Tanggung jawab" }],
+          p.architecture,
+        );
+        const highlights = `<ol class="d-highlights">${p.highlights.map(({ h, p }) => `
+          <li><h3>${bi(h)}</h3><p>${bi(p)}</p></li>`).join("")}</ol>`;
+        const stack = table(
+          [{ en: "Layer", id: "Lapisan" }, { en: "Technology", id: "Teknologi" }],
+          p.stack,
+        );
+
+        let html = `
+          <header>
+            <a class="back" href="projects.html">${arrowLeft}${bi({ en: "Projects", id: "Proyek" })}</a>
+            <h1 class="d-title">${p.title}</h1>
+            <p class="d-full">${bi(p.fullName)}</p>
+            <div class="d-facts">
+              <div>
+                <div class="fact-label">${bi({ en: "Role", id: "Peran" })}</div>
+                <div class="fact-value">${p.role}</div>
+              </div>
+              <div>
+                <div class="fact-label">${bi({ en: "Period", id: "Periode" })}</div>
+                <div class="fact-value">${bi({ en: p.period, id: periodId(p.period) })}</div>
+              </div>
+            </div>
+            ${toolbar(p)}
+          </header>
+          ${p.image ? `<img class="d-hero" src="${p.image}" alt="${p.title}" decoding="async">` : ""}
+          ${p.notice ? `<p class="d-note">${bi(p.notice)}</p>` : ""}
+          ${section({ en: "Overview", id: "Ringkasan" }, overview)}
+        `;
+
+        if (p.problems?.length) {
+          html += section({ en: "The Problem", id: "Masalah" }, list(p.problems));
+        }
+        for (const item of p.sections ?? []) {
+          html += section(item.title, `<p>${bi(item.body)}</p>`);
+        }
+        if (p.features?.length) {
+          const planned = p.planned?.length
+            ? `<h3 class="d-subtitle">${bi({ en: "Built", id: "Sudah dibangun" })}</h3>${list(p.features)}
+               <h3 class="d-subtitle">${bi({ en: "Planned", id: "Direncanakan" })}</h3>${list(p.planned)}`
+            : list(p.features);
+          html += section({ en: "Key Features", id: "Fitur Utama" }, planned);
+        }
+
+        html += section(
+          { en: "Architecture", id: "Arsitektur" },
+          architecture + (p.archNote ? `<p class="d-note">${bi(p.archNote)}</p>` : ""),
+        );
+        html += section({ en: "Engineering Highlights", id: "Aspek Teknis" }, highlights);
+        html += section({ en: "Tech Stack", id: "Teknologi" }, stack);
+
+        if (p.ledger?.length) {
+          html += section(
+            { en: "Ledger at a Glance", id: "Sekilas tentang Ledger" },
+            table(
+              [{ en: "Event", id: "Kejadian" }, "Debit", "Credit"],
+              p.ledger.map(([event, debit, credit]) => [event, `<code>${debit}</code>`, `<code>${credit}</code>`]),
+            ) + `<p class="d-note">${bi(p.ledgerNote)}</p>`,
+          );
+        }
+        if (p.gallery?.length) {
+          html += section(
+            { en: "Screenshots", id: "Tangkapan Layar" },
+            `<div class="d-gallery">${p.gallery.map((g) => `<img src="${g.src}" alt="${g.alt || p.title}" loading="lazy">`).join("")}</div>`,
+          );
+        }
+
+        const projectLinks = (p.links ?? []).map((link) =>
+          `<a class="btn" href="${link.url}" target="_blank" rel="noopener noreferrer">${bi(link.label)}${arrowOut}</a>`,
+        ).join("");
+        if (projectLinks) {
+          html += section({ en: "Links", id: "Tautan" }, `<div class="d-links">${projectLinks}</div>`);
+        }
+        if (p.footerNote) {
+          html += `<p class="d-note">${bi(p.footerNote)}</p>`;
+        }
+        if (p.status) {
+          html += `<p class="d-note">${bi(p.status)}</p>`;
+        }
+        html += `<div class="d-footer"><a class="back" style="margin:0" href="projects.html">${arrowLeft}${bi({ en: "Back to all projects", id: "Kembali ke semua proyek" })}</a></div>`;
+
+        document.getElementById("detail").innerHTML = html;
+        wireActions();
+      }
+
+
+      // THEME
+      const themeBtn = document.getElementById("themeBtn");
+      const themeBtnM = document.getElementById("themeBtnMobile");
+      const iconSun = `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`;
+      const iconMoon = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`;
+      function applyTheme(t) {
+        document.documentElement.setAttribute("data-theme", t);
+        const inner = t === "dark" ? iconSun : iconMoon;
+        document.getElementById("themeIcon").innerHTML = inner;
+        if (document.getElementById("themeIconMobile"))
+          document.getElementById("themeIconMobile").innerHTML = inner;
+        localStorage.setItem("theme", t);
+      }
+      const savedTheme =
+        localStorage.getItem("theme") ||
+        (window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light");
+      applyTheme(savedTheme);
+      [themeBtn, themeBtnM].forEach(
+        (btn) =>
+          btn &&
+          btn.addEventListener("click", () => {
+            applyTheme(
+              document.documentElement.getAttribute("data-theme") === "dark"
+                ? "light"
+                : "dark",
+            );
+          }),
+      );
+
+      // LANGUAGE
+      function applyLang(l) {
+        document.documentElement.lang = l;
+        document
+          .querySelectorAll("#langLabel, #langLabelMobile")
+          .forEach((el) => (el.textContent = l.toUpperCase()));
+        document.title = project.title + " — Bryan Siagian";
+        localStorage.setItem("lang", l);
+      }
+      applyLang(localStorage.getItem("lang") || "en");
+      [
+        document.getElementById("langBtn"),
+        document.getElementById("langBtnMobile"),
+      ].forEach(
+        (btn) =>
+          btn &&
+          btn.addEventListener("click", () => {
+            applyLang(document.documentElement.lang === "en" ? "id" : "en");
+          }),
+      );
+
+      // DOWNLOAD CV
+      // Cek dulu apakah file PDF ada. Jika ada, unduh langsung;
+      // jika belum ada, arahkan ke halaman 404.html.
+      document.querySelectorAll("a[data-download]").forEach((a) =>
+        a.addEventListener("click", async (e) => {
+          e.preventDefault();
+          closeMenu();
+          const url = new URL(a.getAttribute("href"), location.href);
+          try {
+            const r = await fetch(url, { method: "HEAD" });
+            if (!r.ok) {
+              location.href =
+                "404.html?path=" + encodeURIComponent(url.pathname);
+              return;
+            }
+          } catch (err) {
+            // jika pengecekan gagal (mis. dibuka lewat file://), tetap coba unduh
+          }
+          const tmp = document.createElement("a");
+          tmp.href = url.href;
+          tmp.download = a.getAttribute("download") || "resume.pdf";
+          document.body.appendChild(tmp);
+          tmp.click();
+          tmp.remove();
+        }),
+      );
+
+      // MOBILE MENU (fullscreen, blur)
+      const drawer = document.getElementById("mobileDrawer");
+      const menuBtn = document.getElementById("mobileMenuBtn");
+
+      function setMenu(open) {
+        drawer.classList.toggle("open", open);
+        document.body.classList.toggle("menu-open", open);
+        menuBtn.setAttribute("aria-expanded", String(open));
+        drawer.setAttribute("aria-hidden", String(!open));
+      }
+      function closeMenu() {
+        setMenu(false);
+      }
+
+      menuBtn.addEventListener("click", () =>
+        setMenu(!drawer.classList.contains("open")),
+      );
+      // Tap area kosong di luar konten menu = tutup
+      drawer.addEventListener("click", (e) => {
+        if (!e.target.closest(".drawer-content")) closeMenu();
+      });
+      // Tap link navigasi = tutup menu
+      drawer
+        .querySelectorAll("a:not([data-download])")
+        .forEach((a) => a.addEventListener("click", closeMenu));
+      // Tombol Escape
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeMenu();
+      });
+      // Jika layar diperlebar ke desktop, pastikan menu tertutup
+      window
+        .matchMedia("(min-width: 681px)")
+        .addEventListener("change", (e) => e.matches && closeMenu());
+
+      // INIT
+      render();
+    </script>
+  </body>
 </html>
