@@ -65,19 +65,13 @@
     .btn.primary:hover{background:#33462a}
     .d-footer{margin-top:2.7rem;padding-top:1.25rem;border-top:1px solid var(--border)}
     .notice{padding:12px 14px;border-left:3px solid #455c36;background:var(--bg-subtle);border-radius:0 8px 8px 0;color:var(--text-2);font-size:13px;margin-top:14px}
-    .visual{position:relative;border-radius:16px;overflow:hidden;isolation:isolate;background:#455c36;padding:26px 28px 27px;min-height:320px;border:1px solid rgba(69,92,54,.6)}
-    .visual:before{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.065) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.065) 1px,transparent 1px);background-size:38px 38px}
-    .visual-header{position:relative;color:#e4ebdf;font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;margin-bottom:20px}
-    .visual-heading{position:relative;color:#fff;font-size:clamp(24px,4vw,39px);font-weight:800;letter-spacing:-.06em;line-height:1.1;max-width:430px;margin-bottom:24px}
-    .visual-heading span{font-family:Georgia,serif;font-weight:400;font-style:italic;letter-spacing:-.04em;color:#dce6d4}
-    .board-preview{position:relative;background:#f8f8f5;border-radius:12px;padding:15px;box-shadow:0 15px 35px rgba(0,0,0,.18)}
-    .board-top{display:flex;justify-content:space-between;align-items:center;color:#293b22;font-size:12px;font-weight:700;border-bottom:1px solid #dfe4db;padding-bottom:10px;margin-bottom:12px}
-    .board-top .people{display:flex;gap:0}.people b{display:grid;place-items:center;margin-left:-5px;border:2px solid #f8f8f5;background:#d8e1d1;color:#455c36;width:25px;height:25px;border-radius:50%;font-size:10px}
-    .preview-columns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
-    .lane{background:#e8eae4;border-radius:7px;padding:8px;min-height:92px}
-    .lane-head{font-size:10px;color:#394633;font-weight:700;margin-bottom:8px;line-height:1.3}
-    .mini-task{background:#fff;color:#263322;border-radius:6px;padding:8px;font-size:10px;font-weight:600;line-height:1.45;min-height:52px}
-    .mini-task small{display:block;color:#66715f;font-size:9px;margin-top:8px;font-weight:500}
+    .project-image {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+    }
     .feature-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:15px}
     .feature-strip div{border:1px solid var(--border);border-radius:9px;padding:13px 11px;background:var(--bg-subtle)}
     .feature-strip b{display:block;font-size:12px;margin-bottom:5px}.feature-strip span{color:var(--text-3);font-size:11px;line-height:1.5;display:block}
@@ -98,7 +92,6 @@
       .drawer-content{width:min(330px,90vw);max-height:calc(100dvh - 80px);overflow:auto;padding:18px;text-align:center}
       .drawer-content .profile-avatar{width:110px;height:110px;margin-bottom:12px}.drawer-content .profile-name{font-size:17px}.drawer-content .profile-role{margin-bottom:22px}
       .drawer-nav .nav-list{gap:4px}.drawer-nav .nav-item a{padding:12px;text-align:left;font-size:16px}
-      .visual{padding:20px 15px;min-height:0}.board-preview{padding:10px}.preview-columns{gap:5px}.lane{padding:5px}.lane-head{font-size:9px}.mini-task{font-size:9px;padding:6px}.mini-task small{font-size:8px}
       .feature-strip{grid-template-columns:1fr}.d-facts{grid-template-columns:1fr 1fr}.arch-row{gap:4px}.arch-node{font-size:11px;padding:8px 4px}
     }
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
@@ -123,16 +116,11 @@
       <p class="d-full"><span data-lang="en">Real-time Student Collaboration & Task Management Platform</span><span data-lang="id">Platform Kolaborasi dan Manajemen Tugas Kelompok secara Real-Time</span></p>
       <div class="d-facts"><div><div class="fact-label"><span data-lang="en">Role</span><span data-lang="id">Peran</span></div><div class="fact-value">Full-Stack Developer</div></div><div><div class="fact-label"><span data-lang="en">Period</span><span data-lang="id">Periode</span></div><div class="fact-value"><span data-lang="en">Nov 2026 – Present</span><span data-lang="id">Nov 2026 – Sekarang</span></div></div></div>
       <div class="d-tags"><span class="tag">Next.js</span><span class="tag">NestJS</span><span class="tag">TypeScript</span><span class="tag">PostgreSQL</span><span class="tag">Prisma</span><span class="tag">Socket.IO</span><span class="tag">Groq API</span></div>
-      <div class="visual" role="img" aria-label="Illustrative Kompak project dashboard showing three Kanban columns, assigned students, and group work">
-        <div class="visual-header">KOMPAK / STUDENT COLLABORATION</div>
-        <div class="visual-heading">Kerja kelompok.<br><span>Tanpa drama.</span></div>
-        <div class="board-preview"><div class="board-top"><span>▣ &nbsp; Proyek Kelompok</span><span class="people"><b>A</b><b>B</b><b>C</b></span></div><div class="preview-columns">
-          <div class="lane"><div class="lane-head">Belum dikerjakan</div><div class="mini-task">Susun materi<small>Andi</small></div></div>
-          <div class="lane"><div class="lane-head">Sedang dikerjakan</div><div class="mini-task">Rancang poster<small>Budi</small></div></div>
-          <div class="lane"><div class="lane-head">Selesai</div><div class="mini-task">Pilih tema<small>Citra</small></div></div>
-        </div></div>
-      </div>
-      <p class="notice"><span data-lang="en">Product visualization for illustration only, not a live application screenshot.</span><span data-lang="id">Visualisasi ilustratif produk, bukan tangkapan layar aplikasi yang sedang berjalan.</span></p>
+      <img
+        class="project-image"
+        src="image/kompak.png"
+        alt="Kompak project preview"
+      />
       <section class="d-section"><h2><span data-lang="en">Overview</span><span data-lang="id">Ringkasan</span></h2><p><span data-lang="en">Kompak is a web application designed to make university group assignments easier to coordinate. Instead of losing important tasks in messaging threads, students can create shared workspaces, organize projects on Kanban boards, assign responsibilities, and follow updates together in real time. The interface is designed around Indonesian-first workflows and mobile usability.</span><span data-lang="id">Kompak adalah aplikasi web untuk mempermudah koordinasi tugas kelompok mahasiswa. Daripada kehilangan tugas penting di percakapan chat, anggota dapat membuat ruang kerja bersama, mengatur proyek pada papan Kanban, membagi tanggung jawab, dan mengikuti perubahan tugas secara real-time. Antarmukanya mengutamakan bahasa Indonesia dan kemudahan penggunaan di perangkat mobile.</span></p></section>
       <section class="d-section"><h2><span data-lang="en">The Problem & Solution</span><span data-lang="id">Masalah & Solusi</span></h2><p><span data-lang="en">Group assignments are often coordinated through chat applications, where instructions, decisions, and task ownership become difficult to track. Kompak brings essential collaboration tools into a simpler workflow: create a group, invite classmates through a shareable link, split a project into tasks, and track changes from a shared board.</span><span data-lang="id">Koordinasi tugas kelompok sering berlangsung melalui aplikasi chat sehingga instruksi, keputusan, dan pembagian tanggung jawab sulit dilacak. Kompak menyatukan kebutuhan kolaborasi ke dalam alur yang lebih sederhana: buat kelompok, undang teman melalui tautan, pecah proyek menjadi tugas, lalu pantau perubahannya melalui papan bersama.</span></p></section>
       <section class="d-section"><h2><span data-lang="en">Key Features</span><span data-lang="id">Fitur Utama</span></h2><ul class="d-list">
