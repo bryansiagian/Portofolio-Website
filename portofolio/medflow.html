@@ -1305,6 +1305,27 @@
               "en": "Hosts the database used by the backend.",
               "id": "Menjadi tempat hosting database yang digunakan backend."
             }
+          ],
+          [
+            "OpenStreetMap (OSM)",
+            {
+              "en": "Provides the base map for driver positions and route displays.",
+              "id": "Menyediakan peta dasar untuk menampilkan posisi pengemudi dan jalur perjalanan."
+            }
+          ],
+          [
+            "Open Source Routing Machine (OSRM)",
+            {
+              "en": "Calculates road routes from coordinates using OpenStreetMap data.",
+              "id": "Menghitung rute jalan dari koordinat menggunakan data OpenStreetMap."
+            }
+          ],
+          [
+            "OpenWeatherMap API",
+            {
+              "en": "Provides weather data used for rider suggestions.",
+              "id": "Menyediakan data cuaca untuk rekomendasi bagi penumpang."
+            }
           ]
         ],
         highlights: [
@@ -1326,6 +1347,26 @@
             "body": {
               "en": "Tracking is organized around each trip and its stages. I also tested the Flutter app across multiple devices.",
               "id": "Pelacakan dikelola per perjalanan dan tahapannya. Saya juga menguji aplikasi Flutter di beberapa perangkat."
+            }
+          },
+          {
+            "title": {
+              "en": "Map and route integration",
+              "id": "Integrasi peta dan rute"
+            },
+            "body": {
+              "en": "MedFlow draws routes calculated by OSRM on the OpenStreetMap base map alongside live angkot positions.",
+              "id": "MedFlow menampilkan jalur hasil perhitungan OSRM dan posisi angkot real-time pada peta OpenStreetMap."
+            }
+          },
+          {
+            "title": {
+              "en": "Weather-aware suggestions",
+              "id": "Rekomendasi berbasis cuaca"
+            },
+            "body": {
+              "en": "MedFlow integrates the OpenWeatherMap API to retrieve weather conditions and use them in rider suggestions.",
+              "id": "MedFlow mengintegrasikan API OpenWeatherMap untuk mengambil data kondisi cuaca dan memakainya dalam rekomendasi bagi penumpang."
             }
           }
         ],
@@ -1350,6 +1391,27 @@
               "id": "Hosting cloud dan database"
             },
             "AWS App Runner, AWS RDS"
+          ],
+          [
+            {
+              "en": "Base map",
+              "id": "Peta dasar"
+            },
+            "OpenStreetMap (OSM)"
+          ],
+          [
+            {
+              "en": "Route calculation",
+              "id": "Perhitungan rute"
+            },
+            "Open Source Routing Machine (OSRM)"
+          ],
+          [
+            {
+              "en": "Weather data",
+              "id": "Data cuaca"
+            },
+            "OpenWeatherMap API"
           ]
         ],
         gallery: [
